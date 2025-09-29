@@ -105,38 +105,10 @@
       const allPlugins = document.querySelectorAll(
         "tbody input[name='selected_plugins[]']"
       );
-      const groupCheckboxes = document.querySelectorAll(
-        ".group-select-checkbox"
-      );
-
       if (!selectAllCheckbox || allPlugins.length === 0) {
         this.showNotice("Plugin selection interface not available", "warning");
         return;
       }
-
-      const updateGroupState = (groupCheckbox) => {
-        if (!groupCheckbox) return;
-        const groupSlug = groupCheckbox.id.replace("select-", "");
-        const groupPlugins = document.querySelectorAll(
-          `tbody input[name='selected_plugins[]'][data-group='${groupSlug}']`
-        );
-        if (groupPlugins.length === 0) {
-          groupCheckbox.checked = false;
-          groupCheckbox.indeterminate = false;
-          return;
-        }
-
-        const checkedCount = Array.from(groupPlugins).filter(
-          (cb) => cb.checked
-        ).length;
-        groupCheckbox.checked = checkedCount === groupPlugins.length;
-        groupCheckbox.indeterminate =
-          checkedCount > 0 && checkedCount < groupPlugins.length;
-      };
-
-      const updateAllGroupStates = () => {
-        groupCheckboxes.forEach(updateGroupState);
-      };
 
       const updateMasterState = () => {
         const checkedCount = Array.from(allPlugins).filter(
@@ -150,34 +122,15 @@
       selectAllCheckbox.addEventListener("change", () => {
         const isChecked = selectAllCheckbox.checked;
         allPlugins.forEach((cb) => (cb.checked = isChecked));
-        groupCheckboxes.forEach((checkbox) => {
-          checkbox.checked = isChecked;
-          checkbox.indeterminate = false;
-        });
         updateMasterState();
-      });
-
-      groupCheckboxes.forEach((checkbox) => {
-        const groupSlug = checkbox.id.replace("select-", "");
-        checkbox.addEventListener("change", () => {
-          const isChecked = checkbox.checked;
-          const groupPlugins = document.querySelectorAll(
-            `tbody input[name='selected_plugins[]'][data-group='${groupSlug}']`
-          );
-          groupPlugins.forEach((cb) => (cb.checked = isChecked));
-          checkbox.indeterminate = false;
-          updateMasterState();
-        });
       });
 
       allPlugins.forEach((checkbox) => {
         checkbox.addEventListener("change", () => {
-          updateAllGroupStates();
           updateMasterState();
         });
       });
 
-      updateAllGroupStates();
       updateMasterState();
     },
 

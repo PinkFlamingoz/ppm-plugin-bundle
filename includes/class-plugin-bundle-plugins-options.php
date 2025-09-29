@@ -24,7 +24,7 @@ class Plugin_Bundle_Plugins_Options
      *
      * If no plugins are stored, this method loads the default plugins list and saves it.
      *
-     * @return array<int, array{slug: string, name: string, init_path: string, group: string}>
+     * @return array<int, array{slug: string, name: string, init_path: string}>
      */
     public static function get_dynamic_plugins(): array
     {
@@ -37,28 +37,36 @@ class Plugin_Bundle_Plugins_Options
             update_option(self::OPTION_NAME, $plugins);
         }
 
-        // Remove deprecated webshop entries to keep the bundle focused on standard plugins only.
-        $filtered_plugins = array_values(array_filter(
-            $plugins,
+        $normalized_plugins = array_values(array_filter(array_map(
             static function ($plugin) {
-                if (!isset($plugin['slug'])) {
-                    return false;
+                if (
+                    !is_array($plugin) ||
+                    empty($plugin['slug']) ||
+                    empty($plugin['name']) ||
+                    'woocommerce' === $plugin['slug'] ||
+                    (!empty($plugin['group']) && 'standard' !== $plugin['group'])
+                ) {
+                    return null;
                 }
 
-                if ('woocommerce' === $plugin['slug']) {
-                    return false;
-                }
+                return [
+                    'slug'      => $plugin['slug'],
+                    'name'      => $plugin['name'],
+                    'init_path' => $plugin['init_path'] ?? '',
+                ];
+            },
+            $plugins
+        )));
 
-                $group = $plugin['group'] ?? '';
-                return empty($group) || 'webshop' !== $group;
-            }
-        ));
-
-        if ($filtered_plugins !== $plugins) {
-            update_option(self::OPTION_NAME, $filtered_plugins);
+        if (empty($normalized_plugins)) {
+            $normalized_plugins = self::get_default_plugins();
         }
 
-        return $filtered_plugins;
+        if ($normalized_plugins !== $plugins && function_exists('update_option')) {
+            call_user_func('update_option', self::OPTION_NAME, $normalized_plugins);
+        }
+
+        return $normalized_plugins;
     }
 
     /**
@@ -71,7 +79,26 @@ class Plugin_Bundle_Plugins_Options
      */
     public static function update_dynamic_plugins(array $plugins): void
     {
-        update_option(self::OPTION_NAME, $plugins);
+        $normalized_plugins = array_values(array_filter(array_map(
+            static function ($plugin) {
+                if (!is_array($plugin) || empty($plugin['slug']) || empty($plugin['name'])) {
+                    return null;
+                }
+
+                return [
+                    'slug'      => $plugin['slug'],
+                    'name'      => $plugin['name'],
+                    'init_path' => $plugin['init_path'] ?? '',
+                ];
+            },
+            $plugins
+        )));
+
+        if (!function_exists('update_option')) {
+            return;
+        }
+
+        call_user_func('update_option', self::OPTION_NAME, $normalized_plugins);
     }
 
     /**
@@ -80,7 +107,7 @@ class Plugin_Bundle_Plugins_Options
      * This default array includes standard plugins with their slugs, names,
      * initialization file paths, and group classifications.
      *
-     * @return array<int, array{slug: string, name: string, init_path: string, group: string}>
+     * @return array<int, array{slug: string, name: string, init_path: string}>
      */
     public static function get_default_plugins(): array
     {
@@ -90,67 +117,56 @@ class Plugin_Bundle_Plugins_Options
                 'slug'      => 'wordpress-seo',
                 'name'      => 'Yoast SEO',
                 'init_path' => 'wordpress-seo/wp-seo.php',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'wp-mail-logging',
                 'name'      => 'WP Mail Logging',
                 'init_path' => '',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'better-search-replace',
                 'name'      => 'Better Search Replace',
                 'init_path' => '',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'ninja-forms',
                 'name'      => 'Ninja Forms',
                 'init_path' => '',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'wp-mail-smtp',
                 'name'      => 'WP Mail SMTP',
                 'init_path' => 'wp-mail-smtp/wp_mail_smtp.php',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'insert-headers-and-footers',
                 'name'      => 'Insert Headers and Footers',
                 'init_path' => 'insert-headers-and-footers/ihaf.php',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'wps-hide-login',
                 'name'      => 'WPS Hide Login',
                 'init_path' => '',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'wps-limit-login',
                 'name'      => 'WPS Limit Login',
                 'init_path' => '',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'all-404-redirect-to-homepage',
                 'name'      => 'All 404 Redirect to Homepage',
                 'init_path' => '',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'updraftplus',
                 'name'      => 'UpdraftPlus WordPress Backup Plugin',
                 'init_path' => '',
-                'group'     => 'standard',
             ],
             [
                 'slug'      => 'yith-maintenance-mode',
                 'name'      => 'YITH Maintenance Mode',
                 'init_path' => 'yith-maintenance-mode/init.php',
-                'group'     => 'standard',
             ],
         ];
     }

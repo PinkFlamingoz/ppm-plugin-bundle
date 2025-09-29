@@ -89,8 +89,6 @@ class Plugin_Bundle_Texts
     public const FIELD_SLUG              = 'Slug';
     public const FIELD_NAME              = 'Name';
     public const FIELD_INIT_PATH_OPTIONAL = 'Init Path (optional)';
-    public const GROUP_STANDARD          = 'Standard';
-    public const SELECT_GROUP            = 'Select %s';
     public const SAVE_CHANGES            = 'Save Changes';
     public const CREATE_CHILD_THEME      = 'Create Child Theme';
     public const UPLOAD_PARENT_THEME     = 'Upload Parent Theme';

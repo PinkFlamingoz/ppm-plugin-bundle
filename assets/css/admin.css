@@ -108,6 +108,7 @@
 .wrap input:focus,
 .wrap select:focus,
 .wrap textarea:focus {
+    border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 2px rgba(234, 86, 35, 0.2);
 }
@@ -214,18 +215,6 @@ p {
     color: var(--error-color);
     font-weight: bold;
     letter-spacing: 1px;
-}
-
-/* ---------------------------------------- */
-/*  Group Header                           */
-/* ---------------------------------------- */
-/* Header styling for groups of plugins in tables. */
-.group-header {
-    font-size: var(--font-size-s);
-    font-weight: bold;
-    background-color: var(--group-header-bg);
-    padding: 10px;
-    color: var(--color-text);
 }
 
 /* ---------------------------------------- */

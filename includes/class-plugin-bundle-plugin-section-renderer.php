@@ -39,9 +39,9 @@ class Plugin_Bundle_Plugins_Renderer
      * Renders the complete table of plugins along with their statuses.
      *
      * The table includes headers for selection, plugin name, initialization file path, and status.
-     * All configured plugin groups are displayed sequentially, followed by the add-new row.
+     * All configured plugins are displayed sequentially, followed by the add-new row to append more plugins.
      *
-     * @param array $plugins Array of plugins grouped by type.
+     * @param array<string, string> $plugins Associative array mapping plugin slug to display name.
      * @return void
      */
     public static function render_plugin_table(array $plugins): void
@@ -62,22 +62,22 @@ class Plugin_Bundle_Plugins_Renderer
             </thead>
             <tbody>
                 <?php
-                foreach ($plugins as $group_slug => $group_plugins) {
-                    if (empty($group_plugins)) {
-                        continue;
-                    }
-
-                    $group_label = Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::GROUP_STANDARD);
-                    if ('standard' !== $group_slug) {
-                        $group_label = ucwords(str_replace(['-', '_'], ' ', $group_slug));
-                    }
-
-                    self::render_plugin_group(
-                        $group_label . ' ' . Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::PLUGIN_BUNDLE),
-                        $group_plugins,
-                        $group_slug,
-                        $files
-                    );
+                foreach ($plugins as $slug => $name) {
+                    $status       = Plugin_Bundle_Plugins::get_plugin_status($slug);
+                    $status_label = $status['label'];
+                    $status_class = (Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::STATUS_INSTALLED_ACTIVE) === $status_label)
+                        ? 'status-active'
+                        : ((Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::STATUS_INSTALLED_DEACTIVATED) === $status_label) ? 'status-inactive' : 'status-not-installed');
+                ?>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selected_plugins[]" value="<?php echo esc_attr($slug); ?>">
+                        </td>
+                        <td><?php echo esc_html($name); ?></td>
+                        <td><?php echo esc_html($files[$slug] ?? ''); ?></td>
+                        <td class="<?php echo esc_attr($status_class); ?>"><?php echo esc_html($status_label); ?></td>
+                    </tr>
+                <?php
                 }
                 ?>
                 <tr>
@@ -93,46 +93,6 @@ class Plugin_Bundle_Plugins_Renderer
                 </tr>
             </tbody>
         </table>
-    <?php
-    }
-
-    /**
-     * Renders a group of plugins.
-     *
-     * Outputs a header row for the plugin group with a checkbox for selecting all plugins in the group,
-     * then iterates through each plugin to display its name, initialization file path, and status.
-     *
-     * @param string $group_name  Display name for the group.
-     * @param array  $plugin_list Associative array mapping plugin slug to plugin name.
-     * @param string $group_slug  Identifier for the group.
-     * @param array  $files       Mapping of plugin slug to its initialization file path.
-     * @return void
-     */
-    public static function render_plugin_group(string $group_name, array $plugin_list, string $group_slug, array $files): void
-    {
-    ?>
-        <tr>
-            <td colspan="4" class="group-header">
-                <input type="checkbox" id="select-<?php echo esc_attr($group_slug); ?>" class="group-select-checkbox" title="<?php echo esc_attr(sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::SELECT_GROUP), $group_name)); ?>">
-                <strong><?php echo esc_html($group_name); ?></strong>
-            </td>
-        </tr>
-        <?php
-        foreach ($plugin_list as $slug => $name) {
-            $status = Plugin_Bundle_Plugins::get_plugin_status($slug);
-            $status_class = (Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::STATUS_INSTALLED_ACTIVE) === $status['label'])
-                ? 'status-active'
-                : ((Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::STATUS_INSTALLED_DEACTIVATED) === $status['label']) ? 'status-inactive' : 'status-not-installed');
-        ?>
-            <tr>
-                <td>
-                    <input type="checkbox" name="selected_plugins[]" value="<?php echo esc_attr($slug); ?>" data-group="<?php echo esc_attr($group_slug); ?>">
-                </td>
-                <td><?php echo esc_html($name); ?></td>
-                <td><?php echo esc_html($files[$slug]); ?></td>
-                <td class="<?php echo esc_attr($status_class); ?>"><?php echo esc_html($status['label']); ?></td>
-            </tr>
 <?php
-        }
     }
 }

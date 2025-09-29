@@ -139,7 +139,6 @@ class Plugin_Bundle_Admin
             <!-- Form for handling bulk actions on plugins -->
             <form method="post">
                 <div class="ppm-section">
-
                     <?php Plugin_Bundle_Plugins::render_bulk_controls(); ?>
                     <?php Plugin_Bundle_Plugins::render_plugin_table($plugins); ?>
                 </div>

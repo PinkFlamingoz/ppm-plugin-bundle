@@ -20,7 +20,7 @@ class Plugin_Bundle_Plugins
      * These dynamic plugins are managed by Plugin_Bundle_Plugins_Options and include
      * details such as slug, name, initialization file path, and group.
      *
-     * @return array<int, array{slug: string, name: string, init_path: string, group: string}>
+     * @return array<int, array{slug: string, name: string, init_path: string}>
      */
     private static function get_dynamic_plugins(): array
     {
@@ -33,17 +33,19 @@ class Plugin_Bundle_Plugins
      * If a plugin lacks a group definition, it defaults to the 'standard' group.
      * The returned array maps group names to an associative array of plugin slugs and names.
      *
-     * @return array<string, array<string, string>>
+     * Returns a map of plugin slugs to their display names.
+     *
+     * @return array<string, string>
      */
     public static function get_plugin_list(): array
     {
         $dynamic = self::get_dynamic_plugins();
-        $grouped = [];
+        $plugins = [];
         foreach ($dynamic as $plugin) {
-            $group = !empty($plugin['group']) ? $plugin['group'] : 'standard';
-            $grouped[$group][$plugin['slug']] = $plugin['name'];
+            $plugins[$plugin['slug']] = $plugin['name'];
         }
-        return $grouped;
+
+        return $plugins;
     }
 
     /**
@@ -341,30 +343,14 @@ class Plugin_Bundle_Plugins
     /**
      * Renders the complete plugins table with statuses and metadata.
      *
-     * Displays each plugin's name, initialization path, and status grouped by their configured bundle.
-     * Includes an option to add a new plugin via URL.
+     * Displays each plugin's name, initialization path, and status, along with an option
+     * to append additional plugins via URL.
      *
-     * @param array<string, array<string, string>> $plugins Array of plugins grouped by type.
+     * @param array<string, string> $plugins Associative array mapping plugin slug to display name.
      */
     public static function render_plugin_table(array $plugins): void
     {
         Plugin_Bundle_Plugins_Renderer::render_plugin_table($plugins);
-    }
-
-    /**
-     * Renders the HTML for a specific group of plugins.
-     *
-     * Outputs a group header with a checkbox to select all plugins in the group,
-     * then iterates over each plugin to display its details.
-     *
-     * @param string                $group_name  The display name of the group.
-     * @param array<string, string> $plugin_list An associative array mapping plugin slugs to names.
-     * @param string                $group_slug  Identifier for the plugin group.
-     * @param array<string, string> $files       Mapping of plugin slug to initialization file path.
-     */
-    public static function render_plugin_group(string $group_name, array $plugin_list, string $group_slug, array $files): void
-    {
-        Plugin_Bundle_Plugins_Renderer::render_plugin_group($group_name, $plugin_list, $group_slug, $files);
     }
 
     /**
@@ -425,7 +411,6 @@ class Plugin_Bundle_Plugins
         }
 
         $url   = sanitize_text_field($_POST['new_plugin_url'] ?? '');
-        $group = 'standard';
 
         if (empty($url)) {
             Plugin_Bundle_Plugins_Notices::print_notice('error', 'Please enter a valid plugin URL.');
@@ -456,7 +441,7 @@ class Plugin_Bundle_Plugins
             return;
         }
 
-        self::add_plugin_to_dynamic_list($slug, $plugin_info['name'], $group);
+        self::add_plugin_to_dynamic_list($slug, $plugin_info['name']);
         Plugin_Bundle_Plugins_Notices::print_notice('success', Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::NEW_PLUGIN_ADDED_SUCCESS));
     }
 
@@ -519,21 +504,19 @@ class Plugin_Bundle_Plugins
     /**
      * Adds a new plugin to the dynamic list and updates the options.
      *
-     * Appends the new plugin with its slug, name, auto-detected initialization path,
-     * and group classification to the dynamic plugins list.
+     * Appends the new plugin with its slug, name, and auto-detected initialization path
+     * to the dynamic plugins list.
      *
-     * @param string $slug  The plugin slug.
-     * @param string $name  The plugin display name.
-     * @param string $group The group classification (currently defaults to 'standard').
+     * @param string $slug The plugin slug.
+     * @param string $name The plugin display name.
      */
-    private static function add_plugin_to_dynamic_list(string $slug, string $name, string $group): void
+    private static function add_plugin_to_dynamic_list(string $slug, string $name): void
     {
         $dynamic = self::get_dynamic_plugins();
         $dynamic[] = [
             'slug'      => $slug,
             'name'      => $name,
             'init_path' => self::auto_detect_plugin_init_path($slug),
-            'group'     => $group,
         ];
 
         Plugin_Bundle_Plugins_Options::update_dynamic_plugins($dynamic);
