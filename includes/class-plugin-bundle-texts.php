@@ -241,7 +241,6 @@ class Plugin_Bundle_Texts
     public const NEW_PLUGIN_URL_PLACEHOLDER = 'Enter plugin URL (e.g., https://wordpress.org/plugins/wordpress-seo/)';
     public const JS_WARNING_PLUGIN_UI_MISSING = 'Plugin selection interface not available.';
     public const JS_ERROR_SELECT_PLUGIN       = 'Please select at least one plugin.';
-    public const JS_CONFIRM_DESTRUCTIVE_ACTION = 'Are you sure you want to apply this action to %count% selected plugin(s)? This action cannot be undone.';
     // -------------------------------------------------------------------------
     // Form Action Success & Error Messages
     // -------------------------------------------------------------------------
@@ -441,7 +440,6 @@ class Plugin_Bundle_Texts
             'Could not retrieve plugin information from WordPress.org.' => 'Plugin-Informationen konnten nicht von WordPress.org abgerufen werden.',
             'Plugin selection interface not available.' => 'Plugin-Auswahlschnittstelle ist nicht verfügbar.',
             'Please select at least one plugin.' => 'Bitte wähle mindestens ein Plugin aus.',
-            'Are you sure you want to apply this action to %count% selected plugin(s)? This action cannot be undone.' => 'Bist du sicher, dass du diese Aktion auf die %count% ausgewählten Plugins anwenden möchtest? Dies kann nicht rückgängig gemacht werden.',
         ],
     ];
 

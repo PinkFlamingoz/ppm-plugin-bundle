@@ -3,7 +3,6 @@
 **Version:** 3.3  
 **Author:** Stavrov  
 **Author URI:** [https://github.com/PinkFlamingoz](https://github.com/PinkFlamingoz)  
-**Plugin Location:** "00_Projekte\0001_Organisation\0002_Checklisten\Website Wartung\Unterlagen\ppm-plugin-bundle.zip"
 
 Enhanced Plugin Bundle and Theme Manager is a WordPress plugin that centralizes the setup of a curated plugin bundle and a YOOtheme-based child theme. It provides an intuitive admin interface for bulk plugin operations, parent-theme handling, and a rich CSS customization layer that generates the child theme’s stylesheet on demand.
 

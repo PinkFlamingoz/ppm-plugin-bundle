@@ -97,7 +97,6 @@ class Plugin_Bundle_Admin
                 [
                     'pluginSelectionUnavailable' => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::JS_WARNING_PLUGIN_UI_MISSING),
                     'selectAtLeastOne'          => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::JS_ERROR_SELECT_PLUGIN),
-                    'confirmBulkAction'         => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::JS_CONFIRM_DESTRUCTIVE_ACTION),
                 ]
             );
         }

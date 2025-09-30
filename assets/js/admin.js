@@ -144,48 +144,21 @@
       if (!bulkForm) return;
 
       bulkForm.addEventListener("submit", (e) => {
-        const submitterName = e.submitter?.name || document.activeElement?.name;
-        if (submitterName !== "bulk_action_submit") {
+        const submitter = e.submitter || document.activeElement;
+        if (submitter?.name !== "bulk_action_submit") {
           return;
         }
 
         const selectedPlugins = document.querySelectorAll(
           "input[name='selected_plugins[]']:checked"
         );
-        const bulkAction = document.querySelector('select[name="bulk_action"]')?.value;
 
         if (selectedPlugins.length === 0) {
           e.preventDefault();
           const message = (window.EPBAdminL10n && window.EPBAdminL10n.selectAtLeastOne) || "Please select at least one plugin.";
           this.showNotice(message, "error");
-          return;
-        }
-
-        if (this.isDestructiveAction(bulkAction)) {
-          e.preventDefault();
-          this.confirmDestructiveAction(bulkAction, selectedPlugins.length, () => {
-            bulkForm.submit();
-          });
         }
       });
-    },
-
-    isDestructiveAction(action) {
-      const destructiveActions = ["delete", "delete_from_list"];
-      return destructiveActions.includes(action);
-    },
-
-    confirmDestructiveAction(action, count, onConfirm) {
-      const l10n = window.EPBAdminL10n || {};
-      const template =
-        typeof l10n.confirmBulkAction === "string"
-          ? l10n.confirmBulkAction
-          : "Are you sure you want to apply this action to %count% selected plugin(s)? This action cannot be undone.";
-      const message = template.replace(/%count%/g, count);
-
-      if (typeof onConfirm === "function" && window.confirm(message)) {
-        onConfirm();
-      }
     },
 
     /**
