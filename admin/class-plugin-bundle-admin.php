@@ -88,6 +88,19 @@ class Plugin_Bundle_Admin
             '1.0.0', // Version number.
             true // Load script in the footer.
         );
+
+        if (function_exists('wp_localize_script')) {
+            call_user_func(
+                'wp_localize_script',
+                'epb-admin-script',
+                'EPBAdminL10n',
+                [
+                    'pluginSelectionUnavailable' => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::JS_WARNING_PLUGIN_UI_MISSING),
+                    'selectAtLeastOne'          => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::JS_ERROR_SELECT_PLUGIN),
+                    'confirmBulkAction'         => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::JS_CONFIRM_DESTRUCTIVE_ACTION),
+                ]
+            );
+        }
     }
 
     /**

@@ -463,7 +463,7 @@ class Plugin_Bundle_Plugins
         $url   = sanitize_text_field($_POST['new_plugin_url'] ?? '');
 
         if (empty($url)) {
-            Plugin_Bundle_Plugins_Notices::print_notice('error', 'Please enter a valid plugin URL.');
+            Plugin_Bundle_Plugins_Notices::print_notice('error', Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_EMPTY_PLUGIN_URL));
             return;
         }
 

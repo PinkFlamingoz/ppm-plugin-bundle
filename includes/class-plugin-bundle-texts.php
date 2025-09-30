@@ -64,6 +64,7 @@ class Plugin_Bundle_Texts
     public const ERROR_PLUGIN_NOT_IN_LIST     = 'Plugin "%s" is not managed by this bundle.';
     public const ERROR_FAILED_INSTALL_PLUGIN = 'Failed to install plugin "%s".';
     public const ERROR_INVALID_PLUGIN_URL     = 'Please provide a valid WordPress.org plugin URL.';
+    public const ERROR_EMPTY_PLUGIN_URL       = 'Please enter a plugin URL.';
     public const THEME_ALREADY_UPLOADED         = 'The theme "%s" is already uploaded.';
     public const ERROR_FAILED_CREATE_THEMES_DIR   = 'Failed to create themes directory.';
     public const ERROR_FAILED_INSTALL_THEME       = 'Failed to install the theme: %s';
@@ -106,9 +107,7 @@ class Plugin_Bundle_Texts
     public const UPLOAD_PARENT_THEME     = 'Upload Parent Theme';
     public const UPLOAD_INSTRUCTIONS = 'Upload your parent theme ZIP file below to install it:';
     public const UPLOAD_BUTTON = 'Upload and Install Parent Theme';
-    public const CHILD_THEME_INSTRUCTIONS = 'Customize the CSS options for your child theme below. Use the color pickers for color options
-                                           and enter numeric values (in pixels) for font sizes. When you’re ready, click the button to save
-                                           your options and create/activate the child theme.';
+    public const CHILD_THEME_INSTRUCTIONS = 'Customize the CSS options for your child theme below. Use the color pickers for color options and enter numeric values (in pixels) for font sizes. When you’re ready, click the button to save your options and create/activate the child theme.';
     public const CHILD_THEME_REGENERATE_FUNCTIONS_LABEL = 'Regenerate child theme functions.php';
     public const CHILD_THEME_REGENERATE_FUNCTIONS_HELP  = 'Leave unchecked to preserve your existing child theme functions.php file. Check to overwrite it with the default template.';
 
@@ -240,6 +239,9 @@ class Plugin_Bundle_Texts
     // Miscellaneous UI Texts
     // -------------------------------------------------------------------------
     public const NEW_PLUGIN_URL_PLACEHOLDER = 'Enter plugin URL (e.g., https://wordpress.org/plugins/wordpress-seo/)';
+    public const JS_WARNING_PLUGIN_UI_MISSING = 'Plugin selection interface not available.';
+    public const JS_ERROR_SELECT_PLUGIN       = 'Please select at least one plugin.';
+    public const JS_CONFIRM_DESTRUCTIVE_ACTION = 'Are you sure you want to apply this action to %count% selected plugin(s)? This action cannot be undone.';
     // -------------------------------------------------------------------------
     // Form Action Success & Error Messages
     // -------------------------------------------------------------------------
@@ -251,20 +253,249 @@ class Plugin_Bundle_Texts
     public const PLUGIN_SLUG_COULD_NOT_RETRIEVE_ERROR = 'Could not retrieve plugin information from WordPress.org.';
 
     // -------------------------------------------------------------------------
+    // Internal translation data
+    // -------------------------------------------------------------------------
+
+    private const TRANSLATIONS = [
+        'de' => [
+            'Plugin Bundle Manager' => 'Plugin Bundle Manager',
+            'Plugin Bundle' => 'Plugin-Bundle',
+            'Install' => 'Installieren',
+            'Activate' => 'Aktivieren',
+            'Deactivate' => 'Deaktivieren',
+            'Delete' => 'Löschen',
+            'Delete from List' => 'Aus Liste entfernen',
+            'Apply to Selected' => 'Auf Auswahl anwenden',
+            'Installed & Active' => 'Installiert & aktiv',
+            'Installed & Deactivated' => 'Installiert & deaktiviert',
+            'Not Installed' => 'Nicht installiert',
+            'Installed' => 'Installiert',
+            'Inactive' => 'Inaktiv',
+            'Active' => 'Aktiv',
+            'Plugin "%s" is not installed.' => 'Plugin "%s" ist nicht installiert.',
+            'Failed to fetch plugin information for "%s".' => 'Plugin-Informationen für "%s" konnten nicht abgerufen werden.',
+            'YOOtheme Pro is not installed. Please install YOOtheme Pro to create a child theme.' => 'YOOtheme Pro ist nicht installiert. Bitte installiere YOOtheme Pro, um ein Child-Theme zu erstellen.',
+            'Failed to create or update the child theme CSS file.' => 'Die CSS-Datei des Child-Themes konnte nicht erstellt oder aktualisiert werden.',
+            'Failed to create the child theme directory.' => 'Das Verzeichnis des Child-Themes konnte nicht erstellt werden.',
+            'Failed to create the child theme style.css file.' => 'Die style.css des Child-Themes konnte nicht erstellt werden.',
+            'Failed to create the child theme functions.php file.' => 'Die functions.php des Child-Themes konnte nicht erstellt werden.',
+            'Plugin "%s" is not managed by this bundle.' => 'Plugin "%s" wird nicht von diesem Bundle verwaltet.',
+            'Failed to install plugin "%s".' => 'Plugin "%s" konnte nicht installiert werden.',
+            'Please provide a valid WordPress.org plugin URL.' => 'Bitte gib eine gültige WordPress.org Plugin-URL an.',
+            'Please enter a plugin URL.' => 'Bitte gib eine Plugin-URL ein.',
+            'The theme "%s" is already uploaded.' => 'Das Theme "%s" wurde bereits hochgeladen.',
+            'Failed to create themes directory.' => 'Das Themes-Verzeichnis konnte nicht erstellt werden.',
+            'Failed to install the theme: %s' => 'Theme konnte nicht installiert werden: %s',
+            'Failed to move the uploaded file. Please check file permissions.' => 'Die hochgeladene Datei konnte nicht verschoben werden. Bitte überprüfe die Dateiberechtigungen.',
+            'File upload failed with error code: %s' => 'Datei-Upload fehlgeschlagen mit Fehlercode: %s',
+            'Failed to %s "%s": %s' => 'Fehler beim %1$s von "%2$s": %3$s',
+            'Child theme CSS file updated successfully.' => 'CSS-Datei des Child-Themes wurde erfolgreich aktualisiert.',
+            'Child theme activated successfully.' => 'Child-Theme wurde erfolgreich aktiviert.',
+            'Theme "%s" uploaded and installed successfully.' => 'Theme "%s" wurde erfolgreich hochgeladen und installiert.',
+            '"%s" %s successfully.' => '"%s" wurde erfolgreich %s.',
+            'Plugin "%s" is already installed.' => 'Plugin "%s" ist bereits installiert.',
+            'Plugin "%s" was already removed.' => 'Plugin "%s" wurde bereits entfernt.',
+            'installed' => 'installiert',
+            'activated' => 'aktiviert',
+            'deactivated' => 'deaktiviert',
+            'deleted' => 'gelöscht',
+            'uploaded' => 'hochgeladen',
+            'Select All' => 'Alle auswählen',
+            'Plugin' => 'Plugin',
+            'Init Path' => 'Init-Pfad',
+            'Status' => 'Status',
+            'Add New Plugin' => 'Neues Plugin hinzufügen',
+            'Slug' => 'Slug',
+            'Name' => 'Name',
+            'Init Path (optional)' => 'Init-Pfad (optional)',
+            'Save Changes' => 'Änderungen speichern',
+            'Create Child Theme' => 'Child-Theme erstellen',
+            'Upload Parent Theme' => 'Eltern-Theme hochladen',
+            'Upload your parent theme ZIP file below to install it:' => 'Lade unten die ZIP-Datei deines Eltern-Themes hoch, um sie zu installieren:',
+            'Upload and Install Parent Theme' => 'Eltern-Theme hochladen und installieren',
+            'Customize the CSS options for your child theme below. Use the color pickers for color options and enter numeric values (in pixels) for font sizes. When you’re ready, click the button to save your options and create/activate the child theme.' => 'Passe die CSS-Optionen für dein Child-Theme unten an. Verwende die Farbwähler für Farben und gib numerische Werte (in Pixel) für Schriftgrößen ein. Wenn du bereit bist, klicke auf die Schaltfläche, um deine Optionen zu speichern und das Child-Theme zu erstellen bzw. zu aktivieren.',
+            'Regenerate child theme functions.php' => 'functions.php des Child-Themes neu erstellen',
+            'Leave unchecked to preserve your existing child theme functions.php file. Check to overwrite it with the default template.' => 'Lass das Kontrollkästchen deaktiviert, um deine bestehende functions.php des Child-Themes zu behalten. Aktiviere es, um sie durch die Standardvorlage zu ersetzen.',
+            'Color Options' => 'Farben',
+            'Text Colors' => 'Textfarben',
+            'Colors' => 'Farben',
+            'Background Colors' => 'Hintergrundfarben',
+            'Button Colors' => 'Button-Farben',
+            'Default Button' => 'Standard-Button',
+            'Primary Button' => 'Primärer Button',
+            'Secondary Button' => 'Sekundärer Button',
+            'Danger Button' => 'Warn-Button',
+            'Text Button' => 'Text-Button',
+            'Link Button' => 'Link-Button',
+            'Element Options' => 'Elementoptionen',
+            'Margins' => 'Abstände',
+            'Default' => 'Standard',
+            'XSmall' => 'Sehr klein',
+            'Small' => 'Klein',
+            'Medium' => 'Mittel',
+            'Large' => 'Groß',
+            'XLarge' => 'Sehr groß',
+            'Widths' => 'Breiten',
+            'Container Options' => 'Container-Optionen',
+            'Padding Vertical' => 'Vertikale Innenabstände',
+            'Padding Horizontal' => 'Horizontale Innenabstände',
+            'Column Gutter' => 'Spaltenabstand',
+            'Max Width' => 'Maximale Breite',
+            'Text Options' => 'Textoptionen',
+            'Text Default Options (Body)' => 'Text-Standardoptionen (Body)',
+            'Text Small Options' => 'Optionen für kleinen Text',
+            'Text Large Options' => 'Optionen für großen Text',
+            'Base Options' => 'Basisoptionen',
+            'Breakpoints' => 'Breakpoints',
+            'Navbar Link Options' => 'Navigationslink-Optionen',
+            'Base Font (HTML)' => 'Basis-Schriftgröße (HTML)',
+            'Headline Font Sizes & Weights' => 'Überschriftengrößen & -gewichte',
+            'Heading 3XL' => 'Überschrift 3XL',
+            'Heading 2XL' => 'Überschrift 2XL',
+            'Heading XL' => 'Überschrift XL',
+            'Heading Large' => 'Überschrift Groß',
+            'Heading Medium' => 'Überschrift Mittel',
+            'Heading Small' => 'Überschrift Klein',
+            'Button Font Sizes & Weights' => 'Button-Schriftgrößen & -gewichte',
+            'Button Default' => 'Button Standard',
+            'Button Primary' => 'Button Primär',
+            'Button Secondary' => 'Button Sekundär',
+            'Button Danger' => 'Button Warnung',
+            'Button Text' => 'Button Text',
+            'Button Link' => 'Button Link',
+            'Muted Color' => 'Gedämpfte Farbe',
+            'Emphasis Color' => 'Akzentfarbe',
+            'Primary Color' => 'Primärfarbe',
+            'Secondary Color' => 'Sekundärfarbe',
+            'Success Color' => 'Erfolgsfarbe',
+            'Warning Color' => 'Warnfarbe',
+            'Danger Color' => 'Fehlerfarbe',
+            'Text Background Color' => 'Text-Hintergrundfarbe',
+            'Body Color' => 'Body-Farbe',
+            'Background Default' => 'Standardhintergrund',
+            'Background Muted' => 'Gedämpfter Hintergrund',
+            'Background Primary' => 'Primärer Hintergrund',
+            'Background Secondary' => 'Sekundärer Hintergrund',
+            'Button Default Color' => 'Standard-Button-Farbe',
+            'Button Default Hover Color' => 'Standard-Button-Farbe (Hover)',
+            'Button Default Text Color' => 'Standard-Button-Textfarbe',
+            'Button Default Hover Text Color' => 'Standard-Button-Textfarbe (Hover)',
+            'Button Primary Color' => 'Primär-Button-Farbe',
+            'Button Primary Hover Color' => 'Primär-Button-Farbe (Hover)',
+            'Button Primary Text Color' => 'Primär-Button-Textfarbe',
+            'Button Primary Hover Text Color' => 'Primär-Button-Textfarbe (Hover)',
+            'Button Secondary Color' => 'Sekundär-Button-Farbe',
+            'Button Secondary Hover Color' => 'Sekundär-Button-Farbe (Hover)',
+            'Button Secondary Text Color' => 'Sekundär-Button-Textfarbe',
+            'Button Secondary Hover Text Color' => 'Sekundär-Button-Textfarbe (Hover)',
+            'Button Danger Color' => 'Warn-Button-Farbe',
+            'Button Danger Hover Color' => 'Warn-Button-Farbe (Hover)',
+            'Button Danger Text Color' => 'Warn-Button-Textfarbe',
+            'Button Danger Hover Text Color' => 'Warn-Button-Textfarbe (Hover)',
+            'Button Text Color' => 'Button-Textfarbe',
+            'Button Text Hover Color' => 'Button-Textfarbe (Hover)',
+            'Button Link Color' => 'Button-Link-Farbe',
+            'Button Link Hover Color' => 'Button-Link-Farbe (Hover)',
+            'Default Mobile (px)' => 'Standard Mobil (px)',
+            'Default L (px)' => 'Standard L (px)',
+            'XSmall Mobile (px)' => 'Sehr klein Mobil (px)',
+            'XSmall L (px)' => 'Sehr klein L (px)',
+            'Small Mobile (px)' => 'Klein Mobil (px)',
+            'Small L (px)' => 'Klein L (px)',
+            'Medium Mobile (px)' => 'Mittel Mobil (px)',
+            'Medium L (px)' => 'Mittel L (px)',
+            'Large Mobile (px)' => 'Groß Mobil (px)',
+            'Large L (px)' => 'Groß L (px)',
+            'XLarge Mobile (px)' => 'Sehr groß Mobil (px)',
+            'XLarge L (px)' => 'Sehr groß L (px)',
+            'Small (px)' => 'Klein (px)',
+            'Medium (px)' => 'Mittel (px)',
+            'Large (px)' => 'Groß (px)',
+            'XLarge (px)' => 'Sehr groß (px)',
+            '2XLarge (px)' => '2XL (px)',
+            'Default M (px)' => 'Standard M (px)',
+            'XSmall M (px)' => 'Sehr klein M (px)',
+            'Small M (px)' => 'Klein M (px)',
+            'Large M (px)' => 'Groß M (px)',
+            'XLarge M (px)' => 'Sehr groß M (px)',
+            'Default (px)' => 'Standard (px)',
+            'XSmall (px)' => 'Sehr klein (px)',
+            'Mobile (px)' => 'Mobil (px)',
+            'S (px)' => 'S (px)',
+            'M (px)' => 'M (px)',
+            'L (px)' => 'L (px)',
+            'Desktop (px)' => 'Desktop (px)',
+            'Font Weight' => 'Schriftstärke',
+            'Breakpoint S (px)' => 'Breakpoint S (px)',
+            'Breakpoint M (px)' => 'Breakpoint M (px)',
+            'Breakpoint L (px)' => 'Breakpoint L (px)',
+            'Breakpoint XL (px)' => 'Breakpoint XL (px)',
+            'Base Font Size (px)' => 'Basis-Schriftgröße (px)',
+            'Save Options & Create Child Theme' => 'Optionen speichern & Child-Theme erstellen',
+            'Enter plugin URL (e.g., https://wordpress.org/plugins/wordpress-seo/)' => 'Plugin-URL eingeben (z. B. https://wordpress.org/plugins/wordpress-seo/)',
+            'Plugin settings updated successfully.' => 'Plugin-Einstellungen wurden erfolgreich aktualisiert.',
+            'Selected plugin(s) removed from configuration.' => 'Ausgewählte Plugins wurden aus der Konfiguration entfernt.',
+            'New plugin added successfully.' => 'Neues Plugin wurde erfolgreich hinzugefügt.',
+            'Plugin with that slug already exists.' => 'Ein Plugin mit diesem Slug existiert bereits.',
+            'Please provide both slug and name for the new plugin.' => 'Bitte gib sowohl Slug als auch Namen für das neue Plugin an.',
+            'Could not retrieve plugin information from WordPress.org.' => 'Plugin-Informationen konnten nicht von WordPress.org abgerufen werden.',
+            'Plugin selection interface not available.' => 'Plugin-Auswahlschnittstelle ist nicht verfügbar.',
+            'Please select at least one plugin.' => 'Bitte wähle mindestens ein Plugin aus.',
+            'Are you sure you want to apply this action to %count% selected plugin(s)? This action cannot be undone.' => 'Bist du sicher, dass du diese Aktion auf die %count% ausgewählten Plugins anwenden möchtest? Dies kann nicht rückgängig gemacht werden.',
+        ],
+    ];
+
+    // -------------------------------------------------------------------------
     // Methods
     // -------------------------------------------------------------------------
 
     /**
      * Retrieves a translatable text string.
      *
-     * Wraps the __() translation function with the plugin's text domain so that
-     * all text strings defined in this class can be easily translated.
-     *
      * @param string $text The text string to be translated.
      * @return string The translated text.
      */
     public static function get(string $text): string
     {
-        return __($text, self::TEXT_DOMAIN);
+        $default = function_exists('__') ? (string) call_user_func('__', $text, self::TEXT_DOMAIN) : $text;
+        $language = self::get_language_code();
+        $translated = self::translate($default, $language, $text);
+
+        /**
+         * Filter the resolved plugin text before it is returned.
+         *
+         * @param string $translated The resolved translation.
+         * @param string $original   The original English text.
+         * @param string $language   The resolved language code (e.g., "en", "de").
+         */
+        if (function_exists('apply_filters')) {
+            return (string) call_user_func('apply_filters', 'epb_translated_text', $translated, $text, $language);
+        }
+
+        return $translated;
+    }
+
+    private static function get_language_code(): string
+    {
+        $locale = 'en';
+
+        if (function_exists('determine_locale')) {
+            $locale = (string) call_user_func('determine_locale');
+        } elseif (function_exists('get_user_locale')) {
+            $locale = (string) call_user_func('get_user_locale');
+        } elseif (function_exists('get_locale')) {
+            $locale = (string) call_user_func('get_locale');
+        }
+
+        return 0 === strpos($locale, 'de') ? 'de' : 'en';
+    }
+
+    private static function translate(string $fallback, string $language, string $original): string
+    {
+        if (isset(self::TRANSLATIONS[$language][$original])) {
+            return self::TRANSLATIONS[$language][$original];
+        }
+
+        return $fallback;
     }
 }

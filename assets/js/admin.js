@@ -106,7 +106,8 @@
         "tbody input[name='selected_plugins[]']"
       );
       if (!selectAllCheckbox || allPlugins.length === 0) {
-        this.showNotice("Plugin selection interface not available", "warning");
+        const message = (window.EPBAdminL10n && window.EPBAdminL10n.pluginSelectionUnavailable) || "Plugin selection interface not available.";
+        this.showNotice(message, "warning");
         return;
       }
 
@@ -155,7 +156,8 @@
 
         if (selectedPlugins.length === 0) {
           e.preventDefault();
-          this.showNotice("Please select at least one plugin.", "error");
+          const message = (window.EPBAdminL10n && window.EPBAdminL10n.selectAtLeastOne) || "Please select at least one plugin.";
+          this.showNotice(message, "error");
           return;
         }
 
@@ -166,6 +168,24 @@
           });
         }
       });
+    },
+
+    isDestructiveAction(action) {
+      const destructiveActions = ["delete", "delete_from_list"];
+      return destructiveActions.includes(action);
+    },
+
+    confirmDestructiveAction(action, count, onConfirm) {
+      const l10n = window.EPBAdminL10n || {};
+      const template =
+        typeof l10n.confirmBulkAction === "string"
+          ? l10n.confirmBulkAction
+          : "Are you sure you want to apply this action to %count% selected plugin(s)? This action cannot be undone.";
+      const message = template.replace(/%count%/g, count);
+
+      if (typeof onConfirm === "function" && window.confirm(message)) {
+        onConfirm();
+      }
     },
 
     /**
