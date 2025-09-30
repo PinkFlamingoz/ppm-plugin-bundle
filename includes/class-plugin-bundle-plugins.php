@@ -339,12 +339,21 @@ class Plugin_Bundle_Plugins
      */
     private static function do_delete(string $slug): void
     {
-        $plugin_file = self::resolve_plugin_file($slug);
+        $plugin_file       = self::resolve_plugin_file($slug);
         if (null === $plugin_file) {
             return;
         }
-        if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
-            Plugin_Bundle_Plugins_Notices::print_notice('error', sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_INSTALLED), $slug));
+
+        $plugin_full_path = WP_PLUGIN_DIR . '/' . $plugin_file;
+
+        if (!file_exists($plugin_full_path)) {
+            Plugin_Bundle_Plugins_Notices::print_notice(
+                'success',
+                sprintf(
+                    Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::SUCCESS_PLUGIN_ALREADY_REMOVED),
+                    $slug
+                )
+            );
             return;
         }
 
@@ -374,7 +383,7 @@ class Plugin_Bundle_Plugins
             return;
         }
 
-        Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'deleted');
+        Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'delete');
     }
 
     // ––– Rendering Functions –––
