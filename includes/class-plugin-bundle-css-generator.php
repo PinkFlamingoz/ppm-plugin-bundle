@@ -22,7 +22,7 @@ class Plugin_Bundle_Css_Generator
      */
     public static function generate_css($options)
     {
-        // Determine the base font size for rem calculations; default to 16 if not provided.
+        // Determine the HTML root font size (px) so global typography can scale predictably.
         $base_font_size = isset($options['base_font_size']) ? floatval($options['base_font_size']) : 16;
 
         // Use a heredoc string to generate the full CSS content, including custom properties and theme styles.

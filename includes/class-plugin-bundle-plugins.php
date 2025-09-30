@@ -28,11 +28,6 @@ class Plugin_Bundle_Plugins
     }
 
     /**
-     * Groups dynamic plugins by their specified group.
-     *
-     * If a plugin lacks a group definition, it defaults to the 'standard' group.
-     * The returned array maps group names to an associative array of plugin slugs and names.
-     *
      * Returns a map of plugin slugs to their display names.
      *
      * @return array<string, string>
@@ -65,6 +60,30 @@ class Plugin_Bundle_Plugins
                 : "{$plugin['slug']}/{$plugin['slug']}.php";
         }
         return $files;
+    }
+
+    /**
+     * Resolves the plugin file registered for the provided slug.
+     *
+     * Prints an error notice and returns null when the slug is not part of the tracked list.
+     *
+     * @param string $slug The plugin slug to resolve.
+     * @return string|null The plugin file relative path or null when not found.
+     */
+    private static function resolve_plugin_file(string $slug): ?string
+    {
+        $files = self::get_plugin_files();
+
+        if (empty($files[$slug])) {
+            Plugin_Bundle_Plugins_Notices::print_notice(
+                'error',
+                sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_IN_LIST), $slug)
+            );
+
+            return null;
+        }
+
+        return $files[$slug];
     }
 
     /**
@@ -104,9 +123,8 @@ class Plugin_Bundle_Plugins
     {
         $files       = self::get_plugin_files();
         $plugin_file = $files[$slug];
-        $plugin_dir  = WP_PLUGIN_DIR . '/' . $slug;
 
-        if (!is_dir($plugin_dir)) {
+        if (!is_dir(WP_PLUGIN_DIR . '/' . $slug)) {
             return [
                 'label'     => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::STATUS_NOT_INSTALLED),
                 'css_class' => 'ppm-status-danger',
@@ -167,9 +185,9 @@ class Plugin_Bundle_Plugins
             );
             return;
         }
-        $plugin_dir = WP_PLUGIN_DIR . '/' . $slug;
-        if (!is_dir($plugin_dir)) {
-            self::install_plugin($slug);
+
+        if (!is_dir(WP_PLUGIN_DIR . '/' . $slug)) {
+            $result = self::install_plugin($slug);
         }
 
         // Update the initialization path after installation.
@@ -184,6 +202,7 @@ class Plugin_Bundle_Plugins
         }
 
         Plugin_Bundle_Plugins_Options::update_dynamic_plugins($dynamic);
+        Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'activated');
     }
 
     /**
@@ -221,18 +240,26 @@ class Plugin_Bundle_Plugins
      */
     private static function do_activate(string $slug): void
     {
-        $files       = self::get_plugin_files();
-        if (!isset($files[$slug])) {
-            Plugin_Bundle_Plugins_Notices::print_notice(
-                'error',
-                sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_IN_LIST), $slug)
-            );
+        $plugin_file = self::resolve_plugin_file($slug);
+        if (null === $plugin_file) {
             return;
         }
-        $plugin_file = $files[$slug];
+
         if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
-            Plugin_Bundle_Plugins_Notices::print_notice('error', sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_INSTALLED), $slug));
-            return;
+            self::do_install($slug);
+
+            $plugin_file = self::resolve_plugin_file($slug);
+            if (null === $plugin_file) {
+                return;
+            }
+
+            if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
+                Plugin_Bundle_Plugins_Notices::print_notice(
+                    'error',
+                    sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_INSTALLED), $slug)
+                );
+                return;
+            }
         }
 
         if (is_plugin_inactive($plugin_file)) {
@@ -250,15 +277,10 @@ class Plugin_Bundle_Plugins
      */
     private static function do_deactivate(string $slug): void
     {
-        $files       = self::get_plugin_files();
-        if (!isset($files[$slug])) {
-            Plugin_Bundle_Plugins_Notices::print_notice(
-                'error',
-                sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_IN_LIST), $slug)
-            );
+        $plugin_file = self::resolve_plugin_file($slug);
+        if (null === $plugin_file) {
             return;
         }
-        $plugin_file = $files[$slug];
         if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
             Plugin_Bundle_Plugins_Notices::print_notice('error', sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_INSTALLED), $slug));
             return;
@@ -266,9 +288,9 @@ class Plugin_Bundle_Plugins
 
         if (is_plugin_active($plugin_file)) {
 
-            deactivate_plugins($plugin_file);
+            $result = deactivate_plugins($plugin_file);
 
-            Plugin_Bundle_Plugins_Notices::display_action_result($slug, true, 'deactivated');
+            Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'deactivated');
         }
     }
 
@@ -276,24 +298,16 @@ class Plugin_Bundle_Plugins
      * Deletes a plugin from the system.
      *
      * First deactivates the plugin and then deletes it.
-     * Refreshes the page after deletion.
      *
      * @param string $slug The plugin slug.
      */
     private static function do_delete(string $slug): void
     {
-        $files       = self::get_plugin_files();
-        if (!isset($files[$slug])) {
-            Plugin_Bundle_Plugins_Notices::print_notice(
-                'error',
-                sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_IN_LIST), $slug)
-            );
+        $plugin_file = self::resolve_plugin_file($slug);
+        if (null === $plugin_file) {
             return;
         }
-        $plugin_file = $files[$slug];
-        $plugin_dir  = WP_PLUGIN_DIR . '/' . $slug;
-
-        if (!is_dir($plugin_dir)) {
+        if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
             Plugin_Bundle_Plugins_Notices::print_notice('error', sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_INSTALLED), $slug));
             return;
         }
@@ -324,7 +338,7 @@ class Plugin_Bundle_Plugins
             return;
         }
 
-        Plugin_Bundle_Plugins_Notices::display_action_result($slug, true, 'deleted');
+        Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'deleted');
     }
 
     // ––– Rendering Functions –––
@@ -437,7 +451,7 @@ class Plugin_Bundle_Plugins
 
         $plugin_info = self::fetch_plugin_info($slug);
         if (!$plugin_info) {
-            Plugin_Bundle_Plugins_Notices::print_notice('error', 'Could not retrieve plugin information from WordPress.org.');
+            Plugin_Bundle_Plugins_Notices::print_notice('error', Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::PLUGIN_SLUG_COULD_NOT_RETRIEVE_ERROR));
             return;
         }
 
@@ -545,23 +559,7 @@ class Plugin_Bundle_Plugins
             return;
         }
 
-        $files = self::get_plugin_files();
         foreach ($selected_plugins as $slug) {
-
-            if (!isset($files[$slug])) {
-                Plugin_Bundle_Plugins_Notices::print_notice(
-                    'error',
-                    sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_IN_LIST), $slug)
-                );
-                continue;
-            }
-
-            $plugin_file = $files[$slug];
-
-            if ('activate' === $bulk_action && !file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
-                self::handle_plugin_action($slug, 'install');
-            }
-
             self::handle_plugin_action($slug, $bulk_action);
         }
     }

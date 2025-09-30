@@ -84,7 +84,7 @@ class Plugin_Bundle_Plugins_Renderer
                     <td colspan="4">
                         <h2 class="ppm-heading"><?php echo esc_html(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ADD_NEW_PLUGIN)); ?></h2>
                         <div class="new-plugin-container">
-                            <input type="text" name="new_plugin_url" placeholder="Enter plugin URL (e.g., https://wordpress.org/plugins/wordpress-seo/)">
+                            <input type="text" name="new_plugin_url" placeholder="<?php echo esc_attr(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::NEW_PLUGIN_URL_PLACEHOLDER)); ?>">
                             <button type="submit" class="ppm-button ppm-button-primary" name="add_plugin">
                                 <?php echo esc_html(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ADD_NEW_PLUGIN)); ?>
                             </button>

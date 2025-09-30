@@ -37,26 +37,29 @@ class Plugin_Bundle_Plugins_Options
             update_option(self::OPTION_NAME, $plugins);
         }
 
-        $normalized_plugins = array_values(array_filter(array_map(
+        $sanitized_plugins = array_map(
             static function ($plugin) {
-                if (
-                    !is_array($plugin) ||
-                    empty($plugin['slug']) ||
-                    empty($plugin['name']) ||
-                    'woocommerce' === $plugin['slug'] ||
-                    (!empty($plugin['group']) && 'standard' !== $plugin['group'])
-                ) {
+                if (!is_array($plugin)) {
                     return null;
                 }
 
                 return [
-                    'slug'      => $plugin['slug'],
-                    'name'      => $plugin['name'],
+                    'slug'      => (string) ($plugin['slug'] ?? ''),
+                    'name'      => (string) ($plugin['name'] ?? ''),
                     'init_path' => $plugin['init_path'] ?? '',
                 ];
             },
             $plugins
-        )));
+        );
+
+        $normalized_plugins = array_values(array_filter(
+            $sanitized_plugins,
+            static function ($plugin) {
+                return is_array($plugin)
+                    && '' !== $plugin['slug']
+                    && '' !== $plugin['name'];
+            }
+        ));
 
         if (empty($normalized_plugins)) {
             $normalized_plugins = self::get_default_plugins();
@@ -79,20 +82,29 @@ class Plugin_Bundle_Plugins_Options
      */
     public static function update_dynamic_plugins(array $plugins): void
     {
-        $normalized_plugins = array_values(array_filter(array_map(
+        $sanitized_plugins = array_map(
             static function ($plugin) {
-                if (!is_array($plugin) || empty($plugin['slug']) || empty($plugin['name'])) {
+                if (!is_array($plugin)) {
                     return null;
                 }
 
                 return [
-                    'slug'      => $plugin['slug'],
-                    'name'      => $plugin['name'],
+                    'slug'      => (string) ($plugin['slug'] ?? ''),
+                    'name'      => (string) ($plugin['name'] ?? ''),
                     'init_path' => $plugin['init_path'] ?? '',
                 ];
             },
             $plugins
-        )));
+        );
+
+        $normalized_plugins = array_values(array_filter(
+            $sanitized_plugins,
+            static function ($plugin) {
+                return is_array($plugin)
+                    && '' !== $plugin['slug']
+                    && '' !== $plugin['name'];
+            }
+        ));
 
         if (!function_exists('update_option')) {
             return;
@@ -105,7 +117,7 @@ class Plugin_Bundle_Plugins_Options
      * Returns the default list of plugins.
      *
      * This default array includes standard plugins with their slugs, names,
-     * initialization file paths, and group classifications.
+     * and initialization file paths.
      *
      * @return array<int, array{slug: string, name: string, init_path: string}>
      */

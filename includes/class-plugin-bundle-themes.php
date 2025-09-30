@@ -21,11 +21,12 @@ class Plugin_Bundle_Themes
         }
         // Process child theme creation.
         if (isset($_POST['create_child_theme'])) {
+            $regenerate_functions = ! empty($_POST['regenerate_child_functions']);
             if (isset($_POST['css_options']) && is_array($_POST['css_options'])) {
                 // Sanitize and save CSS options using the CSS options manager.
                 Plugin_Bundle_Css_Options::save_theme_options($_POST['css_options']);
             }
-            self::create_and_activate_child_theme();
+            self::create_and_activate_child_theme($regenerate_functions);
         }
     }
 
@@ -131,9 +132,10 @@ class Plugin_Bundle_Themes
      * Checks if the parent theme (YOOtheme) is installed. If it is,
      * updates an existing child theme or creates a new one, then activates it.
      *
+     * @param bool $regenerate_functions Whether to overwrite the child theme functions.php file.
      * @return void
      */
-    public static function create_and_activate_child_theme()
+    public static function create_and_activate_child_theme(bool $regenerate_functions = false)
     {
         if (!self::is_yootheme_installed()) {
             Plugin_Bundle_Plugins_Notices::print_notice(
@@ -147,7 +149,7 @@ class Plugin_Bundle_Themes
 
         if (file_exists($child_dir)) {
             // Update an existing child theme.
-            self::update_existing_child_theme($child_dir);
+            self::update_existing_child_theme($child_dir, $regenerate_functions);
         } else {
             // Create a new child theme.
             self::create_new_child_theme($child_dir);
@@ -157,12 +159,13 @@ class Plugin_Bundle_Themes
     /**
      * Updates an existing child theme by rewriting custom.css
      *
-     * @param string $child_dir Path to the child theme directory.
+     * @param string $child_dir             Path to the child theme directory.
+     * @param bool   $regenerate_functions Whether to overwrite the child theme functions.php file.
      */
-    private static function update_existing_child_theme($child_dir)
+    private static function update_existing_child_theme($child_dir, bool $regenerate_functions)
     {
         $style_written     = self::write_child_root_style($child_dir);
-        $functions_written = self::write_child_functions_php($child_dir);
+        $functions_written = self::write_child_functions_php($child_dir, $regenerate_functions);
         $css_written       = self::write_child_custom_css($child_dir);
 
         if ($style_written && $functions_written && $css_written) {
@@ -230,7 +233,7 @@ class Plugin_Bundle_Themes
         }
 
         $style_written     = self::write_child_root_style($child_dir);
-        $functions_written = self::write_child_functions_php($child_dir);
+        $functions_written = self::write_child_functions_php($child_dir, true);
         $css_written       = self::write_child_custom_css($child_dir);
 
         if ($style_written && $functions_written && $css_written) {
@@ -283,9 +286,13 @@ CSS;
      * @param string $child_dir Path to the child theme directory.
      * @return bool True on success, false on failure.
      */
-    private static function write_child_functions_php(string $child_dir): bool
+    private static function write_child_functions_php(string $child_dir, bool $force = false): bool
     {
         $functions_path = $child_dir . '/functions.php';
+        if (! $force && file_exists($functions_path)) {
+            return true;
+        }
+
         $functions_contents = <<<'PHP'
 <?php
 
@@ -398,8 +405,8 @@ PHP;
     /**
      * Generates the content for the child theme's style.css file.
      *
-     * Retrieves CSS options via the CSS options manager, converts numeric values to rem units,
-     * and returns the complete CSS for the child theme.
+     * Retrieves CSS options via the CSS options manager and returns the complete CSS for the
+     * child theme, including the configurable root font size and responsive typography rules.
      *
      * @return string The generated CSS content.
      */
