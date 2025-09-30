@@ -50,7 +50,6 @@ class Plugin_Bundle_Plugins_Notices
     public static function display_action_result(string $slug, $result, string $action): void
     {
         if (is_wp_error($result)) {
-            // Display an error notice with the error message from the WP_Error object.
             self::print_notice(
                 'error',
                 sprintf(
@@ -60,16 +59,28 @@ class Plugin_Bundle_Plugins_Notices
                     $result->get_error_message()
                 )
             );
-        } else {
-            // Display a success notice indicating the action completed successfully.
-            self::print_notice(
-                'success',
-                sprintf(
-                    Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::SUCCESS_ACTION_PLUGIN),
-                    $slug,
-                    $action
-                )
-            );
+
+            return;
         }
+
+        $action_key = strtolower($action);
+        $success_actions = [
+            'install'    => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ACTION_PAST_INSTALLED),
+            'activate'   => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ACTION_PAST_ACTIVATED),
+            'deactivate' => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ACTION_PAST_DEACTIVATED),
+            'delete'     => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ACTION_PAST_DELETED),
+            'upload'     => Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ACTION_PAST_UPLOADED),
+        ];
+
+        $success_action = $success_actions[$action_key] ?? $action;
+
+        self::print_notice(
+            'success',
+            sprintf(
+                Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::SUCCESS_ACTION_PLUGIN),
+                $slug,
+                $success_action
+            )
+        );
     }
 }

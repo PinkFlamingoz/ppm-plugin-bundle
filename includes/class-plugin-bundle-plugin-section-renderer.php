@@ -52,7 +52,7 @@ class Plugin_Bundle_Plugins_Renderer
         <table class="plugin-table">
             <thead>
                 <tr>
-                    <th style="width: 50px;">
+                    <th>
                         <input type="checkbox" id="select-all" title="<?php echo esc_attr(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::TABLE_HEADER_SELECT_ALL)); ?>">
                     </th>
                     <th><?php echo esc_html(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::TABLE_HEADER_PLUGIN)); ?></th>

@@ -186,8 +186,16 @@ class Plugin_Bundle_Plugins
             return;
         }
 
-        if (!is_dir(WP_PLUGIN_DIR . '/' . $slug)) {
+        $already_installed = is_dir(WP_PLUGIN_DIR . '/' . $slug);
+        $result            = true;
+
+        if (!$already_installed) {
             $result = self::install_plugin($slug);
+
+            if (is_wp_error($result)) {
+                Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'install');
+                return;
+            }
         }
 
         // Update the initialization path after installation.
@@ -202,32 +210,58 @@ class Plugin_Bundle_Plugins
         }
 
         Plugin_Bundle_Plugins_Options::update_dynamic_plugins($dynamic);
-        Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'activated');
+
+        if ($already_installed) {
+            Plugin_Bundle_Plugins_Notices::print_notice(
+                'success',
+                sprintf(
+                    Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::SUCCESS_PLUGIN_ALREADY_INSTALLED),
+                    $slug
+                )
+            );
+            return;
+        }
+
+        Plugin_Bundle_Plugins_Notices::display_action_result($slug, true, 'install');
     }
 
     /**
      * Downloads and installs a plugin from WordPress.org.
      *
      * Retrieves plugin information via the plugins API and uses Plugin_Upgrader to
-     * download and install the plugin. After installation, the page reloads to reflect changes.
-     * If an error occurs, an error notice is displayed.
+     * download and install the plugin, returning a boolean result or WP_Error as appropriate.
      *
      * @param string $slug The plugin slug.
+     * @return true|WP_Error Result of the installation attempt.
      */
-    public static function install_plugin(string $slug): void
+    public static function install_plugin(string $slug)
     {
         require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
         require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
         $api = plugins_api('plugin_information', ['slug' => $slug]);
-        if (!is_wp_error($api)) {
-            $upgrader = new Plugin_Upgrader();
-            // Suppress output during installation.
-
-            $upgrader->install($api->download_link);
-        } else {
-            Plugin_Bundle_Plugins_Notices::print_notice('error', sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_FAILED_TO_FETCH_PLUGIN), $slug));
+        if (is_wp_error($api)) {
+            return $api;
         }
+
+        $upgrader = new Plugin_Upgrader(new Automatic_Upgrader_Skin());
+        $result   = $upgrader->install($api->download_link);
+
+        if (is_wp_error($result)) {
+            return $result;
+        }
+
+        if (true !== $result) {
+            return new WP_Error(
+                'plugin_install_failed',
+                sprintf(
+                    Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_FAILED_INSTALL_PLUGIN),
+                    $slug
+                )
+            );
+        }
+
+        return true;
     }
 
     /**
@@ -263,10 +297,9 @@ class Plugin_Bundle_Plugins
         }
 
         if (is_plugin_inactive($plugin_file)) {
-
             $result = activate_plugin($plugin_file);
 
-            Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'activated');
+            Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'activate');
         }
     }
 
@@ -281,16 +314,19 @@ class Plugin_Bundle_Plugins
         if (null === $plugin_file) {
             return;
         }
+
         if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
-            Plugin_Bundle_Plugins_Notices::print_notice('error', sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_INSTALLED), $slug));
+            Plugin_Bundle_Plugins_Notices::print_notice(
+                'error',
+                sprintf(Plugin_Bundle_Texts::get(Plugin_Bundle_Texts::ERROR_PLUGIN_NOT_INSTALLED), $slug)
+            );
             return;
         }
 
         if (is_plugin_active($plugin_file)) {
-
             $result = deactivate_plugins($plugin_file);
 
-            Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'deactivated');
+            Plugin_Bundle_Plugins_Notices::display_action_result($slug, $result, 'deactivate');
         }
     }
 

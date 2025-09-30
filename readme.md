@@ -2,10 +2,10 @@
 
 **Version:** 3.3  
 **Author:** Stavrov  
-**Author URI:** [https://github.com/PinkFlamingoz](https://github.com/PinkFlamingoz)
+**Author URI:** [https://github.com/PinkFlamingoz](https://github.com/PinkFlamingoz)  
 **Plugin Location:** "00_Projekte\0001_Organisation\0002_Checklisten\Website Wartung\Unterlagen\ppm-plugin-bundle.zip"
 
-Enhanced Plugin Bundle and Theme Manager is a WordPress plugin designed to simplify and centralize the management of plugins and themes. This tool provides an intuitive admin interface for bulk managing plugins, handling theme uploads, and generating child themes with customizable CSS settings.
+Enhanced Plugin Bundle and Theme Manager is a WordPress plugin that centralizes the setup of a curated plugin bundle and a YOOtheme-based child theme. It provides an intuitive admin interface for bulk plugin operations, parent-theme handling, and a rich CSS customization layer that generates the child theme’s stylesheet on demand.
 
 ---
 
@@ -18,7 +18,14 @@ Enhanced Plugin Bundle and Theme Manager is a WordPress plugin designed to simpl
   - [Installation](#installation)
   - [Usage](#usage)
     - [Admin Interface](#admin-interface)
+      - [Managing the Plugin Bundle](#managing-the-plugin-bundle)
+      - [Adding Plugins from WordPress.org](#adding-plugins-from-wordpressorg)
+      - [Removing Plugins from the Bundle](#removing-plugins-from-the-bundle)
+      - [Theme Management](#theme-management)
+      - [Child Theme Generator](#child-theme-generator)
   - [Configuration](#configuration)
+    - [Default Plugin Bundle](#default-plugin-bundle)
+    - [Option Storage](#option-storage)
   - [CSS Options Reference](#css-options-reference)
     - [Color Options](#color-options)
     - [Breakpoints and Container Options](#breakpoints-and-container-options)
@@ -33,286 +40,214 @@ Enhanced Plugin Bundle and Theme Manager is a WordPress plugin designed to simpl
 
 ## Introduction
 
-The **Enhanced Plugin Bundle and Theme Manager** offers a unified solution to manage your WordPress plugins and themes with ease. It streamlines operations such as:
+The **Enhanced Plugin Bundle and Theme Manager** streamlines recurring launch tasks for Plappermaul OG projects. From one WordPress admin screen you can:
 
-- Bulk management of plugins (activation, deactivation, and updates).
-- Uploading and installing a parent theme.
-- Creating and activating a child theme with custom CSS options.
+- Install, activate, deactivate, delete, or unregister a curated set of WordPress.org plugins.
+- Upload the YOOtheme Pro parent theme ZIP once per environment.
+- Generate and activate a `ppmchildtheme` child theme whose CSS is derived from configurable design tokens.
 
-Designed with both end-users and developers in mind, the plugin adheres to WordPress coding standards and incorporates a modular architecture for easier extension and maintenance.
+The plugin follows WordPress best practices, defers to the Filesystem API for file writes, and keeps all dynamic data in WordPress options for easy export or migration.
 
 ---
 
 ## Features
 
-- **Unified Management Interface:**  
-  Easily manage a bundled list of plugins and themes from a single admin dashboard.
-
-- **Bulk Actions for Plugins:**  
-  Execute bulk operations (activation, deactivation, updates) on a dynamically managed list of plugins.
-
-- **Theme Management:**
-
-  - **Parent Theme Upload:** Securely upload and install parent themes.
-  - **Child Theme Creation:** Generate a child theme with customizable CSS options and auto-activation.
-
-- **Dynamic Plugin Options:**
-
-  - Stores a curated list of standard plugins.
-  - Automatically updates options in the WordPress database.
-
-- **Security:**
-
-  - Prevents direct file access.
-  - Uses the WordPress Filesystem API for secure file operations.
-
+- **Dedicated admin dashboard** – A top-level “Plugin Bundle” menu combines plugin, theme, and child-theme management in a single screen.
+- **Curated bundle management** – A default list of 11 recommended plugins is stored in the `epb_dynamic_plugins` option and exposed in the UI. Status badges reflect whether each plugin is installed or active.
+- **Bulk plugin actions** – Apply `install`, `activate`, `deactivate`, or `delete` to multiple plugins at once. Installations pull ZIPs directly from WordPress.org and automatically capture the correct main file path.
+- **WordPress.org discovery** – Append new plugins by pasting a WordPress.org plugin URL. Slugs are validated, duplicates are rejected, and the bundle is persisted back to the options table.
+- **Bundle hygiene** – Use the `Delete from List` bulk action to keep the configuration tidy without touching the filesystem.
+- **YOOtheme parent management** – Upload a YOOtheme Pro ZIP file once; the plugin extracts it through the Filesystem API and guards against accidental reinstallation.
+- **Child theme generator** – With one click the plugin writes a YOOtheme-compatible child theme (`ppmchildtheme`) containing `style.css`, `css/custom.css`, and an optional regenerated `functions.php`.
+- **Design token CSS generator** – Over 90 CSS variables drive the generated stylesheet so UIkit components inherit consistent colors, spacing, typography, and button states.
+- **Admin UX niceties** – Drag-and-drop support for the theme ZIP input and a “Select All” control for plugin checkboxes improve speed when onboarding a site.
+- **Security-first operations** – Every public entry point guards against direct access, sanitizes user input, and leverages WordPress core utilities for plugin/theme operations.
 
 ---
 
 ## Installation
 
-1. **Download and Install:**
+1. **Copy the plugin into WordPress**  
+   Extract or clone the repository into `/wp-content/plugins/ppm-plugin-bundle` on your WordPress installation.
 
-   - Download the plugin files and extract them into your WordPress plugins directory (`/wp-content/plugins/`).
-   - In your WordPress admin dashboard, navigate to **Plugins > Installed Plugins** and activate the **Enhanced Plugin Bundle and Theme Manager**.
+2. **Activate it**  
+   In the WordPress dashboard navigate to **Plugins → Installed Plugins** and activate **Enhanced Plugin Bundle and Theme Manager**.
 
-2. **Setup Dependencies:**
+3. **Prepare YOOtheme Pro (optional but recommended)**  
+   Place the latest YOOtheme Pro ZIP on your machine so you can upload it through the admin screen. The plugin checks whether YOOtheme already exists before attempting installation.
 
-  - Ensure that the TGM Plugin Activation library and any required dependencies are correctly placed in the `vendor` folder.
-
-3. **File Permissions:**
-   - Confirm that your themes directory (`/wp-content/themes/`) has the necessary write permissions to allow file uploads and extraction.
+4. **Ensure write permissions**  
+   Confirm that WordPress can write to `/wp-content/themes/` so the parent theme ZIP and generated child theme files can be placed correctly.
 
 ---
 
 ## Usage
 
-After activation, a new admin menu item will be available:
+After activation a new **Plugin Bundle** top-level menu item appears in the WordPress sidebar.
 
 ### Admin Interface
 
-- **Accessing the Plugin Manager:**
+The admin page is split into three forms: bulk plugin management, parent theme upload, and child theme generation.
 
-  - Go to **Dashboard > Plugin Bundle**.
-  - Use the bulk controls provided to manage the bundled plugins.
+#### Managing the Plugin Bundle
 
-- **Plugin Management:**
+1. Tick one or more plugins in the table.
+2. Choose an action from the dropdown:
+   - **Install** – downloads from WordPress.org if the plugin folder is missing.
+   - **Activate** – activates the plugin, installing it first when necessary.
+   - **Deactivate** – deactivates active plugins without deleting files.
+   - **Delete** – deactivates (if needed) and removes the plugin files.
+   - **Delete from List** – removes the plugin from the managed bundle but leaves any installed files untouched.
+3. Click **Apply to Selected** to run the chosen action. Success and error notices describe the outcome of every plugin processed.
 
-  - The interface displays a dynamically updated list of plugins.
-  - Perform actions such as activation, deactivation, and updates from one central page.
+Status badges in the rightmost column display whether each plugin is installed/active, installed/inactive, or missing completely.
 
-- **Theme Management:**
+#### Adding Plugins from WordPress.org
 
-  - **Parent Theme Upload:**  
-    Use the dedicated section to upload a parent theme. The plugin will validate and install the theme securely.
-  - **Child Theme Creation:**  
-    Customize CSS options and create a child theme. The plugin generates the necessary `style.css` and activates the child theme automatically.
+- Scroll to the “Add New Plugin” section beneath the table.
+- Paste the URL to a plugin on `wordpress.org/plugins/` (for example `https://wordpress.org/plugins/wordpress-seo/`).
+- Submit the form to append the plugin to the bundle. The plugin name is fetched from the WordPress.org API and stored alongside the slug.
+
+If the plugin already exists in the bundle or the URL is invalid you will receive a descriptive error notice.
+
+#### Removing Plugins from the Bundle
+
+To stop tracking a plugin without touching the filesystem, select it in the table, choose **Delete from List**, and apply the action. The entry is removed from `epb_dynamic_plugins` but any installed plugin remains on disk.
+
+#### Theme Management
+
+- Use the **Upload Parent Theme** panel to upload your YOOtheme Pro ZIP. The plugin extracts the archive into `/wp-content/themes/yootheme`. If that directory already exists, the upload is skipped and a notice explains why.
+- Drag-and-drop is supported on the file input. Only one upload is necessary per environment.
+
+#### Child Theme Generator
+
+- Configure the design tokens in the “Create Child Theme” panel. Inputs are grouped into colors, breakpoints, container settings, typography, and button styles.
+- Optional checkbox: **Regenerate child theme functions.php**. When enabled the plugin rewrites the child theme’s `functions.php` with the shipped template (which enqueues parent styles, brands the login screen, disables the WordPress sitemap, and restricts YOOtheme access for shop managers). Leave it unchecked to preserve manual edits.
+- Click **Save Options & Create Child Theme** to write the options to the database, regenerate `css/custom.css`, refresh the root `style.css`, and activate the `ppmchildtheme` theme if YOOtheme Pro is present.
+
+Generated assets live under `wp-content/themes/ppmchildtheme/`:
+
+- `style.css` – child theme header importing the generated CSS.
+- `css/custom.css` – the CSS output from the generator.
+- `functions.php` – optional template controlled by the regenerate checkbox.
 
 ---
 
 ## Configuration
 
-- **Dynamic Plugin Options:**  
-  The default list of standard plugins is stored as an option in the WordPress database. If no list exists, it is automatically initialized with default values.
+Two key option sets power the plugin:
 
-- **CSS Customization:**  
-  Leverage the built-in CSS generator to create custom styles for your child theme. Update CSS options via the admin interface to regenerate the `style.css` file dynamically.
+- **Plugin bundle (`epb_dynamic_plugins`)** – stores an array of plugin definitions (`slug`, `name`, `init_path`). If the option is missing the defaults below are seeded automatically.
+- **Child theme CSS (`ppm_child_theme_css_options`)** – stores the latest design token values used by the CSS generator. Non-color values are stored as floats, and colors are sanitized to valid hex codes.
+
+### Default Plugin Bundle
+
+| Plugin | Slug | Default init path | Notes |
+| --- | --- | --- | --- |
+| Yoast SEO | `wordpress-seo` | `wordpress-seo/wp-seo.php` | Included by default |
+| WP Mail Logging | `wp-mail-logging` | _(auto-detected)_ | Main file resolved after installation |
+| Better Search Replace | `better-search-replace` | _(auto-detected)_ | Uses WordPress.org naming convention |
+| Ninja Forms | `ninja-forms` | _(auto-detected)_ | Install to populate the init path |
+| WP Mail SMTP | `wp-mail-smtp` | `wp-mail-smtp/wp_mail_smtp.php` | Preconfigured init path |
+| Insert Headers and Footers | `insert-headers-and-footers` | `insert-headers-and-footers/ihaf.php` | Preconfigured init path |
+| WPS Hide Login | `wps-hide-login` | _(auto-detected)_ | Path detected post-install |
+| WPS Limit Login | `wps-limit-login` | _(auto-detected)_ | Path detected post-install |
+| All 404 Redirect to Homepage | `all-404-redirect-to-homepage` | _(auto-detected)_ | Path detected post-install |
+| UpdraftPlus WordPress Backup Plugin | `updraftplus` | _(auto-detected)_ | Path detected post-install |
+| YITH Maintenance Mode | `yith-maintenance-mode` | `yith-maintenance-mode/init.php` | Preconfigured init path |
+
+When an entry’s `init_path` is empty the plugin auto-detects it after the first successful installation and persists the updated path back to the option.
+
+### Option Storage
+
+- Options are written with `update_option`, so they support standard WordPress migration tools and search-replace workflows.
+- The CSS generator strictly casts numeric values and sanitizes hex colors before persisting.
+- The child theme directory is created with `wp_mkdir_p`, ensuring compatibility with varied hosting environments.
 
 ---
 
 ## CSS Options Reference
 
-This section details the available CSS options that are used to generate the child theme’s stylesheet. These options primarily override UIkit defaults—refer to the [UIkit Documentation](https://getuikit.com/docs) for more details on how these values affect UI components.
+The child theme’s stylesheet derives from a comprehensive set of tokens. Each field in the admin UI maps to one of the options below. Many values are used to override UIkit defaults; consult the [UIkit documentation](https://getuikit.com/docs) for component-level details.
 
 ### Color Options
 
-**Text Colors:**
+**Text & Body Colors**
 
-- **`muted_color`**:  
-  Sets the color for less prominent or disabled text elements.
-- **`emphasis_color`**:  
-  Used to highlight or emphasize text.
-- **`primary_color`**:  
-  The main color for primary UI elements (e.g., buttons, links).
-- **`secondary_color`**:  
-  A complementary color for secondary UI elements.
-- **`success_color`**:  
-  Indicates success messages or positive actions.
-- **`warning_color`**:  
-  Signals warnings or cautionary messages.
-- **`danger_color`**:  
-  Used for error messages or destructive actions.
+- `muted_color` – Muted text.
+- `emphasis_color` – Emphasized text.
+- `primary_color` – Primary accent color.
+- `secondary_color` – Secondary accent color.
+- `success_color`, `warning_color`, `danger_color` – Status colors.
+- `text_background_color` – Background used for highlighted text blocks.
+- `body_color` – Default body text color.
 
-**Button Colors:**
+**Background Colors**
 
-- **`button_default_color`**:  
-  Background color for standard buttons.
-- **`button_primary_color`**:  
-  Background color for primary action buttons.
-- **`button_secondary_color`**:  
-  Background color for secondary action buttons.
-- **`button_danger_color`**:  
-  Background color for buttons that perform dangerous actions.
-- **`button_text_color`**:  
-  Sets the text color on buttons.
-- **`button_link_color`**:  
-  Color used for links within button components.
+- `background_default_color`, `background_muted_color`, `background_primary_color`, `background_secondary_color` – Surface backgrounds for the main UIkit section classes.
 
-**Background Colors:**
+**Button Colors & States**
 
-- **`background_default_color`**:  
-  Default background color for the site.
-- **`background_muted_color`**:  
-  A softer background color used in less prominent areas.
-- **`background_primary_color`**:  
-  Background color for primary containers.
-- **`background_secondary_color`**:  
-  Background color for secondary containers or sections.
+- Default button: `button_default_color`, `button_default_hover_color`, `button_default_text_color`, `button_default_hover_text_color`.
+- Primary button: `button_primary_color`, `button_primary_hover_color`, `button_primary_text_color`, `button_primary_hover_text_color`.
+- Secondary button: `button_secondary_color`, `button_secondary_hover_color`, `button_secondary_text_color`, `button_secondary_hover_text_color`.
+- Danger button: `button_danger_color`, `button_danger_hover_color`, `button_danger_text_color`, `button_danger_hover_text_color`.
+- Text button: `button_text_color`, `button_text_hover_color`.
+- Link button: `button_link_color`, `button_link_hover_color`.
 
 ### Breakpoints and Container Options
 
-**Breakpoints:**
-
-- **`ppm_breakpoint_s`**, **`ppm_breakpoint_m`**, **`ppm_breakpoint_l`**, **`ppm_breakpoint_xl`**:  
-  Define responsive breakpoints (in pixels) for adjusting layout according to screen size, following UIkit’s grid system.
-
-**Container Padding:**
-
-- **`container_padding_horizontal_mobile`**, **`container_padding_horizontal_s`**, **`container_padding_horizontal_m`**:  
-  Horizontal padding values for container elements across mobile, small, and medium screen sizes.
-
-**Container Maximum Width:**
-
-- **`container_max_width_default`**:  
-  Maximum width for the default container layout.
-- **`container_max_width_xsmall`**, **`container_max_width_small`**, **`container_max_width_large`**, **`container_max_width_xlarge`**:  
-  Specific maximum widths for containers at various size categories, allowing precise layout control.
-
-**Column Gutter:**
-
-- **`column_gutter_mobile`**, **`column_gutter_l`**:  
-  Spacing between columns for mobile and larger screen layouts.
-
-**Container Padding Vertical:**
-
-- Options such as **`container_padding_vertical_default_mobile`**, **`container_padding_vertical_default_m`**, **`container_padding_vertical_xsmall_mobile`**, etc.:  
-  Define the vertical spacing (padding) within containers at different breakpoints.
+- Breakpoints: `ppm_breakpoint_s`, `ppm_breakpoint_m`, `ppm_breakpoint_l`, `ppm_breakpoint_xl` (also mirrored to `--uk-breakpoint-*`).
+- Horizontal padding: `container_padding_horizontal_mobile`, `container_padding_horizontal_s`, `container_padding_horizontal_m`.
+- Vertical padding: `container_padding_vertical_*` (default, xsmall, small, large, xlarge for mobile and medium breakpoints).
+- Container widths: `container_max_width_default`, `container_max_width_xsmall`, `container_max_width_small`, `container_max_width_large`, `container_max_width_xlarge`.
+- Column gutters: `column_gutter_mobile`, `column_gutter_l`.
 
 ### Element Options
 
-**Widths:**
-
-- **`element_width_small`**, **`element_width_medium`**, **`element_width_large`**, **`element_width_xlarge`**, **`element_width_2xlarge`**:  
-  Set fixed widths for UI elements. Adjust these values to control the size of components as per your design requirements.
-
-**Margins:**
-Margin options control spacing around elements:
-
-- **Default Margins:**
-  - `element_margin_default_mobile` and `element_margin_default_l`
-- **Extra Small (XSmall) Margins:**
-  - `element_margin_xsmall_mobile` and `element_margin_xsmall_l`
-- **Small Margins:**
-  - `element_margin_small_mobile` and `element_margin_small_l`
-- **Medium Margins:**
-  - `element_margin_medium_mobile` and `element_margin_medium_l`
-- **Large Margins:**
-  - `element_margin_large_mobile` and `element_margin_large_l`
-- **Extra Large (XLarge) Margins:**
-  - `element_margin_xlarge_mobile` and `element_margin_xlarge_l`
-
-These settings allow you to finely tune the spacing between UI elements to better align with your design aesthetics.
+- Width tokens: `element_width_small`, `element_width_medium`, `element_width_large`, `element_width_xlarge`, `element_width_2xlarge`.
+- Margin tokens (mobile and large variants): `element_margin_default_*`, `element_margin_xsmall_*`, `element_margin_small_*`, `element_margin_medium_*`, `element_margin_large_*`, `element_margin_xlarge_*`.
 
 ### Typography Options
 
-**Base Font:**
-
-- **`base_font_size`**:  
-  Establishes the default font size for the entire HTML document.
-
-**Text Options:**
-
-- **Default Text:**
-  - `text_default_mobile`, `text_default_desktop`, and `text_default_font_weight` set the font size and weight for body text.
-- **Small Text:**
-  - `text_small_mobile`, `text_small_desktop`, and `text_small_font_weight` define a smaller variant of text for secondary content.
-- **Large Text:**
-  - `text_large_mobile`, `text_large_desktop`, and `text_large_font_weight` are used for emphasized or larger body text.
-
-**Headline Options:**  
-For headings, you have separate settings for different sizes:
-
-- **Heading 3XL:**
-  - `heading_3xlarge_mobile`, `heading_3xlarge_desktop`, `heading_3xlarge_font_weight`
-- **Heading 2XL:**
-  - `heading_2xlarge_mobile`, `heading_2xlarge_desktop`, `heading_2xlarge_font_weight`
-- **Heading XL:**
-  - `heading_xlarge_mobile`, `heading_xlarge_desktop`, `heading_xlarge_font_weight`
-- **Heading Large:**
-  - `heading_large_mobile`, `heading_large_desktop`, `heading_large_font_weight`
-- **Heading Medium:**
-  - `heading_medium_mobile`, `heading_medium_desktop`, `heading_medium_font_weight`
-- **Heading Small:**
-  - `heading_small_mobile`, `heading_small_desktop`, `heading_small_font_weight`
-
-**Navbar Options:**
-
-- **`navbar_link_mobile`**, **`navbar_link_desktop`**, **`navbar_link_font_weight`**:  
-  Customize the font size and weight for navigation links.
+- Base HTML font size: `base_font_size`.
+- Body text sizes: `text_default_*`, `text_small_*`, `text_large_*` (each with mobile, desktop, and weight settings).
+- Headings: `heading_3xlarge_*`, `heading_2xlarge_*`, `heading_xlarge_*`, `heading_large_*`, `heading_medium_*`, `heading_small_*` (mobile size, desktop size, weight).
+- Navbar links: `navbar_link_mobile`, `navbar_link_desktop`, `navbar_link_font_weight`.
 
 ### Button Typography Options
 
-Each button type has its own typography settings:
-
-- **Button Default:**
-  - `button_default_mobile`, `button_default_desktop`, `button_default_font_weight`
-- **Button Primary:**
-  - `button_primary_mobile`, `button_primary_desktop`, `button_primary_font_weight`
-- **Button Secondary:**
-  - `button_secondary_mobile`, `button_secondary_desktop`, `button_secondary_font_weight`
-- **Button Danger:**
-  - `button_danger_mobile`, `button_danger_desktop`, `button_danger_font_weight`
-- **Button Text:**
-  - `button_text_mobile`, `button_text_desktop`, `button_text_font_weight`
-- **Button Link:**
-  - `button_link_mobile`, `button_link_desktop`, `button_link_font_weight`
+- Button size & weight tokens: `button_default_*`, `button_primary_*`, `button_secondary_*`, `button_danger_*`, `button_text_*`, `button_link_*` (mobile size, desktop size, font weight for each button style).
 
 ### How to Customize
 
-All these options are editable via the admin interface under the child theme creation section. When you adjust a value, the plugin regenerates the _style.css_ file with your new settings. Since the plugin leverages the UIkit framework, these settings serve as overrides for the default UIkit styles. For more insight into how these options may interact with UIkit components, refer to the [UIkit Documentation](https://getuikit.com/docs).
+Adjust the fields in the admin UI and click **Save Options & Create Child Theme**. The plugin regenerates `css/custom.css`, updates the root `style.css` import, and (re)activates the child theme. Because options are stored server-side you can revisit the page to tweak values at any time.
 
 ---
 
 ## Code Structure
 
-The plugin is built using a modular approach with clearly defined responsibilities:
-
-- **Plugin_Bundle_Admin:**  
-  Handles admin menu creation, asset loading, and form submissions.
-- **Plugin_Bundle_Plugins & Plugin_Bundle_Plugins_Options:**  
-  Manage plugin listings, bulk operations, and dynamic plugin options storage.
-- **Plugin_Bundle_Themes:**  
-  Facilitates theme management including parent theme uploads and child theme generation/activation.
-- **Plugin_Bundle_Css_Generator & Plugin_Bundle_Css_Options:**  
-  Generate and manage CSS for child themes based on customizable options.
-- **Plugin_Bundle_Texts:**  
-  Stores localization strings and plugin messages, ensuring easy translation and text management.
-
-Each component is thoroughly documented in the code, making it easier for developers to maintain and extend the functionality.
+- `enhanced-plugin-bundle.php` – Bootstrap file defining constants and wiring up autoloaded classes.
+- `admin/class-plugin-bundle-admin.php` – Registers the admin menu, enqueues assets, and routes form submissions.
+- `includes/class-plugin-bundle-plugins.php` – Business logic for the plugin bundle (actions, validation, list maintenance).
+- `includes/class-plugin-bundle-plugins-options.php` – Persists the bundle configuration and seeds defaults.
+- `includes/class-plugin-bundle-plugin-section-renderer.php` – Renders the table, bulk controls, and add-plugin form.
+- `includes/class-plugin-bundle-themes.php` & `includes/class-plugin-bundle-theme-section-renderer.php` – Handle YOOtheme uploads and child theme creation UI.
+- `includes/class-plugin-bundle-css-options.php` & `includes/class-plugin-bundle-css-generator.php` – Manage design token defaults and generate the CSS file.
+- `includes/plugin-bundle-functions.php` – Shared helpers such as the admin notice utility.
+- `includes/class-plugin-bundle-texts.php` – Centralized translatable strings.
+- `assets/css/admin.css` & `assets/js/admin.js` – Styling and UX helpers for the admin screen.
 
 ---
 
 ## Developer Notes
 
-- **Security Practices:**
-  - The plugin restricts direct access by checking for the `ABSPATH` constant.
-  - File operations (uploading, extraction) are securely managed using the WordPress Filesystem API.
-- **Extensibility:**
-  - The codebase is modular, allowing developers to easily extend functionalities or integrate additional features.
-  - Hooks and filters are provided throughout the code to support custom modifications.
-- **Debugging:**
-  - Enable WordPress debugging (`WP_DEBUG`) to log errors and messages for troubleshooting purposes.
+- **Security** – Every PHP entry point checks `ABSPATH`. File writes use the Filesystem API; plugin/theme actions funnel through the standard core helpers (`Plugin_Upgrader`, `activate_plugin`, `switch_theme`, etc.).
+- **Sanitization** – All form submissions use `sanitize_text_field`, `sanitize_hex_color`, and strict casting before persistence.
+- **Child theme template** – The shipped `functions.php` adds branding to the login screen, disables the core sitemap, disables auto-updates, and removes YOOtheme from `shop_manager` menus. Reuse or adapt as needed.
+- **Extensibility** – Text strings are centralized for translation. The modular class layout makes it easy to extend renderers or replace data sources.
+- **Debugging** – Enable `WP_DEBUG` and inspect the standard WordPress debug log if uploads, installs, or filesystem actions fail.
 
 ---
 
-Happy coding and thank you for using the Enhanced Plugin Bundle and Theme Manager!
+Happy coding, and thanks for using the Enhanced Plugin Bundle and Theme Manager!

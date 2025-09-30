@@ -62,13 +62,14 @@ class Plugin_Bundle_Texts
     public const ERROR_FAILED_TO_CREATE_STYLE_HEADER = 'Failed to create the child theme style.css file.';
     public const ERROR_FAILED_TO_CREATE_FUNCTIONS_FILE = 'Failed to create the child theme functions.php file.';
     public const ERROR_PLUGIN_NOT_IN_LIST     = 'Plugin "%s" is not managed by this bundle.';
+    public const ERROR_FAILED_INSTALL_PLUGIN = 'Failed to install plugin "%s".';
     public const ERROR_INVALID_PLUGIN_URL     = 'Please provide a valid WordPress.org plugin URL.';
     public const THEME_ALREADY_UPLOADED         = 'The theme "%s" is already uploaded.';
     public const ERROR_FAILED_CREATE_THEMES_DIR   = 'Failed to create themes directory.';
     public const ERROR_FAILED_INSTALL_THEME       = 'Failed to install the theme: %s';
     public const ERROR_FAILED_MOVE_UPLOADED_FILE  = 'Failed to move the uploaded file. Please check file permissions.';
     public const ERROR_UPLOAD_FAILED              = 'File upload failed with error code: %s';
-    public const ERROR_FAILED_TO_ACTION_PLUGIN    = 'Failed to %s of "%s": %s';
+    public const ERROR_FAILED_TO_ACTION_PLUGIN    = 'Failed to %s "%s": %s';
 
     // -------------------------------------------------------------------------
     // Success Messages
@@ -77,6 +78,17 @@ class Plugin_Bundle_Texts
     public const SUCCESS_THEME_ACTIVATED = 'Child theme activated successfully.';
     public const SUCCESS_THEME_UPLOADED  = 'Theme "%s" uploaded and installed successfully.';
     public const SUCCESS_ACTION_PLUGIN   = '"%s" %s successfully.';
+    public const SUCCESS_PLUGIN_ALREADY_INSTALLED = 'Plugin "%s" is already installed.';
+    public const SUCCESS_PLUGIN_ALREADY_REMOVED   = 'Plugin "%s" was already removed.';
+
+    // -------------------------------------------------------------------------
+    // Action Words for Notices
+    // -------------------------------------------------------------------------
+    public const ACTION_PAST_INSTALLED   = 'installed';
+    public const ACTION_PAST_ACTIVATED   = 'activated';
+    public const ACTION_PAST_DEACTIVATED = 'deactivated';
+    public const ACTION_PAST_DELETED     = 'deleted';
+    public const ACTION_PAST_UPLOADED    = 'uploaded';
 
     // -------------------------------------------------------------------------
     // Table Headers & Other UI Texts
