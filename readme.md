@@ -69,13 +69,16 @@ The plugin follows WordPress best practices, defers to the Filesystem API for fi
 1. **Copy the plugin into WordPress**  
    Extract or clone the repository into `/wp-content/plugins/ppm-plugin-bundle` on your WordPress installation.
 
-2. **Activate it**  
+2. **Download the TGM Plugin Activation library**  
+   Because the `vendor/` directory is ignored in git, grab the latest `class-tgm-plugin-activation.php` from the official [TGM Plugin Activation repository](https://github.com/TGMPA/TGM-Plugin-Activation) and place it in `wp-content/plugins/ppm-plugin-bundle/vendor/`. (Direct download: [latest release ZIP](https://github.com/TGMPA/TGM-Plugin-Activation/archive/refs/heads/master.zip)).
+
+3. **Activate it**  
    In the WordPress dashboard navigate to **Plugins → Installed Plugins** and activate **Enhanced Plugin Bundle and Theme Manager**.
 
-3. **Prepare YOOtheme Pro (optional but recommended)**  
+4. **Prepare YOOtheme Pro (optional but recommended)**  
    Place the latest YOOtheme Pro ZIP on your machine so you can upload it through the admin screen. The plugin checks whether YOOtheme already exists before attempting installation.
 
-4. **Ensure write permissions**  
+5. **Ensure write permissions**  
    Confirm that WordPress can write to `/wp-content/themes/` so the parent theme ZIP and generated child theme files can be placed correctly.
 
 ---

@@ -1,0 +1,5 @@
+# Composer dependencies
+/vendor/
+
+# Generated or bundled images
+assets/images/
