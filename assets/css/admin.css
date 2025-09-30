@@ -670,7 +670,7 @@ input[type="file"]:focus {
 }
 
 .form-group {
-    margin-bottom: 25px;
+    padding: calc(var(--size-bezel) * 1.5) var(--size-bezel) !important;
 }
 
 .fieldset-group {
@@ -739,7 +739,6 @@ input[type="file"]:focus {
 .fieldset-group-inner legend {
     font-size: var(--font-size-m);
     font-weight: 500;
-    margin-bottom: 20px;
     color: var(--primary-color);
     letter-spacing: 1.2px;
 }
@@ -769,6 +768,7 @@ input[type="file"]:focus {
 
 input[type=number] {
     line-height: 1.6;
+    padding: 0 5px;
 }
 
 .color {
@@ -779,8 +779,6 @@ input[type=number] {
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
-    padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * 0.5) !important;
-    margin: calc(var(--size-bezel) * 0.75 + 1px) calc(var(--size-bezel) * 0.5) !important;
     white-space: nowrap !important;
     transform: translate(0, 0) !important;
     transform-origin: 0 0 !important;
@@ -798,7 +796,6 @@ input[type=number] {
     display: block !important;
     width: 100% !important;
     border: 1px solid transparent !important;
-    padding: calc(var(--size-bezel) * 1.5) var(--size-bezel) !important;
     color: var(--color-text) !important;
     background: transparent !important;
     border-radius: var(--size-radius) !important;
@@ -810,6 +807,68 @@ input[type=number] {
 .input__field:not(:placeholder-shown)+.input__label {
     transform: translate(0.25rem, -70%) scale(0.8) !important;
     color: var(--color-accent) !important;
+}
+
+.input__field.color,
+input[type="color"].input__field {
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border: 2px solid var(--table-border) !important;
+    border-radius: 10px !important;
+    background-color: var(--light-bg) !important;
+    cursor: pointer !important;
+    box-shadow: 0 6px 16px rgba(5, 6, 9, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+    margin: 0 auto !important;
+}
+
+.input__field.color:hover,
+input[type="color"].input__field:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(5, 6, 9, 0.45);
+}
+
+.input__field.color:focus,
+input[type="color"].input__field:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 2px rgba(234, 86, 35, 0.35);
+}
+
+.input__field.color+.input__label,
+input[type="color"].input__field+.input__label {
+    position: static !important;
+    margin: 0.5rem 0 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    text-align: center !important;
+    display: block !important;
+    font-size: 0.8rem !important;
+    color: white !important;
+    text-wrap: wrap !important;
+}
+
+.input__field.color:focus+.input__label,
+input[type="color"].input__field:focus+.input__label,
+.input__field.color:not(:placeholder-shown)+.input__label,
+input[type="color"].input__field:not(:placeholder-shown)+.input__label {
+    transform: none !important;
+}
+
+input[type="color"].input__field::-webkit-color-swatch-wrapper {
+    padding: 0 !important;
+    border-radius: 8px !important;
+}
+
+input[type="color"].input__field::-webkit-color-swatch {
+    border: none !important;
+    border-radius: 8px !important;
+}
+
+input[type="color"].input__field::-moz-color-swatch {
+    border: none !important;
+    border-radius: 8px !important;
 }
 
 /* ---------------------------------------- */
@@ -871,14 +930,14 @@ input[type=number] {
 .button-accordion .picker-group {
     padding: 2rem 1rem;
     display: flex;
-    gap: 1rem;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 /* Tweak color inputs if needed */
 .button-accordion .picker-group .form-group {
     margin: 0;
-    width: 45%;
+    width: 20%;
 }
 
 
