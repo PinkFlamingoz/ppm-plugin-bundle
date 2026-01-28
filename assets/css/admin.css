@@ -500,14 +500,26 @@ input[type="file"]:focus {
     box-shadow: 0 0 0 4px rgba(48, 48, 51, 0.1) !important;
 }
 
+/* Notices Container - ensures notices stack vertically above header */
+.epb-notices-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
 /* Improved Notices */
 .notice {
     position: relative;
-    margin: 5px 0 15px;
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
     padding: 12px;
     border-left: 4px solid;
     border-radius: 0 4px 4px 0;
     animation: noticeSlideIn 0.3s ease-out;
+    box-sizing: border-box;
 }
 
 @keyframes noticeSlideIn {

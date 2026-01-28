@@ -1,32 +1,65 @@
 <?php
+
+/**
+ * CSS Generator for Enhanced Plugin Bundle.
+ *
+ * @package Enhanced_Plugin_Bundle
+ * @subpackage CSS
+ */
+
+namespace EPB\CSS;
+
+// Prevent direct access.
 if (!defined('ABSPATH')) {
-    exit; // Prevent direct access.
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit();
 }
 
 /**
- * Class Plugin_Bundle_Css_Generator
+ * Class Generator
  *
  * Responsible for generating the complete CSS content for the child theme's style.css file.
  * This class takes an array of CSS options (such as colors, typography, and spacing) and converts
  * them into CSS custom properties along with the necessary theme styles.
  */
-class Plugin_Bundle_Css_Generator
+class Generator
 {
     /**
      * Generates the complete CSS content for the child theme.
      *
      * This method uses the provided CSS options to create CSS custom properties and styles.
      *
-     * @param array $options An associative array of CSS options.
+     * @param array<string, mixed> $options An associative array of CSS options.
      * @return string The complete CSS content.
      */
-    public static function generate_css($options)
+    public static function generate(array $options): string
     {
-        // Determine the HTML root font size (px) so global typography can scale predictably.
+        // Merge with defaults to ensure all required keys exist.
+        $options = wp_parse_args($options, Options::get_defaults());
+
+        // Generate CSS sections.
+        $css  = self::generate_root_variables($options);
+        $css .= self::generate_color_utilities($options);
+        $css .= self::generate_typography_styles($options);
+        $css .= self::generate_container_styles($options);
+        $css .= self::generate_element_styles($options);
+        $css .= self::generate_base_styles($options);
+
+        return $css;
+    }
+
+    /**
+     * Generates the :root CSS custom properties.
+     *
+     * @param array<string, mixed> $options CSS options.
+     * @return string CSS content.
+     */
+    private static function generate_root_variables(array $options): string
+    {
         $base_font_size = isset($options['base_font_size']) ? floatval($options['base_font_size']) : 16;
 
-        // Use a heredoc string to generate the full CSS content, including custom properties and theme styles.
-        $css = <<<EOT
+        return <<<EOT
 /* GLOBAL */
 :root {
 
@@ -80,7 +113,6 @@ class Plugin_Bundle_Css_Generator
     --uk-breakpoint-m: {$options['ppm_breakpoint_m']}px;
     --uk-breakpoint-l: {$options['ppm_breakpoint_l']}px;
     --uk-breakpoint-xl: {$options['ppm_breakpoint_xl']}px;
-
 
     /* Base font size */
     --base-font-size: {$base_font_size}px;
@@ -194,8 +226,21 @@ class Plugin_Bundle_Css_Generator
     --element-margin-large-l: {$options['element_margin_large_l']}px;
     --element-margin-xlarge-mobile: {$options['element_margin_xlarge_mobile']}px;
     --element-margin-xlarge-l: {$options['element_margin_xlarge_l']}px;
-}   
-     
+}
+
+EOT;
+    }
+
+    /**
+     * Generates color utility class styles.
+     *
+     * @param array<string, mixed> $options CSS options.
+     * @return string CSS content.
+     */
+    private static function generate_color_utilities(array $options): string
+    {
+        return <<<EOT
+
 .uk-text-muted {
     color: var(--muted-color) !important;
 }
@@ -248,7 +293,18 @@ class Plugin_Bundle_Css_Generator
     background-color: var(--background-secondary) !important;
 }
 
+EOT;
+    }
 
+    /**
+     * Generates typography styles for text, headings, and buttons.
+     *
+     * @param array<string, mixed> $options CSS options.
+     * @return string CSS content.
+     */
+    private static function generate_typography_styles(array $options): string
+    {
+        return <<<EOT
 
 /* TEXT */
 body {
@@ -324,9 +380,6 @@ body {
     --mobile-font-size: var(--button-default-mobile);
     --desktop-font-size: var(--button-default-desktop);
     font-weight: var(--button-default-font-weight) !important;
-}
-
-.uk-button-default {
     background-color: var(--button-default-color) !important;
     color: var(--button-default-text-color) !important;
 }
@@ -340,9 +393,6 @@ body {
     --mobile-font-size: var(--button-primary-mobile);
     --desktop-font-size: var(--button-primary-desktop);
     font-weight: var(--button-primary-font-weight) !important;
-}
-
-.uk-button-primary {
     background-color: var(--button-primary-color) !important;
     color: var(--button-primary-text-color) !important;
 }
@@ -356,9 +406,6 @@ body {
     --mobile-font-size: var(--button-secondary-mobile);
     --desktop-font-size: var(--button-secondary-desktop);
     font-weight: var(--button-secondary-font-weight) !important;
-}
-
-.uk-button-secondary {
     background-color: var(--button-secondary-color) !important;
     color: var(--button-secondary-text-color) !important;
 }
@@ -372,9 +419,6 @@ body {
     --mobile-font-size: var(--button-danger-mobile);
     --desktop-font-size: var(--button-danger-desktop);
     font-weight: var(--button-danger-font-weight) !important;
-}
-
-.uk-button-danger {
     background-color: var(--button-danger-color) !important;
     color: var(--button-danger-text-color) !important;
 }
@@ -388,9 +432,6 @@ body {
     --mobile-font-size: var(--button-text-mobile);
     --desktop-font-size: var(--button-text-desktop);
     font-weight: var(--button-text-font-weight) !important;
-}
-
-.uk-button-text {
     color: var(--button-text-color) !important;
 }
 
@@ -412,6 +453,19 @@ body {
 .uk-button-link a:hover {
     color: var(--button-link-hover-color) !important;
 }
+
+EOT;
+    }
+
+    /**
+     * Generates container and section styles.
+     *
+     * @param array<string, mixed> $options CSS options.
+     * @return string CSS content.
+     */
+    private static function generate_container_styles(array $options): string
+    {
+        return <<<EOT
 
 [class*="uk-column-"] {
     padding-left: var(--column-gutter-mobile);
@@ -521,6 +575,19 @@ body {
     }
 }
 
+EOT;
+    }
+
+    /**
+     * Generates element width and margin styles.
+     *
+     * @param array<string, mixed> $options CSS options.
+     * @return string CSS content.
+     */
+    private static function generate_element_styles(array $options): string
+    {
+        return <<<EOT
+
 .uk-width-small {
     width: var(--element-width-small);
 }
@@ -613,6 +680,19 @@ body {
     }
 }
 
+EOT;
+    }
+
+    /**
+     * Generates base HTML and body styles including responsive typography.
+     *
+     * @param array<string, mixed> $options CSS options.
+     * @return string CSS content.
+     */
+    private static function generate_base_styles(array $options): string
+    {
+        return <<<EOT
+
 html {
     font-size: var(--base-font-size) !important;
     -webkit-hyphens: auto !important;
@@ -646,18 +726,16 @@ body,
     font-size: clamp(calc(var(--mobile-font-size) * 1px),
             calc((var(--mobile-font-size) * 1px) + ((var(--desktop-font-size) - var(--mobile-font-size)) * ((100vw - (var(--ppm-breakpoint-s) * 1px)) / (var(--ppm-breakpoint-xl) - var(--ppm-breakpoint-s))))),
             calc(var(--desktop-font-size) * 1px)) !important;
-	-webkit-hyphens: auto !important;
-	-moz-hyphens: auto !important;
-	-ms-hyphens: auto !important;
-	hyphens: auto !important;
-	overflow-wrap: break-word !important;
-	white-space: wrap !important;
+    -webkit-hyphens: auto !important;
+    -moz-hyphens: auto !important;
+    -ms-hyphens: auto !important;
+    hyphens: auto !important;
+    overflow-wrap: break-word !important;
+    white-space: wrap !important;
     text-wrap: pretty !important;
     word-break: break-word !important;
 }
 
-
 EOT;
-        return $css;
     }
 }
