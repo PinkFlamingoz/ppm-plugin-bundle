@@ -1,0 +1,32 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<button class=\"uk-button uk-button-default uk-margin\" type=\"button\" uk-toggle=\"target: +\">Toggle Video</button>\n\n<video src=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" width=\"1920\" height=\"1080\" playsinline loop muted hidden uk-video></video>"
+    },
+    {
+        "index": 2,
+        "heading": "Autoplay",
+        "html": "<div class=\"uk-child-width-1-2@m\" uk-grid>\n    <div>\n\n        <video src=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" width=\"1920\" height=\"1080\" playsinline loop muted uk-video=\"autoplay: inview\"></video>\n\n    </div>\n    <div>\n\n        <video src=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" width=\"1920\" height=\"1080\" playsinline loop muted uk-video=\"autoplay: hover\"></video>\n\n    </div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Lazy Loading",
+        "html": "<video src=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" width=\"1920\" height=\"1080\" playsinline loop muted preload=\"none\" uk-video></video>"
+    },
+    {
+        "index": 4,
+        "heading": "On-Click Loading",
+        "html": "<video src=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" poster=\"images/photo.jpg\" width=\"1920\" height=\"1080\" controls preload=\"none\" uk-video=\"autoplay: false\"></video>"
+    },
+    {
+        "index": 5,
+        "heading": "",
+        "html": "<div class=\"uk-inline uk-light\">\n    <video src=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" width=\"1920\" height=\"1080\" controls preload=\"none\" hidden uk-video></video>\n    <a href uk-toggle=\"target: ! > *\">\n        <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        <span class=\"uk-position-center uk-icon-overlay\" uk-icon=\"icon: youtube; ratio: 3\"></span>\n    </a>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "",
+        "html": "<div class=\"uk-inline uk-light\">\n    <video src=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" width=\"1920\" height=\"1080\" controls preload=\"none\" hidden uk-video></video>\n    <a href uk-toggle=\"target: ! > *\">\n        <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        <span class=\"uk-position-center uk-icon-overlay\" uk-icon=\"icon: youtube; ratio: 3\"></span>\n    </a>\n</div>"
+    }
+]

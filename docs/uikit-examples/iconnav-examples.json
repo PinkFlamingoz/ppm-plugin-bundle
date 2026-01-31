@@ -1,0 +1,12 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<ul class=\"uk-iconnav\">\n    <li><a href=\"#\" uk-icon=\"icon: plus\"></a></li>\n    <li><a href=\"#\" uk-icon=\"icon: file-edit\"></a></li>\n    <li><a href=\"#\" uk-icon=\"icon: copy\"></a></li>\n    <li><a href=\"#\"><span uk-icon=\"icon: bag\"></span> (2)</a></li>\n</ul>"
+    },
+    {
+        "index": 2,
+        "heading": "Vertical alignment",
+        "html": "<ul class=\"uk-iconnav uk-iconnav-vertical\">\n    <li><a href=\"#\" uk-icon=\"icon: plus\"></a></li>\n    <li><a href=\"#\" uk-icon=\"icon: file-edit\"></a></li>\n    <li><a href=\"#\" uk-icon=\"icon: copy\"></a></li>\n    <li><a href=\"#\"><span uk-icon=\"icon: bag\"></span> (2)</a></li>\n</ul>"
+    }
+]

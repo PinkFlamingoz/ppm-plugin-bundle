@@ -78,7 +78,7 @@ class Renderer
                 foreach ($plugins as $slug => $name) {
                     $status       = Manager::get_plugin_status($slug);
                     $status_label = $status['label'];
-                    // Use the CSS class from status array for reliable styling
+                    // Use the CSS class from status array for reliable styling.
                     $css_class    = $status['css_class'];
                     $status_class = match ($css_class) {
                         'ppm-status-success' => 'status-active',

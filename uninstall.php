@@ -16,8 +16,14 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 
 // Remove plugin options from the database.
 delete_option('epb_dynamic_plugins');
-delete_option('ppm_child_theme_css_options');
 delete_option('epb_version');
+
+// Remove CSS options (pre-component system).
+delete_option('ppm_child_theme_css_options');
+
+// Remove component-based CSS options.
+global $wpdb;
+$wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE 'epb_component_%'");
 
 // Clean up any transients if they exist.
 delete_transient('epb_plugin_cache');

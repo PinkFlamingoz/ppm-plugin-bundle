@@ -1,0 +1,17 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div uk-alert>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Close button",
+        "html": "<div uk-alert>\n    <a href class=\"uk-alert-close\" uk-close></a>\n    <h3>Notice</h3>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Style modifiers",
+        "html": "<div class=\"uk-alert-primary\" uk-alert>\n    <a href class=\"uk-alert-close\" uk-close></a>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n</div>\n\n<div class=\"uk-alert-success\" uk-alert>\n    <a href class=\"uk-alert-close\" uk-close></a>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n</div>\n\n<div class=\"uk-alert-warning\" uk-alert>\n    <a href class=\"uk-alert-close\" uk-close></a>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n</div>\n\n<div class=\"uk-alert-danger\" uk-alert>\n    <a href class=\"uk-alert-close\" uk-close></a>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n</div>"
+    }
+]

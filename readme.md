@@ -1,44 +1,29 @@
 # Enhanced Plugin Bundle and Theme Manager
 
-**Version:** 4.0  
+**Version:** 4.2  
 **Author:** Stavrov  
 **Author URI:** [https://github.com/PinkFlamingoz](https://github.com/PinkFlamingoz)  
 **Requires PHP:** 7.4+  
 **Text Domain:** `enhanced-plugin-bundle`
 
-Enhanced Plugin Bundle and Theme Manager is a WordPress plugin that centralizes the setup of a curated plugin bundle and a YOOtheme-based child theme. It provides an intuitive admin interface for bulk plugin operations, parent-theme handling, design token imports from Figma, and a rich CSS customization layer that generates the child theme's stylesheet on demand.
+A WordPress plugin that centralizes plugin management and provides a powerful component-based UIkit theming system for YOOtheme child themes. Design your theme visually with 68 UIkit components, 1100+ Less variables, live preview, and seamless Figma/Tokens Studio integration.
 
 ---
 
 ## Table of Contents
 
-- [Enhanced Plugin Bundle and Theme Manager](#enhanced-plugin-bundle-and-theme-manager)
-  - [Table of Contents](#table-of-contents)
-  - [Features](#features)
-    - [Plugin Management](#plugin-management)
-    - [Theme Management](#theme-management)
-    - [Design Token Integration](#design-token-integration)
-    - [Admin Experience](#admin-experience)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    - [Plugin Bundle Management](#plugin-bundle-management)
-    - [Theme Management](#theme-management-1)
-    - [Child Theme Generator](#child-theme-generator)
-    - [Design Token Import](#design-token-import)
-  - [Architecture](#architecture)
-  - [CSS Options Reference](#css-options-reference)
-    - [Color Options](#color-options)
-    - [Layout Options](#layout-options)
-    - [Element Options](#element-options)
-    - [Typography Options](#typography-options)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Plugin Bundle Management](#plugin-bundle-management)
+  - [Theme Management](#theme-management)
+  - [Component-Based Theming](#component-based-theming)
   - [Tokens Studio Integration](#tokens-studio-integration)
-  - [Developer Notes](#developer-notes)
-    - [Security](#security)
-    - [Coding Standards](#coding-standards)
-    - [Hooks \& Filters](#hooks--filters)
-    - [Debugging](#debugging)
-    - [Translation](#translation)
-  - [License](#license)
+- [Architecture](#architecture)
+- [Component Reference](#component-reference)
+- [Developer Notes](#developer-notes)
+- [CLI Tools](#cli-tools)
+- [License](#license)
 
 ---
 
@@ -46,201 +31,254 @@ Enhanced Plugin Bundle and Theme Manager is a WordPress plugin that centralizes 
 
 ### Plugin Management
 
-- **Curated bundle management** – A default list of recommended plugins is stored in the database and exposed in the UI with real-time status badges.
-- **Bulk plugin actions** – Apply `install`, `activate`, `deactivate`, `delete`, or `unregister` to multiple plugins at once.
-- **WordPress.org discovery** – Append new plugins by pasting a WordPress.org plugin URL. Slugs are validated, duplicates are rejected.
-- **Automatic init path detection** – Plugin main files are auto-detected after installation.
-- **Silent bulk operations** – Bulk activations run silently to prevent plugin initialization errors during batch processing.
+- **Curated bundle management** – Maintain a list of recommended plugins with real-time status badges
+- **Bulk plugin actions** – Install, activate, deactivate, delete, or unregister multiple plugins at once
+- **WordPress.org discovery** – Add plugins by pasting a WordPress.org URL
+- **Automatic detection** – Plugin main files are auto-detected after installation
+- **AJAX-powered** – Real-time feedback for all operations
 
 ### Theme Management
 
-- **YOOtheme parent upload** – Upload a YOOtheme Pro ZIP file once; the plugin extracts it through the WordPress Filesystem API.
-- **Child theme generator** – Generate a YOOtheme-compatible child theme (`ppmchildtheme`) containing `style.css`, `css/custom.css`, and `functions.php`.
-- **90+ CSS variables** – Design tokens drive the generated stylesheet so UIkit components inherit consistent styling.
+- **YOOtheme Pro upload** – Upload and install YOOtheme Pro via the WordPress Filesystem API
+- **Child theme generator** – Generate a YOOtheme-compatible child theme (`ppmchildtheme`)
+- **Automatic CSS generation** – Child theme CSS is regenerated when settings change
+
+### Component-Based Theming
+
+- **68 UIkit components** – Full coverage of UIkit's component library
+- **1100+ Less variables** – Every UIkit variable is customizable
+- **Semantic grouping** – Variables organized by function (Colors, Sizing, Typography, etc.)
+- **Live preview** – See changes instantly with browser-based Less.js compilation
+- **Multiple field types** – Color pickers, text inputs, dropdowns, number fields
+- **Reference resolution** – See resolved values for Less variable references
+- **Reset to defaults** – Reset individual fields or entire components
+- **Persistent state** – Settings saved per-component in WordPress options
 
 ### Design Token Integration
 
-- **Tokens Studio support** – Import design tokens directly from Figma using the Tokens Studio plugin.
-- **JSON import** – Upload token JSON files or paste raw JSON directly.
-- **Bidirectional mapping** – Token paths map automatically to plugin CSS options.
-- **Token export** – Export current plugin settings as Tokens Studio compatible JSON.
-- **Preview before import** – See how many CSS variables will be imported before committing changes.
-
-### Admin Experience
-
-- **Dedicated dashboard** – A top-level "Plugin Bundle" menu combines plugin, theme, and child-theme management.
-- **AJAX-powered operations** – Real-time feedback for long-running operations.
-- **Drag-and-drop support** – File inputs accept drag-and-drop for theme ZIPs and token files.
-- **Security-first** – Every endpoint validates nonces, sanitizes input, and checks capabilities.
+- **Tokens Studio for Figma** – Import/export design tokens directly from Figma
+- **Bidirectional sync** – Export WordPress settings to Figma, import Figma tokens to WordPress
+- **Automatic mapping** – Token names map to UIkit Less variables automatically
+- **Component-aware import** – Tokens are distributed to the correct UIkit components
+- **JSON import/export** – Full component settings backup and restore
 
 ---
 
 ## Installation
 
-1. **Copy the plugin into WordPress**  
-   Extract or clone the repository into `/wp-content/plugins/ppm-plugin-bundle/`.
+1. **Copy the plugin**  
+   Extract or clone the repository into `/wp-content/plugins/ppm-plugin-bundle/`
 
-2. **Download the TGM Plugin Activation library**  
-   Download `class-tgm-plugin-activation.php` from the [TGM Plugin Activation repository](https://github.com/TGMPA/TGM-Plugin-Activation) and place it in the `vendor/` directory.
+2. **Install TGM Plugin Activation**  
+   Download `class-tgm-plugin-activation.php` from [TGM Plugin Activation](https://github.com/TGMPA/TGM-Plugin-Activation) and place it in the `vendor/` directory
 
 3. **Activate the plugin**  
-   In WordPress, navigate to **Plugins → Installed Plugins** and activate **Enhanced Plugin Bundle and Theme Manager**.
+   Navigate to **Plugins → Installed Plugins** and activate **Enhanced Plugin Bundle and Theme Manager**
 
-4. **Prepare YOOtheme Pro (optional)**  
-   Have the latest YOOtheme Pro ZIP ready to upload through the admin screen.
+4. **Prepare YOOtheme Pro** (optional)  
+   Have the latest YOOtheme Pro ZIP ready for upload
 
 5. **Verify permissions**  
-   Confirm WordPress can write to `/wp-content/themes/` for theme creation.
+   Confirm WordPress can write to `/wp-content/themes/` for child theme creation
 
 ---
 
 ## Usage
 
-After activation, a new **Plugin Bundle** top-level menu item appears in the WordPress sidebar.
+After activation, a **Plugin Bundle** menu appears in the WordPress admin sidebar.
 
 ### Plugin Bundle Management
 
-1. **View the bundle** – The table displays all registered plugins with status badges (Installed & Active, Installed & Inactive, Not Installed).
+| Action | Description |
+|--------|-------------|
+| **Install** | Downloads from WordPress.org if not installed |
+| **Activate** | Activates the plugin (installs first if needed) |
+| **Deactivate** | Deactivates without removing files |
+| **Delete** | Removes plugin files from filesystem |
+| **Delete from List** | Removes from bundle without touching installed files |
 
-2. **Bulk actions**:
-   - **Install** – Downloads from WordPress.org if the plugin is missing.
-   - **Activate** – Activates the plugin (installing first if needed).
-   - **Deactivate** – Deactivates without removing files.
-   - **Delete** – Removes plugin files from the filesystem.
-   - **Unregister** – Removes from the managed bundle without touching installed files.
-
-3. **Add new plugins** – Paste a WordPress.org plugin URL (e.g., `https://wordpress.org/plugins/wordpress-seo/`) to add it to your bundle.
+**Add new plugins:** Paste a WordPress.org plugin URL (e.g., `https://wordpress.org/plugins/wordpress-seo/`)
 
 ### Theme Management
 
-1. **Upload YOOtheme** – Use the upload panel to install YOOtheme Pro. The plugin extracts it to `/wp-content/themes/yootheme/`.
+1. **Upload YOOtheme Pro** – Use the upload panel to install YOOtheme Pro
+2. **Status indicator** – Shows whether YOOtheme is installed and active
 
-2. **Status indicator** – Shows whether YOOtheme is already installed.
+### Component-Based Theming
 
-### Child Theme Generator
+The Component Picker provides a visual interface for customizing UIkit variables:
 
-1. **Configure design tokens** – Adjust colors, breakpoints, container settings, typography, and button styles in the admin UI.
+#### Navigation
 
-2. **Regenerate functions.php** – Optionally regenerate the child theme's `functions.php` with the bundled template.
+- **Category sidebar** – Components organized into 8 categories
+- **Search** – Filter components by name
+- **Modified indicators** – Dots show which components have customizations
 
-3. **Generate** – Click **Save Options & Create Child Theme** to:
-   - Write options to the database
-   - Generate `css/custom.css` with your design tokens
-   - Update the root `style.css`
-   - Activate the `ppmchildtheme` child theme
+#### Editing
 
-### Design Token Import
+1. **Select a component** – Click to load its variables
+2. **Expand groups** – Variables are organized into semantic groups
+3. **Edit values** – Use color pickers, dropdowns, or text inputs
+4. **View resolved values** – See the computed value for Less references
+5. **Reset** – Click the reset button to restore defaults
 
-1. **Navigate to Child Theme** – Open the "Create Child Theme" panel.
+#### Preview
 
-2. **Import tokens**:
-   - **Upload JSON** – Select a Tokens Studio JSON export file.
-   - **Paste JSON** – Paste raw JSON into the text area.
-   - **Preview** – See how many CSS variables will be imported.
-   - **Import** – Apply tokens to your theme settings.
+- **Live Preview tab** – See component changes in real-time
+- **CSS Output tab** – View the generated CSS
 
-3. **Export tokens** – Click "Export Settings as Tokens" to download current settings as Tokens Studio compatible JSON.
+#### Saving
+
+- **Save Changes** – Save the current component
+- **Save All** – Save all modified components at once
+- **Reset All** – Reset all components to UIkit defaults
+
+### Tokens Studio Integration
+
+#### Export to Figma
+
+1. Click the **Export for Figma** button (arrow-up icon)
+2. A JSON file downloads with all component variables
+3. Import into Tokens Studio in Figma
+
+#### Import from Figma
+
+1. Click the **Import from Figma** button (arrow-down icon)
+2. Paste your Tokens Studio JSON export
+3. Click **Import** to apply tokens to components
+
+#### JSON Backup
+
+- **Export All (JSON)** – Download complete component settings
+- **Import (JSON)** – Restore from a previous export
+
+#### Create Child Theme
+
+1. Click the **Create Child Theme** button (folder icon)
+2. The child theme is created/updated with your CSS
+3. The child theme is automatically activated
 
 ---
 
 ## Architecture
 
-The plugin follows a modular, namespaced architecture (PHP 7.4+):
-
 ```
-enhanced-plugin-bundle.php      # Bootstrap file
+enhanced-plugin-bundle.php          # Bootstrap file
 includes/
-├── class-autoloader.php        # PSR-4 style autoloader
+├── class-autoloader.php            # PSR-4 autoloader
 ├── Admin/
-│   └── class-controller.php    # Admin page routing & form handling
+│   └── class-controller.php        # Admin page routing
 ├── Ajax/
-│   └── class-handler.php       # AJAX endpoint handlers
-├── Contracts/
-│   ├── interface-options.php   # Options contract
-│   └── interface-renderer.php  # Renderer contract
+│   ├── class-handler.php           # Core AJAX handler
+│   ├── class-plugin-actions.php    # Plugin management
+│   ├── class-token-actions.php     # Token import/export
+│   ├── class-component-handler.php # Component AJAX router
+│   ├── class-component-loader.php  # Load component fields
+│   ├── class-component-saver.php   # Save component settings
+│   ├── class-component-importer.php # Import JSON settings
+│   ├── class-component-exporter.php # Export JSON settings
+│   └── class-child-theme-actions.php # Child theme AJAX
 ├── Core/
-│   ├── class-activator.php     # Plugin activation hooks
-│   └── class-plugin.php        # Main plugin orchestrator
+│   ├── class-plugin.php            # Main orchestrator
+│   ├── class-activator.php         # Activation hooks
+│   ├── class-deactivator.php       # Deactivation hooks
+│   ├── class-notices.php           # Admin notices
+│   ├── class-capabilities.php      # User capabilities
+│   └── class-upgrader.php          # Version upgrades
 ├── CSS/
-│   ├── class-generator.php     # Generates CSS output
-│   ├── class-options.php       # CSS option defaults & storage
-│   └── class-variables.php     # CSS variable definitions
+│   ├── class-less-parser.php       # Parse UIkit Less files
+│   ├── class-component-registry.php # Component metadata
+│   └── class-generator.php         # Generate CSS output
 ├── Plugins/
-│   ├── class-installer.php     # Plugin install/activate/delete
-│   ├── class-manager.php       # Plugin bundle operations
-│   ├── class-options.php       # Plugin list storage
-│   └── class-renderer.php      # Plugin table UI
+│   ├── class-manager.php           # Plugin bundle logic
+│   ├── class-installer.php         # Install/activate/delete
+│   ├── class-options.php           # Plugin list storage
+│   └── class-renderer.php          # Plugin table UI
 ├── Themes/
-│   ├── class-child-theme.php   # Child theme file generation
-│   ├── class-manager.php       # Theme operations coordinator
-│   ├── class-uploader.php      # Theme ZIP handling
+│   ├── class-manager.php           # Theme operations
+│   ├── class-uploader.php          # Theme ZIP handling
+│   ├── class-child-theme.php       # Child theme generation
 │   └── Renderer/
-│       ├── class-color-fields.php
-│       ├── class-container-fields.php
-│       ├── class-main-renderer.php
-│       ├── class-spacing-fields.php
-│       └── class-typography-fields.php
-└── Tokens/
-    ├── class-exporter.php      # Export settings as tokens
-    ├── class-importer.php      # Import token JSON files
-    └── class-mapper.php        # Token path ↔ option key mapping
+│       ├── class-main-renderer.php     # Component picker UI
+│       ├── class-dynamic-renderer.php  # Field rendering
+│       └── class-preview-renderer.php  # Component previews
+├── Tokens/
+│   ├── class-tokens-studio-importer.php # Import from Figma
+│   └── class-tokens-studio-exporter.php # Export to Figma
+└── Contracts/
+    ├── interface-installer.php
+    ├── interface-manager.php
+    ├── interface-options.php
+    └── interface-renderer.php
+
+admin/views/
+├── admin-page.php              # Main admin template
+└── partials/
+    ├── header.php              # Page header
+    ├── footer.php              # Page footer
+    ├── component-picker.php    # Component picker UI
+    └── component-preview.php   # Preview iframe template
+
+assets/
+├── css/
+│   ├── admin.css               # Admin styles
+│   └── component-picker.css    # Component picker styles
+└── js/
+    ├── admin.js                # Plugin table JS
+    └── component-picker.js     # Component picker JS
+
+docs/uikit-less/                # UIkit Less source files
+    ├── variables.less          # Global variables
+    ├── base.less               # Base styles
+    ├── button.less             # Button component
+    └── ... (68 component files)
+
+tools/                          # CLI maintenance tools
+    ├── add-less-groups.php     # Validate @group annotations
+    ├── compile-mo.php          # Compile translation files
+    ├── download-uikit-examples.php # Fetch component previews
+    └── merge-previews.php      # Merge preview methods
 ```
 
 ---
 
-## CSS Options Reference
+## Component Reference
 
-The child theme's stylesheet is generated from 90+ design tokens organized into categories:
+### Categories
 
-### Color Options
+| Category | Components |
+|----------|------------|
+| **Foundation** | Global, Base, Inverse |
+| **Layout** | Container, Section, Grid, Flex, Tile, Column, Width, Height, Padding, Margin, Position |
+| **Navigation** | Nav, Navbar, Subnav, Tab, Breadcrumb, Pagination, Dotnav, Slidenav, Thumbnav, Iconnav |
+| **Content** | Card, Article, Comment, List, Description List, Table, Heading, Text, Link, Label, Badge, Icon |
+| **Forms** | Form, Form Range, Button, Search |
+| **Overlays** | Modal, Dropdown, Offcanvas, Tooltip, Notification, Alert |
+| **Media** | Lightbox, Slideshow, Slider, Cover, Overlay, Transition, Animation |
+| **Utilities** | Utility, Close, Marker, Totop, Spinner, Placeholder, Divider, Progress, Countdown, Leader, Print, Visibility, SVG, Sticky, Sortable, Drop, Dropbar, Dropnav, Switcher |
 
-| Category | Options |
-|----------|---------|
-| **Text Colors** | `muted_color`, `emphasis_color`, `primary_color`, `secondary_color`, `success_color`, `warning_color`, `danger_color`, `text_background_color`, `body_color` |
-| **Background Colors** | `background_default_color`, `background_muted_color`, `background_primary_color`, `background_secondary_color` |
-| **Button Default** | `button_default_color`, `button_default_hover_color`, `button_default_text_color`, `button_default_hover_text_color` |
-| **Button Primary** | `button_primary_color`, `button_primary_hover_color`, `button_primary_text_color`, `button_primary_hover_text_color` |
-| **Button Secondary** | `button_secondary_color`, `button_secondary_hover_color`, `button_secondary_text_color`, `button_secondary_hover_text_color` |
-| **Button Danger** | `button_danger_color`, `button_danger_hover_color`, `button_danger_text_color`, `button_danger_hover_text_color` |
-| **Button Text/Link** | `button_text_color`, `button_text_hover_color`, `button_link_color`, `button_link_hover_color` |
+### Variable Groups
 
-### Layout Options
+Variables within each component are organized into semantic groups:
 
-| Category | Options |
-|----------|---------|
-| **Breakpoints** | `ppm_breakpoint_s`, `ppm_breakpoint_m`, `ppm_breakpoint_l`, `ppm_breakpoint_xl` |
-| **Container Padding (H)** | `container_padding_horizontal_mobile`, `container_padding_horizontal_s`, `container_padding_horizontal_m` |
-| **Container Padding (V)** | `container_padding_vertical_[size]_mobile`, `container_padding_vertical_[size]_m` (sizes: default, xsmall, small, large, xlarge) |
-| **Container Max Width** | `container_max_width_default`, `container_max_width_xsmall`, `container_max_width_small`, `container_max_width_large`, `container_max_width_xlarge` |
-| **Column Gutter** | `column_gutter_mobile`, `column_gutter_l` |
+| Group | Description |
+|-------|-------------|
+| **Colors** | Background, text, and border colors |
+| **Sizing** | Width, height, padding, margin |
+| **Typography** | Font family, size, weight, line height |
+| **Border** | Border width, radius, style |
+| **Spacing** | Internal padding and margins |
+| **Animation** | Transitions, durations, timing |
 
-### Element Options
+### Field Types
 
-| Category | Options |
-|----------|---------|
-| **Element Width** | `element_width_small`, `element_width_medium`, `element_width_large`, `element_width_xlarge`, `element_width_2xlarge` |
-| **Element Margin** | `element_margin_[size]_mobile`, `element_margin_[size]_l` (sizes: default, xsmall, small, medium, large, xlarge) |
-
-### Typography Options
-
-| Category | Options |
-|----------|---------|
-| **Base** | `base_font_size` |
-| **Headings** | `heading_[size]_mobile`, `heading_[size]_desktop`, `heading_[size]_font_weight` (sizes: 3xlarge, 2xlarge, xlarge, large, medium, small) |
-| **Body Text** | `text_[size]_mobile`, `text_[size]_desktop`, `text_[size]_font_weight` (sizes: default, small, large) |
-| **Navbar** | `navbar_link_mobile`, `navbar_link_desktop`, `navbar_link_font_weight` |
-| **Button Typography** | `button_[type]_mobile`, `button_[type]_desktop`, `button_[type]_font_weight` (types: default, primary, secondary, danger, text, link) |
-
----
-
-## Tokens Studio Integration
-
-The plugin natively supports importing design tokens from [Tokens Studio for Figma](https://tokens.studio/). See the [Tokens Studio Setup Guide](docs/tokens-studio-setup.md) for detailed instructions on:
-
-- Setting up Tokens Studio in Figma
-- Structuring tokens for plugin compatibility
-- Exporting and importing tokens
-- Complete token path reference
+| Type | Used For |
+|------|----------|
+| **Color** | Hex color values (`#ffffff`) |
+| **Text** | Strings, CSS values |
+| **Number** | Numeric values with units |
+| **Select** | Predefined options (fonts, weights) |
+| **Dimension** | Sizes with `px`, `rem`, `%` units |
 
 ---
 
@@ -248,33 +286,89 @@ The plugin natively supports importing design tokens from [Tokens Studio for Fig
 
 ### Security
 
-- Every PHP entry point verifies `ABSPATH` is defined.
-- All form submissions validate nonces and user capabilities.
-- File operations use the WordPress Filesystem API.
-- Input is sanitized with `sanitize_text_field`, `sanitize_hex_color`, and strict type casting.
+- All endpoints validate nonces and user capabilities
+- Input sanitized with `sanitize_text_field`, `sanitize_hex_color`
+- File operations use WordPress Filesystem API
+- ABSPATH check on all PHP files
 
 ### Coding Standards
 
-- PHP 7.4+ with typed properties and return types.
-- PSR-4 style autoloading with `EPB\` namespace.
-- Interface contracts for extensibility.
-- Centralized text strings for translation.
+- PHP 7.4+ with typed properties and return types
+- PSR-4 autoloading with `EPB\` namespace
+- Interface contracts for extensibility
+- Translation-ready with `enhanced-plugin-bundle` text domain
 
-### Hooks & Filters
+### Hooks
 
-The plugin uses standard WordPress action/filter hooks. Key entry points:
+```php
+// Fired when component settings are saved
+do_action('epb_component_settings_updated', $component, $settings);
 
-- `admin_menu` – Registers the admin page.
-- `wp_ajax_epb_*` – AJAX handlers for async operations.
-- `admin_enqueue_scripts` – Loads admin CSS/JS on plugin pages.
+// AJAX actions
+add_action('wp_ajax_epb_plugin_action', ...);
+add_action('wp_ajax_epb_load_component', ...);
+add_action('wp_ajax_epb_save_component', ...);
+add_action('wp_ajax_epb_export_figma', ...);
+add_action('wp_ajax_epb_import_figma', ...);
+add_action('wp_ajax_epb_create_child_theme', ...);
+```
+
+### Less Variable Annotations
+
+UIkit Less files use `@group` annotations for variable organization:
+
+```less
+// @group: Colors
+@button-primary-background: #1e87f0;
+@button-primary-color: #fff;
+
+// @group: Sizing
+@button-padding-horizontal: 20px;
+@button-line-height: 38px;
+```
 
 ### Debugging
 
-Enable `WP_DEBUG` and `WP_DEBUG_LOG` to troubleshoot file operations, plugin installations, or theme generation issues.
+Enable `WP_DEBUG` and `WP_DEBUG_LOG` to troubleshoot:
+- File operations
+- Plugin installations
+- Theme generation
+- Token imports
 
-### Translation
+---
 
-The plugin is translation-ready with the `enhanced-plugin-bundle` text domain. Translation files are stored in the `languages/` directory.
+## CLI Tools
+
+Located in `tools/` directory:
+
+| Tool | Description |
+|------|-------------|
+| `add-less-groups.php` | Validate @group annotations in Less files |
+| `compile-mo.php` | Compile .po translation files to .mo |
+| `download-uikit-examples.php` | Fetch UIkit component examples |
+| `merge-previews.php` | Merge preview methods into renderer |
+
+Run from command line:
+```bash
+php tools/add-less-groups.php
+php tools/compile-mo.php
+```
+
+---
+
+## Translation
+
+The plugin is fully translatable:
+
+- **Text domain:** `enhanced-plugin-bundle`
+- **POT file:** `languages/enhanced-plugin-bundle.pot`
+- **Translations:** `languages/enhanced-plugin-bundle-{locale}.po`
+- **144 translatable strings**
+
+Compile translations:
+```bash
+php tools/compile-mo.php
+```
 
 ---
 
@@ -284,4 +378,4 @@ Copyright © Hristijan Stavrov. All rights reserved. See [LICENCE.md](LICENCE.md
 
 ---
 
-Happy coding, and thanks for using the Enhanced Plugin Bundle and Theme Manager!
+Happy theming! 🎨

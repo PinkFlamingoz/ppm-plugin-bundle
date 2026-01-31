@@ -1,0 +1,37 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<p uk-margin>\n    <a class=\"uk-button uk-button-default\" href=\"#\">Link</a>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\" disabled>Disabled</button>\n</p>"
+    },
+    {
+        "index": 2,
+        "heading": "Style modifiers",
+        "html": "<p uk-margin>\n    <button class=\"uk-button uk-button-default\">Default</button>\n    <button class=\"uk-button uk-button-primary\">Primary</button>\n    <button class=\"uk-button uk-button-secondary\">Secondary</button>\n    <button class=\"uk-button uk-button-danger\">Danger</button>\n    <button class=\"uk-button uk-button-text\">Text</button>\n    <button class=\"uk-button uk-button-link\">Link</button>\n</p>"
+    },
+    {
+        "index": 3,
+        "heading": "Size modifiers",
+        "html": "<p uk-margin>\n    <button class=\"uk-button uk-button-default uk-button-small\">Small button</button>\n    <button class=\"uk-button uk-button-primary uk-button-small\">Small button</button>\n    <button class=\"uk-button uk-button-secondary uk-button-small\">Small button</button>\n</p>\n\n<p uk-margin>\n    <button class=\"uk-button uk-button-default uk-button-large\">Large button</button>\n    <button class=\"uk-button uk-button-primary uk-button-large\">Large button</button>\n    <button class=\"uk-button uk-button-secondary uk-button-large\">Large button</button>\n</p>"
+    },
+    {
+        "index": 4,
+        "heading": "Example",
+        "html": "<button class=\"uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom\">Button</button>\n<button class=\"uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom\">Button</button>\n<button class=\"uk-button uk-button-secondary uk-width-1-1\">Button</button>"
+    },
+    {
+        "index": 5,
+        "heading": "Group",
+        "html": "<div>\n    <div class=\"uk-button-group\">\n        <button class=\"uk-button uk-button-secondary\">Button</button>\n        <button class=\"uk-button uk-button-secondary\">Button</button>\n        <button class=\"uk-button uk-button-secondary\">Button</button>\n    </div>\n</div>\n\n<div class=\"uk-margin-small\">\n    <div class=\"uk-button-group\">\n        <button class=\"uk-button uk-button-primary\">Button</button>\n        <button class=\"uk-button uk-button-primary\">Button</button>\n        <button class=\"uk-button uk-button-primary\">Button</button>\n    </div>\n</div>\n\n<div>\n    <div class=\"uk-button-group\">\n        <button class=\"uk-button uk-button-danger\">Button</button>\n        <button class=\"uk-button uk-button-danger\">Button</button>\n        <button class=\"uk-button uk-button-danger\">Button</button>\n    </div>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Button with dropdowns",
+        "html": "<div class=\"uk-inline\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Dropdown</button>\n    <div uk-dropdown>\n        <ul class=\"uk-nav uk-dropdown-nav\">\n            <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n            <li><a href=\"#\">Item</a></li>\n            <li class=\"uk-nav-header\">Header</li>\n            <li><a href=\"#\">Item</a></li>\n            <li><a href=\"#\">Item</a></li>\n            <li class=\"uk-nav-divider\"></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Button group with dropdowns",
+        "html": "<div class=\"uk-button-group\">\n    <button class=\"uk-button uk-button-default\">Dropdown</button>\n    <div class=\"uk-inline\">\n        <button class=\"uk-button uk-button-default\" type=\"button\" aria-label=\"Toggle Dropdown\"><span uk-icon=\"icon:  triangle-down\"></span></button>\n        <div uk-dropdown=\"mode: click; target: !.uk-button-group;\">\n            <ul class=\"uk-nav uk-dropdown-nav\">\n                <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n                <li><a href=\"#\">Item</a></li>\n                <li class=\"uk-nav-header\">Header</li>\n                <li><a href=\"#\">Item</a></li>\n                <li><a href=\"#\">Item</a></li>\n                <li class=\"uk-nav-divider\"></li>\n                <li><a href=\"#\">Item</a></li>\n            </ul>\n        </div>\n    </div>\n</div>"
+    }
+]

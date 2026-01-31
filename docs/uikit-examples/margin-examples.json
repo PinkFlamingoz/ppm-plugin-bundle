@@ -1,0 +1,47 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-margin uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n<div class=\"uk-margin uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>"
+    },
+    {
+        "index": 2,
+        "heading": "X-Small margin",
+        "html": "<div class=\"uk-margin-xsmall uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n<div class=\"uk-margin-xsmall uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Small margin",
+        "html": "<div class=\"uk-margin-small uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n<div class=\"uk-margin-small uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Medium margin",
+        "html": "<div class=\"uk-margin-medium uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n<div class=\"uk-margin-medium uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Large margin",
+        "html": "<div class=\"uk-margin-large uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n<div class=\"uk-margin-large uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>"
+    },
+    {
+        "index": 6,
+        "heading": "X-Large margin",
+        "html": "<div class=\"uk-margin-xlarge uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n<div class=\"uk-margin-xlarge uk-card uk-card-default uk-card-body\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Auto margin",
+        "html": "<div class=\"uk-margin uk-margin-auto-left uk-width-1-2@s uk-card uk-card-default uk-card-body uk-text-center\">Block element</div>\n\n<div class=\"uk-flex uk-height-medium uk-background-muted uk-margin uk-text-center\">\n    <div class=\"uk-margin-auto uk-margin-auto-vertical uk-width-1-2@s uk-card uk-card-default uk-card-body\">Flex item</div>\n</div>"
+    },
+    {
+        "index": 8,
+        "heading": "Responsive",
+        "html": "<div class=\"uk-margin uk-margin-auto-right uk-margin-auto@m uk-width-1-2@s uk-card uk-card-default uk-card-body uk-text-center\">Block element</div>\n<div class=\"uk-margin uk-margin-auto uk-margin-auto-left@m uk-width-1-2@s uk-card uk-card-default uk-card-body uk-text-center\">Block element</div>\n<div class=\"uk-margin uk-margin-auto-left uk-margin-auto-right@m uk-width-1-2@s uk-card uk-card-default uk-card-body uk-text-center\">Block element</div>"
+    },
+    {
+        "index": 9,
+        "heading": "Dynamic wrapping",
+        "html": "<div uk-margin>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n    <button class=\"uk-button uk-button-default\">Button</button>\n</div>"
+    }
+]

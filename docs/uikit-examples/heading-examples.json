@@ -1,0 +1,22 @@
+[
+    {
+        "index": 1,
+        "heading": "Size modifiers",
+        "html": "<h1 class=\"uk-heading-small\">Small</h1>\n<h1 class=\"uk-heading-medium\">Medium</h1>\n<h1 class=\"uk-heading-large\">Large</h1>\n<h1 class=\"uk-heading-xlarge\">X-Large</h1>\n<h1 class=\"uk-heading-2xlarge\">2X-Large</h1>\n<h1 class=\"uk-heading-3xlarge\">3X-Large</h1>"
+    },
+    {
+        "index": 2,
+        "heading": "Divider modifier",
+        "html": "<h1 class=\"uk-heading-divider\">Heading Divider</h1>"
+    },
+    {
+        "index": 3,
+        "heading": "Bullet modifier",
+        "html": "<h1 class=\"uk-heading-bullet\">Heading Bullet</h1>"
+    },
+    {
+        "index": 4,
+        "heading": "Line modifier",
+        "html": "<h1 class=\"uk-heading-line\"><span>Heading Line</span></h1>\n\n<h1 class=\"uk-heading-line uk-text-center\"><span>Heading Line</span></h1>\n\n<h1 class=\"uk-heading-line uk-text-right\"><span>Heading Line</span></h1>"
+    }
+]

@@ -1,0 +1,27 @@
+[
+    {
+        "index": 1,
+        "heading": "JavaScript",
+        "html": "<button class=\"demo uk-button uk-button-default\" type=\"button\" onclick=\"UIkit.notification({message: 'Notification message'})\">Click me</button>"
+    },
+    {
+        "index": 2,
+        "heading": "HTML message",
+        "html": "<button class=\"uk-button uk-button-default demo\" type=\"button\" onclick=\"UIkit.notification({message: '<span uk-icon=\\'icon: check\\'></span> Message with an icon'})\">With icon</button>"
+    },
+    {
+        "index": 3,
+        "heading": "Position",
+        "html": "<p uk-margin>\n    <button class=\"uk-button uk-button-default\" type=\"button\" onclick=\"UIkit.notification({message: 'Top Left\u2026', pos: 'top-left'})\">Top Left</button>\n    <button class=\"uk-button uk-button-default\" type=\"button\" onclick=\"UIkit.notification({message: 'Top Center\u2026', pos: 'top-center'})\">Top Center</button>\n    <button class=\"uk-button uk-button-default\" type=\"button\" onclick=\"UIkit.notification({message: 'Top Right\u2026', pos: 'top-right'})\">Top Right</button>\n    <button class=\"uk-button uk-button-default\" type=\"button\" onclick=\"UIkit.notification({message: 'Bottom Left\u2026', pos: 'bottom-left'})\">Bottom Left</button>\n    <button class=\"uk-button uk-button-default\" type=\"button\" onclick=\"UIkit.notification({message: 'Bottom Center\u2026', pos: 'bottom-center'})\">Bottom Center</button>\n    <button class=\"uk-button uk-button-default\" type=\"button\" onclick=\"UIkit.notification({message: 'Bottom Right\u2026', pos: 'bottom-right'})\">Bottom Right</button>\n</p>"
+    },
+    {
+        "index": 4,
+        "heading": "Style",
+        "html": "<p uk-margin>\n    <button class=\"uk-button uk-button-default demo\" type=\"button\" onclick=\"UIkit.notification({message: 'Primary message\u2026', status: 'primary'})\">Primary</button>\n    <button class=\"uk-button uk-button-default demo\" type=\"button\" onclick=\"UIkit.notification({message: 'Success message\u2026', status: 'success'})\">Success</button>\n    <button class=\"uk-button uk-button-default demo\" type=\"button\" onclick=\"UIkit.notification({message: 'Warning message\u2026', status: 'warning'})\">Warning</button>\n    <button class=\"uk-button uk-button-default demo\" type=\"button\" onclick=\"UIkit.notification({message: 'Danger message\u2026', status: 'danger'})\">Danger</button>\n</p>"
+    },
+    {
+        "index": 5,
+        "heading": "Close all",
+        "html": "<button class=\"uk-button uk-button-default close\" onclick=\"UIkit.notification.closeAll()\">Close All</button>"
+    }
+]

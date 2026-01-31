@@ -10,8 +10,6 @@
 namespace EPB\Themes;
 
 use EPB\Core\Notices;
-use EPB\CSS\Options as CSSOptions;
-use EPB\Tokens\Importer as TokenImporter;
 use EPB\Themes\Renderer\Main_Renderer;
 
 // Prevent direct access.
@@ -47,24 +45,14 @@ class Manager
      */
     public static function handle_form_actions(): void
     {
-        // Check user capability first (custom EPB capability with fallback).
-        if (!epb_current_user_can('epb_manage_themes')) {
+        // Check user capability first.
+        if (!current_user_can('manage_options')) {
             return;
         }
 
         // Process parent theme upload if a file is provided.
         if (isset($_POST['upload_theme']) && isset($_FILES['theme_zip']) && is_array($_FILES['theme_zip'])) {
             self::handle_parent_theme_upload();
-        }
-
-        // Process child theme creation.
-        if (isset($_POST['create_child_theme'])) {
-            self::handle_child_theme_creation();
-        }
-
-        // Process token import.
-        if (isset($_POST['import_tokens']) && isset($_FILES['tokens_json']) && is_array($_FILES['tokens_json'])) {
-            self::handle_token_import();
         }
     }
 
@@ -89,75 +77,6 @@ class Manager
 
         // Use WordPress wp_handle_upload() which requires the original $_FILES array.
         Uploader::upload_parent_theme($_FILES['theme_zip']);
-    }
-
-    /**
-     * Handles child theme creation request.
-     *
-     * @return void
-     */
-    private static function handle_child_theme_creation(): void
-    {
-        // Verify nonce for child theme creation.
-        $child_nonce = isset($_POST['epb_child_nonce']) && is_string($_POST['epb_child_nonce'])
-            ? sanitize_text_field(wp_unslash($_POST['epb_child_nonce']))
-            : '';
-
-        if (!wp_verify_nonce($child_nonce, 'epb_create_child')) {
-            Notices::error(__('Security check failed. Please try again.', 'enhanced-plugin-bundle'));
-            Notices::save_queued_notices();
-            wp_safe_redirect(admin_url('admin.php?page=plugin-bundle-settings'));
-            exit;
-        }
-
-        $regenerate_functions = !empty($_POST['regenerate_child_functions']);
-
-        if (isset($_POST['css_options']) && is_array($_POST['css_options'])) {
-            // Sanitize and save CSS options using the CSS options manager.
-            // Note: wp_unslash is applied inside save_theme_options for proper sanitization.
-            $css_options = map_deep(wp_unslash($_POST['css_options']), 'sanitize_text_field');
-            CSSOptions::save($css_options);
-        }
-
-        // Child theme creation queues notices directly.
-        Child_Theme::create_and_activate($regenerate_functions);
-
-        Notices::save_queued_notices();
-        wp_safe_redirect(admin_url('admin.php?page=plugin-bundle-settings'));
-        exit;
-    }
-
-    /**
-     * Handles token import request.
-     *
-     * @return void
-     */
-    private static function handle_token_import(): void
-    {
-        // Verify nonce for token import.
-        $token_nonce = isset($_POST['epb_token_nonce']) && is_string($_POST['epb_token_nonce'])
-            ? sanitize_text_field(wp_unslash($_POST['epb_token_nonce']))
-            : '';
-
-        if (!wp_verify_nonce($token_nonce, 'epb_import_tokens')) {
-            Notices::error(__('Security check failed. Please try again.', 'enhanced-plugin-bundle'));
-            Notices::save_queued_notices();
-            wp_safe_redirect(admin_url('admin.php?page=plugin-bundle-settings'));
-            exit;
-        }
-
-        // Process the token import.
-        $result = TokenImporter::process_upload($_FILES['tokens_json']);
-
-        if (is_wp_error($result)) {
-            Notices::error($result->get_error_message());
-        } else {
-            Notices::success(__('Design tokens imported successfully!', 'enhanced-plugin-bundle'));
-        }
-
-        Notices::save_queued_notices();
-        wp_safe_redirect(admin_url('admin.php?page=plugin-bundle-settings'));
-        exit;
     }
 
     /**
@@ -204,24 +123,12 @@ class Manager
     }
 
     /**
-     * Renders the section for creating and activating the child theme.
-     *
-     * Populates form fields with current CSS options retrieved via CSS Options.
+     * Renders the component-based theming picker section.
      *
      * @return void
      */
-    public static function render_create_child_theme_section(): void
+    public static function render_component_picker_section(): void
     {
-        Main_Renderer::render_child_theme_section();
-    }
-
-    /**
-     * Renders the section for importing design tokens from Tokens Studio.
-     *
-     * @return void
-     */
-    public static function render_import_tokens_section(): void
-    {
-        Main_Renderer::render_import_tokens_section();
+        Main_Renderer::render_component_picker_section();
     }
 }

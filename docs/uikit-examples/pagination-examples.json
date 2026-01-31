@@ -1,0 +1,17 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<nav aria-label=\"Pagination\">\n    <ul class=\"uk-pagination\" uk-margin>\n        <li><a href=\"#\"><span uk-pagination-previous></span></a></li>\n        <li><a href=\"#\">1</a></li>\n        <li class=\"uk-disabled\"><span>\u2026</span></li>\n        <li><a href=\"#\">4</a></li>\n        <li><a href=\"#\">5</a></li>\n        <li><a href=\"#\">6</a></li>\n        <li class=\"uk-active\"><span aria-current=\"page\">7</span></li>\n        <li><a href=\"#\">8</a></li>\n        <li><a href=\"#\">9</a></li>\n        <li><a href=\"#\">10</a></li>\n        <li class=\"uk-disabled\"><span>\u2026</span></li>\n        <li><a href=\"#\">20</a></li>\n        <li><a href=\"#\"><span uk-pagination-next></span></a></li>\n    </ul>\n</nav>"
+    },
+    {
+        "index": 2,
+        "heading": "Alignment",
+        "html": "<nav aria-label=\"Pagination\">\n    <ul class=\"uk-pagination uk-flex-center\" uk-margin>\n        <li><a href=\"#\"><span uk-pagination-previous></span></a></li>\n        <li><a href=\"#\">1</a></li>\n        <li class=\"uk-disabled\"><span>\u2026</span></li>\n        <li><a href=\"#\">5</a></li>\n        <li><a href=\"#\">6</a></li>\n        <li class=\"uk-active\"><span aria-current=\"page\">7</span></li>\n        <li><a href=\"#\">8</a></li>\n        <li><a href=\"#\"><span uk-pagination-next></span></a></li>\n    </ul>\n</nav>\n\n<nav aria-label=\"Pagination\">\n    <ul class=\"uk-pagination uk-flex-right uk-margin-medium-top\" uk-margin>\n        <li><a href=\"#\"><span uk-pagination-previous></span></a></li>\n        <li><a href=\"#\">1</a></li>\n        <li class=\"uk-disabled\"><span>\u2026</span></li>\n        <li><a href=\"#\">5</a></li>\n        <li><a href=\"#\">6</a></li>\n        <li class=\"uk-active\"><span aria-current=\"page\">7</span></li>\n        <li><a href=\"#\">8</a></li>\n        <li><a href=\"#\"><span uk-pagination-next></span></a></li>\n    </ul>\n</nav>"
+    },
+    {
+        "index": 3,
+        "heading": "Previous and next",
+        "html": "<nav>\n    <ul class=\"uk-pagination\">\n        <li><a href=\"#\"><span class=\"uk-margin-xsmall-right\" uk-pagination-previous></span> Previous</a></li>\n        <li class=\"uk-margin-auto-left\"><a href=\"#\">Next <span class=\"uk-margin-xsmall-left\" uk-pagination-next></span></a></li>\n    </ul>\n</nav>"
+    }
+]

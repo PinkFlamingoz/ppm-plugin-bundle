@@ -1,0 +1,22 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-cover-container uk-height-medium\">\n    <img src=\"images/dark.jpg\" alt=\"\" uk-cover>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Video",
+        "html": "<div class=\"uk-cover-container uk-height-medium\">\n    <video src=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" autoplay loop muted playsinline uk-cover></video>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Iframe",
+        "html": "<div class=\"uk-cover-container uk-height-medium\">\n    <iframe src=\"https://www.youtube-nocookie.com/embed/c2pz2mlSfXA?playsinline=1&amp;rel=0&amp;controls=0&amp;loop=1\" width=\"1920\" height=\"1080\" allowfullscreen uk-cover></iframe>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Responsive height",
+        "html": "<div class=\"uk-cover-container\">\n    <canvas width=\"400\" height=\"200\"></canvas>\n    <img src=\"images/dark.jpg\" alt=\"\" uk-cover>\n</div>"
+    }
+]

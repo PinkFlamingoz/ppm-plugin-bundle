@@ -1,0 +1,835 @@
+{
+    "accordion": {
+        "count": 5,
+        "headings": [
+            "Usage",
+            "Icon",
+            "No collapsing",
+            "Multiple open items",
+            "Set open items"
+        ]
+    },
+    "alert": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Close button",
+            "Style modifiers"
+        ]
+    },
+    "article": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "badge": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "base": {
+        "count": 8,
+        "headings": [
+            "Embedded content",
+            "Paragraphs",
+            "Headings",
+            "Lists",
+            "Description list",
+            "Horizontal rule",
+            "Blockquote",
+            "Preformatted text"
+        ]
+    },
+    "breadcrumb": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "button": {
+        "count": 7,
+        "headings": [
+            "Usage",
+            "Style modifiers",
+            "Size modifiers",
+            "Example",
+            "Group",
+            "Button with dropdowns",
+            "Button group with dropdowns"
+        ]
+    },
+    "card": {
+        "count": 8,
+        "headings": [
+            "Usage",
+            "Style modifiers",
+            "Hover modifier",
+            "Size modifiers",
+            "Header and footer",
+            "Media",
+            "Horizontal alignment",
+            "Badge"
+        ]
+    },
+    "close": {
+        "count": 5,
+        "headings": [
+            "Usage",
+            "Large modifier",
+            "Close in alerts",
+            "Close in drops",
+            "Close in modals"
+        ]
+    },
+    "column": {
+        "count": 4,
+        "headings": [
+            "Usage",
+            "Responsive",
+            "Divider modifier",
+            "Span all columns"
+        ]
+    },
+    "comment": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Primary modifier",
+            "Lists"
+        ]
+    },
+    "countdown": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Separator",
+            "Label"
+        ]
+    },
+    "cover": {
+        "count": 4,
+        "headings": [
+            "Usage",
+            "Video",
+            "Iframe",
+            "Responsive height"
+        ]
+    },
+    "description-list": {
+        "count": 2,
+        "headings": [
+            "Usage",
+            "Divider modifier"
+        ]
+    },
+    "divider": {
+        "count": 3,
+        "headings": [
+            "Divider icon",
+            "Divider small",
+            "Divider vertical"
+        ]
+    },
+    "dotnav": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Vertical alignment",
+            "Position as overlay"
+        ]
+    },
+    "drop": {
+        "count": 13,
+        "headings": [
+            "Usage",
+            "Mode",
+            "Parent icon",
+            "Width and Grid",
+            "Position",
+            "Boundary",
+            "Shift and flip",
+            "Target",
+            "Inset",
+            "Stretch",
+            "Animation",
+            "",
+            "Offset"
+        ]
+    },
+    "dropbar": {
+        "count": 6,
+        "headings": [
+            "Usage",
+            "",
+            "Direction",
+            "Animation",
+            "Nav in dropbar",
+            "Large modifier"
+        ]
+    },
+    "dropdown": {
+        "count": 13,
+        "headings": [
+            "Usage",
+            "Nav in dropdown",
+            "Width and Grid",
+            "Large modifier",
+            "Position",
+            "Boundary",
+            "Shift and flip",
+            "Target",
+            "Inset",
+            "Stretch",
+            "Animation",
+            "",
+            "Offset"
+        ]
+    },
+    "dropnav": {
+        "count": 8,
+        "headings": [
+            "Usage",
+            "Dropbar",
+            "Click mode",
+            "Alignment",
+            "Target",
+            "Stretch",
+            "Parent icon",
+            "Dropnav and tab"
+        ]
+    },
+    "flex": {
+        "count": 8,
+        "headings": [
+            "Usage",
+            "Horizontal alignment",
+            "",
+            "Vertical alignment",
+            "Direction modifiers",
+            "Wrap modifiers",
+            "Item order",
+            "Flex and grid"
+        ]
+    },
+    "form": {
+        "count": 13,
+        "headings": [
+            "Usage",
+            "States modifiers",
+            "Size modifiers",
+            "Width modifiers",
+            "",
+            "Blank modifier",
+            "Layout",
+            "Horizontal form",
+            "Form and icons",
+            "Clickable icons",
+            "Form and grid",
+            "File",
+            "Select"
+        ]
+    },
+    "grid": {
+        "count": 14,
+        "headings": [
+            "Usage",
+            "Gap modifiers",
+            "Column and Row",
+            "Nested grid",
+            "Divider modifier",
+            "Match height",
+            "Match only one cell",
+            "Targets",
+            "Grid and width",
+            "Child width",
+            "Grid and flex",
+            "Masonry",
+            "Parallax",
+            ""
+        ]
+    },
+    "heading": {
+        "count": 4,
+        "headings": [
+            "Size modifiers",
+            "Divider modifier",
+            "Bullet modifier",
+            "Line modifier"
+        ]
+    },
+    "height": {
+        "count": 4,
+        "headings": [
+            "Usage",
+            "Match cards",
+            "Match all",
+            "Placeholder height"
+        ]
+    },
+    "icon": {
+        "count": 6,
+        "headings": [
+            "Usage",
+            "Ratio",
+            "Link modifier",
+            "Button modifier",
+            "Overlay modifier",
+            "Image modifier"
+        ]
+    },
+    "iconnav": {
+        "count": 2,
+        "headings": [
+            "Usage",
+            "Vertical alignment"
+        ]
+    },
+    "image": {
+        "count": 6,
+        "headings": [
+            "Usage",
+            "Eager loading",
+            "Srcset",
+            "Picture sources",
+            "",
+            ""
+        ]
+    },
+    "inverse": {
+        "count": 6,
+        "headings": [
+            "Usage",
+            "Extending components",
+            "Overlapping content",
+            "Color multiple parts separately",
+            "Inactive state",
+            "Color overlapping content only"
+        ]
+    },
+    "label": {
+        "count": 2,
+        "headings": [
+            "Usage",
+            "Style modifiers"
+        ]
+    },
+    "leader": {
+        "count": 2,
+        "headings": [
+            "Usage",
+            "Fill character"
+        ]
+    },
+    "lightbox": {
+        "count": 12,
+        "headings": [
+            "Usage",
+            "Alt attribute",
+            "Caption",
+            "Animations",
+            "Navigations",
+            "Counter",
+            "Color mode",
+            "Content sources",
+            "Delay controls",
+            "BG close",
+            "Custom attributes",
+            "Custom template"
+        ]
+    },
+    "link": {
+        "count": 5,
+        "headings": [
+            "Muted modifier",
+            "Text modifier",
+            "Heading modifier",
+            "Reset modifier",
+            "Toggle"
+        ]
+    },
+    "list": {
+        "count": 7,
+        "headings": [
+            "Usage",
+            "Style type modifiers",
+            "Color modifiers",
+            "Image bullet modifier",
+            "Divider modifier",
+            "Striped modifier",
+            "Size modifier"
+        ]
+    },
+    "margin": {
+        "count": 9,
+        "headings": [
+            "Usage",
+            "X-Small margin",
+            "Small margin",
+            "Medium margin",
+            "Large margin",
+            "X-Large margin",
+            "Auto margin",
+            "Responsive",
+            "Dynamic wrapping"
+        ]
+    },
+    "marker": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "modal": {
+        "count": 10,
+        "headings": [
+            "Usage",
+            "Close button",
+            "Center modal",
+            "Header and footer",
+            "Container modifier",
+            "Full modifier",
+            "Overflow",
+            "Media",
+            "Groups",
+            "Modal dialogs"
+        ]
+    },
+    "nav": {
+        "count": 16,
+        "headings": [
+            "Usage",
+            "Nested navs",
+            "Accordion",
+            "Parent icon",
+            "Multiple open subnavs",
+            "Header and divider",
+            "Subtitle",
+            "Default modifier",
+            "Primary modifier",
+            "Secondary modifier",
+            "Center modifier",
+            "Divider modifier",
+            "Size modifiers",
+            "Nav in Dropdown",
+            "Nav in Navbar",
+            "Nav in offcanvas"
+        ]
+    },
+    "navbar": {
+        "count": 23,
+        "headings": [
+            "Usage",
+            "",
+            "Multiple navigations",
+            "Transparent modifier",
+            "Subtitle",
+            "Content item",
+            "Centered logo",
+            "Toggle item",
+            "Dropdowns",
+            "Click mode",
+            "Alignment",
+            "Target",
+            "Dropbar",
+            "Stretch",
+            "Parent icon",
+            "Width and Grid",
+            "Sticky Navbar",
+            "",
+            "Transparent sticky navbar",
+            "Dropbar transparent mode",
+            "",
+            "",
+            "Color navbar parts separately"
+        ]
+    },
+    "notification": {
+        "count": 5,
+        "headings": [
+            "JavaScript",
+            "HTML message",
+            "Position",
+            "Style",
+            "Close all"
+        ]
+    },
+    "offcanvas": {
+        "count": 5,
+        "headings": [
+            "Usage",
+            "Overlay",
+            "Flip modifier",
+            "Animation modes",
+            "Nav in Off-canvas"
+        ]
+    },
+    "overlay": {
+        "count": 5,
+        "headings": [
+            "Usage",
+            "Default",
+            "Primary",
+            "Overlay icon",
+            "Position"
+        ]
+    },
+    "padding": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "pagination": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Alignment",
+            "Previous and next"
+        ]
+    },
+    "parallax": {
+        "count": 11,
+        "headings": [
+            "Usage",
+            "Start stop",
+            "Multiple stops",
+            "Stop positions",
+            "Nesting",
+            "Target",
+            "Start and end",
+            "Easing",
+            "Colors",
+            "Filters",
+            "SVG Strokes"
+        ]
+    },
+    "placeholder": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "position": {
+        "count": 8,
+        "headings": [
+            "Usage",
+            "X and Y directions",
+            "Center",
+            "Cover",
+            "Outside",
+            "Small modifier",
+            "Medium modifier",
+            "Large modifier"
+        ]
+    },
+    "progress": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "scroll": {
+        "count": 2,
+        "headings": [
+            "Usage",
+            "Callback after scroll"
+        ]
+    },
+    "scrollspy": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Groups",
+            "Set `cls` option per target"
+        ]
+    },
+    "search": {
+        "count": 12,
+        "headings": [
+            "Usage",
+            "Search icon",
+            "Clickable",
+            "Default modifier",
+            "Navbar modifier",
+            "Medium modifier",
+            "Large modifier",
+            "Toggle",
+            "Overlay",
+            "Drop",
+            "Dropdown",
+            "Modal"
+        ]
+    },
+    "section": {
+        "count": 4,
+        "headings": [
+            "Usage",
+            "Style modifiers",
+            "Preserve color",
+            "Size modifier"
+        ]
+    },
+    "slidenav": {
+        "count": 4,
+        "headings": [
+            "Usage",
+            "Large modifier",
+            "Slidenav container",
+            "Position as overlay"
+        ]
+    },
+    "slider": {
+        "count": 14,
+        "headings": [
+            "Usage",
+            "Gap",
+            "Center",
+            "Slide Sets",
+            "Navigation",
+            "Navigation outside",
+            "Parallax animation",
+            "",
+            "Viewport height",
+            "Content",
+            "Content overlays",
+            "Content parallax",
+            "Content transitions",
+            "Toggle on hover"
+        ]
+    },
+    "slideshow": {
+        "count": 14,
+        "headings": [
+            "Usage",
+            "Animations",
+            "Ratio",
+            "Min\/Max height",
+            "Viewport height",
+            "Navigation",
+            "Parallax animation",
+            "",
+            "Videos",
+            "Ken Burns effect",
+            "Content overlays",
+            "Content parallax",
+            "Advanced effects",
+            "Content transitions"
+        ]
+    },
+    "sortable": {
+        "count": 4,
+        "headings": [
+            "Usage",
+            "Handle",
+            "Group",
+            "Custom class"
+        ]
+    },
+    "spinner": {
+        "count": 2,
+        "headings": [
+            "Usage",
+            "Ratio"
+        ]
+    },
+    "sticky": {
+        "count": 10,
+        "headings": [
+            "Usage",
+            "Position",
+            "Start",
+            "End",
+            "Offset",
+            "Animation",
+            "Show On Up",
+            "Responsive",
+            "Oversized Content",
+            "Overflow Flip"
+        ]
+    },
+    "subnav": {
+        "count": 4,
+        "headings": [
+            "Usage",
+            "Divider modifier",
+            "Pill modifier",
+            "Subnav and Dropdown"
+        ]
+    },
+    "svg": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "switcher": {
+        "count": 10,
+        "headings": [
+            "Usage",
+            "Navigation controls",
+            "Connect multiple containers",
+            "Animations",
+            "Multiple animations",
+            "Switcher and subnav",
+            "Switcher and tab",
+            "Vertical tabs",
+            "Switcher and button",
+            "Switcher and nav"
+        ]
+    },
+    "tab": {
+        "count": 5,
+        "headings": [
+            "Usage",
+            "Bottom modifier",
+            "Left\/Right modifiers",
+            "Alignment",
+            "Tabs and Dropdown"
+        ]
+    },
+    "table": {
+        "count": 11,
+        "headings": [
+            "Usage",
+            "Divider modifier",
+            "Striped modifier",
+            "Hover modifier",
+            "Size modifiers",
+            "Justify modifier",
+            "Alignment modifier",
+            "Responsive table",
+            "Stack on small viewports",
+            "Column width modifier",
+            "Utilities"
+        ]
+    },
+    "text": {
+        "count": 5,
+        "headings": [
+            "Text alignment",
+            "Responsive",
+            "Vertical alignment",
+            "Text wrapping",
+            "Text stroke"
+        ]
+    },
+    "thumbnav": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Vertical alignment",
+            "Position as overlay"
+        ]
+    },
+    "tile": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Preserve color",
+            "Tile and padding"
+        ]
+    },
+    "toggle": {
+        "count": 8,
+        "headings": [
+            "Usage",
+            "Multiple items",
+            "Custom class",
+            "Animations",
+            "Multiple animations",
+            "Queued animations",
+            "Modes",
+            "Media"
+        ]
+    },
+    "tooltip": {
+        "count": 3,
+        "headings": [
+            "Usage",
+            "Alignment",
+            "Delay"
+        ]
+    },
+    "totop": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "transition": {
+        "count": 1,
+        "headings": [
+            "Usage"
+        ]
+    },
+    "upload": {
+        "count": 2,
+        "headings": [
+            "Select",
+            "Drop area"
+        ]
+    },
+    "utility": {
+        "count": 24,
+        "headings": [
+            "Panel",
+            "Scrollable panel",
+            "Clearing and floating",
+            "Overflow",
+            "Overflow Auto",
+            "",
+            "Overflow Fade",
+            "",
+            "Resize",
+            "Inline",
+            "Object Fit and Position",
+            "Border radius",
+            "Box shadow",
+            "Box shadow bottom",
+            "Hover",
+            "Drop cap",
+            "Logo",
+            "",
+            "Logo image",
+            "Blend modes",
+            "Transform center",
+            "Transform origin",
+            "Disabled",
+            "Drag"
+        ]
+    },
+    "video": {
+        "count": 6,
+        "headings": [
+            "Usage",
+            "Autoplay",
+            "Lazy Loading",
+            "On-Click Loading",
+            "",
+            ""
+        ]
+    },
+    "visibility": {
+        "count": 4,
+        "headings": [
+            "Hidden",
+            "Visible",
+            "Toggle",
+            "Touch"
+        ]
+    },
+    "width": {
+        "count": 7,
+        "headings": [
+            "Usage",
+            "Auto and expand",
+            "Equal child widths",
+            "",
+            "Fixed width",
+            "Mixing widths",
+            "Responsive width"
+        ]
+    }
+}

@@ -1,0 +1,52 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<ul class=\"uk-subnav uk-subnav-pill\" uk-switcher>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>\n\n<div class=\"uk-switcher uk-margin\">\n    <div>Hello!</div>\n    <div>Hello again!</div>\n    <div>Bazinga!</div>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Navigation controls",
+        "html": "<ul class=\"uk-subnav uk-subnav-pill\" uk-switcher>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>\n<div class=\"uk-switcher uk-margin\">\n    <div>Hello! <a href=\"#\" uk-switcher-item=\"2\">Switch to item 3</a></div>\n    <div>Hello again! <a href=\"#\" uk-switcher-item=\"next\">Next item</a></div>\n    <div>Bazinga! <a href=\"#\" uk-switcher-item=\"previous\">Previous item</a></div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Connect multiple containers",
+        "html": "<ul class=\"uk-subnav uk-subnav-pill\" uk-switcher=\"connect: .switcher-container\">\n    <li><a href=\"#\">Active</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>\n\n<h4>Container 1</h4>\n\n<div class=\"uk-switcher switcher-container uk-margin\">\n    <div>Hello!</div>\n    <div>Hello again!</div>\n    <div>Bazinga!</div>\n</div>\n\n<h4>Container 2</h4>\n\n<div class=\"uk-switcher switcher-container uk-margin\">\n    <div>Hello! The first item.</div>\n    <div>Hello again! The second item.</div>\n    <div>Bazinga! The third item.</div>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Animations",
+        "html": "<ul class=\"uk-subnav uk-subnav-pill\" uk-switcher=\"animation: uk-animation-fade\">\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>\n\n<div class=\"uk-switcher uk-margin\">\n    <div>Hello!</div>\n    <div>Hello again!</div>\n    <div>Bazinga!</div>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Multiple animations",
+        "html": "<ul class=\"uk-subnav uk-subnav-pill\" uk-switcher=\"animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium\">\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>\n\n<div class=\"uk-switcher uk-margin\">\n    <div>Hello!</div>\n    <div>Hello again!</div>\n    <div>Bazinga!</div>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Switcher and subnav",
+        "html": "<ul class=\"uk-subnav uk-subnav-pill\" uk-switcher>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>\n\n<div class=\"uk-switcher uk-margin\">\n    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n    <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\n    <div>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</div>\n</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Switcher and tab",
+        "html": "<ul uk-tab>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>\n\n<div class=\"uk-switcher uk-margin\">\n    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n    <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\n    <div>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</div>\n</div>"
+    },
+    {
+        "index": 8,
+        "heading": "Vertical tabs",
+        "html": "<div class=\"uk-child-width-1-2@s\" uk-grid>\n    <div>\n        <div uk-grid>\n            <div class=\"uk-width-auto@m\">\n                <ul class=\"uk-tab-left\" uk-tab=\"connect: #component-tab-left; animation: uk-animation-fade\">\n                    <li><a href=\"#\">Active</a></li>\n                    <li><a href=\"#\">Item</a></li>\n                    <li><a href=\"#\">Item</a></li>\n                </ul>\n            </div>\n            <div class=\"uk-width-expand@m\">\n                <div id=\"component-tab-left\" class=\"uk-switcher\">\n                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n                    <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\n                    <div>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div>\n        <div uk-grid>\n            <div class=\"uk-width-auto@m uk-flex-last@m\">\n                <ul class=\"uk-tab-right\" uk-tab=\"connect: #component-tab-right; animation: uk-animation-fade\">\n                    <li><a href=\"#\">Active</a></li>\n                    <li><a href=\"#\">Item</a></li>\n                    <li><a href=\"#\">Item</a></li>\n                </ul>\n            </div>\n            <div class=\"uk-width-expand@m\">\n                <div id=\"component-tab-right\" class=\"uk-switcher\">\n                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n                    <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\n                    <div>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 9,
+        "heading": "Switcher and button",
+        "html": "<div uk-switcher=\"animation: uk-animation-fade; toggle: > *\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Item</button>\n    <button class=\"uk-button uk-button-default\" type=\"button\">Item</button>\n    <button class=\"uk-button uk-button-default\" type=\"button\">Item</button>\n</div>\n\n<div class=\"uk-switcher uk-margin\">\n    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n    <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\n    <div>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</div>\n</div>"
+    },
+    {
+        "index": 10,
+        "heading": "Switcher and nav",
+        "html": "<div uk-grid>\n    <div class=\"uk-width-small@m\">\n\n        <ul class=\"uk-nav uk-nav-default\" uk-switcher=\"connect: #component-nav; animation: uk-animation-fade\">\n            <li><a href=\"#\">Active</a></li>\n            <li><a href=\"#\">Item</a></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n\n    </div>\n    <div class=\"uk-width-expand@m\">\n\n        <div id=\"component-nav\" class=\"uk-switcher\">\n            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n            <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\n            <div>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</div>\n        </div>\n\n    </div>\n</div>"
+    }
+]

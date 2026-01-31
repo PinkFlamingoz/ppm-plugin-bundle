@@ -1,0 +1,37 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-text-center\" uk-grid>\n    <div class=\"uk-width-1-3\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-3</div>\n    </div>\n    <div class=\"uk-width-1-3\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-3</div>\n    </div>\n    <div class=\"uk-width-1-3\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-3</div>\n    </div>\n</div>\n\n<div class=\"uk-text-center\" uk-grid>\n    <div class=\"uk-width-1-2\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-2</div>\n    </div>\n    <div class=\"uk-width-1-2\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-2</div>\n    </div>\n</div>\n\n<div class=\"uk-text-center\" uk-grid>\n    <div class=\"uk-width-1-4\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-4</div>\n    </div>\n    <div class=\"uk-width-3-4\">\n        <div class=\"uk-card uk-card-default uk-card-body\">3-4</div>\n    </div>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Auto and expand",
+        "html": "<div class=\"uk-text-center\" uk-grid>\n    <div class=\"uk-width-auto\">\n        <div class=\"uk-card uk-card-default uk-card-body\">Auto</div>\n    </div>\n    <div class=\"uk-width-expand\">\n        <div class=\"uk-card uk-card-default uk-card-body\">Expand</div>\n    </div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Equal child widths",
+        "html": "<div class=\"uk-child-width-1-4 uk-grid-small uk-text-center\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "",
+        "html": "<div class=\"uk-child-width-expand uk-grid-small uk-text-center\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Item</div>\n    </div>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Fixed width",
+        "html": "<div class=\"uk-width-small uk-margin\"><div class=\"uk-card uk-card-small uk-card-default uk-card-body\">Small</div></div>\n<div class=\"uk-width-medium uk-margin\"><div class=\"uk-card uk-card-small uk-card-default uk-card-body\">Medium</div></div>\n<div class=\"uk-width-large uk-margin\"><div class=\"uk-card uk-card-small uk-card-default uk-card-body\">Large</div></div>\n<div class=\"uk-width-xlarge uk-margin\"><div class=\"uk-card uk-card-small uk-card-default uk-card-body\">X-Large</div></div>\n<div class=\"uk-width-2xlarge uk-margin\"><div class=\"uk-card uk-card-small uk-card-default uk-card-body\">2X-Large</div></div>"
+    },
+    {
+        "index": 6,
+        "heading": "Mixing widths",
+        "html": "<div class=\"uk-child-width-expand uk-grid-small uk-text-center\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Expand</div>\n    </div>\n    <div class=\"uk-width-1-3\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-3</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Expand</div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">Expand</div>\n    </div>\n</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Responsive width",
+        "html": "<div class=\"uk-grid-match uk-grid-small uk-text-center\" uk-grid>\n    <div class=\"uk-width-1-2@m\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-2@m</div>\n    </div>\n    <div class=\"uk-width-1-4@m\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-4@m</div>\n    </div>\n    <div class=\"uk-width-1-4@m\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-4@m</div>\n    </div>\n    <div class=\"uk-width-1-5@m uk-hidden@l\">\n        <div class=\"uk-card uk-card-secondary uk-card-body\">1-5@m<br>hidden@l</div>\n    </div>\n    <div class=\"uk-width-1-5@m uk-width-1-3@l\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-5@m<br>1-3@l</div>\n    </div>\n    <div class=\"uk-width-3-5@m uk-width-2-3@l\">\n        <div class=\"uk-card uk-card-default uk-card-body\">3-5@m<br>2-3@l</div>\n    </div>\n</div>\n\n<div class=\"uk-grid-match uk-grid-small uk-text-center\" uk-grid>\n    <div class=\"uk-width-auto@m uk-visible@l\">\n        <div class=\"uk-card uk-card-primary uk-card-body\">auto@m<br>visible@l</div>\n    </div>\n    <div class=\"uk-width-1-3@m\">\n        <div class=\"uk-card uk-card-default uk-card-body\">1-3@m</div>\n    </div>\n    <div class=\"uk-width-expand@m\">\n        <div class=\"uk-card uk-card-default uk-card-body\">expand@m</div>\n    </div>\n</div>"
+    }
+]

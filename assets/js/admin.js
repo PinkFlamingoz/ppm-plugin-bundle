@@ -44,10 +44,11 @@
     },
 
     /**
-     * Prevents WordPress from relocating our notices.
+     * Prevents WordPress from relocating our notices and adds auto-dismiss.
      * 
      * WordPress common.js moves .notice elements after the first h1/h2.
      * We mark our notices as already processed to prevent this.
+     * Also auto-dismisses notices after 5 seconds with fade animation.
      */
     preventNoticeRelocation() {
       const container = document.getElementById('epb-notices');
@@ -58,6 +59,18 @@
       notices.forEach(notice => {
         // Mark as inline-notice to prevent WP from moving it
         notice.classList.add('inline');
+
+        // Auto-dismiss after 5 seconds with fade animation
+        setTimeout(() => {
+          notice.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          notice.style.opacity = '0';
+          notice.style.transform = 'translateX(20px)';
+          setTimeout(() => {
+            if (notice.parentNode) {
+              notice.remove();
+            }
+          }, 300);
+        }, 5000);
       });
     },
 
@@ -189,11 +202,11 @@
     },
 
     /**
-     * Shows admin notice in the notices container.
+     * Shows admin notice as a floating toast in the notices container.
      */
     showNotice(message, type = "info") {
       const notice = document.createElement("div");
-      notice.className = `notice notice-${type} is-dismissible`;
+      notice.className = `notice notice-${type} is-dismissible inline`;
       notice.innerHTML = `<p>${message}</p>`;
 
       // Use our dedicated notices container, fallback to .wrap
@@ -202,11 +215,16 @@
         noticesContainer.appendChild(notice);
       }
 
-      // Auto-remove after 5 seconds
+      // Auto-remove after 5 seconds with fade animation
       setTimeout(() => {
-        if (notice.parentNode) {
-          notice.remove();
-        }
+        notice.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        notice.style.opacity = '0';
+        notice.style.transform = 'translateX(20px)';
+        setTimeout(() => {
+          if (notice.parentNode) {
+            notice.remove();
+          }
+        }, 300);
       }, 5000);
     },
 

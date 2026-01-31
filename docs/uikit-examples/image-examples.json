@@ -1,0 +1,32 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light\" data-src=\"https://images.unsplash.com/photo-1490822180406-880c226c150b?fit=crop&w=650&h=433&q=80\" uk-img>\n  <h1>Background Image</h1>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Eager loading",
+        "html": "<div class=\"uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light\" data-src=\"https://images.unsplash.com/photo-1495321308589-43affb814eee?fit=crop&w=650&h=433&q=80\" uk-img=\"loading: eager\">\n  <h1>Background Image</h1>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Srcset",
+        "html": "<div class=\"uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover\"\n     data-src=\"https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?fit=crop&w=650&h=433&q=80\"\n     data-srcset=\"https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?fit=crop&w=650&h=433&q=80 650w,\n                  https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?fit=crop&w=1300&h=866&q=80 1300w\"\n     sizes=\"(min-width: 650px) 650px, 100vw\" uk-img>\n    <h1>Background Image</h1>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Picture sources",
+        "html": "<div class=\"uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light\"\n     sources=\"srcset: https://images.unsplash.com/photo-1487837647815-bbc1f30cd0d2?fit=crop&w=650&h=433&q=80; media: (min-width: 1200px)\"\n     data-src=\"https://images.unsplash.com/photo-1546349851-64285be8e9fa?fit=crop&w=650&h=433&q=80\"\n     uk-img>\n    <h1>Background Image</h1>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "",
+        "html": "<div class=\"uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light\"\n     sources=\"srcset: https://images.unsplash.com/photo-1464621922360-27f3bf0eca75?fit=crop&w=650&h=433&q=80 650w,\n                      https://images.unsplash.com/photo-1464621922360-27f3bf0eca75?fit=crop&w=1300&h=866&q=80 1300w;\n              media: (min-width: 1200px)\"\n     data-src=\"https://images.unsplash.com/photo-1472803828399-39d4ac53c6e5?fit=crop&w=650&h=433&q=80\"\n     data-srcset=\"https://images.unsplash.com/photo-1472803828399-39d4ac53c6e5?fit=crop&w=650&h=433&q=80 650w,\n                  https://images.unsplash.com/photo-1472803828399-39d4ac53c6e5?fit=crop&w=1300&h=866&q=80 1300w\"\n     sizes=\"(min-width: 650px) 650px, 100vw\" uk-img>\n    <h1>Background Image</h1>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "",
+        "html": "<div class=\"uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover\"\n     sources=\"[{&quot;srcset&quot;: &quot;images/image-type.avif&quot;,\n                &quot;type&quot;: &quot;image\\/avif&quot;\n                },\n                {&quot;srcset&quot;: &quot;images/image-type.webp&quot;,\n                &quot;type&quot;: &quot;image\\/webp&quot;\n                }]\"\n        data-src=\"images/image-type.jpg\"\n        uk-img>\n    <h1>Background Image</h1>\n</div>"
+    }
+]

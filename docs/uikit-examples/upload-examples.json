@@ -1,0 +1,12 @@
+[
+    {
+        "index": 1,
+        "heading": "Select",
+        "html": "<div class=\"js-upload\" uk-form-custom>\n    <input type=\"file\" multiple>\n    <button class=\"uk-button uk-button-default\" type=\"button\" tabindex=\"-1\">Select</button>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Drop area",
+        "html": "<div class=\"js-upload uk-placeholder uk-text-center\">\n    <span uk-icon=\"icon: cloud-upload\"></span>\n    <span class=\"uk-text-middle\">Attach binaries by dropping them here or</span>\n    <div uk-form-custom>\n        <input type=\"file\" multiple>\n        <span class=\"uk-link\">selecting one</span>\n    </div>\n</div>\n\n<progress id=\"js-progressbar\" class=\"uk-progress\" value=\"0\" max=\"100\" hidden></progress>\n\n<script>\n\n    var bar = document.getElementById('js-progressbar');\n\n    UIkit.upload('.js-upload', {\n\n        url: '',\n        multiple: true,\n\n        beforeSend: function () {\n            console.log('beforeSend', arguments);\n        },\n        beforeAll: function () {\n            console.log('beforeAll', arguments);\n        },\n        load: function () {\n            console.log('load', arguments);\n        },\n        error: function () {\n            console.log('error', arguments);\n        },\n        complete: function () {\n            console.log('complete', arguments);\n        },\n\n        loadStart: function (e) {\n            console.log('loadStart', arguments);\n\n            bar.removeAttribute('hidden');\n            bar.max = e.total;\n            bar.value = e.loaded;\n        },\n\n        progress: function (e) {\n            console.log('progress', arguments);\n\n            bar.max = e.total;\n            bar.value = e.loaded;\n        },\n\n        loadEnd: function (e) {\n            console.log('loadEnd', arguments);\n\n            bar.max = e.total;\n            bar.value = e.loaded;\n        },\n\n        completeAll: function () {\n            console.log('completeAll', arguments);\n\n            setTimeout(function () {\n                bar.setAttribute('hidden', 'hidden');\n            }, 1000);\n\n            alert('Upload Completed');\n        }\n\n    });\n\n</script>"
+    }
+]

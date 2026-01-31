@@ -1,0 +1,17 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<ul class=\"uk-dotnav\">\n    <li class=\"uk-active\"><a href=\"#\">Item 1</a></li>\n    <li><a href=\"#\">Item 2</a></li>\n    <li><a href=\"#\">Item 3</a></li>\n    <li><a href=\"#\">Item 4</a></li>\n    <li><a href=\"#\">Item 5</a></li>\n</ul>"
+    },
+    {
+        "index": 2,
+        "heading": "Vertical alignment",
+        "html": "<ul class=\"uk-dotnav uk-dotnav-vertical\">\n    <li class=\"uk-active\"><a href=\"#\">Item 1</a></li>\n    <li><a href=\"#\">Item 2</a></li>\n    <li><a href=\"#\">Item 3</a></li>\n    <li><a href=\"#\">Item 4</a></li>\n    <li><a href=\"#\">Item 5</a></li>\n</ul>"
+    },
+    {
+        "index": 3,
+        "heading": "Position as overlay",
+        "html": "<div class=\"uk-position-relative uk-light\" uk-slideshow>\n\n    <div class=\"uk-slideshow-items\">\n        <div>\n            <img src=\"images/photo.jpg\" alt=\"\" uk-cover>\n        </div>\n        <div>\n            <img src=\"images/dark.jpg\" alt=\"\" uk-cover>\n        </div>\n        <div>\n            <img src=\"images/size1.jpg\" alt=\"\" uk-cover>\n        </div>\n    </div>\n\n    <div class=\"uk-position-bottom-center uk-position-small\">\n        <ul class=\"uk-dotnav\">\n            <li uk-slideshow-item=\"0\"><a href=\"#\">Item 1</a></li>\n            <li uk-slideshow-item=\"1\"><a href=\"#\">Item 2</a></li>\n            <li uk-slideshow-item=\"2\"><a href=\"#\">Item 3</a></li>\n        </ul>\n    </div>\n\n</div>"
+    }
+]

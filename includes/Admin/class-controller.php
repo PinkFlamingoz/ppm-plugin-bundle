@@ -17,7 +17,6 @@ if (! defined('ABSPATH')) {
 
 use EPB\Plugins\Manager as PluginManager;
 use EPB\Themes\Manager as ThemesManager;
-use EPB\Core\Notices;
 
 /**
  * Class Controller
@@ -27,13 +26,6 @@ use EPB\Core\Notices;
  */
 class Controller
 {
-
-    /**
-     * Admin page hook suffix.
-     *
-     * @var string
-     */
-    private static string $hook_suffix = '';
 
     /**
      * Sets up the admin hooks for the Plugin Bundle Manager.
@@ -54,7 +46,7 @@ class Controller
      */
     public static function register_admin_menu(): void
     {
-        self::$hook_suffix = add_menu_page(
+        add_menu_page(
             __('Plugin Bundle Manager', 'enhanced-plugin-bundle'),
             __('Plugin Bundle', 'enhanced-plugin-bundle'),
             'manage_options',

@@ -1,0 +1,42 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-card uk-card-default uk-card-body uk-width-1-2@m\">\n    <h3 class=\"uk-card-title\">Default</h3>\n    <p>Lorem ipsum <a href=\"#\">dolor</a> sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Style modifiers",
+        "html": "<div class=\"uk-child-width-1-2@m uk-grid-small uk-grid-match\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-body\">\n            <h3 class=\"uk-card-title\">Default</h3>\n            <p>Lorem ipsum <a href=\"#\">dolor</a> sit amet, consectetur adipiscing elit.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-primary uk-card-body\">\n            <h3 class=\"uk-card-title\">Primary</h3>\n            <p>Lorem ipsum <a href=\"#\">dolor</a> sit amet, consectetur adipiscing elit.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-secondary uk-card-body\">\n            <h3 class=\"uk-card-title\">Secondary</h3>\n            <p>Lorem ipsum <a href=\"#\">dolor</a> sit amet, consectetur adipiscing elit.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-inline-clip\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-card uk-card-overlay uk-card-body uk-position-cover uk-position-small\">\n                <h3 class=\"uk-card-title\">Overlay</h3>\n                <p>Lorem ipsum <a href=\"#\">dolor</a> sit amet, consectetur adipiscing elit.</p>\n            </div>\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Hover modifier",
+        "html": "<div class=\"uk-child-width-1-2@s uk-grid-match\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-hover uk-card-body\">\n            <h3 class=\"uk-card-title\">Hover</h3>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-hover uk-card-body\">\n            <h3 class=\"uk-card-title\">Default</h3>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-primary uk-card-hover uk-card-body\">\n            <h3 class=\"uk-card-title\">Primary</h3>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-secondary uk-card-hover uk-card-body\">\n            <h3 class=\"uk-card-title\">Secondary</h3>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-inline-clip\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-card uk-card-overlay uk-card-hover uk-card-body uk-position-cover uk-position-small\">\n                <h3 class=\"uk-card-title\">Overlay</h3>\n                <p>Lorem ipsum <a href=\"#\">dolor</a> sit amet, consectetur adipiscing elit.</p>\n            </div>\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Size modifiers",
+        "html": "<div class=\"uk-child-width-1-2@s\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-small uk-card-body\">\n            <h3 class=\"uk-card-title\">Small</h3>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-large uk-card-body\">\n            <h3 class=\"uk-card-title\">Large</h3>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Header and footer",
+        "html": "<div class=\"uk-card uk-card-default uk-width-1-2@m\">\n    <div class=\"uk-card-header\">\n        <div class=\"uk-grid-small uk-flex-middle\" uk-grid>\n            <div class=\"uk-width-auto\">\n                <img class=\"uk-border-circle\" width=\"40\" height=\"40\" src=\"images/avatar.jpg\" alt=\"Avatar\">\n            </div>\n            <div class=\"uk-width-expand\">\n                <h3 class=\"uk-card-title uk-margin-remove-bottom\">Title</h3>\n                <p class=\"uk-text-meta uk-margin-remove-top\"><time datetime=\"2016-04-01T19:00\">April 01, 2016</time></p>\n            </div>\n        </div>\n    </div>\n    <div class=\"uk-card-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n    </div>\n    <div class=\"uk-card-footer\">\n        <a href=\"#\" class=\"uk-button uk-button-text\">Read more</a>\n    </div>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Media",
+        "html": "<div class=\"uk-child-width-1-2@m\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-default\">\n            <div class=\"uk-card-media-top\">\n                <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            </div>\n            <div class=\"uk-card-body\">\n                <h3 class=\"uk-card-title\">Media Top</h3>\n                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n            </div>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default\">\n            <div class=\"uk-card-body\">\n                <h3 class=\"uk-card-title\">Media Bottom</h3>\n                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n            </div>\n            <div class=\"uk-card-media-bottom\">\n                <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            </div>\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Horizontal alignment",
+        "html": "<div class=\"uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin\" uk-grid>\n    <div class=\"uk-card-media-left uk-cover-container\">\n        <img src=\"images/light.jpg\" alt=\"\" uk-cover>\n        <canvas width=\"600\" height=\"400\"></canvas>\n    </div>\n    <div>\n        <div class=\"uk-card-body\">\n            <h3 class=\"uk-card-title\">Media Left</h3>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n        </div>\n    </div>\n</div>\n\n<div class=\"uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin\" uk-grid>\n    <div class=\"uk-flex-last@s uk-card-media-right uk-cover-container\">\n        <img src=\"images/light.jpg\" alt=\"\" uk-cover>\n        <canvas width=\"600\" height=\"400\"></canvas>\n    </div>\n    <div>\n        <div class=\"uk-card-body\">\n            <h3 class=\"uk-card-title\">Media Right</h3>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 8,
+        "heading": "Badge",
+        "html": "<div class=\"uk-card uk-card-default uk-card-body uk-width-1-2@m\">\n    <div class=\"uk-card-badge uk-label\">Badge</div>\n    <h3 class=\"uk-card-title\">Title</h3>\n    <p>Lorem ipsum color sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</div>"
+    }
+]

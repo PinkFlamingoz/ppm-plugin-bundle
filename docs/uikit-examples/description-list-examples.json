@@ -1,0 +1,12 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<dl class=\"uk-description-list\">\n    <dt>Description term</dt>\n    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>\n    <dt>Description term</dt>\n    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>\n    <dt>Description term</dt>\n    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>\n</dl>"
+    },
+    {
+        "index": 2,
+        "heading": "Divider modifier",
+        "html": "<dl class=\"uk-description-list uk-description-list-divider\">\n    <dt>Description term</dt>\n    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>\n    <dt>Description term</dt>\n    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>\n    <dt>Description term</dt>\n    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>\n</dl>"
+    }
+]

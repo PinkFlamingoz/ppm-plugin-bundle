@@ -52,13 +52,24 @@ class Uploader
         }
 
         // Validate file type - must be a ZIP file.
-        $file_type = wp_check_filetype(basename($file['name']), ['zip' => 'application/zip']);
+        // Use wp_check_filetype_and_ext for more thorough validation.
+        $file_type = wp_check_filetype_and_ext($file['tmp_name'], $file['name'], ['zip' => 'application/zip']);
         if (empty($file_type['ext']) || 'zip' !== $file_type['ext']) {
-            Notices::error(__('Invalid file type. Please upload a ZIP file.', 'enhanced-plugin-bundle'));
+            Notices::error(__('Invalid file type. Please upload a valid ZIP file.', 'enhanced-plugin-bundle'));
             Notices::save_queued_notices();
             wp_safe_redirect(admin_url('admin.php?page=plugin-bundle-settings'));
             exit;
         }
+
+        // Additional verification: check ZIP file is readable.
+        $zip = new \ZipArchive();
+        if ($zip->open($file['tmp_name']) !== true) {
+            Notices::error(__('The uploaded file is not a valid ZIP archive.', 'enhanced-plugin-bundle'));
+            Notices::save_queued_notices();
+            wp_safe_redirect(admin_url('admin.php?page=plugin-bundle-settings'));
+            exit;
+        }
+        $zip->close();
 
         $theme_slug = sanitize_file_name(basename($file['name'], '.zip'));
 
