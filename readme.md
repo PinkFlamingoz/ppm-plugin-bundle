@@ -1,6 +1,6 @@
 # Enhanced Plugin Bundle and Theme Manager
 
-**Version:** 4.2  
+**Version:** 4.0  
 **Author:** Stavrov  
 **Author URI:** [https://github.com/PinkFlamingoz](https://github.com/PinkFlamingoz)  
 **Requires PHP:** 7.4+  
