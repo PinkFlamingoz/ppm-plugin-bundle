@@ -1,0 +1,27 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<ul uk-tab>\n    <li class=\"uk-active\"><a href=\"#\">Left</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li class=\"uk-disabled\"><a>Disabled</a></li>\n</ul>"
+    },
+    {
+        "index": 2,
+        "heading": "Bottom modifier",
+        "html": "<ul class=\"uk-tab-bottom\" uk-tab>\n    <li class=\"uk-active\"><a href=\"#\">Left</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>"
+    },
+    {
+        "index": 3,
+        "heading": "Left/Right modifiers",
+        "html": "<div class=\"uk-child-width-1-2@s\" uk-grid>\n    <div>\n        <ul class=\"uk-tab-left\" uk-tab>\n            <li class=\"uk-active\"><a href=\"#\">Left</a></li>\n            <li><a href=\"#\">Item</a></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n    </div>\n\n    <div>\n        <ul class=\"uk-tab-right\" uk-tab>\n            <li class=\"uk-active\"><a href=\"#\">Right</a></li>\n            <li><a href=\"#\">Item</a></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Alignment",
+        "html": "<div class=\"uk-margin-medium-top\">\n    <ul class=\"uk-flex-center\" uk-tab>\n        <li class=\"uk-active\"><a href=\"#\">Center</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>\n\n<div>\n    <ul class=\"uk-flex-right\" uk-tab>\n        <li class=\"uk-active\"><a href=\"#\">Right</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>\n\n<div>\n    <ul class=\"uk-child-width-expand\" uk-tab>\n        <li class=\"uk-active\"><a href=\"#\">Justify</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Tabs and Dropdown",
+        "html": "<ul uk-tab>\n    <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li>\n        <a href>More <span uk-icon=\"icon: triangle-down\"></span></a>\n        <div uk-dropdown=\"mode: click\">\n            <ul class=\"uk-nav uk-dropdown-nav\">\n                <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n                <li><a href=\"#\">Item</a></li>\n                <li class=\"uk-nav-header\">Header</li>\n                <li><a href=\"#\">Item</a></li>\n                <li><a href=\"#\">Item</a></li>\n                <li class=\"uk-nav-divider\"></li>\n                <li><a href=\"#\">Item</a></li>\n            </ul>\n        </div>\n    </li>\n</ul>"
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div>\n    <button class=\"uk-button uk-button-default\" type=\"button\" uk-toggle=\"target: #toggle-usage\">Toggle</button>\n    <p id=\"toggle-usage\">What's up?</p>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Multiple items",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\" uk-toggle=\"target: .toggle\">Toggle</button>\n<p class=\"toggle\">Hello!</p>\n<p class=\"toggle\" hidden>Bazinga!</p>"
+    },
+    {
+        "index": 3,
+        "heading": "Custom class",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\" uk-toggle=\"target: #toggle-custom; cls: uk-card-primary\">Toggle</button>\n<div id=\"toggle-custom\" class=\"uk-card uk-card-default uk-card-body uk-margin-small\">Custom class</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Animations",
+        "html": "<button href=\"#toggle-animation\" class=\"uk-button uk-button-default\" type=\"button\" uk-toggle=\"target: #toggle-animation; animation: uk-animation-fade\">Toggle</button>\n<div id=\"toggle-animation\" class=\"uk-card uk-card-default uk-card-body uk-margin-small\">Animation</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Multiple animations",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\" uk-toggle=\"target: #toggle-animation-multiple; animation:  uk-animation-slide-left, uk-animation-slide-bottom\">Toggle</button>\n<div id=\"toggle-animation-multiple\" class=\"uk-card uk-card-default uk-card-body uk-margin-small\">Animation</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Queued animations",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\" uk-toggle=\"target: .toggle-animation-queued; animation: uk-animation-fade; queued: true; duration: 300\">Toggle</button>\n<p class=\"toggle-animation-queued uk-card uk-card-default uk-card-body uk-margin-small\">Animation</p>\n<p class=\"toggle-animation-queued uk-card uk-card-primary uk-card-body uk-margin-small\" hidden>Animation</p>"
+    },
+    {
+        "index": 7,
+        "heading": "Modes",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\" uk-toggle=\"target: #toggle-hover; mode: hover\">hover</button>\n<p id=\"toggle-hover\">What's up?</p>"
+    },
+    {
+        "index": 8,
+        "heading": "Media",
+        "html": "<div class=\"uk-card uk-card-default uk-card-body uk-width-medium\" uk-toggle=\"cls: uk-card-primary; mode: media; media: @l\">\n    Primary on large screens\n</div>"
+    }
+]

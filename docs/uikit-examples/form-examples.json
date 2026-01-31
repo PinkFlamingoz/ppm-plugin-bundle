@@ -1,0 +1,67 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<form>\n    <fieldset class=\"uk-fieldset\">\n\n        <legend class=\"uk-legend\">Legend</legend>\n\n        <div class=\"uk-margin\">\n            <input class=\"uk-input\" type=\"text\" placeholder=\"Input\" aria-label=\"Input\">\n        </div>\n\n        <div class=\"uk-margin\">\n            <select class=\"uk-select\" aria-label=\"Select\">\n                <option>Option 01</option>\n                <option>Option 02</option>\n            </select>\n        </div>\n\n        <div class=\"uk-margin\">\n            <textarea class=\"uk-textarea\" rows=\"5\" placeholder=\"Textarea\" aria-label=\"Textarea\"></textarea>\n        </div>\n\n        <div class=\"uk-margin uk-grid-small uk-child-width-auto uk-grid\">\n            <label><input class=\"uk-radio\" type=\"radio\" name=\"radio2\" checked> A</label>\n            <label><input class=\"uk-radio\" type=\"radio\" name=\"radio2\"> B</label>\n        </div>\n\n        <div class=\"uk-margin uk-grid-small uk-child-width-auto uk-grid\">\n            <label><input class=\"uk-checkbox\" type=\"checkbox\" checked> A</label>\n            <label><input class=\"uk-checkbox\" type=\"checkbox\"> B</label>\n        </div>\n\n        <div class=\"uk-margin\">\n            <input class=\"uk-range\" type=\"range\" value=\"2\" min=\"0\" max=\"10\" step=\"0.1\" aria-label=\"Range\">\n        </div>\n\n    </fieldset>\n</form>"
+    },
+    {
+        "index": 2,
+        "heading": "States modifiers",
+        "html": "<div class=\"uk-margin\">\n    <input class=\"uk-input uk-form-danger uk-form-width-medium\" type=\"text\" placeholder=\"form-danger\" aria-label=\"form-danger\" value=\"form-danger\">\n</div>\n\n<div class=\"uk-margin\">\n    <input class=\"uk-input uk-form-success uk-form-width-medium\" type=\"text\" placeholder=\"form-success\" aria-label=\"form-success\" value=\"form-success\">\n</div>\n\n<div class=\"uk-margin\">\n    <input class=\"uk-input uk-form-width-medium\" type=\"text\" placeholder=\"disabled\" aria-label=\"disabled\" value=\"disabled\" disabled>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Size modifiers",
+        "html": "<form>\n\n    <div class=\"uk-margin\">\n        <input class=\"uk-input uk-form-width-medium uk-form-large\" type=\"text\" placeholder=\"Large\" aria-label=\"Large\">\n        <select class=\"uk-select uk-form-width-small uk-form-large\" aria-label=\"Large\">\n            <option>Option 01</option>\n            <option>Option 02</option>\n            <optgroup label=\"Optgroup\">\n                <option>Option A</option>\n                <option>Option B</option>\n            </optgroup>\n        </select>\n        <input class=\"uk-checkbox uk-form-large\" type=\"checkbox\">\n        <input class=\"uk-radio uk-form-large\" type=\"radio\">\n    </div>\n\n    <div class=\"uk-margin\">\n        <input class=\"uk-input uk-form-width-medium\" type=\"text\" placeholder=\"Default\" aria-label=\"Default\">\n        <select class=\"uk-select uk-form-width-small\" aria-label=\"Default\">\n            <option>Option 01</option>\n            <option>Option 02</option>\n            <optgroup label=\"Optgroup\">\n                <option>Option A</option>\n                <option>Option B</option>\n            </optgroup>\n        </select>\n        <input class=\"uk-checkbox\" type=\"checkbox\">\n        <input class=\"uk-radio\" type=\"radio\">\n    </div>\n\n    <div class=\"uk-margin\">\n        <input class=\"uk-input uk-form-width-medium uk-form-small\" type=\"text\" placeholder=\"Small\" aria-label=\"Small\">\n        <select class=\"uk-select uk-form-width-small uk-form-small\" aria-label=\"Small\">\n            <option>Option 01</option>\n            <option>Option 02</option>\n            <optgroup label=\"Optgroup\">\n                <option>Option A</option>\n                <option>Option B</option>\n            </optgroup>\n        </select>\n        <input class=\"uk-checkbox uk-form-small\" type=\"checkbox\">\n        <input class=\"uk-radio uk-form-small\" type=\"radio\">\n    </div>\n\n</form>"
+    },
+    {
+        "index": 4,
+        "heading": "Width modifiers",
+        "html": "<form>\n\n    <div class=\"uk-margin\">\n        <input class=\"uk-input uk-form-width-large\" type=\"text\" placeholder=\"Large\" aria-label=\"Large\">\n    </div>\n\n    <div class=\"uk-margin\">\n        <input class=\"uk-input uk-form-width-medium\" type=\"text\" placeholder=\"Medium\" aria-label=\"Medium\">\n    </div>\n\n    <div class=\"uk-margin\">\n        <input class=\"uk-input uk-form-width-small\" type=\"text\" placeholder=\"Small\" aria-label=\"Small\">\n    </div>\n\n    <div class=\"uk-margin\">\n        <input class=\"uk-input uk-form-width-xsmall\" type=\"text\" placeholder=\"X-Small\" aria-label=\"X-Small\">\n    </div>\n\n</form>"
+    },
+    {
+        "index": 5,
+        "heading": "",
+        "html": "<form>\n    <input class=\"uk-input uk-width-1-2\" type=\"text\" placeholder=\"uk-width-1-2\" aria-label=\"uk-width-1-2\">\n</form>"
+    },
+    {
+        "index": 6,
+        "heading": "Blank modifier",
+        "html": "<form>\n    <input class=\"uk-input uk-form-blank uk-form-width-medium\" type=\"text\" placeholder=\"Form blank\">\n</form>"
+    },
+    {
+        "index": 7,
+        "heading": "Layout",
+        "html": "<form class=\"uk-form-stacked\">\n\n    <div class=\"uk-margin\">\n        <label class=\"uk-form-label\" for=\"form-stacked-text\">Text</label>\n        <div class=\"uk-form-controls\">\n            <input class=\"uk-input\" id=\"form-stacked-text\" type=\"text\" placeholder=\"Some text...\">\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <label class=\"uk-form-label\" for=\"form-stacked-select\">Select</label>\n        <div class=\"uk-form-controls\">\n            <select class=\"uk-select\" id=\"form-stacked-select\">\n                <option>Option 01</option>\n                <option>Option 02</option>\n            </select>\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <div class=\"uk-form-label\">Radio</div>\n        <div class=\"uk-form-controls\">\n            <label><input class=\"uk-radio\" type=\"radio\" name=\"radio1\"> Option 01</label><br>\n            <label><input class=\"uk-radio\" type=\"radio\" name=\"radio1\"> Option 02</label>\n        </div>\n    </div>\n\n</form>"
+    },
+    {
+        "index": 8,
+        "heading": "Horizontal form",
+        "html": "<form class=\"uk-form-horizontal uk-margin-large\">\n\n    <div class=\"uk-margin\">\n        <label class=\"uk-form-label\" for=\"form-horizontal-text\">Text</label>\n        <div class=\"uk-form-controls\">\n            <input class=\"uk-input\" id=\"form-horizontal-text\" type=\"text\" placeholder=\"Some text...\">\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <label class=\"uk-form-label\" for=\"form-horizontal-select\">Select</label>\n        <div class=\"uk-form-controls\">\n            <select class=\"uk-select\" id=\"form-horizontal-select\">\n                <option>Option 01</option>\n                <option>Option 02</option>\n            </select>\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <div class=\"uk-form-label\">Radio</div>\n        <div class=\"uk-form-controls uk-form-controls-text\">\n            <label><input class=\"uk-radio\" type=\"radio\" name=\"radio1\"> Option 01</label><br>\n            <label><input class=\"uk-radio\" type=\"radio\" name=\"radio1\"> Option 02</label>\n        </div>\n    </div>\n\n</form>"
+    },
+    {
+        "index": 9,
+        "heading": "Form and icons",
+        "html": "<form>\n\n    <div class=\"uk-margin\">\n        <div class=\"uk-inline\">\n            <span class=\"uk-form-icon\" uk-icon=\"icon: user\"></span>\n            <input class=\"uk-input\" type=\"text\" aria-label=\"Not clickable icon\">\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <div class=\"uk-inline\">\n            <span class=\"uk-form-icon uk-form-icon-flip\" uk-icon=\"icon: lock\"></span>\n            <input class=\"uk-input\" type=\"text\" aria-label=\"Not clickable icon\">\n        </div>\n    </div>\n\n</form>"
+    },
+    {
+        "index": 10,
+        "heading": "Clickable icons",
+        "html": "<form>\n\n    <div class=\"uk-margin\">\n        <div class=\"uk-inline\">\n            <a class=\"uk-form-icon\" href=\"#\" uk-icon=\"icon: pencil\"></a>\n            <input class=\"uk-input\" type=\"text\" aria-label=\"Clickable icon\">\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <div class=\"uk-inline\">\n            <a class=\"uk-form-icon uk-form-icon-flip\" href=\"#\" uk-icon=\"icon: link\"></a>\n            <input class=\"uk-input\" type=\"text\" aria-label=\"Clickable icon\">\n        </div>\n    </div>\n\n</form>"
+    },
+    {
+        "index": 11,
+        "heading": "Form and grid",
+        "html": "<form class=\"uk-grid-small\" uk-grid>\n    <div class=\"uk-width-1-1\">\n        <input class=\"uk-input\" type=\"text\" placeholder=\"100\" aria-label=\"100\">\n    </div>\n    <div class=\"uk-width-1-2@s\">\n        <input class=\"uk-input\" type=\"text\" placeholder=\"50\" aria-label=\"50\">\n    </div>\n    <div class=\"uk-width-1-4@s\">\n        <input class=\"uk-input\" type=\"text\" placeholder=\"25\" aria-label=\"25\">\n    </div>\n    <div class=\"uk-width-1-4@s\">\n        <input class=\"uk-input\" type=\"text\" placeholder=\"25\" aria-label=\"25\">\n    </div>\n    <div class=\"uk-width-1-2@s\">\n        <input class=\"uk-input\" type=\"text\" placeholder=\"50\" aria-label=\"50\">\n    </div>\n    <div class=\"uk-width-1-2@s\">\n        <input class=\"uk-input\" type=\"text\" placeholder=\"50\" aria-label=\"50\">\n    </div>\n</form>"
+    },
+    {
+        "index": 12,
+        "heading": "File",
+        "html": "<form>\n\n    <div class=\"uk-margin\">\n        <div uk-form-custom>\n            <input type=\"file\" aria-label=\"Custom controls\">\n            <button class=\"uk-button uk-button-default\" type=\"button\" tabindex=\"-1\">Select</button>\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <span class=\"uk-text-middle\">Here is a text</span>\n        <div uk-form-custom>\n            <input type=\"file\" aria-label=\"Custom controls\">\n            <span class=\"uk-link\">upload</span>\n        </div>\n    </div>\n\n    <div class=\"uk-margin\" uk-margin>\n        <div uk-form-custom=\"target: true\">\n            <input type=\"file\" aria-label=\"Custom controls\">\n            <input class=\"uk-input uk-form-width-medium\" type=\"text\" placeholder=\"Select file\" aria-label=\"Custom controls\" disabled>\n        </div>\n        <button class=\"uk-button uk-button-default\">Submit</button>\n    </div>\n\n</form>"
+    },
+    {
+        "index": 13,
+        "heading": "Select",
+        "html": "<form>\n\n    <div class=\"uk-margin\">\n        <div uk-form-custom=\"target: true\">\n            <select aria-label=\"Custom controls\">\n                <option value=\"1\">Option 01</option>\n                <option value=\"2\">Option 02</option>\n                <option value=\"3\">Option 03</option>\n                <option value=\"4\">Option 04</option>\n            </select>\n            <span></span>\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <div uk-form-custom=\"target: > * > span:last-child\">\n            <select aria-label=\"Custom controls\">\n                <option value=\"1\">Option 01</option>\n                <option value=\"2\">Option 02</option>\n                <option value=\"3\">Option 03</option>\n                <option value=\"4\">Option 04</option>\n            </select>\n            <span class=\"uk-link\">\n                <span uk-icon=\"icon: pencil\"></span>\n                <span></span>\n            </span>\n        </div>\n    </div>\n\n    <div class=\"uk-margin\">\n        <div uk-form-custom=\"target: > * > span:first-child\">\n            <select aria-label=\"Custom controls\">\n                <option value=\"\">Please select...</option>\n                <option value=\"1\">Option 01</option>\n                <option value=\"2\">Option 02</option>\n                <option value=\"3\">Option 03</option>\n                <option value=\"4\">Option 04</option>\n            </select>\n            <button class=\"uk-button uk-button-default\" type=\"button\" tabindex=\"-1\">\n                <span></span>\n                <span uk-icon=\"icon: chevron-down\"></span>\n            </button>\n        </div>\n    </div>\n\n</form>"
+    }
+]

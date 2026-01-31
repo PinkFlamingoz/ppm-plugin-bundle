@@ -1,5 +1,24 @@
-# Composer dependencies
+# Dependencies
 /vendor/
 
-# Generated or bundled images
+# IDE & Editor
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS Generated
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Temporary Files
+*.tmp
+*.bak
+
+# Generated Assets
 assets/images/
+

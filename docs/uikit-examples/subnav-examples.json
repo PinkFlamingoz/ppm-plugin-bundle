@@ -1,0 +1,22 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<ul class=\"uk-subnav\" uk-margin>\n    <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li class=\"uk-disable\"><span>Disabled</span></li>\n</ul>"
+    },
+    {
+        "index": 2,
+        "heading": "Divider modifier",
+        "html": "<ul class=\"uk-subnav uk-subnav-divider\" uk-margin>\n    <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>"
+    },
+    {
+        "index": 3,
+        "heading": "Pill modifier",
+        "html": "<ul class=\"uk-subnav uk-subnav-pill\" uk-margin>\n    <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li><a href=\"#\">Item</a></li>\n</ul>"
+    },
+    {
+        "index": 4,
+        "heading": "Subnav and Dropdown",
+        "html": "<ul class=\"uk-subnav uk-subnav-pill\" uk-margin>\n    <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n    <li><a href=\"#\">Item</a></li>\n    <li>\n        <a href>More <span uk-icon=\"icon: triangle-down\"></span></a>\n        <div uk-dropdown=\"mode: click\">\n            <ul class=\"uk-nav uk-dropdown-nav\">\n                <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n                <li><a href=\"#\">Item</a></li>\n                <li class=\"uk-nav-header\">Header</li>\n                <li><a href=\"#\">Item</a></li>\n                <li><a href=\"#\">Item</a></li>\n                <li class=\"uk-nav-divider\"></li>\n                <li><a href=\"#\">Item</a></li>\n            </ul>\n        </div>\n    </li>\n</ul>"
+    }
+]

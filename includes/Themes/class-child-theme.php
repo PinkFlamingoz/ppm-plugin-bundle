@@ -10,8 +10,10 @@
 namespace EPB\Themes;
 
 use EPB\Core\Notices;
-use EPB\CSS\Options as CSSOptions;
 use EPB\CSS\Generator as CSSGenerator;
+use EPB\CSS\Component_Registry;
+use EPB\CSS\Less_Parser;
+use EPB\Ajax\Component_Handler;
 
 // Prevent direct access.
 if (!defined('ABSPATH')) {
@@ -27,6 +29,55 @@ if (!defined('ABSPATH')) {
  */
 class Child_Theme
 {
+    /**
+     * Initialize hooks.
+     *
+     * @return void
+     */
+    public static function init(): void
+    {
+        // Automatically regenerate CSS when component settings are updated.
+        add_action('epb_component_settings_updated', [self::class, 'regenerate_custom_css']);
+    }
+
+    /**
+     * Regenerate the custom.css and style.less files if child theme exists.
+     *
+     * Called automatically when component settings are changed or tokens imported.
+     *
+     * @return void
+     */
+    public static function regenerate_custom_css(): void
+    {
+        $child_dir = self::get_child_theme_dir();
+
+        // Only regenerate if child theme exists.
+        if (!file_exists($child_dir)) {
+            return;
+        }
+
+        global $wp_filesystem;
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        // Initialize filesystem.
+        if (!WP_Filesystem()) {
+            return;
+        }
+
+        // Regenerate CSS file.
+        $css_dir = $child_dir . '/css';
+        if (file_exists($css_dir)) {
+            $css_content = self::generate_css();
+            $wp_filesystem->put_contents($css_dir . '/custom.css', $css_content, FS_CHMOD_FILE);
+        }
+
+        // Regenerate Less file for YOOtheme compilation.
+        $less_content = self::generate_less();
+        $wp_filesystem->put_contents($child_dir . '/style.less', $less_content, FS_CHMOD_FILE);
+    }
+
     /**
      * Child theme directory name.
      *
@@ -85,8 +136,9 @@ class Child_Theme
         $style_written     = self::write_root_style($child_dir);
         $functions_written = self::write_functions_php($child_dir, $regenerate_functions);
         $css_written       = self::write_custom_css($child_dir);
+        $less_written      = self::write_style_less($child_dir);
 
-        if ($style_written && $functions_written && $css_written) {
+        if ($style_written && $functions_written && $css_written && $less_written) {
             // Activate theme if not already active.
             if (!Manager::is_child_theme_active()) {
                 switch_theme(self::THEME_SLUG);
@@ -115,8 +167,9 @@ class Child_Theme
         $style_written     = self::write_root_style($child_dir);
         $functions_written = self::write_functions_php($child_dir, true);
         $css_written       = self::write_custom_css($child_dir);
+        $less_written      = self::write_style_less($child_dir);
 
-        if ($style_written && $functions_written && $css_written) {
+        if ($style_written && $functions_written && $css_written && $less_written) {
             switch_theme(self::THEME_SLUG);
             Notices::success(
                 __('Child theme activated successfully.', 'enhanced-plugin-bundle')
@@ -213,9 +266,7 @@ add_action('wp_enqueue_scripts', 'PPM_child_scripts');
 add_action('login_head', 'namespace_login_style');
 function namespace_login_style()
 {
-    echo '<style>.login h1 a { background-image: url( ';
-    echo '{$logo_url}';
-    echo ' ); 
+    echo '<style>.login h1 a { background-image: url( {$logo_url} ); 
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -228,14 +279,14 @@ function namespace_login_style()
 add_filter('login_headerurl', 'namespace_login_headerurl');
 function namespace_login_headerurl(\$url)
 {
-    \$url = "{$company_url}";
+    \$url = '{$company_url}';
     return \$url;
 }
 
 add_filter('login_headertext', 'namespace_login_headertext');
 function namespace_login_headertext(\$title)
 {
-    \$title = "{$company_name}";
+    \$title = '{$company_name}';
     return \$title;
 }
 
@@ -306,16 +357,85 @@ PHP;
     }
 
     /**
+     * Writes the child theme's style.less file for YOOtheme Less compilation.
+     *
+     * This file contains Less variable overrides that YOOtheme will compile
+     * with UIkit, allowing the custom variables to take effect.
+     *
+     * @param string $child_dir Absolute path to the child theme directory.
+     * @return bool True on success, false on failure.
+     */
+    private static function write_style_less(string $child_dir): bool
+    {
+        $less_content = self::generate_less();
+        $file = $child_dir . '/style.less';
+
+        if (!self::write_file($file, $less_content, 'style.less', false)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Generates Less variable overrides for YOOtheme compilation.
+     *
+     * @return string The generated Less content with variable overrides.
+     */
+    public static function generate_less(): string
+    {
+        $less = "//\n";
+        $less .= "// Enhanced Plugin Bundle - UIkit Variable Overrides\n";
+        $less .= "// Generated: " . current_time('c') . "\n";
+        $less .= "//\n";
+        $less .= "// These variables override UIkit defaults when YOOtheme compiles Less.\n";
+        $less .= "//\n\n";
+
+        $components = Component_Registry::get_all();
+        $has_variables = false;
+
+        foreach ($components as $component_key => $component_data) {
+            $saved = get_option(Component_Handler::OPTION_PREFIX . $component_key, []);
+
+            if (empty($saved)) {
+                continue;
+            }
+
+            $has_variables = true;
+            $component_label = $component_data['label'] ?? ucfirst(str_replace('-', ' ', $component_key));
+            $less .= "//\n// {$component_label}\n//\n\n";
+
+            // Get grouped variables to preserve order.
+            $grouped = Less_Parser::get_grouped_variables($component_key);
+
+            foreach ($grouped as $group_vars) {
+                foreach ($group_vars as $var_name => $meta) {
+                    if (isset($saved[$var_name])) {
+                        $value = $saved[$var_name];
+                        $less .= "@{$var_name}: {$value};\n";
+                    }
+                }
+            }
+
+            $less .= "\n";
+        }
+
+        if (!$has_variables) {
+            $less .= "// No custom variables defined yet.\n";
+        }
+
+        return $less;
+    }
+
+    /**
      * Generates the content for the child theme's style.css file.
      *
      * @return string The generated CSS content.
      */
     public static function generate_css(): string
     {
-        // Retrieve current CSS options.
-        $options = CSSOptions::get();
-        // Generate and return the CSS content.
-        return CSSGenerator::generate($options);
+        // Generate CSS from component-based variables.
+        return CSSGenerator::generate();
     }
 
     /**

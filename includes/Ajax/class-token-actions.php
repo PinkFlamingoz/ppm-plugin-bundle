@@ -9,7 +9,8 @@
 
 namespace EPB\Ajax;
 
-use EPB\Tokens\Exporter as TokenExporter;
+use EPB\Tokens\Tokens_Studio_Exporter;
+use EPB\Tokens\Tokens_Studio_Importer;
 
 // Prevent direct access.
 if (!defined('ABSPATH')) {
@@ -26,94 +27,93 @@ if (!defined('ABSPATH')) {
 class Token_Actions
 {
     /**
-     * Exports current CSS options as Tokens Studio format via AJAX.
+     * Exports all UIkit Less variables to Tokens Studio format for Figma.
      *
      * @return void
      */
-    public static function export(): void
+    public static function export_figma(): void
     {
-        // Verify nonce.
-        if (!Handler::verify_nonce()) {
-            Handler::send_security_error();
+        // Verify nonce and permissions (uses component picker nonce).
+        if (!Handler::verify_request('epb_component_nonce')) {
             return;
         }
 
-        // Check capability.
-        if (!epb_current_user_can('epb_manage_themes')) {
-            wp_send_json_error([
-                'message' => __('You do not have permission to export tokens.', 'enhanced-plugin-bundle'),
-            ]);
-            return;
-        }
-
-        // Get exported tokens using the new exporter.
-        $tokens = TokenExporter::export();
+        // Get exported tokens using the Tokens Studio exporter.
+        $tokens = Tokens_Studio_Exporter::export();
 
         wp_send_json_success([
             'tokens'   => $tokens,
-            'filename' => 'tokens-' . gmdate('Y-m-d') . '.json',
+            'filename' => 'tokens-studio-' . gmdate('Y-m-d') . '.json',
         ]);
     }
 
     /**
-     * Validates tokens structure via AJAX.
+     * Imports Tokens Studio format from Figma via AJAX.
      *
      * @return void
      */
-    public static function validate(): void
+    public static function import_figma(): void
     {
-        // Verify nonce.
-        if (!Handler::verify_nonce()) {
-            Handler::send_security_error();
-            return;
-        }
+        try {
+            // Verify nonce and permissions (uses component picker nonce).
+            if (!Handler::verify_request('epb_component_nonce')) {
+                return;
+            }
 
-        // Check capability.
-        if (!epb_current_user_can('epb_manage_themes')) {
-            wp_send_json_error([
-                'message' => __('You do not have permission to validate tokens.', 'enhanced-plugin-bundle'),
+            // Get and decode the tokens JSON from POST data.
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above.
+            $tokens_json = isset($_POST['tokens']) ? wp_unslash($_POST['tokens']) : '';
+
+            if (empty($tokens_json) || !is_string($tokens_json)) {
+                wp_send_json_error([
+                    'message' => __('No token data provided.', 'enhanced-plugin-bundle'),
+                ]);
+                return;
+            }
+
+            $tokens = json_decode($tokens_json, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($tokens)) {
+                wp_send_json_error([
+                    'message' => __('Invalid JSON format. Please paste valid Tokens Studio JSON.', 'enhanced-plugin-bundle'),
+                ]);
+                return;
+            }
+
+            // Validate Tokens Studio format.
+            $validation = Tokens_Studio_Importer::validate($tokens);
+
+            if (is_wp_error($validation)) {
+                wp_send_json_error([
+                    'message' => $validation->get_error_message(),
+                ]);
+                return;
+            }
+
+            // Import the tokens.
+            $result = Tokens_Studio_Importer::import($tokens);
+
+            if (!$result['success']) {
+                wp_send_json_error([
+                    'message' => $result['message'],
+                ]);
+                return;
+            }
+
+            // Regenerate CSS after import.
+            delete_transient('epb_component_css');
+            do_action('epb_component_settings_updated');
+
+            wp_send_json_success([
+                'message'    => $result['message'],
+                'imported'   => $result['imported'],
+                'skipped'    => $result['skipped'],
+                'debug_logs' => $result['debug_logs'] ?? [],
             ]);
-            return;
-        }
-
-        $tokens_json = Handler::get_post_param('tokens');
-
-        if (empty($tokens_json)) {
+        } catch (\Throwable $e) {
             wp_send_json_error([
-                'message' => __('No token data provided.', 'enhanced-plugin-bundle'),
+                'message' => 'Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(),
             ]);
-            return;
         }
-
-        // Parse JSON.
-        $tokens = json_decode($tokens_json, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            wp_send_json_error([
-                'message' => sprintf(
-                    /* translators: %s: JSON error message */
-                    __('Failed to parse JSON: %s', 'enhanced-plugin-bundle'),
-                    json_last_error_msg()
-                ),
-            ]);
-            return;
-        }
-
-        // Validate structure.
-        $validation = \EPB\Tokens\Importer::validate($tokens);
-
-        if (is_wp_error($validation)) {
-            wp_send_json_error([
-                'message' => $validation->get_error_message(),
-            ]);
-            return;
-        }
-
-        // Count recognized tokens.
-        $transformed = \EPB\Tokens\Importer::transform($tokens);
-
-        wp_send_json_success([
-            'message'     => __('Token structure is valid.', 'enhanced-plugin-bundle'),
-            'token_count' => count($transformed),
-        ]);
     }
 }

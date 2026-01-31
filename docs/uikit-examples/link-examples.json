@@ -1,0 +1,27 @@
+[
+    {
+        "index": 1,
+        "heading": "Muted modifier",
+        "html": "<a class=\"uk-link-muted\" href=\"#\">Link</a>\n\n<p class=\"uk-link-muted\">Lorem ipsum <a href=\"#\">dolor sit</a> amet, consectetur adipiscing elit, sed do <a href=\"#\">eiusmod</a> tempor incididunt ut <a href=\"#\">labore et</a> dolore magna aliqua.</p>"
+    },
+    {
+        "index": 2,
+        "heading": "Text modifier",
+        "html": "<ul class=\"uk-list uk-link-text\">\n    <li><a href=\"#\">Link</a></li>\n    <li><a href=\"#\">Link</a></li>\n    <li><a href=\"#\">Link</a></li>\n</ul>"
+    },
+    {
+        "index": 3,
+        "heading": "Heading modifier",
+        "html": "<h3><a class=\"uk-link-heading\" href=\"#\">Heading</a></h3>"
+    },
+    {
+        "index": 4,
+        "heading": "Reset modifier",
+        "html": "<a class=\"uk-link-reset\" href=\"#\">Link</a>\n\n<h3><a class=\"uk-link-reset\" href=\"#\">Heading</a></h3>"
+    },
+    {
+        "index": 5,
+        "heading": "Toggle",
+        "html": "<a href class=\"uk-display-block uk-card uk-card-body uk-card-default uk-link-toggle uk-width-medium\">\n    <h3 class=\"uk-card-title\"><span class=\"uk-link-heading\">Heading</span></h3>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</a>"
+    }
+]

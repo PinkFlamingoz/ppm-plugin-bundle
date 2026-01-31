@@ -42,10 +42,8 @@ class Activator
             add_option('epb_dynamic_plugins', \EPB\Plugins\Options::get_defaults());
         }
 
-        // Set default CSS options if they don't exist.
-        if (false === get_option('ppm_child_theme_css_options')) {
-            add_option('ppm_child_theme_css_options', \EPB\CSS\Options::get_defaults());
-        }
+        // Note: CSS options now use component-based storage (epb_component_*)
+        // and are initialized on first use via the Less parser.
 
         // Store the plugin version for future upgrade checks.
         update_option('epb_version', EPB_VERSION);

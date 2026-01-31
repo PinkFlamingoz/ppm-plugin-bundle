@@ -9,9 +9,6 @@
 
 namespace EPB\Ajax;
 
-use EPB\Plugins\Manager as PluginManager;
-use EPB\Tokens\Exporter as TokenExporter;
-
 // Prevent direct access.
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -38,20 +35,28 @@ class Handler
         add_action('wp_ajax_epb_plugin_action', [Plugin_Actions::class, 'handle_action']);
         add_action('wp_ajax_epb_get_plugin_status', [Plugin_Actions::class, 'get_status']);
 
-        // Token operations.
-        add_action('wp_ajax_epb_export_tokens', [Token_Actions::class, 'export']);
+        // Token operations (Figma / Tokens Studio).
+        add_action('wp_ajax_epb_export_figma', [Token_Actions::class, 'export_figma']);
+        add_action('wp_ajax_epb_import_figma', [Token_Actions::class, 'import_figma']);
+
+        // Child theme operations.
+        add_action('wp_ajax_epb_create_child_theme', [Child_Theme_Actions::class, 'create']);
+
+        // Component-based theming operations.
+        Component_Handler::register();
     }
 
     /**
      * Verifies the AJAX nonce.
      *
-     * @param string $nonce_name The name of the nonce action.
+     * @param string $nonce_name  The name of the nonce action.
+     * @param string $nonce_field POST field containing the nonce.
      * @return bool True if valid, false otherwise.
      */
-    public static function verify_nonce(string $nonce_name = 'epb_ajax_nonce'): bool
+    public static function verify_nonce(string $nonce_name = 'epb_ajax_nonce', string $nonce_field = 'nonce'): bool
     {
-        $nonce = isset($_POST['nonce']) && is_string($_POST['nonce'])
-            ? sanitize_text_field(wp_unslash($_POST['nonce']))
+        $nonce = isset($_POST[$nonce_field]) && is_string($_POST[$nonce_field])
+            ? sanitize_text_field(wp_unslash($_POST[$nonce_field]))
             : '';
 
         return wp_verify_nonce($nonce, $nonce_name);
@@ -79,6 +84,34 @@ class Handler
         wp_send_json_error([
             'message' => __('You do not have permission to perform this action.', 'enhanced-plugin-bundle'),
         ]);
+    }
+
+    /**
+     * Verifies the AJAX request (nonce and permissions).
+     *
+     * @param string $nonce_name   The name of the nonce action.
+     * @param string $nonce_field  POST field containing the nonce.
+     * @param string $capability   Required capability (default: manage_options).
+     * @return bool True if valid, sends JSON error and returns false otherwise.
+     */
+    public static function verify_request(
+        string $nonce_name = 'epb_ajax_nonce',
+        string $nonce_field = 'nonce',
+        string $capability = 'manage_options'
+    ): bool {
+        // Verify nonce.
+        if (!self::verify_nonce($nonce_name, $nonce_field)) {
+            self::send_security_error();
+            return false;
+        }
+
+        // Check permissions.
+        if (!current_user_can($capability)) {
+            self::send_permission_error();
+            return false;
+        }
+
+        return true;
     }
 
     /**

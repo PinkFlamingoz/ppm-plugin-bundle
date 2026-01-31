@@ -93,16 +93,6 @@ class EPB_Autoloader
         // Build the full file path.
         $file_path = EPB_PLUGIN_DIR . 'includes/' . $dir_path . $file_name;
 
-        // Check for interface files.
-        if (!file_exists($file_path) && str_ends_with($class_name, '_Interface')) {
-            $interface_name = 'interface-' . strtolower(str_replace('_', '-', preg_replace(
-                '/([a-z])([A-Z])/',
-                '$1-$2',
-                str_replace('_Interface', '', $class_name)
-            ))) . '.php';
-            $file_path = EPB_PLUGIN_DIR . 'includes/' . $dir_path . $interface_name;
-        }
-
-        return file_exists($file_path) ? $file_path : null;
+        return is_readable($file_path) ? $file_path : null;
     }
 }

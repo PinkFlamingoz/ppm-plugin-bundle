@@ -1,0 +1,27 @@
+[
+    {
+        "index": 1,
+        "heading": "Text alignment",
+        "html": "<div class=\"uk-child-width-1-3@s uk-grid-small\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-small\">\n            <div class=\"uk-text-left uk-card-body\">\n                Lorem ipsum dolor sit amet, consetetur sadipscing elitr. <code>.uk-text-left</code>\n            </div>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-small\">\n            <div class=\"uk-text-right uk-card-body\">\n                Lorem ipsum dolor sit amet, consetetur sadipscing elitr. <code>.uk-text-right</code>\n            </div>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-small\">\n            <div class=\"uk-text-center uk-card-body\">\n                Lorem ipsum dolor sit amet, consetetur sadipscing elitr. <code>.uk-text-center</code>\n            </div>\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Responsive",
+        "html": "<div class=\"uk-child-width-1-3@s uk-grid-small\" uk-grid>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-small\">\n            <div class=\"uk-text-center@s uk-card-body\">\n                Lorem ipsum dolor sit amet, consetetur sadipscing elitr. <code>.uk-text-center@s</code>\n            </div>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-small\">\n            <div class=\"uk-text-right@l uk-card-body\">\n                Lorem ipsum dolor sit amet, consetetur sadipscing elitr. <code>.uk-text-right@l</code>\n            </div>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-card uk-card-default uk-card-small\">\n            <div class=\"uk-text-center@m uk-card-body\">\n                Lorem ipsum dolor sit amet, consetetur sadipscing elitr. <code>.uk-text-center@m</code>\n            </div>\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Vertical alignment",
+        "html": "<div class=\"uk-child-width-1-3@m uk-child-width-1-2@s\" uk-grid>\n    <div>\n        <img src=\"images/avatar.jpg\" width=\"50\" height=\"50\">\n        <span class=\"uk-text-top\">Lorem ipsum.</span>\n    </div>\n    <div>\n        <img src=\"images/avatar.jpg\" width=\"50\" height=\"50\">\n        <span class=\"uk-text-middle\">Lorem ipsum.</span>\n    </div>\n    <div>\n        <img src=\"images/avatar.jpg\" width=\"50\" height=\"50\">\n        <span class=\"uk-text-bottom\">Lorem ipsum.</span>\n    </div>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Text wrapping",
+        "html": "<div class=\"uk-child-width-1-2@s\" uk-grid>\n    <div>\n        <div class=\"uk-panel uk-text-truncate\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>\n    </div>\n    <div>\n        <div class=\"uk-panel uk-text-break\">Loremipsumdolorsitamet,consecteturadipiscingelit,seddoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua.</div>\n    </div>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Text stroke",
+        "html": "<h1 class=\"uk-heading-small uk-text-stroke\">Small</h1>\n<h1 class=\"uk-heading-medium uk-text-stroke\">Medium</h1>\n<h1 class=\"uk-heading-large uk-text-stroke\">Large</h1>\n<h1 class=\"uk-heading-xlarge uk-text-stroke\">X-Large</h1>\n<h1 class=\"uk-heading-2xlarge uk-text-stroke\">2X-Large</h1>\n<h1 class=\"uk-heading-3xlarge uk-text-stroke\">3X-Large</h1>"
+    }
+]

@@ -67,13 +67,7 @@ class Upgrader
      */
     private static function upgrade_to_3_5(): void
     {
-        // Clear any cached data to ensure fresh state.
-        delete_transient('epb_plugin_cache');
-
-        // Log upgrade if debugging is enabled.
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[EPB] Running upgrade routines for version 3.5');
-        }
+        self::clear_cache_and_log('3.5');
     }
 
     /**
@@ -83,12 +77,23 @@ class Upgrader
      */
     private static function upgrade_to_4_0(): void
     {
+        self::clear_cache_and_log('4.0 (modular architecture)');
+    }
+
+    /**
+     * Common upgrade routine: clear cache and log.
+     *
+     * @param string $version Version identifier for logging.
+     * @return void
+     */
+    private static function clear_cache_and_log(string $version): void
+    {
         // Clear any cached data to ensure fresh state.
         delete_transient('epb_plugin_cache');
 
         // Log upgrade if debugging is enabled.
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[EPB] Running upgrade routines for version 4.0 (modular architecture)');
+            error_log('[EPB] Running upgrade routines for version ' . $version);
         }
     }
 }

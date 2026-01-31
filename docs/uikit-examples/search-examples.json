@@ -1,0 +1,62 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<form class=\"uk-search uk-search-default\">\n    <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n</form>"
+    },
+    {
+        "index": 2,
+        "heading": "Search icon",
+        "html": "<div class=\"uk-margin\">\n    <form class=\"uk-search uk-search-default\">\n        <span uk-search-icon></span>\n        <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n    </form>\n</div>\n\n<div class=\"uk-margin\">\n    <form class=\"uk-search uk-search-default\">\n        <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n        <span class=\"uk-search-icon-flip\" uk-search-icon></span>\n    </form>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Clickable",
+        "html": "<div class=\"uk-margin\">\n    <form class=\"uk-search uk-search-default\">\n        <button uk-search-icon></button>\n        <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n    </form>\n</div>\n\n<div class=\"uk-margin\">\n    <form class=\"uk-search uk-search-default\">\n        <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n        <button class=\"uk-search-icon-flip\" uk-search-icon></button>\n    </form>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Default modifier",
+        "html": "<form class=\"uk-search uk-search-default\">\n    <span uk-search-icon></span>\n    <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n</form>"
+    },
+    {
+        "index": 5,
+        "heading": "Navbar modifier",
+        "html": "<nav class=\"uk-navbar-container\" uk-navbar>\n    <div class=\"uk-navbar-left\">\n\n        <div class=\"uk-navbar-item\">\n            <form class=\"uk-search uk-search-navbar\">\n                <span uk-search-icon></span>\n                <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n            </form>\n        </div>\n\n    </div>\n</nav>"
+    },
+    {
+        "index": 6,
+        "heading": "Medium modifier",
+        "html": "<form class=\"uk-search uk-search-medium\">\n    <span uk-search-icon></span>\n    <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n</form>"
+    },
+    {
+        "index": 7,
+        "heading": "Large modifier",
+        "html": "<form class=\"uk-search uk-search-large\">\n    <span uk-search-icon></span>\n    <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n</form>"
+    },
+    {
+        "index": 8,
+        "heading": "Toggle",
+        "html": "<a class=\"uk-search-toggle\" href=\"\" uk-search-icon></a>"
+    },
+    {
+        "index": 9,
+        "heading": "Overlay",
+        "html": "<nav class=\"uk-navbar-container uk-margin\" uk-navbar>\n\n    <div class=\"nav-overlay uk-navbar-left\">\n\n        <a class=\"uk-navbar-item uk-logo\" href=\"#\">Logo</a>\n\n        <ul class=\"uk-navbar-nav\">\n            <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n\n    </div>\n\n    <div class=\"nav-overlay uk-navbar-right\">\n\n        <a class=\"uk-navbar-toggle\" uk-search-icon uk-toggle=\"target: .nav-overlay; animation: uk-animation-fade\" href=\"#\"></a>\n\n    </div>\n\n    <div class=\"nav-overlay uk-navbar-left uk-flex-1\" hidden>\n\n        <div class=\"uk-navbar-item uk-width-expand\">\n            <form class=\"uk-search uk-search-navbar uk-width-1-1\">\n                <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\" autofocus>\n            </form>\n        </div>\n\n        <a class=\"uk-navbar-toggle\" uk-close uk-toggle=\"target: .nav-overlay; animation: uk-animation-fade\" href=\"#\"></a>\n\n    </div>\n\n</nav>"
+    },
+    {
+        "index": 10,
+        "heading": "Drop",
+        "html": "<nav class=\"uk-navbar-container uk-margin\" uk-navbar>\n    <div class=\"uk-navbar-left\">\n\n        <a class=\"uk-navbar-item uk-logo\" href=\"#\">Logo</a>\n\n        <ul class=\"uk-navbar-nav\">\n            <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n\n    </div>\n    <div class=\"uk-navbar-right\">\n\n        <div>\n            <a class=\"uk-navbar-toggle\" href uk-search-icon></a>\n            <div class=\"uk-drop\" uk-drop=\"mode: click; pos: left-center; offset: 0\">\n                <form class=\"uk-search uk-search-navbar uk-width-1-1\">\n                    <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\" autofocus>\n                </form>\n            </div>\n        </div>\n\n    </div>\n</nav>"
+    },
+    {
+        "index": 11,
+        "heading": "Dropdown",
+        "html": "<nav class=\"uk-navbar-container uk-margin\" uk-navbar>\n    <div class=\"uk-navbar-left\">\n\n        <a class=\"uk-navbar-item uk-logo\" href=\"#\">Logo</a>\n\n        <ul class=\"uk-navbar-nav\">\n            <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n\n    </div>\n    <div class=\"uk-navbar-right\">\n\n        <div>\n            <a class=\"uk-navbar-toggle\" href uk-search-icon></a>\n            <div class=\"uk-navbar-dropdown\" uk-drop=\"mode: click; boundary: !.uk-navbar; flip: false\">\n\n                <div class=\"uk-grid-small uk-flex-middle\" uk-grid>\n                    <div class=\"uk-width-expand\">\n                        <form class=\"uk-search uk-search-navbar uk-width-1-1\">\n                            <input class=\"uk-search-input\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\" autofocus>\n                        </form>\n                    </div>\n                    <div class=\"uk-width-auto\">\n                        <a class=\"uk-drop-close\" href=\"#\" uk-close></a>\n                    </div>\n                </div>\n\n            </div>\n        </div>\n\n    </div>\n</nav>"
+    },
+    {
+        "index": 12,
+        "heading": "Modal",
+        "html": "<nav class=\"uk-navbar uk-navbar-container uk-margin\">\n    <div class=\"uk-navbar-left\">\n\n        <a class=\"uk-navbar-item uk-logo\" href=\"#\">Logo</a>\n\n        <ul class=\"uk-navbar-nav\">\n            <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n\n    </div>\n    <div class=\"uk-navbar-right\">\n\n        <a class=\"uk-navbar-toggle\" href=\"#modal-full\" uk-search-icon uk-toggle></a>\n\n    </div>\n</nav>\n\n<div id=\"modal-full\" class=\"uk-modal-full uk-modal\" uk-modal>\n    <div class=\"uk-modal-dialog uk-flex uk-flex-center uk-flex-middle\" uk-height-viewport>\n        <button class=\"uk-modal-close-full\" type=\"button\" uk-close></button>\n        <form class=\"uk-search uk-search-large\">\n            <input class=\"uk-search-input uk-text-center\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\" autofocus>\n        </form>\n    </div>\n</div>"
+    }
+]

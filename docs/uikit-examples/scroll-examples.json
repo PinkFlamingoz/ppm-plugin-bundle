@@ -1,0 +1,12 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<a class=\"uk-button uk-button-primary\" href=\"#target\" uk-scroll>Scroll down</a>"
+    },
+    {
+        "index": 2,
+        "heading": "Callback after scroll",
+        "html": "<a id=\"js-scroll-trigger\" class=\"uk-button uk-button-primary\" href=\"#target\" uk-scroll>Down with callback</a>\n\n<script>\n    UIkit.util.on('#js-scroll-trigger', 'scrolled', function () {\n        alert('Done.');\n    });\n</script>"
+    }
+]

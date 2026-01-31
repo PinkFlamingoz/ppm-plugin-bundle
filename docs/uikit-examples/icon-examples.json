@@ -1,0 +1,32 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<span class=\"uk-margin-small-right\" uk-icon=\"check\"></span>\n\n<a href=\"\" uk-icon=\"heart\"></a>"
+    },
+    {
+        "index": 2,
+        "heading": "Ratio",
+        "html": "<span class=\"uk-margin-xsmall-right\" uk-icon=\"icon: check; ratio: 2\"></span>\n<span uk-icon=\"icon: check; ratio: 3.5\"></span>"
+    },
+    {
+        "index": 3,
+        "heading": "Link modifier",
+        "html": "<div>\n    <a href=\"#\" class=\"uk-icon-link uk-margin-small-right\" uk-icon=\"copy\"></a>\n    <a href=\"#\" class=\"uk-icon-link uk-margin-small-right\" uk-icon=\"file-edit\"></a>\n    <a href=\"#\" class=\"uk-icon-link\" uk-icon=\"trash\"></a>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Button modifier",
+        "html": "<div>\n    <a href=\"\" class=\"uk-icon-button uk-margin-small-right\" uk-icon=\"instagram\"></a>\n    <a href=\"\" class=\"uk-icon-button  uk-margin-small-right\" uk-icon=\"facebook\"></a>\n    <a href=\"\" class=\"uk-icon-button\" uk-icon=\"youtube\"></a>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Overlay modifier",
+        "html": "<div class=\"uk-child-width-1-2@m\" uk-grid>\n    <div>\n\n        <a href class=\"uk-inline uk-dark\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-position-center\">\n                <span class=\"uk-icon-overlay\" href=\"#\" uk-icon=\"ratio: 3; icon: play-circle\"></span>\n            </div>\n        </a>\n\n    </div>\n    <div>\n\n        <a href class=\"uk-inline uk-light\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-position-center\">\n                <span class=\"uk-icon-overlay\" href=\"#\" uk-icon=\"ratio: 3; icon: youtube\"></span>\n            </div>\n        </a>\n\n    </div>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Image modifier",
+        "html": "<span class=\"uk-icon uk-icon-image\" style=\"background-image: url(images/dark.jpg);\"></span>"
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<progress id=\"js-progressbar\" class=\"uk-progress\" value=\"10\" max=\"100\"></progress>\n\n<script>\n\n    UIkit.util.ready(function () {\n\n        var bar = document.getElementById('js-progressbar');\n\n        var animate = setInterval(function () {\n\n            bar.value += 10;\n\n            if (bar.value >= bar.max) {\n                clearInterval(animate);\n            }\n\n        }, 1000);\n\n    });\n\n</script>"
+    }
+]

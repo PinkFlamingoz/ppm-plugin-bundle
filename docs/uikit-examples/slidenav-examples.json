@@ -1,0 +1,22 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<a href=\"#\" uk-slidenav-previous></a>\n<a href=\"#\" uk-slidenav-next></a>"
+    },
+    {
+        "index": 2,
+        "heading": "Large modifier",
+        "html": "<a href=\"#\" class=\"uk-slidenav-large\" uk-slidenav-previous></a>\n<a href=\"#\" class=\"uk-slidenav-large\" uk-slidenav-next></a>"
+    },
+    {
+        "index": 3,
+        "heading": "Slidenav container",
+        "html": "<div class=\"uk-slidenav-container\">\n    <a href=\"\" uk-slidenav-previous></a>\n    <a href=\"\" uk-slidenav-next></a>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Position as overlay",
+        "html": "<div class=\"uk-position-relative uk-visible-toggle uk-light\" tabindex=\"-1\" uk-slideshow>\n\n    <div class=\"uk-slideshow-items\">\n        <div>\n            <img src=\"images/photo.jpg\" alt=\"\" uk-cover>\n        </div>\n        <div>\n            <img src=\"images/dark.jpg\" alt=\"\" uk-cover>\n        </div>\n        <div>\n            <img src=\"images/light.jpg\" alt=\"\" uk-cover>\n        </div>\n    </div>\n\n    <a class=\"uk-slidenav-large uk-position-center-left uk-position-small uk-hidden-hover\" href=\"#\" uk-slidenav-previous uk-slideshow-item=\"previous\"></a>\n    <a class=\"uk-slidenav-large uk-position-center-right uk-position-small uk-hidden-hover\" href=\"#\" uk-slidenav-next uk-slideshow-item=\"next\"></a>\n\n</div>"
+    }
+]

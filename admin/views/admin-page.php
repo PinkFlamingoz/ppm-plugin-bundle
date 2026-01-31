@@ -36,11 +36,8 @@ use EPB\Themes\Manager as ThemesManager;
         <?php ThemesManager::render_upload_parent_theme_section(); ?>
     </form>
 
-    <!-- Token import section -->
-    <?php ThemesManager::render_import_tokens_section(); ?>
-
-    <!-- Child theme options section -->
-    <?php ThemesManager::render_create_child_theme_section(); ?>
+    <!-- Component-based theming section -->
+    <?php ThemesManager::render_component_picker_section(); ?>
 
     <?php require EPB_PLUGIN_DIR . 'admin/views/partials/footer.php'; ?>
 </div>

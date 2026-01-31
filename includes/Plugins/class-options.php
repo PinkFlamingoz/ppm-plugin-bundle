@@ -81,6 +81,7 @@ class Options
         if (empty($plugins)) {
             $plugins = self::get_defaults();
             update_option(self::OPTION_NAME, $plugins);
+            return $plugins;
         }
 
         $normalized_plugins = self::sanitize_plugins($plugins);
@@ -89,8 +90,8 @@ class Options
             $normalized_plugins = self::get_defaults();
         }
 
-        // Update if sanitization changed the data.
-        if ($normalized_plugins !== $plugins) {
+        // Only update if sanitization actually changed the data (compare serialized to avoid false positives).
+        if (serialize($normalized_plugins) !== serialize($plugins)) {
             update_option(self::OPTION_NAME, $normalized_plugins);
         }
 

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Enhanced Plugin Bundle and Theme Manager package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Enhanced Plugin Bundle and Theme Manager 4.0\n"
+"Project-Id-Version: Enhanced Plugin Bundle and Theme Manager 4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-28 00:00+0000\n"
+"POT-Creation-Date: 2026-01-31 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,751 +13,246 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin Bundle Manager"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin Bundle"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Install"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Activate"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Deactivate"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Delete"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Delete from List"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Apply to Selected"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Installed & Active"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Installed & Deactivated"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Not Installed"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Installed"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Inactive"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Active"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin \"%s\" is not installed."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to fetch plugin information for \"%s\"."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "YOOtheme Pro is not installed. Please install YOOtheme Pro to create a child theme."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to create or update the child theme CSS file."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to create the child theme directory."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to create the child theme style.css file."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to create the child theme functions.php file."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin \"%s\" is not managed by this bundle."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to install plugin \"%s\"."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Please provide a valid WordPress.org plugin URL."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Please enter a plugin URL."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "The theme \"%s\" is already uploaded."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to create themes directory."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to install the theme: %s"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to move the uploaded file. Please check file permissions."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "File upload failed with error code: %s"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Failed to %s \"%s\": %s"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Child theme CSS file updated successfully."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Child theme activated successfully."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Theme \"%s\" uploaded and installed successfully."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "\"%s\" %s successfully."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin \"%s\" is already installed."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin \"%s\" was already removed."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "installed"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "activated"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "deactivated"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "deleted"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "uploaded"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Select All"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Init Path"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Status"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Add New Plugin"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Slug"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Name"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Init Path (optional)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Save Changes"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Create Child Theme"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Upload Parent Theme"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Upload your parent theme ZIP file below to install it:"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Upload and Install Parent Theme"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Customize the CSS options for your child theme below. Use the color pickers for color options and enter numeric values (in pixels) for font sizes. When you are ready, click the button to save your options and create/activate the child theme."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Regenerate child theme functions.php"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Leave unchecked to preserve your existing child theme functions.php file. Check to overwrite it with the default template."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Color Options"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Text Colors"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Colors"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Background Colors"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Colors"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Default Button"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Primary Button"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Secondary Button"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Danger Button"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Text Button"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Link Button"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Element Options"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Margins"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Default"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XSmall"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Small"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Medium"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Large"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XLarge"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Widths"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Container Options"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Padding Vertical"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Padding Horizontal"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Column Gutter"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Max Width"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Text Options"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Text Default Options (Body)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Text Small Options"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Text Large Options"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Base Options"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Breakpoints"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Navbar Link Options"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Base Font (HTML)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Headline Font Sizes & Weights"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Heading 3XL"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Heading 2XL"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Heading XL"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Heading Large"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Heading Medium"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Heading Small"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Font Sizes & Weights"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Default"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Primary"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Secondary"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Danger"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Text"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Link"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Muted Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Emphasis Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Primary Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Secondary Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Success Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Warning Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Danger Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Text Background Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Body Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Background Default"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Background Muted"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Background Primary"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Background Secondary"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Default Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Default Hover Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Default Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Default Hover Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Primary Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Primary Hover Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Primary Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Primary Hover Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Secondary Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Secondary Hover Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Secondary Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Secondary Hover Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Danger Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Danger Hover Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Danger Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Danger Hover Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Text Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Text Hover Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Link Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Button Link Hover Color"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Default Mobile (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Default L (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XSmall Mobile (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XSmall L (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Small Mobile (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Small L (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Medium Mobile (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Medium L (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Large Mobile (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Large L (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XLarge Mobile (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XLarge L (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Small (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Medium (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Large (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XLarge (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "2XLarge (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Default M (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XSmall M (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Small M (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Large M (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XLarge M (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Default (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "XSmall (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Mobile (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "S (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "M (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "L (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Desktop (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Font Weight"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Breakpoint S (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Breakpoint M (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Breakpoint L (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Breakpoint XL (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Base Font Size (px)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Save Options & Create Child Theme"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Enter plugin URL (e.g., https://wordpress.org/plugins/wordpress-seo/)"
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin selection interface not available."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Please select at least one plugin."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin settings updated successfully."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Selected plugin(s) removed from configuration."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "New plugin added successfully."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Plugin with that slug already exists."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Please provide both slug and name for the new plugin."
-msgstr ""
-
-#: includes/class-plugin-bundle-texts.php
-msgid "Could not retrieve plugin information from WordPress.org."
-msgstr ""
-
-#: admin/class-plugin-bundle-admin.php
+#. ========================================================================
+#. Main Plugin File
+#. ========================================================================
+
+#: enhanced-plugin-bundle.php
 msgid "Settings"
 msgstr ""
 
-#: admin/class-plugin-bundle-admin.php
+#: enhanced-plugin-bundle.php
 msgid "Documentation"
 msgstr ""
 
-#: admin/class-plugin-bundle-admin.php
+#. ========================================================================
+#. Admin Header & Footer
+#. ========================================================================
+
+#: admin/views/partials/header.php
+msgid "Company Logo"
+msgstr ""
+
+#: admin/views/partials/header.php
+msgid "Plugin Bundle Manager"
+msgstr ""
+
+#: admin/views/partials/footer.php
+#, php-format
+msgid "Enhanced Plugin Bundle v%s"
+msgstr ""
+
+#. ========================================================================
+#. Plugin Manager - Renderer
+#. ========================================================================
+
+#: includes/Plugins/class-renderer.php
+msgid "Install"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Activate"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Deactivate"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Delete"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Delete from List"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Apply to Selected"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Select All"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Plugin"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Init Path"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Status"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Add New Plugin"
+msgstr ""
+
+#: includes/Plugins/class-renderer.php
+msgid "Enter plugin URL (e.g., https://wordpress.org/plugins/wordpress-seo/)"
+msgstr ""
+
+#. ========================================================================
+#. Plugin Manager - Status & Messages
+#. ========================================================================
+
+#: includes/Plugins/class-manager.php
+msgid "Not Installed"
+msgstr ""
+
+#: includes/Plugins/class-manager.php
+msgid "Installed & Active"
+msgstr ""
+
+#: includes/Plugins/class-manager.php
+msgid "Installed & Deactivated"
+msgstr ""
+
+#: includes/Plugins/class-manager.php
 msgid "Security check failed. Please try again."
 msgstr ""
 
-#. New strings from refactored code - v4.0
+#: includes/Plugins/class-manager.php
+msgid "Selected plugin(s) removed from configuration."
+msgstr ""
+
+#: includes/Plugins/class-manager.php
+msgid "Please enter a plugin URL."
+msgstr ""
+
+#: includes/Plugins/class-manager.php
+msgid "Please provide a valid WordPress.org plugin URL."
+msgstr ""
+
+#: includes/Plugins/class-manager.php
+msgid "Plugin with that slug already exists."
+msgstr ""
+
+#: includes/Plugins/class-manager.php
+msgid "Could not retrieve plugin information from WordPress.org."
+msgstr ""
+
+#: includes/Plugins/class-manager.php
+msgid "New plugin added successfully."
+msgstr ""
+
+#: includes/Plugins/class-manager.php
+#, php-format
+msgid "Plugin \"%s\" is not managed by this bundle."
+msgstr ""
+
+#. ========================================================================
+#. Plugin Installer
+#. ========================================================================
+
+#: includes/Plugins/class-installer.php
+#, php-format
+msgid "Plugin \"%s\" is already installed."
+msgstr ""
+
+#: includes/Plugins/class-installer.php
+#, php-format
+msgid "Failed to install plugin \"%s\"."
+msgstr ""
+
+#: includes/Plugins/class-installer.php
+#, php-format
+msgid "Plugin \"%s\" is not installed."
+msgstr ""
+
+#: includes/Plugins/class-installer.php
+#, php-format
+msgid "Plugin \"%s\" was already removed."
+msgstr ""
+
+#: includes/Plugins/class-installer.php
+#, php-format
+msgid "Failed to %1$s \"%2$s\": %3$s"
+msgstr ""
+
+#. ========================================================================
+#. Plugin Actions (AJAX)
+#. ========================================================================
+
+#: includes/Ajax/class-plugin-actions.php
+msgid "Invalid request parameters."
+msgstr ""
+
+#: includes/Ajax/class-plugin-actions.php
+msgid "Invalid action specified."
+msgstr ""
+
+#: includes/Ajax/class-plugin-actions.php
+#, php-format
+msgid "Plugin \"%1$s\" has been %2$s successfully."
+msgstr ""
+
+#: includes/Ajax/class-plugin-actions.php
+msgid "Plugin slug is required."
+msgstr ""
+
+#. ========================================================================
+#. Core Notices
+#. ========================================================================
+
+#: includes/Core/class-notices.php
+msgid "installed"
+msgstr ""
+
+#: includes/Core/class-notices.php
+msgid "activated"
+msgstr ""
+
+#: includes/Core/class-notices.php
+msgid "deactivated"
+msgstr ""
+
+#: includes/Core/class-notices.php
+msgid "deleted"
+msgstr ""
+
+#: includes/Core/class-notices.php
+msgid "uploaded"
+msgstr ""
+
+#: includes/Core/class-notices.php
+#, php-format
+msgid "\"%1$s\" %2$s successfully."
+msgstr ""
+
+#. ========================================================================
+#. AJAX Handler
+#. ========================================================================
+
+#: includes/Ajax/class-handler.php
+msgid "Security check failed."
+msgstr ""
+
+#: includes/Ajax/class-handler.php
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#. ========================================================================
+#. Admin Controller
+#. ========================================================================
+
+#: includes/Admin/class-controller.php
+msgid "Plugin Bundle Manager"
+msgstr ""
+
+#: includes/Admin/class-controller.php
+msgid "Plugin Bundle"
+msgstr ""
+
+#: includes/Admin/class-controller.php
+msgid "Plugin selection interface not available."
+msgstr ""
+
+#: includes/Admin/class-controller.php
+msgid "Please select at least one plugin."
+msgstr ""
 
 #: includes/Admin/class-controller.php
 msgid "Processing..."
@@ -775,209 +270,469 @@ msgstr ""
 msgid "Are you sure you want to delete this plugin?"
 msgstr ""
 
-#: includes/Themes/class-manager.php
-msgid "Design tokens imported successfully!"
+#. ========================================================================
+#. Theme Uploader
+#. ========================================================================
+
+#: includes/Themes/class-uploader.php
+#, php-format
+msgid "File upload failed with error code: %s"
 msgstr ""
 
 #: includes/Themes/class-uploader.php
-msgid "Invalid file type. Please upload a ZIP file."
+msgid "Invalid file type. Please upload a valid ZIP file."
 msgstr ""
 
-#: includes/Tokens/class-importer.php
-msgid "Invalid file type. Please upload a JSON file."
+#: includes/Themes/class-uploader.php
+msgid "The uploaded file is not a valid ZIP archive."
 msgstr ""
 
-#: includes/Tokens/class-importer.php
-msgid "Failed to read the uploaded file."
+#: includes/Themes/class-uploader.php
+#, php-format
+msgid "The theme \"%s\" is already uploaded."
 msgstr ""
 
-#: includes/Tokens/class-importer.php
-msgid "Failed to parse JSON: %s"
+#: includes/Themes/class-uploader.php
+#, php-format
+msgid "Failed to install the theme: %s"
 msgstr ""
 
-#: includes/Tokens/class-importer.php
-msgid "No valid tokens found in the uploaded file."
+#. ========================================================================
+#. Theme Manager
+#. ========================================================================
+
+#: includes/Themes/class-manager.php
+msgid "Security check failed. Please try again."
 msgstr ""
 
-#: includes/Tokens/class-importer.php
-msgid "Token file is empty."
-msgstr ""
+#. ========================================================================
+#. Child Theme
+#. ========================================================================
 
-#: includes/Tokens/class-importer.php
-msgid "Token file does not contain recognized token categories."
-msgstr ""
-
-#: includes/Ajax/class-handler.php
-msgid "Security check failed."
-msgstr ""
-
-#: includes/Ajax/class-handler.php
-msgid "You do not have permission to perform this action."
-msgstr ""
-
-#: includes/Ajax/class-plugin-actions.php
-msgid "Invalid request parameters."
-msgstr ""
-
-#: includes/Ajax/class-plugin-actions.php
-msgid "Invalid action specified."
-msgstr ""
-
-#: includes/Ajax/class-plugin-actions.php
-msgid "Plugin \"%1$s\" has been %2$s successfully."
-msgstr ""
-
-#: includes/Ajax/class-plugin-actions.php
-msgid "Plugin slug is required."
-msgstr ""
-
-#: includes/Ajax/class-token-actions.php
-msgid "You do not have permission to export tokens."
-msgstr ""
-
-#: includes/Ajax/class-token-actions.php
-msgid "You do not have permission to validate tokens."
-msgstr ""
-
-#: includes/Ajax/class-token-actions.php
-msgid "No token data provided."
-msgstr ""
-
-#: includes/Ajax/class-token-actions.php
-msgid "Token structure is valid."
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "%d CSS variables can be imported from your token file."
+#: includes/Themes/class-child-theme.php
+msgid "YOOtheme Pro is not installed. Please install YOOtheme Pro to create a child theme."
 msgstr ""
 
 #: includes/Themes/class-child-theme.php
-msgid "Failed to create the child theme %s file."
+msgid "Child theme activated successfully."
+msgstr ""
+
+#: includes/Themes/class-child-theme.php
+msgid "Failed to create the child theme directory."
 msgstr ""
 
 #: includes/Themes/class-child-theme.php
 msgid "Failed to create the child theme CSS directory."
 msgstr ""
 
-#: admin/views/partials/footer.php
-msgid "Enhanced Plugin Bundle v%s"
+#: includes/Themes/class-child-theme.php
+msgid "Child theme CSS file updated successfully."
 msgstr ""
 
-#. Additional strings from refactored renderer files - v4.0
-
-#: admin/views/partials/header.php
-msgid "Company Logo"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Import Design Tokens"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Tokens Studio"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Import design tokens from Tokens Studio for Figma. Upload a JSON file exported from Tokens Studio to automatically update all CSS options."
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Token Format Information"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "The JSON file should follow the Tokens Studio format with the following structure:"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "colors"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Text, background, and button colors"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "breakpoints"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Responsive breakpoint values"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "spacing"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Container padding, margins, gutters"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "sizing"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Container max-widths, element widths"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "typography"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Font sizes and weights for headings, buttons, text"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Supported tokens:"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Import Tokens"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "You can also export your current settings to use in Tokens Studio:"
-msgstr ""
-
-#: includes/Themes/Renderer/class-main-renderer.php
-msgid "Export Current Tokens"
-msgstr ""
-
-#. Dynamic sprintf patterns for button colors and spacing fields
-
-#: includes/Themes/Renderer/class-color-fields.php
+#: includes/Themes/class-child-theme.php
 #, php-format
-msgid "Button %s Color"
+msgid "Failed to create the child theme %s file."
 msgstr ""
 
-#: includes/Themes/Renderer/class-color-fields.php
-#, php-format
-msgid "Button %s Hover Color"
+#. ========================================================================
+#. Child Theme AJAX Actions
+#. ========================================================================
+
+#: includes/Ajax/class-child-theme-actions.php
+msgid "YOOtheme Pro is not installed. Please install YOOtheme Pro first."
 msgstr ""
 
-#: includes/Themes/Renderer/class-color-fields.php
-#, php-format
-msgid "Button %s Text Color"
+#: includes/Ajax/class-child-theme-actions.php
+msgid "Child theme created and activated successfully."
 msgstr ""
 
-#: includes/Themes/Renderer/class-color-fields.php
-#, php-format
-msgid "Button %s Hover Text Color"
+#: includes/Ajax/class-child-theme-actions.php
+msgid "Child theme created successfully."
 msgstr ""
 
-#: includes/Themes/Renderer/class-spacing-fields.php
-#, php-format
-msgid "%s Mobile (px)"
+#: includes/Ajax/class-child-theme-actions.php
+msgid "Failed to create child theme."
 msgstr ""
 
-#: includes/Themes/Renderer/class-spacing-fields.php
-#, php-format
-msgid "%s L (px)"
+#. ========================================================================
+#. Component Loader
+#. ========================================================================
+
+#: includes/Ajax/class-component-loader.php
+#: includes/Ajax/class-component-saver.php
+msgid "No component specified."
 msgstr ""
 
-#: includes/Themes/Renderer/class-spacing-fields.php
-#, php-format
-msgid "%s M (px)"
+#: includes/Ajax/class-component-loader.php
+msgid "Component not found."
 msgstr ""
+
+#: includes/Ajax/class-component-loader.php
+msgid "Permission denied."
+msgstr ""
+
+#: includes/Ajax/class-component-loader.php
+msgid "Preview template not found."
+msgstr ""
+
+#. ========================================================================
+#. Component Saver
+#. ========================================================================
+
+#: includes/Ajax/class-component-saver.php
+msgid "Invalid component."
+msgstr ""
+
+#: includes/Ajax/class-component-saver.php
+#, php-format
+msgid "%s settings saved successfully."
+msgstr ""
+
+#: includes/Ajax/class-component-saver.php
+#, php-format
+msgid "%s reset to defaults."
+msgstr ""
+
+#: includes/Ajax/class-component-saver.php
+#, php-format
+msgid "Reset %d component(s) to defaults."
+msgstr ""
+
+#. ========================================================================
+#. Component Importer
+#. ========================================================================
+
+#: includes/Ajax/class-component-importer.php
+msgid "No valid import data provided."
+msgstr ""
+
+#: includes/Ajax/class-component-importer.php
+#, php-format
+msgid "%d component(s) imported successfully."
+msgstr ""
+
+#. ========================================================================
+#. Token Actions (AJAX)
+#. ========================================================================
+
+#: includes/Ajax/class-token-actions.php
+msgid "No token data provided."
+msgstr ""
+
+#: includes/Ajax/class-token-actions.php
+msgid "Invalid JSON format. Please paste valid Tokens Studio JSON."
+msgstr ""
+
+#. ========================================================================
+#. Tokens Studio Importer
+#. ========================================================================
+
+#: includes/Tokens/class-tokens-studio-importer.php
+#, php-format
+msgid "%1$d tokens imported to %2$d components."
+msgstr ""
+
+#: includes/Tokens/class-tokens-studio-importer.php
+msgid "Token file is empty."
+msgstr ""
+
+#: includes/Tokens/class-tokens-studio-importer.php
+msgid "File does not appear to be in Tokens Studio format. Expected structure: {\"group\": {\"token-name\": {\"value\": \"...\", \"type\": \"...\"}}}"
+msgstr ""
+
+#. ========================================================================
+#. Component Picker UI
+#. ========================================================================
+
+#: admin/views/partials/component-picker.php
+msgid "Components"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Export for Figma Tokens Studio"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Import from Figma Tokens Studio"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Export as YOOtheme style.less"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Export All (JSON)"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Import (JSON)"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Create or update child theme"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+#, php-format
+msgid "%d variables"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Reset all components to defaults"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Reset All"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save all component changes"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save All"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Search components..."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+#, php-format
+msgid "%d modified"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Select a Component"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Choose a component from the menu to customize its variables."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Loading component..."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Collapse/Expand All"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Expand All"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Reset to Defaults"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save Changes"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Select a component from the sidebar to start customizing."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Preview"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "CSS"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Toggle Preview Panel"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Select a component to see a live preview"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Component Preview"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Generated CSS"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Copy to clipboard"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Copy"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Import Component Settings"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Paste your exported JSON data below:"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Cancel"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Import"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Paste your Tokens Studio JSON export from Figma:"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Only tokens with actual values will be imported. References and calculations will be skipped."
+msgstr ""
+
+#. ========================================================================
+#. Dynamic Renderer
+#. ========================================================================
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "No customizable variables found for this component."
+msgstr ""
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "Resolved value"
+msgstr ""
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "Reset to default"
+msgstr ""
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "-- Select --"
+msgstr ""
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "Normal (400)"
+msgstr ""
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "Bold (700)"
+msgstr ""
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "Bolder"
+msgstr ""
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "Lighter"
+msgstr ""
+
+#: includes/Themes/Renderer/class-dynamic-renderer.php
+msgid "Inherit"
+msgstr ""
+
+#. ========================================================================
+#. Main Renderer
+#. ========================================================================
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Upload Parent Theme"
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Installed"
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Inactive"
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Upload your parent theme ZIP file below to install it:"
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Upload and Install Parent Theme"
+msgstr ""
+
+#. ========================================================================
+#. Main Renderer - JavaScript Strings
+#. ========================================================================
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Loading..."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Saving..."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Changes saved successfully."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Component reset to defaults."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "An error occurred. Please try again."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Are you sure you want to reset all values for this component to defaults?"
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Are you sure you want to reset ALL components to their defaults? This cannot be undone."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Export downloaded successfully."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Components imported successfully."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Please select a file to import."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "variables"
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Collapse All"
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Copied!"
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "Please select a component first."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+msgid "No unsaved changes to save."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+#, php-format
+msgid "Saved %d component(s) successfully."
+msgstr ""
+
+#: includes/Themes/Renderer/class-main-renderer.php
+#, php-format
+msgid "Saved %d component(s), %d failed."
+msgstr ""
+
+#. ========================================================================
+#. Preview Renderer
+#. ========================================================================
+
+#: includes/Themes/Renderer/class-preview-renderer.php
+msgid "Preview not available for this component."
+msgstr ""
+

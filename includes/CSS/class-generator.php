@@ -3,6 +3,8 @@
 /**
  * CSS Generator for Enhanced Plugin Bundle.
  *
+ * Generates CSS from component-based UIkit variable settings.
+ *
  * @package Enhanced_Plugin_Bundle
  * @subpackage CSS
  */
@@ -16,726 +18,613 @@ if (!defined('ABSPATH')) {
     exit();
 }
 
+use EPB\CSS\Component_Registry;
+
 /**
  * Class Generator
  *
- * Responsible for generating the complete CSS content for the child theme's style.css file.
- * This class takes an array of CSS options (such as colors, typography, and spacing) and converts
- * them into CSS custom properties along with the necessary theme styles.
+ * Generates CSS custom properties from saved UIkit component variables.
+ * Uses Less.js for live preview compilation and outputs CSS variables
+ * for the final child theme stylesheet.
  */
 class Generator
 {
     /**
+     * Option prefix for component storage.
+     *
+     * @var string
+     */
+    private const COMPONENT_PREFIX = 'epb_component_';
+
+    /**
      * Generates the complete CSS content for the child theme.
      *
-     * This method uses the provided CSS options to create CSS custom properties and styles.
-     *
-     * @param array<string, mixed> $options An associative array of CSS options.
-     * @return string The complete CSS content.
+     * @return string The complete CSS content with UIkit variables.
      */
-    public static function generate(array $options): string
+    public static function generate(): string
     {
-        // Merge with defaults to ensure all required keys exist.
-        $options = wp_parse_args($options, Options::get_defaults());
-
-        // Generate CSS sections.
-        $css  = self::generate_root_variables($options);
-        $css .= self::generate_color_utilities($options);
-        $css .= self::generate_typography_styles($options);
-        $css .= self::generate_container_styles($options);
-        $css .= self::generate_element_styles($options);
-        $css .= self::generate_base_styles($options);
+        $css = self::generate_component_variables();
+        $css .= self::generate_fluid_typography();
 
         return $css;
     }
 
     /**
-     * Generates the :root CSS custom properties.
+     * Generate CSS variables from component-based settings.
      *
-     * @param array<string, mixed> $options CSS options.
-     * @return string CSS content.
+     * @return string CSS content with UIkit-style variables.
      */
-    private static function generate_root_variables(array $options): string
+    public static function generate_component_variables(): string
     {
-        $base_font_size = isset($options['base_font_size']) ? floatval($options['base_font_size']) : 16;
+        if (!class_exists(Component_Registry::class)) {
+            return '';
+        }
 
-        return <<<EOT
-/* GLOBAL */
-:root {
+        $css = "\n/* UIkit Component Variables */\n:root {\n";
+        $has_variables = false;
 
-    --muted-color: {$options['muted_color']};
-    --emphasis-color: {$options['emphasis_color']};
-    --primary-color: {$options['primary_color']};
-    --secondary-color: {$options['secondary_color']};
-    --success-color: {$options['success_color']};
-    --warning-color: {$options['warning_color']};
-    --danger-color: {$options['danger_color']};
-    --text-background-color: {$options['text_background_color']};
-    --body-color: {$options['body_color']};
-    --background-default: {$options['background_default_color']};
-    --background-muted: {$options['background_muted_color']};
-    --background-primary: {$options['background_primary_color']};
-    --background-secondary: {$options['background_secondary_color']};
-    
-    --button-default-color: {$options['button_default_color']};
-    --button-default-hover-color: {$options['button_default_hover_color']};
-    --button-default-text-color: {$options['button_default_text_color']};
-    --button-default-hover-text-color: {$options['button_default_hover_text_color']};
-   
-    --button-primary-color: {$options['button_primary_color']};
-    --button-primary-hover-color: {$options['button_primary_hover_color']};
-    --button-primary-text-color: {$options['button_primary_text_color']};
-    --button-primary-hover-text-color: {$options['button_primary_hover_text_color']};
-    
-    --button-secondary-color: {$options['button_secondary_color']};
-    --button-secondary-hover-color: {$options['button_secondary_hover_color']};
-    --button-secondary-text-color: {$options['button_secondary_text_color']};
-    --button-secondary-hover-text-color: {$options['button_secondary_hover_text_color']};
-    
-    --button-danger-color: {$options['button_danger_color']};
-    --button-danger-hover-color: {$options['button_danger_hover_color']};
-    --button-danger-text-color: {$options['button_danger_text_color']};
-    --button-danger-hover-text-color: {$options['button_danger_hover_text_color']};
-   
-    --button-text-color: {$options['button_text_color']};
-    --button-text-hover-color: {$options['button_text_hover_color']};
-    
-    --button-link-color: {$options['button_link_color']};
-    --button-link-hover-color: {$options['button_link_hover_color']};
+        $components = Component_Registry::get_all();
 
-    /* Breakpoints */
-    --ppm-breakpoint-s: {$options['ppm_breakpoint_s']};
-    --ppm-breakpoint-m: {$options['ppm_breakpoint_m']};
-    --ppm-breakpoint-l: {$options['ppm_breakpoint_l']};
-    --ppm-breakpoint-xl: {$options['ppm_breakpoint_xl']};
-    
-    --uk-breakpoint-s: {$options['ppm_breakpoint_s']}px;
-    --uk-breakpoint-m: {$options['ppm_breakpoint_m']}px;
-    --uk-breakpoint-l: {$options['ppm_breakpoint_l']}px;
-    --uk-breakpoint-xl: {$options['ppm_breakpoint_xl']}px;
+        foreach (array_keys($components) as $component) {
+            $saved = get_option(self::COMPONENT_PREFIX . $component, []);
 
-    /* Base font size */
-    --base-font-size: {$base_font_size}px;
+            if (empty($saved)) {
+                continue;
+            }
 
-    /* Headline font sizes */
-    --heading-3xlarge-mobile: {$options['heading_3xlarge_mobile']};
-    --heading-3xlarge-desktop: {$options['heading_3xlarge_desktop']};
-    --heading-3xlarge-font-weight: {$options['heading_3xlarge_font_weight']};
+            $has_variables = true;
+            $css .= "\n    /* " . ucfirst(str_replace('-', ' ', $component)) . " */\n";
 
-    --heading-2xlarge-mobile: {$options['heading_2xlarge_mobile']};
-    --heading-2xlarge-desktop: {$options['heading_2xlarge_desktop']};
-    --heading-2xlarge-font-weight: {$options['heading_2xlarge_font_weight']};
+            foreach ($saved as $var_name => $value) {
+                // Convert Less variable name to CSS custom property.
+                $css_var = '--uk-' . $var_name;
+                $css .= "    {$css_var}: {$value};\n";
+            }
+        }
 
-    --heading-xlarge-mobile: {$options['heading_xlarge_mobile']};
-    --heading-xlarge-desktop: {$options['heading_xlarge_desktop']};
-    --heading-xlarge-font-weight: {$options['heading_xlarge_font_weight']};
+        $css .= "}\n";
 
-    --heading-large-mobile: {$options['heading_large_mobile']};
-    --heading-large-desktop: {$options['heading_large_desktop']};
-    --heading-large-font-weight: {$options['heading_large_font_weight']};
-
-    --heading-medium-mobile: {$options['heading_medium_mobile']};
-    --heading-medium-desktop: {$options['heading_medium_desktop']};
-    --heading-medium-font-weight: {$options['heading_medium_font_weight']};
-
-    --heading-small-mobile: {$options['heading_small_mobile']};
-    --heading-small-desktop: {$options['heading_small_desktop']};
-    --heading-small-font-weight: {$options['heading_small_font_weight']};
-
-    --button-default-mobile: {$options['button_default_mobile']};
-    --button-default-desktop: {$options['button_default_desktop']};
-    --button-default-font-weight: {$options['button_default_font_weight']};
-
-    --button-primary-mobile: {$options['button_primary_mobile']};
-    --button-primary-desktop: {$options['button_primary_desktop']};
-    --button-primary-font-weight: {$options['button_primary_font_weight']};
-
-    --button-secondary-mobile: {$options['button_secondary_mobile']};
-    --button-secondary-desktop: {$options['button_secondary_desktop']};
-    --button-secondary-font-weight: {$options['button_secondary_font_weight']};
-
-    --button-danger-mobile: {$options['button_danger_mobile']};
-    --button-danger-desktop: {$options['button_danger_desktop']};
-    --button-danger-font-weight: {$options['button_danger_font_weight']};
-
-    --button-text-mobile: {$options['button_text_mobile']};
-    --button-text-desktop: {$options['button_text_desktop']};
-    --button-text-font-weight: {$options['button_text_font_weight']};
-
-    --button-link-mobile: {$options['button_link_mobile']};
-    --button-link-desktop: {$options['button_link_desktop']};
-    --button-link-font-weight: {$options['button_link_font_weight']};
-
-    --navbar-link-mobile: {$options['navbar_link_mobile']};
-    --navbar-link-desktop: {$options['navbar_link_desktop']};
-    --navbar-link-font-weight: {$options['navbar_link_font_weight']};
-
-    --text-default-mobile: {$options['text_default_mobile']};
-    --text-default-desktop: {$options['text_default_desktop']};
-    --text-default-font-weight: {$options['text_default_font_weight']};
-
-    --text-small-mobile: {$options['text_small_mobile']};
-    --text-small-desktop: {$options['text_small_desktop']};
-    --text-small-font-weight: {$options['text_small_font_weight']};
-
-    --text-large-mobile: {$options['text_large_mobile']};
-    --text-large-desktop: {$options['text_large_desktop']};
-    --text-large-font-weight: {$options['text_large_font_weight']};
-
-    /* Container */
-    --column-gutter-mobile: {$options['column_gutter_mobile']}px;
-    --column-gutter-l: {$options['column_gutter_l']}px;
-
-    --container-padding-vertical-default-mobile: {$options['container_padding_vertical_default_mobile']}px;
-    --container-padding-vertical-default-m: {$options['container_padding_vertical_default_m']}px;
-    --container-padding-vertical-xsmall-mobile: {$options['container_padding_vertical_xsmall_mobile']}px;
-    --container-padding-vertical-xsmall-m: {$options['container_padding_vertical_xsmall_m']}px;
-    --container-padding-vertical-small-mobile: {$options['container_padding_vertical_small_mobile']}px;
-    --container-padding-vertical-small-m: {$options['container_padding_vertical_small_m']}px;
-    --container-padding-vertical-large-mobile: {$options['container_padding_vertical_large_mobile']}px;
-    --container-padding-vertical-large-m: {$options['container_padding_vertical_large_m']}px;
-    --container-padding-vertical-xlarge-mobile: {$options['container_padding_vertical_xlarge_mobile']}px;
-    --container-padding-vertical-xlarge-m: {$options['container_padding_vertical_xlarge_m']}px;
-
-    --container-padding-horizontal-mobile: {$options['container_padding_horizontal_mobile']}px;
-    --container-padding-horizontal-s: {$options['container_padding_horizontal_s']}px;
-    --container-padding-horizontal-m: {$options['container_padding_horizontal_m']}px;
-
-    --container-max-width-default: {$options['container_max_width_default']}px;
-    --container-max-width-xsmall: {$options['container_max_width_xsmall']}px;
-    --container-max-width-small: {$options['container_max_width_small']}px;
-    --container-max-width-large: {$options['container_max_width_large']}px;
-    --container-max-width-xlarge: {$options['container_max_width_xlarge']}px;
-
-    /* Element */
-    --element-width-small: {$options['element_width_small']}px;
-    --element-width-medium: {$options['element_width_medium']}px;
-    --element-width-large: {$options['element_width_large']}px;
-    --element-width-xlarge: {$options['element_width_xlarge']}px;
-    --element-width-2xlarge: {$options['element_width_2xlarge']}px;
-
-    --element-margin-default-mobile: {$options['element_margin_default_mobile']}px;
-    --element-margin-default-l: {$options['element_margin_default_l']}px;
-    --element-margin-xsmall-mobile: {$options['element_margin_xsmall_mobile']}px;
-    --element-margin-xsmall-l: {$options['element_margin_xsmall_l']}px;
-    --element-margin-small-mobile: {$options['element_margin_small_mobile']}px;
-    --element-margin-small-l: {$options['element_margin_small_l']}px;
-    --element-margin-medium-mobile: {$options['element_margin_medium_mobile']}px;
-    --element-margin-medium-l: {$options['element_margin_medium_l']}px;
-    --element-margin-large-mobile: {$options['element_margin_large_mobile']}px;
-    --element-margin-large-l: {$options['element_margin_large_l']}px;
-    --element-margin-xlarge-mobile: {$options['element_margin_xlarge_mobile']}px;
-    --element-margin-xlarge-l: {$options['element_margin_xlarge_l']}px;
-}
-
-EOT;
+        return $has_variables ? $css : '';
     }
 
     /**
-     * Generates color utility class styles.
+     * Generate CSS for a single component.
      *
-     * @param array<string, mixed> $options CSS options.
+     * @param string $component Component name.
      * @return string CSS content.
      */
-    private static function generate_color_utilities(array $options): string
+    public static function generate_single_component_css(string $component): string
     {
-        return <<<EOT
+        if (!class_exists(Component_Registry::class)) {
+            return '';
+        }
 
-.uk-text-muted {
-    color: var(--muted-color) !important;
-}
+        $saved = get_option(self::COMPONENT_PREFIX . $component, []);
 
-.uk-text-emphasis {
-    color: var(--emphasis-color) !important;
-}
+        if (empty($saved)) {
+            return '';
+        }
 
-.uk-text-primary {
-    color: var(--primary-color) !important;
-}
+        $css = "/* " . ucfirst(str_replace('-', ' ', $component)) . " Variables */\n:root {\n";
 
-.uk-text-secondary {
-    color: var(--secondary-color) !important;
-}
+        foreach ($saved as $var_name => $value) {
+            $css_var = '--uk-' . $var_name;
+            $css .= "    {$css_var}: {$value};\n";
+        }
 
-.uk-text-success {
-    color: var(--success-color) !important;
-}
+        $css .= "}\n";
 
-.uk-text-warning {
-    color: var(--warning-color) !important;
-}
-
-.uk-text-danger {
-    color: var(--danger-color) !important;
-}
-
-.uk-text-background {
-    background-color: var(--text-background-color) !important;
-}
-
-.uk-section-default,
-.uk-background-default {
-    background-color: var(--background-default) !important;
-}
-
-.uk-section-muted,
-.uk-background-muted {
-    background-color: var(--background-muted) !important;
-}
-
-.uk-section-primary,
-.uk-background-primary {
-    background-color: var(--background-primary) !important;
-}
-
-.uk-section-secondary,
-.uk-background-secondary {
-    background-color: var(--background-secondary) !important;
-}
-
-EOT;
+        return $css;
     }
 
     /**
-     * Generates typography styles for text, headings, and buttons.
+     * Generate fluid typography styles using UIkit variables.
      *
-     * @param array<string, mixed> $options CSS options.
-     * @return string CSS content.
+     * This uses CSS clamp() for smooth font scaling between breakpoints.
+     * The formula creates fluid typography that scales based on viewport width.
+     *
+     * @return string CSS content for fluid typography.
      */
-    private static function generate_typography_styles(array $options): string
+    private static function generate_fluid_typography(): string
     {
-        return <<<EOT
+        return <<<'CSS'
 
-/* TEXT */
+/* ==========================================================================
+   Fluid Typography Base Styles
+   ========================================================================== */
+
+html {
+    font-size: var(--uk-global-font-size, 16px);
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+}
+
 body {
-    --mobile-font-size: var(--text-default-mobile);
-    --desktop-font-size: var(--text-default-desktop);
-    font-weight: var(--text-default-font-weight) !important;
+    font-size: var(--uk-base-body-font-size, var(--uk-global-font-size, 1rem));
+    line-height: var(--uk-base-body-line-height, var(--uk-global-line-height, 1.5));
+    color: var(--uk-base-body-color, var(--uk-global-color, #666));
 }
 
-.uk-text-small {
-    --mobile-font-size: var(--text-small-mobile);
-    --desktop-font-size: var(--text-small-desktop);
-    font-weight: var(--text-small-font-weight) !important;
+/* ==========================================================================
+   Base Headings (h1-h6) - Fluid scaling
+   ========================================================================== */
+
+h1, .uk-h1 {
+    font-size: clamp(
+        var(--uk-base-h1-font-size, 2.23rem),
+        calc(var(--uk-base-h1-font-size, 2.23rem) + (var(--uk-base-h1-font-size-m, 2.625rem) - var(--uk-base-h1-font-size, 2.23rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-base-h1-font-size-m, 2.625rem)
+    );
 }
 
-.uk-text-default {
-    --mobile-font-size: var(--text-default-mobile);
-    --desktop-font-size: var(--text-default-desktop);
-    font-weight: var(--text-default-font-weight) !important;
+h2, .uk-h2 {
+    font-size: clamp(
+        var(--uk-base-h2-font-size, 1.7rem),
+        calc(var(--uk-base-h2-font-size, 1.7rem) + (var(--uk-base-h2-font-size-m, 2rem) - var(--uk-base-h2-font-size, 1.7rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-base-h2-font-size-m, 2rem)
+    );
 }
 
-.uk-text-large {
-    --mobile-font-size: var(--text-large-mobile);
-    --desktop-font-size: var(--text-large-desktop);
-    font-weight: var(--text-large-font-weight) !important;
+h3, .uk-h3 {
+    font-size: var(--uk-base-h3-font-size, var(--uk-global-large-font-size, 1.5rem));
 }
 
-/* HEADING */
+h4, .uk-h4 {
+    font-size: var(--uk-base-h4-font-size, var(--uk-global-medium-font-size, 1.25rem));
+}
+
+h5, .uk-h5 {
+    font-size: var(--uk-base-h5-font-size, var(--uk-global-font-size, 1rem));
+}
+
+h6, .uk-h6 {
+    font-size: var(--uk-base-h6-font-size, var(--uk-global-small-font-size, 0.875rem));
+}
+
+/* ==========================================================================
+   Heading Component Classes - Fluid scaling for larger displays
+   ========================================================================== */
+
 .uk-heading-small {
-    --mobile-font-size: var(--heading-small-mobile);
-    --desktop-font-size: var(--heading-small-desktop);
-    font-weight: var(--heading-small-font-weight) !important;
+    font-size: clamp(
+        var(--uk-heading-small-font-size, 2.4rem),
+        calc(var(--uk-heading-small-font-size, 2.4rem) + (var(--uk-heading-small-font-size-m, 3.25rem) - var(--uk-heading-small-font-size, 2.4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-small-font-size-m, 3.25rem)
+    );
 }
 
 .uk-heading-medium {
-    --mobile-font-size: var(--heading-medium-mobile);
-    --desktop-font-size: var(--heading-medium-desktop);
-    font-weight: var(--heading-medium-font-weight) !important;
+    font-size: clamp(
+        var(--uk-heading-medium-font-size, 2.5rem),
+        calc(var(--uk-heading-medium-font-size, 2.5rem) + (var(--uk-heading-medium-font-size-l, 4rem) - var(--uk-heading-medium-font-size, 2.5rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-medium-font-size-l, 4rem)
+    );
 }
 
 .uk-heading-large {
-    --mobile-font-size: var(--heading-large-mobile);
-    --desktop-font-size: var(--heading-large-desktop);
-    font-weight: var(--heading-large-font-weight) !important;
+    font-size: clamp(
+        var(--uk-heading-large-font-size, 3.4rem),
+        calc(var(--uk-heading-large-font-size, 3.4rem) + (var(--uk-heading-large-font-size-l, 6rem) - var(--uk-heading-large-font-size, 3.4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-large-font-size-l, 6rem)
+    );
 }
 
 .uk-heading-xlarge {
-    --mobile-font-size: var(--heading-xlarge-mobile);
-    --desktop-font-size: var(--heading-xlarge-desktop);
-    font-weight: var(--heading-xlarge-font-weight) !important;
+    font-size: clamp(
+        var(--uk-heading-xlarge-font-size, 4rem),
+        calc(var(--uk-heading-xlarge-font-size, 4rem) + (var(--uk-heading-xlarge-font-size-l, 8rem) - var(--uk-heading-xlarge-font-size, 4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-xlarge-font-size-l, 8rem)
+    );
 }
 
 .uk-heading-2xlarge {
-    --mobile-font-size: var(--heading-2xlarge-mobile);
-    --desktop-font-size: var(--heading-2xlarge-desktop);
-    font-weight: var(--heading-2xlarge-font-weight) !important;
+    font-size: clamp(
+        var(--uk-heading-2xlarge-font-size, 6rem),
+        calc(var(--uk-heading-2xlarge-font-size, 6rem) + (var(--uk-heading-2xlarge-font-size-l, 11rem) - var(--uk-heading-2xlarge-font-size, 6rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-2xlarge-font-size-l, 11rem)
+    );
 }
 
 .uk-heading-3xlarge {
-    --mobile-font-size: var(--heading-3xlarge-mobile);
-    --desktop-font-size: var(--heading-3xlarge-desktop);
-    font-weight: var(--heading-3xlarge-font-weight) !important;
+    font-size: clamp(
+        var(--uk-heading-3xlarge-font-size, 8rem),
+        calc(var(--uk-heading-3xlarge-font-size, 8rem) + (var(--uk-heading-3xlarge-font-size-l, 15rem) - var(--uk-heading-3xlarge-font-size, 8rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-3xlarge-font-size-l, 15rem)
+    );
 }
 
-/* NAV */
-.uk-navbar-nav>li>a {
-    --mobile-font-size: var(--navbar-link-mobile);
-    --desktop-font-size: var(--navbar-link-desktop);
-    font-weight: var(--navbar-link-font-weight) !important;
+/* ==========================================================================
+   Text Utilities
+   ========================================================================== */
+
+.uk-text-lead {
+    font-size: var(--uk-text-lead-font-size, var(--uk-global-large-font-size, 1.5rem));
+    line-height: var(--uk-text-lead-line-height, 1.5);
 }
 
-/* BUTTON */
-.uk-button-default {
-    --mobile-font-size: var(--button-default-mobile);
-    --desktop-font-size: var(--button-default-desktop);
-    font-weight: var(--button-default-font-weight) !important;
-    background-color: var(--button-default-color) !important;
-    color: var(--button-default-text-color) !important;
+.uk-text-meta {
+    font-size: var(--uk-text-meta-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-button-default:hover {
-    background-color: var(--button-default-hover-color) !important;
-    color: var(--button-default-hover-text-color) !important;
+.uk-text-small {
+    font-size: var(--uk-text-small-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-button-primary {
-    --mobile-font-size: var(--button-primary-mobile);
-    --desktop-font-size: var(--button-primary-desktop);
-    font-weight: var(--button-primary-font-weight) !important;
-    background-color: var(--button-primary-color) !important;
-    color: var(--button-primary-text-color) !important;
+.uk-text-large {
+    font-size: var(--uk-text-large-font-size, var(--uk-global-large-font-size, 1.5rem));
 }
 
-.uk-button-primary:hover {
-    background-color: var(--button-primary-hover-color) !important;
-    color: var(--button-primary-hover-text-color) !important;
+.uk-text-default {
+    font-size: var(--uk-global-font-size, 1rem);
 }
 
-.uk-button-secondary {
-    --mobile-font-size: var(--button-secondary-mobile);
-    --desktop-font-size: var(--button-secondary-desktop);
-    font-weight: var(--button-secondary-font-weight) !important;
-    background-color: var(--button-secondary-color) !important;
-    color: var(--button-secondary-text-color) !important;
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.uk-button {
+    font-size: var(--uk-button-font-size, var(--uk-global-font-size, 1rem));
 }
 
-.uk-button-secondary:hover {
-    background-color: var(--button-secondary-hover-color) !important;
-    color: var(--button-secondary-hover-text-color) !important;
+.uk-button-small {
+    font-size: var(--uk-button-small-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-button-danger {
-    --mobile-font-size: var(--button-danger-mobile);
-    --desktop-font-size: var(--button-danger-desktop);
-    font-weight: var(--button-danger-font-weight) !important;
-    background-color: var(--button-danger-color) !important;
-    color: var(--button-danger-text-color) !important;
+.uk-button-large {
+    font-size: var(--uk-button-large-font-size, var(--uk-global-medium-font-size, 1.25rem));
 }
 
-.uk-button-danger:hover {
-    background-color: var(--button-danger-hover-color) !important;
-    color: var(--button-danger-hover-text-color) !important;
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
+
+.uk-navbar-nav > li > a {
+    font-size: var(--uk-navbar-nav-item-font-size, var(--uk-global-font-size, 1rem));
 }
 
-.uk-button-text {
-    --mobile-font-size: var(--button-text-mobile);
-    --desktop-font-size: var(--button-text-desktop);
-    font-weight: var(--button-text-font-weight) !important;
-    color: var(--button-text-color) !important;
+.uk-navbar-subtitle {
+    font-size: var(--uk-navbar-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-button-text:hover {
-    color: var(--button-text-hover-color) !important;
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+.uk-input,
+.uk-select,
+.uk-textarea {
+    font-size: var(--uk-form-font-size, var(--uk-global-font-size, 1rem));
 }
 
-.uk-button-link {
-    --mobile-font-size: var(--button-link-mobile);
-    --desktop-font-size: var(--button-link-desktop);
-    font-weight: var(--button-link-font-weight) !important;
+.uk-form-small:is(.uk-input, .uk-select, .uk-textarea) {
+    font-size: var(--uk-form-small-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-button-link a {
-    color: var(--button-link-color) !important;
+.uk-form-large:is(.uk-input, .uk-select, .uk-textarea) {
+    font-size: var(--uk-form-large-font-size, var(--uk-global-medium-font-size, 1.25rem));
 }
 
-.uk-button-link:hover,
-.uk-button-link a:hover {
-    color: var(--button-link-hover-color) !important;
+.uk-legend {
+    font-size: var(--uk-form-legend-font-size, var(--uk-global-large-font-size, 1.5rem));
 }
 
-EOT;
-    }
+/* ==========================================================================
+   Accordion
+   ========================================================================== */
 
-    /**
-     * Generates container and section styles.
-     *
-     * @param array<string, mixed> $options CSS options.
-     * @return string CSS content.
-     */
-    private static function generate_container_styles(array $options): string
-    {
-        return <<<EOT
-
-[class*="uk-column-"] {
-    padding-left: var(--column-gutter-mobile);
-    padding-right: var(--column-gutter-mobile);
+.uk-accordion-title {
+    font-size: var(--uk-accordion-default-title-font-size, var(--uk-global-medium-font-size, 1.25rem));
 }
 
-@media (min-width: 1200px) {
-    [class*="uk-column-"] {
-        padding-left: var(--column-gutter-l);
-        padding-right: var(--column-gutter-l);
-    }
+/* ==========================================================================
+   Article
+   ========================================================================== */
+
+.uk-article-title {
+    font-size: clamp(
+        var(--uk-article-title-font-size, 2.23rem),
+        calc(var(--uk-article-title-font-size, 2.23rem) + (var(--uk-article-title-font-size-m, 2.625rem) - var(--uk-article-title-font-size, 2.23rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-article-title-font-size-m, 2.625rem)
+    );
 }
 
-.uk-container {
-    max-width: var(--container-max-width-default);
-    padding-left: var(--container-padding-horizontal-mobile);
-    padding-right: var(--container-padding-horizontal-mobile);
+.uk-article-meta {
+    font-size: var(--uk-article-meta-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-container-xsmall {
-    max-width: var(--container-max-width-xsmall);
+/* ==========================================================================
+   Badge
+   ========================================================================== */
+
+.uk-badge {
+    font-size: var(--uk-badge-font-size, 11px);
 }
 
-.uk-container-small {
-    max-width: var(--container-max-width-small);
+/* ==========================================================================
+   Breadcrumb
+   ========================================================================== */
+
+.uk-breadcrumb > * > * {
+    font-size: var(--uk-breadcrumb-item-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-container-large {
-    max-width: var(--container-max-width-large);
+.uk-breadcrumb > :nth-child(n+2):not(.uk-first-column)::before {
+    font-size: var(--uk-breadcrumb-divider-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-container-xlarge {
-    max-width: var(--container-max-width-xlarge);
+/* ==========================================================================
+   Card
+   ========================================================================== */
+
+.uk-card-title {
+    font-size: var(--uk-card-title-font-size, var(--uk-global-large-font-size, 1.5rem));
 }
 
-@media (min-width: 600px) {
-    .uk-container {
-        padding-left: var(--container-padding-horizontal-s);
-        padding-right: var(--container-padding-horizontal-s);
-    }
+.uk-card-badge {
+    font-size: var(--uk-card-badge-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-@media (min-width: 900px) {
-    .uk-container {
-        padding-left: var(--container-padding-horizontal-m);
-        padding-right: var(--container-padding-horizontal-m);
-    }
+/* ==========================================================================
+   Comment
+   ========================================================================== */
+
+.uk-comment-title {
+    font-size: var(--uk-comment-title-font-size, var(--uk-global-medium-font-size, 1.25rem));
 }
 
-.uk-section {
-    padding-top: var(--container-padding-vertical-default-mobile);
-    padding-bottom: var(--container-padding-vertical-default-mobile);
+.uk-comment-meta {
+    font-size: var(--uk-comment-meta-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-@media (min-width: 900px) {
-    .uk-section {
-        padding-top: var(--container-padding-vertical-default-m);
-        padding-bottom: var(--container-padding-vertical-default-m);
-    }
+/* ==========================================================================
+   Countdown
+   ========================================================================== */
+
+.uk-countdown-separator {
+    font-size: var(--uk-countdown-separator-font-size, 0.5em);
 }
 
-.uk-section-xsmall {
-    padding-top: var(--container-padding-vertical-xsmall-mobile);
-    padding-bottom: var(--container-padding-vertical-xsmall-mobile);
+/* ==========================================================================
+   Dropdown
+   ========================================================================== */
+
+.uk-dropdown-nav .uk-nav-subtitle {
+    font-size: var(--uk-dropdown-nav-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-@media (min-width: 900px) {
-    .uk-section-xsmall {
-        padding-top: var(--container-padding-vertical-xsmall-m);
-        padding-bottom: var(--container-padding-vertical-xsmall-m);
-    }
+/* ==========================================================================
+   Modal
+   ========================================================================== */
+
+.uk-modal-title {
+    font-size: var(--uk-modal-title-font-size, var(--uk-global-xlarge-font-size, 2rem));
 }
 
-.uk-section-small {
-    padding-top: var(--container-padding-vertical-small-mobile);
-    padding-bottom: var(--container-padding-vertical-small-mobile);
+/* ==========================================================================
+   Label
+   ========================================================================== */
+
+.uk-label {
+    font-size: var(--uk-label-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-@media (min-width: 900px) {
-    .uk-section-small {
-        padding-top: var(--container-padding-vertical-small-m);
-        padding-bottom: var(--container-padding-vertical-small-m);
-    }
+/* ==========================================================================
+   Nav
+   ========================================================================== */
+
+.uk-nav-header {
+    font-size: var(--uk-nav-header-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-section-large {
-    padding-top: var(--container-padding-vertical-large-mobile);
-    padding-bottom: var(--container-padding-vertical-large-mobile);
+.uk-nav-default > li > a {
+    font-size: var(--uk-nav-default-font-size, var(--uk-global-font-size, 1rem));
 }
 
-@media (min-width: 900px) {
-    .uk-section-large {
-        padding-top: var(--container-padding-vertical-large-m);
-        padding-bottom: var(--container-padding-vertical-large-m);
-    }
+.uk-nav-default .uk-nav-subtitle {
+    font-size: var(--uk-nav-default-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-section-xlarge {
-    padding-top: var(--container-padding-vertical-xlarge-mobile);
-    padding-bottom: var(--container-padding-vertical-xlarge-mobile);
+.uk-nav-default .uk-nav-sub a {
+    font-size: var(--uk-nav-default-sublist-font-size, var(--uk-global-font-size, 1rem));
 }
 
-@media (min-width: 900px) {
-    .uk-section-xlarge {
-        padding-top: var(--container-padding-vertical-xlarge-m);
-        padding-bottom: var(--container-padding-vertical-xlarge-m);
-    }
+.uk-nav-primary > li > a {
+    font-size: var(--uk-nav-primary-font-size, var(--uk-global-large-font-size, 1.5rem));
 }
 
-EOT;
-    }
-
-    /**
-     * Generates element width and margin styles.
-     *
-     * @param array<string, mixed> $options CSS options.
-     * @return string CSS content.
-     */
-    private static function generate_element_styles(array $options): string
-    {
-        return <<<EOT
-
-.uk-width-small {
-    width: var(--element-width-small);
+.uk-nav-primary .uk-nav-subtitle {
+    font-size: var(--uk-nav-primary-subtitle-font-size, var(--uk-global-medium-font-size, 1.25rem));
 }
 
-.uk-width-medium {
-    width: var(--element-width-medium);
+.uk-nav-primary .uk-nav-sub a {
+    font-size: var(--uk-nav-primary-sublist-font-size, var(--uk-global-medium-font-size, 1.25rem));
 }
 
-.uk-width-large {
-    width: var(--element-width-large);
+.uk-nav-secondary > li > a {
+    font-size: var(--uk-nav-secondary-font-size, var(--uk-global-font-size, 1rem));
 }
 
-.uk-width-xlarge {
-    width: var(--element-width-xlarge);
+.uk-nav-secondary .uk-nav-subtitle {
+    font-size: var(--uk-nav-secondary-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-width-2xlarge {
-    width: var(--element-width-2xlarge);
+.uk-nav-secondary .uk-nav-sub a {
+    font-size: var(--uk-nav-secondary-sublist-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-margin {
-    margin-top: var(--element-margin-default-mobile);
-    margin-bottom: var(--element-margin-default-mobile);
+/* Nav Medium - Fluid scaling */
+.uk-nav-medium > li > a {
+    font-size: clamp(
+        var(--uk-nav-medium-font-size, 2.5rem),
+        calc(var(--uk-nav-medium-font-size, 2.5rem) + (var(--uk-nav-medium-font-size-l, 4rem) - var(--uk-nav-medium-font-size, 2.5rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-nav-medium-font-size-l, 4rem)
+    );
 }
 
-@media (min-width: 1200px) {
-    .uk-margin {
-        margin-top: var(--element-margin-default-l);
-        margin-bottom: var(--element-margin-default-l);
-    }
+/* Nav Large - Fluid scaling */
+.uk-nav-large > li > a {
+    font-size: clamp(
+        var(--uk-nav-large-font-size, 3.4rem),
+        calc(var(--uk-nav-large-font-size, 3.4rem) + (var(--uk-nav-large-font-size-l, 6rem) - var(--uk-nav-large-font-size, 3.4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-nav-large-font-size-l, 6rem)
+    );
 }
 
-.uk-margin-xsmall {
-    margin-top: var(--element-margin-xsmall-mobile);
-    margin-bottom: var(--element-margin-xsmall-mobile);
+/* Nav XLarge - Fluid scaling */
+.uk-nav-xlarge > li > a {
+    font-size: clamp(
+        var(--uk-nav-xlarge-font-size, 4rem),
+        calc(var(--uk-nav-xlarge-font-size, 4rem) + (var(--uk-nav-xlarge-font-size-l, 8rem) - var(--uk-nav-xlarge-font-size, 4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-nav-xlarge-font-size-l, 8rem)
+    );
 }
 
-@media (min-width: 1200px) {
-    .uk-margin-xsmall {
-        margin-top: var(--element-margin-xsmall-l);
-        margin-bottom: var(--element-margin-xsmall-l);
-    }
+/* ==========================================================================
+   Navbar Dropdown
+   ========================================================================== */
+
+.uk-navbar-dropdown-nav .uk-nav-subtitle {
+    font-size: var(--uk-navbar-dropdown-nav-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-margin-small {
-    margin-top: var(--element-margin-small-mobile);
-    margin-bottom: var(--element-margin-small-mobile);
+/* ==========================================================================
+   Notification
+   ========================================================================== */
+
+.uk-notification-message {
+    font-size: var(--uk-notification-message-font-size, var(--uk-global-medium-font-size, 1.25rem));
 }
 
-@media (min-width: 1200px) {
-    .uk-margin-small {
-        margin-top: var(--element-margin-small-l);
-        margin-bottom: var(--element-margin-small-l);
-    }
+/* ==========================================================================
+   Search
+   ========================================================================== */
+
+.uk-search-medium .uk-search-input {
+    font-size: var(--uk-search-medium-font-size, var(--uk-global-large-font-size, 1.5rem));
 }
 
-.uk-margin-medium {
-    margin-top: var(--element-margin-medium-mobile);
-    margin-bottom: var(--element-margin-medium-mobile);
+.uk-search-large .uk-search-input {
+    font-size: var(--uk-search-large-font-size, var(--uk-global-2xlarge-font-size, 2.625rem));
 }
 
-@media (min-width: 1200px) {
-    .uk-margin-medium {
-        margin-top: var(--element-margin-medium-l);
-        margin-bottom: var(--element-margin-medium-l);
-    }
+/* ==========================================================================
+   Table
+   ========================================================================== */
+
+.uk-table th {
+    font-size: var(--uk-table-header-cell-font-size, var(--uk-global-font-size, 1rem));
 }
 
-.uk-margin-large {
-    margin-top: var(--element-margin-large-mobile);
-    margin-bottom: var(--element-margin-large-mobile);
+.uk-table tfoot {
+    font-size: var(--uk-table-footer-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-@media (min-width: 1200px) {
-    .uk-margin-large {
-        margin-top: var(--element-margin-large-l);
-        margin-bottom: var(--element-margin-large-l);
-    }
+.uk-table caption {
+    font-size: var(--uk-table-caption-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
-.uk-margin-xlarge {
-    margin-top: var(--element-margin-xlarge-mobile);
-    margin-bottom: var(--element-margin-xlarge-mobile);
+/* ==========================================================================
+   Tooltip
+   ========================================================================== */
+
+.uk-tooltip {
+    font-size: var(--uk-tooltip-font-size, 12px);
 }
 
-@media (min-width: 1200px) {
-    .uk-margin-xlarge {
-        margin-top: var(--element-margin-xlarge-l);
-        margin-bottom: var(--element-margin-xlarge-l);
-    }
+/* ==========================================================================
+   Utility
+   ========================================================================== */
+
+.uk-dropcap::first-letter {
+    font-size: var(--uk-dropcap-font-size, 4.5em);
 }
 
-EOT;
-    }
-
-    /**
-     * Generates base HTML and body styles including responsive typography.
-     *
-     * @param array<string, mixed> $options CSS options.
-     * @return string CSS content.
-     */
-    private static function generate_base_styles(array $options): string
-    {
-        return <<<EOT
-
-html {
-    font-size: var(--base-font-size) !important;
-    -webkit-hyphens: auto !important;
-    -moz-hyphens: auto !important;
-    -ms-hyphens: auto !important;
-    hyphens: auto !important;
-    overflow-wrap: anywhere !important;
+.uk-logo {
+    font-size: var(--uk-logo-font-size, var(--uk-global-large-font-size, 1.5rem));
 }
 
-body {
-    color: var(--body-color) !important;
+/* ==========================================================================
+   Base Typography Elements
+   ========================================================================== */
+
+blockquote,
+.uk-blockquote {
+    font-size: var(--uk-base-blockquote-font-size, var(--uk-global-medium-font-size, 1.25rem));
 }
 
-body,
-.uk-text-small,
-.uk-text-default,
-.uk-text-large,
+blockquote footer,
+.uk-blockquote footer {
+    font-size: var(--uk-base-blockquote-footer-font-size, var(--uk-global-small-font-size, 0.875rem));
+}
+
+pre {
+    font-size: var(--uk-base-pre-font-size, var(--uk-global-small-font-size, 0.875rem));
+}
+
+code {
+    font-size: var(--uk-base-code-font-size, var(--uk-global-small-font-size, 0.875rem));
+}
+
+small {
+    font-size: var(--uk-base-small-font-size, 80%);
+}
+
+/* ==========================================================================
+   Word Wrap and Hyphenation for all text elements
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6,
+.uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6,
 .uk-heading-small,
 .uk-heading-medium,
 .uk-heading-large,
 .uk-heading-xlarge,
 .uk-heading-2xlarge,
 .uk-heading-3xlarge,
-.uk-navbar-nav>li>a,
-.uk-button-default,
-.uk-button-primary,
-.uk-button-secondary,
-.uk-button-danger,
-.uk-button-text,
-.uk-button-link {
-    font-size: clamp(calc(var(--mobile-font-size) * 1px),
-            calc((var(--mobile-font-size) * 1px) + ((var(--desktop-font-size) - var(--mobile-font-size)) * ((100vw - (var(--ppm-breakpoint-s) * 1px)) / (var(--ppm-breakpoint-xl) - var(--ppm-breakpoint-s))))),
-            calc(var(--desktop-font-size) * 1px)) !important;
-    -webkit-hyphens: auto !important;
-    -moz-hyphens: auto !important;
-    -ms-hyphens: auto !important;
-    hyphens: auto !important;
-    overflow-wrap: break-word !important;
-    white-space: wrap !important;
-    text-wrap: pretty !important;
-    word-break: break-word !important;
+.uk-text-lead {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
-EOT;
+/* ==========================================================================
+   Border Radius
+   ========================================================================== */
+
+.uk-border-rounded {
+    border-radius: var(--uk-border-rounded-border-radius, 5px);
+}
+
+.uk-badge {
+    border-radius: var(--uk-badge-border-radius, 500px);
+}
+
+.uk-tooltip {
+    border-radius: var(--uk-tooltip-border-radius, 2px);
+}
+
+.uk-dotnav > * > * {
+    border-radius: var(--uk-dotnav-item-border-radius, 50%);
+}
+
+.uk-icon-button {
+    border-radius: var(--uk-icon-button-border-radius, 500px);
+}
+
+.uk-form-range::-webkit-slider-thumb {
+    border-radius: var(--uk-form-range-thumb-border-radius, 500px);
+}
+
+.uk-form-range::-moz-range-thumb {
+    border-radius: var(--uk-form-range-thumb-border-radius, 500px);
+}
+
+CSS;
     }
 }

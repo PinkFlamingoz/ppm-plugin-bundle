@@ -1,0 +1,12 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div uk-spinner></div>"
+    },
+    {
+        "index": 2,
+        "heading": "Ratio",
+        "html": "<span class=\"uk-margin-small-right\" uk-spinner=\"ratio: 3\"></span>\n<span uk-spinner=\"ratio: 4.5\"></span>"
+    }
+]

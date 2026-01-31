@@ -1,0 +1,7 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<nav aria-label=\"Breadcrumb\">\n    <ul class=\"uk-breadcrumb\">\n        <li><a href=\"#\">Home</a></li>\n        <li><a href=\"#\">Linked Category</a></li>\n        <li class=\"uk-disabled\"><a>Disabled Category</a></li>\n        <li><span aria-current=\"page\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></li>\n    </ul>\n</nav>"
+    }
+]

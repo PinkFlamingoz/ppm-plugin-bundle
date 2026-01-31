@@ -1,0 +1,57 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-height-large uk-background-cover uk-light uk-flex\" uk-parallax=\"bgy: -200\" style=\"background-image: url('images/dark.jpg');\">\n\n    <h1 class=\"uk-width-1-2@m uk-text-center uk-margin-auto uk-margin-auto-vertical\">Headline</h1>\n\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Start stop",
+        "html": "<div class=\"uk-height-large uk-background-cover uk-overflow-hidden uk-light uk-flex\" style=\"background-image: url('images/dark.jpg');\">\n    <div class=\"uk-width-1-2@m uk-text-center uk-margin-auto uk-margin-auto-vertical\">\n        <h1 uk-parallax=\"opacity: 0,1; y: -100,0; scale: 2,1; end: 50vh + 50%;\">Headline</h1>\n        <p uk-parallax=\"opacity: 0,1; y: 100,0; scale: 0.5,1; end: 50vh + 50%;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n    </div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Multiple stops",
+        "html": "<div class=\"uk-height-large uk-background-cover uk-overflow-hidden uk-light uk-flex\" style=\"background-image: url('images/dark.jpg');\">\n    <div class=\"uk-width-1-2@m uk-text-center uk-margin-auto uk-margin-auto-vertical\">\n        <h1 uk-parallax=\"opacity: 0,1,1; y: -100,0,0; x: 100,100,0; scale: 2,1,1; end: 50vh + 50%;\">Headline</h1>\n        <p uk-parallax=\"opacity: 0,1,1; y: 100,0,0; x: -100,-100,0; scale: 0.5,1,1; end: 50vh + 50%;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n    </div>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Stop positions",
+        "html": "<div class=\"uk-height-large uk-background-cover uk-overflow-hidden uk-light uk-flex\" style=\"background-image: url('images/dark.jpg');\">\n    <div class=\"uk-width-1-2@m uk-text-center uk-margin-auto uk-margin-auto-vertical\">\n        <h1 uk-parallax=\"opacity: 0,1,1; y: -100,0,0; x: 100,100,0; scale: 2,1,1; end: 50vh + 50%;\">Headline</h1>\n        <p uk-parallax=\"opacity: 0,1,1; y: 100,0,0; x: -100,-100,0; scale: 0.5,1,1; end: 50vh + 50%;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n    </div>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Nesting",
+        "html": "<div class=\"uk-height-large uk-background-cover uk-light uk-flex\" uk-parallax=\"bgy: -200\" style=\"background-image: url('images/dark.jpg');\">\n\n    <h1 class=\"uk-width-1-2@m uk-text-center uk-margin-auto uk-margin-auto-vertical\" uk-parallax=\"y: 100,0\">Headline</h1>\n\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Target",
+        "html": "<div id=\"test-target\" class=\"uk-height-large uk-background-cover uk-light uk-flex\" uk-parallax=\"bgy: -200\" style=\"background-image: url('images/dark.jpg');\">\n\n    <h1 class=\"uk-width-1-2@m uk-text-center uk-margin-auto uk-margin-auto-vertical\" uk-parallax=\"target: #test-target; y: 100,0\">Headline</h1>\n\n</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Start and end",
+        "html": "<div id=\"test-start-end\" class=\"uk-height-large uk-background-cover uk-overflow-hidden uk-light uk-flex\" style=\"background-image: url('images/dark.jpg');\">\n     <div class=\"uk-grid uk-margin-auto uk-flex-inline\">\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-start-end; y: 398; easing: 0;\">0 / 0</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-start-end; start: 100%; end: 100%; y: 398; easing: 0;\">100% / 100%</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-start-end; start: 30vh; end: 30vh; y: 398; easing: 0;\">30vh / 30vh</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-start-end; start: 100% + 100; end: 100% + 100; y: 398; easing: 0;\">100% + 100 / 100% + 100</div></div>\n    </div>\n</div>"
+    },
+    {
+        "index": 8,
+        "heading": "Easing",
+        "html": "<div id=\"test-easing\" class=\"uk-height-large uk-background-cover uk-overflow-hidden uk-light uk-flex\" style=\"background-image: url('images/dark.jpg');\">\n     <div class=\"uk-grid uk-margin-auto uk-margin-auto-vertical uk-flex-inline\">\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-easing; start: 100%; end: 100%; y: 200; easing: -2\">-2</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-easing; start: 100%; end: 100%; y: 200; easing: -1\">-1</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-easing; start: 100%; end: 100%; y: 200; easing: -0.5\">-0.5</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-easing; start: 100%; end: 100%; y: 200; easing: 0\">0</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-easing; start: 100%; end: 100%; y: 200; easing: 0.5\">0.5</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-easing; start: 100%; end: 100%; y: 200; easing: 1\">1</div></div>\n        <div><div class=\"uk-card uk-card-default uk-padding-small\" uk-parallax=\"target: #test-easing; start: 100%; end: 100%; y: 200; easing: 2\">2</div></div>\n    </div>\n</div>"
+    },
+    {
+        "index": 9,
+        "heading": "Colors",
+        "html": "<div id=\"test-color\" class=\"test-color uk-height-large uk-overflow-hidden uk-flex\" uk-parallax=\"start: 100%; end: 100%; background-color: yellow,white; border-color: #00f,#f00;\" style=\"border: 10px solid #000;\">\n\n    <h1 class=\"uk-width-1-2@m uk-text-center uk-margin-auto uk-margin-auto-vertical\" uk-parallax=\"target: #test-target; start: 100%; end: 100%; color: #0f0;\">Headline</h1>\n\n</div>"
+    },
+    {
+        "index": 10,
+        "heading": "Filters",
+        "html": "<div id=\"test-filter\" class=\"uk-height-large uk-background-cover uk-overflow-hidden uk-flex\" uk-parallax=\"start: 100%; end: 100%; sepia: 100;\" style=\"background-image: url('images/light.jpg');\">\n\n    <h1 class=\"uk-width-1-2@m uk-text-center uk-margin-auto uk-margin-auto-vertical\" uk-parallax=\"target: #test-filter; start: 100%; end: 100%; blur: 0,10;\">Headline</h1>\n\n</div>"
+    },
+    {
+        "index": 11,
+        "heading": "SVG Strokes",
+        "html": "<div class=\"uk-text-center\" uk-parallax=\"start: 100%; end: 100%; stroke: 100%;\">\n    <img src=\"images/strokes.svg\" width=\"350\" height=\"340\" alt=\"\" uk-svg>\n</div>"
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<!-- Targets the SVG image -->\n<img src=\"../assets/uikit/src/images/icons/cloud-download.svg\" width=\"40\" height=\"40\" uk-svg>\n\n<!-- Targets a symbol inside the SVG image -->\n<img src=\"../assets/uikit/tests/images/icons.svg#cloud-upload\" width=\"40\" height=\"40\" uk-svg>"
+    }
+]

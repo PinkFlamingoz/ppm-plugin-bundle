@@ -1,0 +1,17 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-h1 uk-grid-small uk-child-width-auto uk-flex-middle uk-margin\" uk-grid uk-countdown=\"date: {%isodate%}\">\n    <div>\n        <div class=\"uk-countdown-number uk-countdown-days\"></div>\n    </div>\n    <div>\n        <div class=\"uk-countdown-number uk-countdown-hours\"></div>\n    </div>\n    <div>\n        <div class=\"uk-countdown-number uk-countdown-minutes\"></div>\n    </div>\n    <div>\n        <div class=\"uk-countdown-number uk-countdown-seconds\"></div>\n    </div>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Separator",
+        "html": "<div class=\"uk-h1 uk-grid-small uk-child-width-auto uk-flex-middle uk-margin\" uk-grid uk-countdown=\"date: {%isodate%}\">\n    <div>\n        <div class=\"uk-countdown-number uk-countdown-days\"></div>\n    </div>\n    <div class=\"uk-countdown-separator\">:</div>\n    <div>\n        <div class=\"uk-countdown-number uk-countdown-hours\"></div>\n    </div>\n    <div class=\"uk-countdown-separator\">:</div>\n    <div>\n        <div class=\"uk-countdown-number uk-countdown-minutes\"></div>\n    </div>\n    <div class=\"uk-countdown-separator\">:</div>\n    <div>\n        <div class=\"uk-countdown-number uk-countdown-seconds\"></div>\n    </div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Label",
+        "html": "<div class=\"uk-grid-small uk-child-width-auto uk-text-center uk-margin\" uk-grid uk-countdown=\"date: {%isodate%}\">\n    <div>\n        <div class=\"uk-h1 uk-countdown-number uk-countdown-days\"></div>\n        <div class=\"uk-countdown-label uk-text-small uk-visible@s\">Days</div>\n    </div>\n    <div class=\"uk-h1\"><div class=\"uk-countdown-separator\">:</div></div>\n    <div>\n        <div class=\"uk-h1 uk-countdown-number uk-countdown-hours\"></div>\n        <div class=\"uk-countdown-label uk-text-small uk-visible@s\">Hours</div>\n    </div>\n    <div class=\"uk-h1\"><div class=\"uk-countdown-separator\">:</div></div>\n    <div>\n        <div class=\"uk-h1 uk-countdown-number uk-countdown-minutes\"></div>\n        <div class=\"uk-countdown-label uk-text-small uk-visible@s\">Minutes</div>\n    </div>\n    <div class=\"uk-h1\"><div class=\"uk-countdown-separator\">:</div></div>\n    <div>\n        <div class=\"uk-h1 uk-countdown-number uk-countdown-seconds\"></div>\n        <div class=\"uk-countdown-label uk-text-small uk-visible@s\">Seconds</div>\n    </div>\n</div>"
+    }
+]

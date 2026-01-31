@@ -1,0 +1,67 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-inline\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Hover, Click</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Mode",
+        "html": "<div class=\"uk-inline\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Hover</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"mode: hover\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n</div>\n\n<div class=\"uk-inline\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Click</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"mode: click\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Parent icon",
+        "html": "<div class=\"uk-inline\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Parent <span uk-drop-parent-icon></span></button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"mode: click\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Width and Grid",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\">Hover</button>\n<div class=\"uk-card uk-card-body uk-card-default uk-width-large\" uk-drop>\n    <div class=\"uk-drop-grid uk-child-width-1-2@m\" uk-grid>\n        <div>\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.\n        </div>\n        <div>\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.\n        </div>\n    </div>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Position",
+        "html": "<div class=\"uk-inline\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Top Right</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: top-right\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n</div>\n\n<div class=\"uk-inline\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Bottom Center</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-center\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n</div>\n\n<div class=\"uk-inline\">\n    <button class=\"uk-button uk-button-default\" type=\"button\">Right Top</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: right-top\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Boundary",
+        "html": "<div class=\"boundary uk-panel uk-placeholder uk-height-medium\">\n\n    <button class=\"uk-button uk-button-default uk-float-left\" type=\"button\">Bottom Right</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-right; boundary: !.boundary\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n\n    <button class=\"uk-button uk-button-default uk-float-right\" type=\"button\">Bottom Left</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-left; boundary: !.boundary\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n\n</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Shift and flip",
+        "html": "<div class=\"boundary uk-panel uk-placeholder uk-height-medium\">\n\n    <button class=\"uk-button uk-button-default uk-float-left\" type=\"button\">Bottom Right</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-right; boundary: !.boundary; shift: false; flip: false\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n\n    <button class=\"uk-button uk-button-default uk-float-right\" type=\"button\">Bottom Left</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-left; boundary: !.boundary; shift: false; flip: false\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n\n</div>"
+    },
+    {
+        "index": 8,
+        "heading": "Target",
+        "html": "<div class=\"target uk-panel uk-placeholder uk-height-medium\">\n\n    <button class=\"uk-button uk-button-default uk-float-left\" type=\"button\">Bottom Left</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-left; target: !.target\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n\n    <button class=\"uk-button uk-button-default uk-float-right\" type=\"button\">Bottom Right</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-right; target: !.target\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n\n</div>"
+    },
+    {
+        "index": 9,
+        "heading": "Inset",
+        "html": "<div class=\"target uk-panel uk-placeholder uk-height-medium\">\n\n    <button class=\"uk-button uk-button-default uk-float-left\" type=\"button\">Bottom Left</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-left; target: !.target; inset: true\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n\n    <button class=\"uk-button uk-button-default uk-float-right\" type=\"button\">Bottom Right</button>\n    <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"pos: bottom-right; target: !.target; inset: true\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n\n</div>"
+    },
+    {
+        "index": 10,
+        "heading": "Stretch",
+        "html": "<nav class=\"uk-navbar-container\" uk-navbar>\n    <div class=\"uk-navbar-left\">\n\n        <ul class=\"uk-navbar-nav\">\n            <li>\n                <a href>Hover</a>\n                <div class=\"uk-navbar-dropdown\" uk-drop=\"boundary: !.uk-navbar; stretch: x; flip: false\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n            </li>\n        </ul>\n\n    </div>\n</nav>"
+    },
+    {
+        "index": 11,
+        "heading": "Animation",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\">Hover</button>\n<div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"animation: uk-animation-slide-top-small; animate-out: true\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>"
+    },
+    {
+        "index": 12,
+        "heading": "",
+        "html": "<div class=\"uk-margin\" uk-margin>\n\n    <div class=\"uk-inline\">\n        <button class=\"uk-button uk-button-default\" type=\"button\">Slide Top</button>\n        <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"animation: slide-top; animate-out: true; duration: 700\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n    </div>\n\n    <div class=\"uk-inline\">\n        <button class=\"uk-button uk-button-default\" type=\"button\">Reveal Top</button>\n        <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"animation: reveal-top; animate-out: true; duration: 700\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n    </div>\n\n    <div class=\"uk-inline\">\n        <button class=\"uk-button uk-button-default\" type=\"button\">Slide Left</button>\n        <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"animation: slide-left; animate-out: true; duration: 700\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n    </div>\n\n    <div class=\"uk-inline\">\n        <button class=\"uk-button uk-button-default\" type=\"button\">Reveal Left</button>\n        <div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"animation: reveal-left; animate-out: true; duration: 700\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>\n    </div>\n\n</div>"
+    },
+    {
+        "index": 13,
+        "heading": "Offset",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\">Hover</button>\n<div class=\"uk-card uk-card-body uk-card-default\" uk-drop=\"offset: 80\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>"
+    }
+]

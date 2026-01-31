@@ -1,0 +1,27 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-inline\">\n    <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n    <div class=\"uk-overlay uk-light uk-position-bottom\">\n        <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n    </div>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Default",
+        "html": "<div class=\"uk-child-width-1-2@m\" uk-grid>\n    <div>\n\n        <div class=\"uk-inline\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-overlay uk-overlay-default uk-position-bottom\">\n                <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n            </div>\n        </div>\n\n    </div>\n    <div>\n\n        <div class=\"uk-inline\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-overlay-default uk-position-cover\"></div>\n            <div class=\"uk-overlay uk-position-bottom uk-dark\">\n                <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n            </div>\n        </div>\n\n    </div>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Primary",
+        "html": "<div class=\"uk-child-width-1-2@m\" uk-grid>\n    <div>\n\n        <div class=\"uk-inline\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-overlay uk-overlay-primary uk-position-bottom\">\n                <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n            </div>\n        </div>\n\n    </div>\n    <div>\n\n        <div class=\"uk-inline\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-overlay-primary uk-position-cover\"></div>\n            <div class=\"uk-overlay uk-position-bottom uk-light\">\n                <p>Default Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n            </div>\n        </div>\n\n    </div>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Overlay icon",
+        "html": "<div class=\"uk-child-width-1-2@m\" uk-grid>\n    <div>\n\n        <div class=\"uk-inline uk-light\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-position-center\">\n                <span uk-overlay-icon></span>\n            </div>\n        </div>\n\n    </div>\n    <div>\n\n        <div class=\"uk-inline uk-dark\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-overlay-default uk-position-cover\">\n                <div class=\"uk-position-center\">\n                    <span uk-overlay-icon></span>\n                </div>\n            </div>\n        </div>\n\n    </div>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Position",
+        "html": "<div class=\"uk-child-width-1-2@m\" uk-grid>\n    <div>\n        <div class=\"uk-inline\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-overlay uk-overlay-default uk-position-top\">\n                <p>Top</p>\n            </div>\n        </div>\n    </div>\n    <div>\n        <div class=\"uk-inline\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n            <div class=\"uk-overlay uk-overlay-default uk-position-center\">\n                <p>Center</p>\n            </div>\n        </div>\n    </div>\n</div>"
+    }
+]

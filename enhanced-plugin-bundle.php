@@ -83,7 +83,7 @@ function epb_init(): void
     load_plugin_textdomain('enhanced-plugin-bundle', false, dirname(EPB_PLUGIN_BASENAME) . '/languages');
 
     // Run upgrade routines if needed.
-    epb_maybe_upgrade();
+    EPB\Core\Upgrader::maybe_upgrade();
 
     // Initialize the notices system for displaying admin notices.
     EPB\Core\Notices::init();
@@ -93,184 +93,18 @@ function epb_init(): void
 
     // Initialize AJAX handlers.
     EPB\Ajax\Handler::init();
+
+    // Initialize child theme hooks (for auto CSS regeneration).
+    EPB\Themes\Child_Theme::init();
 }
 add_action('plugins_loaded', 'epb_init');
-
-// -----------------------------------------------------------------------------
-// Upgrade Routine
-// -----------------------------------------------------------------------------
-
-/**
- * Runs upgrade routines when the plugin version changes.
- *
- * Compares the stored version with the current version and runs
- * any necessary migration or update routines.
- *
- * @return void
- */
-function epb_maybe_upgrade(): void
-{
-    $stored_version = get_option('epb_version', '0');
-
-    // Skip if already up to date.
-    if (version_compare($stored_version, EPB_VERSION, '>=')) {
-        return;
-    }
-
-    // Upgrade from version < 3.5 (sanitization and security improvements).
-    if (version_compare($stored_version, '3.5', '<')) {
-        // Clear any cached data to ensure fresh state.
-        delete_transient('epb_plugin_cache');
-
-        // Log upgrade if debugging is enabled.
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[EPB] Upgraded from version ' . $stored_version . ' to ' . EPB_VERSION);
-        }
-    }
-
-    // Upgrade to version 4.0 (modular architecture).
-    if (version_compare($stored_version, '4.0', '<')) {
-        // Clear cached data for fresh initialization.
-        delete_transient('epb_plugin_cache');
-
-        // Log upgrade if debugging is enabled.
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[EPB] Upgraded to v4.0 modular architecture.');
-        }
-    }
-
-    // Update the stored version.
-    update_option('epb_version', EPB_VERSION);
-}
 
 // -----------------------------------------------------------------------------
 // Activation and Deactivation Hooks
 // -----------------------------------------------------------------------------
 
-/**
- * Plugin activation callback.
- *
- * Sets up default options and performs any necessary initialization
- * when the plugin is activated.
- *
- * @return void
- */
-function epb_activate(): void
-{
-    // Register custom capabilities for the administrator role.
-    epb_register_capabilities();
-
-    // Set default plugin options if they don't exist.
-    if (false === get_option('epb_dynamic_plugins')) {
-        add_option('epb_dynamic_plugins', EPB\Plugins\Options::get_defaults());
-    }
-
-    // Set default CSS options if they don't exist.
-    if (false === get_option('ppm_child_theme_css_options')) {
-        add_option('ppm_child_theme_css_options', EPB\CSS\Options::get_defaults());
-    }
-
-    // Store the plugin version for future upgrade checks.
-    update_option('epb_version', EPB_VERSION);
-
-    // Log activation if debugging is enabled.
-    if (defined('WP_DEBUG') && WP_DEBUG) {
-        error_log('[EPB] Enhanced Plugin Bundle activated. Version: ' . EPB_VERSION);
-    }
-}
-register_activation_hook(__FILE__, 'epb_activate');
-
-/**
- * Plugin deactivation callback.
- *
- * Performs cleanup tasks when the plugin is deactivated.
- * Note: Options are NOT deleted here. Use uninstall.php for complete removal.
- *
- * @return void
- */
-function epb_deactivate(): void
-{
-    // Remove custom capabilities from roles.
-    epb_unregister_capabilities();
-
-    // Clear any cached data.
-    delete_transient('epb_plugin_cache');
-
-    // Log deactivation if debugging is enabled.
-    if (defined('WP_DEBUG') && WP_DEBUG) {
-        error_log('[EPB] Enhanced Plugin Bundle deactivated.');
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Custom Capabilities
-// -----------------------------------------------------------------------------
-
-/**
- * Registers custom capabilities for the plugin.
- *
- * Adds custom capabilities to the administrator role for fine-grained access control.
- * This allows site owners to grant specific EPB permissions to other roles if needed.
- *
- * @return void
- */
-function epb_register_capabilities(): void
-{
-    $admin_role = get_role('administrator');
-
-    if (null === $admin_role) {
-        return;
-    }
-
-    // Core plugin management capability.
-    $admin_role->add_cap('epb_manage_plugins');
-
-    // Theme management capability.
-    $admin_role->add_cap('epb_manage_themes');
-
-    // Settings access capability.
-    $admin_role->add_cap('epb_access_settings');
-}
-
-/**
- * Removes custom capabilities on plugin deactivation.
- *
- * Cleans up the custom capabilities from all roles.
- *
- * @return void
- */
-function epb_unregister_capabilities(): void
-{
-    $admin_role = get_role('administrator');
-
-    if (null === $admin_role) {
-        return;
-    }
-
-    $admin_role->remove_cap('epb_manage_plugins');
-    $admin_role->remove_cap('epb_manage_themes');
-    $admin_role->remove_cap('epb_access_settings');
-}
-
-/**
- * Checks if the current user has a specific EPB capability.
- *
- * Falls back to 'manage_options' for backwards compatibility.
- *
- * @param string $capability The capability to check.
- * @return bool Whether the user has the capability.
- */
-function epb_current_user_can(string $capability): bool
-{
-    // First check the EPB-specific capability.
-    if (current_user_can($capability)) {
-        return true;
-    }
-
-    // Fall back to manage_options for backwards compatibility.
-    return current_user_can('manage_options');
-}
-register_deactivation_hook(__FILE__, 'epb_deactivate');
+register_activation_hook(__FILE__, [EPB\Core\Activator::class, 'activate']);
+register_deactivation_hook(__FILE__, [EPB\Core\Deactivator::class, 'deactivate']);
 
 // -----------------------------------------------------------------------------
 // Plugin Action Links

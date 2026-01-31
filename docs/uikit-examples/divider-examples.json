@@ -1,0 +1,17 @@
+[
+    {
+        "index": 1,
+        "heading": "Divider icon",
+        "html": "<hr class=\"uk-divider-icon\">"
+    },
+    {
+        "index": 2,
+        "heading": "Divider small",
+        "html": "<hr class=\"uk-divider-small\">"
+    },
+    {
+        "index": 3,
+        "heading": "Divider vertical",
+        "html": "<hr class=\"uk-divider-vertical\">"
+    }
+]

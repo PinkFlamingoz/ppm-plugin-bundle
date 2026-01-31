@@ -34,15 +34,8 @@ class Plugin_Actions
      */
     public static function handle_action(): void
     {
-        // Verify nonce.
-        if (!Handler::verify_nonce()) {
-            Handler::send_security_error();
-            return;
-        }
-
-        // Check capability.
-        if (!epb_current_user_can('epb_manage_plugins')) {
-            Handler::send_permission_error();
+        // Verify nonce and permissions.
+        if (!Handler::verify_request()) {
             return;
         }
 
@@ -78,12 +71,20 @@ class Plugin_Actions
         // Get updated status.
         $status = PluginManager::get_plugin_status($slug);
 
+        // Map actions to proper past tense.
+        $past_tense = [
+            'install'    => 'installed',
+            'activate'   => 'activated',
+            'deactivate' => 'deactivated',
+            'delete'     => 'deleted',
+        ];
+
         wp_send_json_success([
             'message' => sprintf(
                 /* translators: 1: plugin slug, 2: action performed */
                 __('Plugin "%1$s" has been %2$s successfully.', 'enhanced-plugin-bundle'),
                 $slug,
-                $action . 'ed'
+                $past_tense[$action] ?? $action
             ),
             'status'  => $status,
             'notices' => $notices,
@@ -97,15 +98,8 @@ class Plugin_Actions
      */
     public static function get_status(): void
     {
-        // Verify nonce.
-        if (!Handler::verify_nonce()) {
-            Handler::send_security_error();
-            return;
-        }
-
-        // Check capability.
-        if (!epb_current_user_can('epb_access_settings')) {
-            Handler::send_permission_error();
+        // Verify nonce and permissions.
+        if (!Handler::verify_request()) {
             return;
         }
 

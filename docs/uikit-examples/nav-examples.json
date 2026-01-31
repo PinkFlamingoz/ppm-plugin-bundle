@@ -1,0 +1,82 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div class=\"uk-width-1-2@s uk-width-2-5@m\">\n    <ul class=\"uk-nav uk-nav-default\">\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Nested navs",
+        "html": "<div class=\"uk-width-1-2@s uk-width-2-5@m\">\n    <ul class=\"uk-nav uk-nav-default\">\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent</a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li>\n                    <a href=\"#\">Sub item</a>\n                    <ul>\n                        <li><a href=\"#\">Sub item</a></li>\n                        <li><a href=\"#\">Sub item</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Accordion",
+        "html": "<div class=\"uk-width-1-2@s uk-width-2-5@m\">\n    <ul class=\"uk-nav-default\" uk-nav>\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent</a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li>\n                    <a href=\"#\">Sub item</a>\n                    <ul>\n                        <li><a href=\"#\">Sub item</a></li>\n                        <li><a href=\"#\">Sub item</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent</a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li><a href=\"#\">Sub item</a></li>\n            </ul>\n        </li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Parent icon",
+        "html": "<div class=\"uk-width-1-2@s uk-width-2-5@m\">\n    <ul class=\"uk-nav-default\" uk-nav>\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent <span uk-nav-parent-icon></span></a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li>\n                    <a href=\"#\">Sub item</a>\n                    <ul>\n                        <li><a href=\"#\">Sub item</a></li>\n                        <li><a href=\"#\">Sub item</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent <span uk-nav-parent-icon></span></a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li><a href=\"#\">Sub item</a></li>\n            </ul>\n        </li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Multiple open subnavs",
+        "html": "<div class=\"uk-width-1-2@s uk-width-2-5@m\">\n    <ul class=\"uk-nav-default\" uk-nav=\"multiple: true\">\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent <span uk-nav-parent-icon></span></a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li>\n                    <a href=\"#\">Sub item</a>\n                    <ul>\n                        <li><a href=\"#\">Sub item</a></li>\n                        <li><a href=\"#\">Sub item</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent <span uk-nav-parent-icon></span></a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li><a href=\"#\">Sub item</a></li>\n            </ul>\n        </li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Header and divider",
+        "html": "<div class=\"uk-width-1-2@s uk-width-2-5@m\">\n    <ul class=\"uk-nav uk-nav-default\">\n        <li class=\"uk-nav-header\">Header</li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li class=\"uk-nav-divider\"></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Subtitle",
+        "html": "<div class=\"uk-width-1-2@s uk-width-2-5@m\">\n    <ul class=\"uk-nav uk-nav-default\">\n        <li class=\"uk-active\"><a href=\"#\"><div>Active<div class=\"uk-nav-subtitle\">Subtitle lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div></div></a></li>\n        <li><a href=\"#\"><div>Item<div class=\"uk-nav-subtitle\">Subtitle lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div></div></a></li>\n        <li><a href=\"#\"><div>Item<div class=\"uk-nav-subtitle\">Subtitle lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div></div></a></li>\n        <li><a href=\"#\"><div>Item<div class=\"uk-nav-subtitle\">Subtitle lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div></div></a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 8,
+        "heading": "Default modifier",
+        "html": "<div class=\"uk-card uk-card-default uk-card-body uk-width-1-2@s\">\n    <ul class=\"uk-nav-default\" uk-nav>\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent <span uk-nav-parent-icon></span></a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li><a href=\"#\">Sub item</a></li>\n            </ul>\n        </li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent <span uk-nav-parent-icon></span></a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li><a href=\"#\">Sub item</a></li>\n            </ul>\n        </li>\n        <li class=\"uk-nav-header\">Header</li>\n        <li><a href=\"#\"><span class=\"uk-margin-xsmall-right\" uk-icon=\"icon: table\"></span> Item</a></li>\n        <li><a href=\"#\"><span class=\"uk-margin-xsmall-right\" uk-icon=\"icon: thumbnails\"></span> Item</a></li>\n        <li class=\"uk-nav-divider\"></li>\n        <li><a href=\"#\"><span class=\"uk-margin-xsmall-right\" uk-icon=\"icon: trash\"></span> Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 9,
+        "heading": "Primary modifier",
+        "html": "<div class=\"uk-width-1-2@s\">\n    <ul class=\"uk-nav-primary\" uk-nav>\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent <span uk-nav-parent-icon></span></a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li><a href=\"#\">Sub item</a></li>\n            </ul>\n        </li>\n        <li class=\"uk-parent\">\n            <a href=\"#\">Parent <span uk-nav-parent-icon></span></a>\n            <ul class=\"uk-nav-sub\">\n                <li><a href=\"#\">Sub item</a></li>\n                <li><a href=\"#\">Sub item</a></li>\n            </ul>\n        </li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 10,
+        "heading": "Secondary modifier",
+        "html": "<div class=\"uk-width-1-2@s\">\n    <ul class=\"uk-nav uk-nav-secondary\">\n        <li class=\"uk-active\"><a href=\"#\"><div>Active<div class=\"uk-nav-subtitle\">Subtitle lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div></div></a></li>\n        <li><a href=\"#\"><div>Item<div class=\"uk-nav-subtitle\">Subtitle lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div></div></a></li>\n        <li><a href=\"#\"><div>Item<div class=\"uk-nav-subtitle\">Subtitle lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div></div></a></li>\n        <li><a href=\"#\"><div>Item<div class=\"uk-nav-subtitle\">Subtitle lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div></div></a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 11,
+        "heading": "Center modifier",
+        "html": "<div class=\"uk-card uk-card-default uk-card-body uk-width-1-2@s\">\n    <ul class=\"uk-nav-default uk-nav-center\" uk-nav>\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 12,
+        "heading": "Divider modifier",
+        "html": "<div class=\"uk-width-1-2@s\">\n    <ul class=\"uk-nav-default uk-nav-divider\" uk-nav>\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 13,
+        "heading": "Size modifiers",
+        "html": "<div class=\"uk-width-1-2@s\">\n    <ul class=\"uk-nav-primary uk-nav-large\" uk-nav>\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 14,
+        "heading": "Nav in Dropdown",
+        "html": "<button class=\"uk-button uk-button-default\" type=\"button\">Hover</button>\n<div uk-dropdown>\n    <ul class=\"uk-nav uk-dropdown-nav\">\n        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li class=\"uk-nav-header\">Header</li>\n        <li><a href=\"#\">Item</a></li>\n        <li><a href=\"#\">Item</a></li>\n        <li class=\"uk-nav-divider\"></li>\n        <li><a href=\"#\">Item</a></li>\n    </ul>\n</div>"
+    },
+    {
+        "index": 15,
+        "heading": "Nav in Navbar",
+        "html": "<nav class=\"uk-navbar-container\" uk-navbar>\n    <div class=\"uk-navbar-left\">\n\n        <ul class=\"uk-navbar-nav\">\n            <li>\n                <a href=\"#\">Parent</a>\n                <div class=\"uk-navbar-dropdown\">\n                    <ul class=\"uk-nav uk-navbar-dropdown-nav\">\n                        <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n                        <li><a href=\"#\">Item</a></li>\n                        <li class=\"uk-nav-header\">Header</li>\n                        <li><a href=\"#\">Item</a></li>\n                        <li><a href=\"#\">Item</a></li>\n                        <li class=\"uk-nav-divider\"></li>\n                        <li><a href=\"#\">Item</a></li>\n                    </ul>\n                </div>\n            </li>\n        </ul>\n\n    </div>\n</nav>"
+    },
+    {
+        "index": 16,
+        "heading": "Nav in offcanvas",
+        "html": "<a href=\"#offcanvas-slide\" class=\"uk-button uk-button-default\" uk-toggle>Open</a>\n\n<div id=\"offcanvas-slide\" uk-offcanvas>\n    <div class=\"uk-offcanvas-bar\">\n\n        <ul class=\"uk-nav uk-nav-default\">\n            <li class=\"uk-active\"><a href=\"#\">Active</a></li>\n            <li><a href=\"#\">Item</a></li>\n            <li class=\"uk-nav-header\">Header</li>\n            <li><a href=\"#\">Item</a></li>\n            <li><a href=\"#\">Item</a></li>\n            <li class=\"uk-nav-divider\"></li>\n            <li><a href=\"#\">Item</a></li>\n        </ul>\n\n    </div>\n</div>"
+    }
+]

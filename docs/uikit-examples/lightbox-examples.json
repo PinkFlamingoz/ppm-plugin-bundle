@@ -1,0 +1,62 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<div uk-lightbox>\n    <a class=\"uk-button uk-button-default\" href=\"images/photo.jpg\">Open Lightbox</a>\n</div>"
+    },
+    {
+        "index": 2,
+        "heading": "Alt attribute",
+        "html": "<div uk-lightbox>\n    <a class=\"uk-button uk-button-default\" href=\"images/photo.jpg\" data-alt=\"Image\">Open Lightbox</a>\n</div>"
+    },
+    {
+        "index": 3,
+        "heading": "Caption",
+        "html": "<div uk-lightbox>\n    <a class=\"uk-button uk-button-default\" href=\"images/photo.jpg\" data-caption=\"Caption\">Open Lightbox</a>\n</div>"
+    },
+    {
+        "index": 4,
+        "heading": "Animations",
+        "html": "<div class=\"uk-h3\">Slide</div>\n<div class=\"uk-child-width-1-3@m\" uk-grid uk-lightbox=\"animation: slide\">\n    <div>\n        <a class=\"uk-inline\" href=\"images/photo.jpg\" data-caption=\"Caption 1\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/dark.jpg\" data-caption=\"Caption 2\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/light.jpg\" data-caption=\"Caption 3\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n</div>\n\n<div class=\"uk-h3\">Fade</div>\n<div class=\"uk-child-width-1-3@m\" uk-grid uk-lightbox=\"animation: fade\">\n    <div>\n        <a class=\"uk-inline\" href=\"images/photo.jpg\" data-caption=\"Caption 1\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/dark.jpg\" data-caption=\"Caption 2\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/light.jpg\" data-caption=\"Caption 3\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n</div>\n\n<div class=\"uk-h3\">Scale</div>\n<div class=\"uk-child-width-1-3@m\" uk-grid uk-lightbox=\"animation: scale\">\n    <div>\n        <a class=\"uk-inline\" href=\"images/photo.jpg\" data-caption=\"Caption 1\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/dark.jpg\" data-caption=\"Caption 2\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/light.jpg\" data-caption=\"Caption 3\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n</div>"
+    },
+    {
+        "index": 5,
+        "heading": "Navigations",
+        "html": "<div class=\"uk-h3\">Thumbnav</div>\n<div class=\"uk-child-width-1-3@m\" uk-grid uk-lightbox=\"nav: thumbnav; slidenav: false\">\n    <div>\n        <a class=\"uk-inline\" href=\"images/photo.jpg\" data-caption=\"Caption 1\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/dark.jpg\" data-caption=\"Caption 2\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/light.jpg\" data-caption=\"Caption 3\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n</div>\n\n<div class=\"uk-h3\">Dotnav</div>\n<div class=\"uk-child-width-1-3@m\" uk-grid uk-lightbox=\"nav: dotnav; slidenav: false\">\n    <div>\n        <a class=\"uk-inline\" href=\"images/photo.jpg\" data-caption=\"Caption 1\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/dark.jpg\" data-caption=\"Caption 2\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/light.jpg\" data-caption=\"Caption 3\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n</div>"
+    },
+    {
+        "index": 6,
+        "heading": "Counter",
+        "html": "<div class=\"uk-child-width-1-3@m\" uk-grid uk-lightbox=\"counter: true\">\n    <div>\n        <a class=\"uk-inline\" href=\"images/photo.jpg\" data-caption=\"Caption 1\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/dark.jpg\" data-caption=\"Caption 2\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/light.jpg\" data-caption=\"Caption 3\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n</div>"
+    },
+    {
+        "index": 7,
+        "heading": "Color mode",
+        "html": "<div class=\"uk-child-width-1-3@m\" uk-grid uk-lightbox=\"nav: thumbnav; slidenav: false\">\n    <div>\n        <a class=\"uk-inline\" href=\"images/dark.jpg\" data-caption=\"Caption 2\" data-attrs=\"class: uk-inverse-light\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/light.jpg\" data-caption=\"Caption 3\" data-attrs=\"class: uk-inverse-dark\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n</div>"
+    },
+    {
+        "index": 8,
+        "heading": "Content sources",
+        "html": "<div uk-lightbox>\n    <a class=\"uk-button uk-button-default\" href=\"images/photo.jpg\" data-caption=\"Image\">Image</a>\n    <a class=\"uk-button uk-button-default\" href=\"https://yootheme.com/site/images/media/yootheme-pro.mp4\" data-caption=\"Video\">Video</a>\n    <a class=\"uk-button uk-button-default\" href=\"https://www.youtube.com/watch?v=c2pz2mlSfXA\" data-caption=\"YouTube\">YouTube</a>\n    <a class=\"uk-button uk-button-default\" href=\"https://vimeo.com/1084537\" data-caption=\"Vimeo\">Vimeo</a>\n    <a class=\"uk-button uk-button-default\" href=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4740.819266853735!2d9.99008871708242!3d53.550454675412404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x3f9d24afe84a0263!2sRathaus!5e0!3m2!1sde!2sde!4v1499675200938\" data-caption=\"Google Maps\" data-type=\"iframe\">Google Maps</a>\n</div>"
+    },
+    {
+        "index": 9,
+        "heading": "Delay controls",
+        "html": "<div uk-lightbox=\"delay-controls: 0\">\n    <a class=\"uk-button uk-button-default\" href=\"images/photo.jpg\" data-caption=\"Caption\">Open Lightbox</a>\n</div>"
+    },
+    {
+        "index": 10,
+        "heading": "BG close",
+        "html": "<div uk-lightbox=\"bg-close: false\">\n    <a class=\"uk-button uk-button-default\" href=\"images/photo.jpg\" data-caption=\"Caption\">Open Lightbox</a>\n</div>"
+    },
+    {
+        "index": 11,
+        "heading": "Custom attributes",
+        "html": "<div uk-lightbox>\n    <a class=\"uk-button uk-button-default\" href=\"https://www.youtube.com/watch?v=c2pz2mlSfXA\" data-caption=\"YouTube\" data-attrs=\"width: 1280; height: 720;\">YouTube</a>\n</div>"
+    },
+    {
+        "index": 12,
+        "heading": "Custom template",
+        "html": "<template id=\"js-lightbox-template\">\n    <div class=\"uk-lightbox uk-overflow-hidden\">\n        <div class=\"uk-lightbox-items\"></div>\n        <div class=\"uk-position-top-right uk-position-small uk-transition-fade\" uk-inverse>\n            <button class=\"uk-lightbox-close uk-close-large\" type=\"button\" uk-close></button>\n        </div>\n        <div class=\"uk-position-bottom uk-position-medium uk-text-center uk-transition-fade\" uk-inverse>\n            <div class=\"uk-grid-small uk-width-auto uk-flex-inline uk-flex-middle\" uk-grid>\n                <div><a class=\"uk-lightbox-slidenav\" href uk-slidenav-previous uk-lightbox-item=\"previous\"></a></div>\n                <div><div class=\"uk-lightbox-counter\"></div></div>\n                <div><a class=\"uk-lightbox-slidenav\" href uk-slidenav-next uk-lightbox-item=\"next\"></a></div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<div class=\"uk-child-width-1-3@m\" uk-grid uk-lightbox=\"template: #js-lightbox-template; counter: true\">\n    <div>\n        <a class=\"uk-inline\" href=\"images/photo.jpg\" data-caption=\"Caption 1\">\n            <img src=\"images/photo.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/dark.jpg\" data-caption=\"Caption 2\">\n            <img src=\"images/dark.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n    <div>\n        <a class=\"uk-inline\" href=\"images/light.jpg\" data-caption=\"Caption 3\">\n            <img src=\"images/light.jpg\" width=\"1800\" height=\"1200\" alt=\"\">\n        </a>\n    </div>\n</div>"
+    }
+]

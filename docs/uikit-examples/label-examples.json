@@ -1,0 +1,12 @@
+[
+    {
+        "index": 1,
+        "heading": "Usage",
+        "html": "<span class=\"uk-label\">Default</span>"
+    },
+    {
+        "index": 2,
+        "heading": "Style modifiers",
+        "html": "<span class=\"uk-label\">Default</span>\n\n<span class=\"uk-label uk-label-success\">Success</span>\n\n<span class=\"uk-label uk-label-warning\">Warning</span>\n\n<span class=\"uk-label uk-label-danger\">Danger</span>"
+    }
+]
