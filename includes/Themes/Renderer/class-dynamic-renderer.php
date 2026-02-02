@@ -518,7 +518,15 @@ class Dynamic_Renderer
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
 
-        $keywords = ['none', 'auto', 'inherit', 'initial', 'unset', 'hidden', 'visible', 'solid', 'dashed', 'dotted'];
+        // Context-specific keywords based on variable name.
+        if (str_ends_with($name, '-font-style')) {
+            $keywords = ['normal', 'italic', 'oblique', 'inherit'];
+        } elseif (str_ends_with($name, '-text-transform')) {
+            $keywords = ['none', 'uppercase', 'lowercase', 'capitalize', 'inherit'];
+        } else {
+            // Generic keywords.
+            $keywords = ['none', 'auto', 'inherit', 'initial', 'unset', 'hidden', 'visible', 'solid', 'dashed', 'dotted'];
+        }
     ?>
         <div class="ppm-field ppm-field-keyword<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"

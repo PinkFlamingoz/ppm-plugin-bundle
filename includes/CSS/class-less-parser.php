@@ -123,9 +123,9 @@ class Less_Parser
 
                 $type = self::detect_variable_type($value);
 
-                // If type is 'reference' or 'mixed', try to infer the actual type from the variable name.
-                // This handles both simple references (@var) and expressions (@var * 0.85).
-                if ('reference' === $type || 'mixed' === $type) {
+                // If type is 'reference', 'mixed', or 'keyword', try to infer the actual type from the variable name.
+                // This handles both simple references (@var), expressions (@var * 0.85), and generic keywords like 'inherit'.
+                if ('reference' === $type || 'mixed' === $type || 'keyword' === $type) {
                     $inferred = self::infer_type_from_name($name, $value);
                     // Only use inferred type if we got something more specific than 'reference'.
                     if ('reference' !== $inferred) {
@@ -215,10 +215,16 @@ class Less_Parser
             return 'color';
         }
 
-        // Color keywords.
-        $color_keywords = ['transparent', 'currentColor', 'inherit'];
+        // Color keywords (NOT 'inherit' - that's a generic keyword for many properties).
+        $color_keywords = ['transparent', 'currentColor'];
         if (in_array($value, $color_keywords, true)) {
             return 'color';
+        }
+
+        // Generic CSS keywords that could apply to any property.
+        // Return 'keyword' type - the actual UI will be inferred from the variable name.
+        if ($value === 'inherit') {
+            return 'keyword';
         }
 
         // Reference to another variable.
@@ -337,7 +343,7 @@ class Less_Parser
             }
         }
 
-        // Font patterns.
+        // Font-family patterns.
         $font_patterns = [
             '-font-family$',
             '-font$',
@@ -347,6 +353,26 @@ class Less_Parser
             if (preg_match('/' . $pattern . '/i', $name)) {
                 return 'font';
             }
+        }
+
+        // Font-weight patterns.
+        if (preg_match('/-font-weight$/i', $name)) {
+            return 'font-weight';
+        }
+
+        // Font-style patterns (normal, italic, oblique).
+        if (preg_match('/-font-style$/i', $name)) {
+            return 'keyword';
+        }
+
+        // Letter-spacing patterns.
+        if (preg_match('/-letter-spacing$/i', $name)) {
+            return 'size';
+        }
+
+        // Text-transform patterns (none, uppercase, lowercase, capitalize).
+        if (preg_match('/-text-transform$/i', $name)) {
+            return 'keyword';
         }
 
         // Font size.
