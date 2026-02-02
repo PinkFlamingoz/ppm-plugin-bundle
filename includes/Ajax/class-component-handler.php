@@ -21,6 +21,9 @@ if (!defined('ABSPATH')) {
 
 use EPB\CSS\Less_Parser;
 use EPB\CSS\Component_Registry;
+use EPB\CSS\Generator;
+use EPB\Core\Constants;
+use EPB\Core\Utils;
 
 /**
  * Class Component_Handler
@@ -30,19 +33,6 @@ use EPB\CSS\Component_Registry;
  */
 class Component_Handler
 {
-    /**
-     * Option prefix for component storage.
-     *
-     * @var string
-     */
-    public const OPTION_PREFIX = 'epb_component_';
-
-    /**
-     * Nonce action for security.
-     *
-     * @var string
-     */
-    public const NONCE_ACTION = 'epb_component_nonce';
 
     /**
      * Register AJAX handlers.
@@ -71,34 +61,6 @@ class Component_Handler
     }
 
     /**
-     * Normalize Less escape syntax to use consistent single quotes.
-     *
-     * Converts ~\\'...\\' or ~\"...\" to ~'...' for consistent comparison.
-     *
-     * @param string $value The value to normalize.
-     * @return string The normalized value.
-     */
-    public static function normalize_less_escape(string $value): string
-    {
-        // Replace escaped quotes in Less escape syntax: ~\\'...\\' or ~'...' -> ~'...'
-        $normalized = preg_replace("/~\\\\?['\"](.+?)\\\\?['\"]/", "~'$1'", $value);
-
-        // Normalize math expression parentheses: strip outer parens if it's a simple math expression.
-        // Matches: (@var + 10), (10 + @var), (@var - @var2), etc.
-        // Only strip if no nested parentheses (to avoid breaking function calls).
-        if (preg_match('/^\([^()]+\)$/', $normalized)) {
-            // It's wrapped in parens with no nested parens - strip them.
-            $normalized = substr($normalized, 1, -1);
-        }
-
-        // Normalize spaces around operators for consistency.
-        $normalized = preg_replace('/\s*([\+\-\*\/])\s*/', ' $1 ', $normalized);
-        $normalized = preg_replace('/\s+/', ' ', trim($normalized));
-
-        return $normalized;
-    }
-
-    /**
      * Regenerate the CSS cache after changes.
      *
      * @return void
@@ -106,7 +68,7 @@ class Component_Handler
     public static function regenerate_css(): void
     {
         // Clear any cached CSS.
-        delete_transient('epb_component_css');
+        delete_transient(Constants::TRANSIENT_CSS);
 
         // Optionally trigger child theme CSS regeneration.
         do_action('epb_component_settings_updated');
@@ -121,7 +83,7 @@ class Component_Handler
      */
     public static function get_saved_value(string $component, string $variable)
     {
-        $saved = get_option(self::OPTION_PREFIX . $component, []);
+        $saved = get_option(Constants::OPTION_PREFIX . $component, []);
         return $saved[$variable] ?? null;
     }
 
@@ -133,103 +95,18 @@ class Component_Handler
      */
     public static function get_component_values(string $component): array
     {
-        return get_option(self::OPTION_PREFIX . $component, []);
+        return get_option(Constants::OPTION_PREFIX . $component, []);
     }
 
     /**
      * Get the generated CSS for all components.
      *
      * @return string Generated CSS.
+     * @deprecated Use Generator::generate_all_component_css() directly.
      */
     public static function generate_component_css(): string
     {
-        $cached = get_transient('epb_component_css');
-
-        if ($cached !== false) {
-            return $cached;
-        }
-
-        // Build a map of all parsed variables with their resolved values.
-        $all_parsed = [];
-        $components = Component_Registry::get_all();
-
-        // First pass: collect all parsed variable data.
-        foreach (array_keys($components) as $component) {
-            $parsed = Less_Parser::parse_component($component);
-            foreach ($parsed as $var_name => $meta) {
-                $all_parsed[$var_name] = $meta;
-            }
-        }
-
-        $css = "/* EPB Component Theme Variables */\n:root {\n";
-
-        foreach (array_keys($components) as $component) {
-            $parsed = Less_Parser::parse_component($component);
-            $saved  = get_option(self::OPTION_PREFIX . $component, []);
-
-            if (empty($saved)) {
-                continue;
-            }
-
-            $css .= "\n    /* " . ucfirst($component) . " */\n";
-
-            foreach ($saved as $var_name => $saved_value) {
-                $meta = $parsed[$var_name] ?? null;
-                if (!$meta) {
-                    continue;
-                }
-
-                // Determine the final CSS value.
-                $css_value = self::resolve_to_css_value($saved_value, $meta, $all_parsed);
-
-                // Convert Less variable to CSS custom property.
-                $css_var = '--uk-' . $var_name;
-                $css .= "    {$css_var}: {$css_value};\n";
-            }
-        }
-
-        $css .= "}\n";
-
-        // Cache for 1 hour.
-        set_transient('epb_component_css', $css, HOUR_IN_SECONDS);
-
-        return $css;
-    }
-
-    /**
-     * Resolve a saved value to a CSS-compatible value.
-     *
-     * @param string $saved_value The saved value (could be reference or direct).
-     * @param array  $meta        Variable metadata from parser.
-     * @param array  $all_parsed  All parsed variables for reference lookup.
-     * @return string CSS-compatible value.
-     */
-    private static function resolve_to_css_value(string $saved_value, array $meta, array $all_parsed): string
-    {
-        $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $original_value;
-
-        // If saved value equals original value (unchanged), use parser's resolved value.
-        if ($saved_value === $original_value) {
-            return $resolved;
-        }
-
-        // If saved value is a simple reference like @global-color.
-        if (preg_match('/^@([\w-]+)$/', $saved_value, $matches)) {
-            $ref_name = $matches[1];
-            // Look up the referenced variable's resolved value.
-            if (isset($all_parsed[$ref_name])) {
-                return $all_parsed[$ref_name]['resolved'] ?? $all_parsed[$ref_name]['value'];
-            }
-        }
-
-        // If saved value contains Less functions like darken(), use parser's resolved.
-        if (preg_match('/(darken|lighten|fade|saturate|spin)\s*\(/', $saved_value)) {
-            return $resolved;
-        }
-
-        // Otherwise, saved value is a direct value (like #ff5500 or 16px).
-        return $saved_value;
+        return Generator::generate_all_component_css();
     }
 
     /**
@@ -243,7 +120,7 @@ class Component_Handler
         $components = Component_Registry::get_all();
 
         foreach (array_keys($components) as $component) {
-            $saved = get_option(self::OPTION_PREFIX . $component, []);
+            $saved = get_option(Constants::OPTION_PREFIX . $component, []);
             if (!empty($saved)) {
                 // Count only values that are actually different from defaults.
                 $variables = Less_Parser::parse_component($component);
@@ -256,8 +133,8 @@ class Component_Handler
                     $original = $variables[$key]['value'];
 
                     // Normalize and compare.
-                    $normalized_saved = self::normalize_less_escape($value);
-                    $normalized_original = self::normalize_less_escape($original);
+                    $normalized_saved = Utils::normalize_less_escape($value);
+                    $normalized_original = Utils::normalize_less_escape($original);
 
                     if ($normalized_saved !== $normalized_original) {
                         $actual_modified++;

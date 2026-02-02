@@ -16,6 +16,7 @@ if (! defined('ABSPATH')) {
 }
 
 use EPB\Themes\Manager as ThemesManager;
+use EPB\Core\Constants;
 
 /**
  * Class Main_Renderer
@@ -79,10 +80,10 @@ class Main_Renderer
 
         wp_localize_script('epb-component-picker', 'epbComponentPicker', [
             'ajaxUrl'    => admin_url('admin-ajax.php'),
-            'nonce'      => wp_create_nonce('epb_component_nonce'),
+            'nonce'      => wp_create_nonce(Constants::NONCE_ACTION),
             'previewUrl' => add_query_arg([
                 'action' => 'epb_get_preview_page',
-                'nonce'  => wp_create_nonce('epb_component_nonce'),
+                'nonce'  => wp_create_nonce(Constants::NONCE_ACTION),
             ], admin_url('admin-ajax.php')),
             'strings'    => [
                 'loading'         => __('Loading...', 'enhanced-plugin-bundle'),

@@ -21,6 +21,7 @@ if (!defined('ABSPATH')) {
 
 use EPB\CSS\Less_Parser;
 use EPB\CSS\Component_Registry;
+use EPB\Core\Constants;
 
 /**
  * Class Component_Exporter
@@ -36,7 +37,7 @@ class Component_Exporter
      */
     public static function export_all_components(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -46,7 +47,7 @@ class Component_Exporter
         foreach (array_keys($components) as $component) {
             // Get all variables for this component from the Less parser.
             $grouped = Less_Parser::get_grouped_variables($component);
-            $saved = get_option(Component_Handler::OPTION_PREFIX . $component, []);
+            $saved = get_option(Constants::OPTION_PREFIX . $component, []);
 
             $component_vars = [];
             foreach ($grouped as $group_vars) {
@@ -81,7 +82,7 @@ class Component_Exporter
      */
     public static function export_yootheme_less(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -93,7 +94,7 @@ class Component_Exporter
         $less_vars = [];
 
         foreach ($components as $component_key => $component_data) {
-            $saved = get_option(Component_Handler::OPTION_PREFIX . $component_key, []);
+            $saved = get_option(Constants::OPTION_PREFIX . $component_key, []);
 
             if (empty($saved)) {
                 continue;

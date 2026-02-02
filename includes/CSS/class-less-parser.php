@@ -435,11 +435,13 @@ class Less_Parser
     }
 
     /**
-     * Get all available components from the Less directory.
+     * Get all available components from the consolidated Less directory.
+     *
+     * Returns component names from the plugin's consolidated UIkit Less files.
      *
      * @return array<string> List of component names.
      */
-    public static function get_available_components(): array
+    public static function get_consolidated_components(): array
     {
         $components = [];
         $files      = glob(self::LESS_DIR . '*.less');
@@ -530,7 +532,7 @@ class Less_Parser
     public static function get_all_variables(): array
     {
         $all        = [];
-        $components = self::get_available_components();
+        $components = self::get_consolidated_components();
 
         foreach ($components as $component) {
             $vars = self::parse_component($component);

@@ -248,8 +248,8 @@ class Tokens_Studio_Exporter
         // Always include 'global' first for core variables.
         $groups['global'] = [];
 
-        // Get all available components from Less files.
-        $components = Less_Parser::get_available_components();
+        // Get all available components from consolidated Less files.
+        $components = Less_Parser::get_consolidated_components();
 
         foreach ($components as $component) {
             // Skip 'variables' as it's mapped to 'global'.

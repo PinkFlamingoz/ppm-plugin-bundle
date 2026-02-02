@@ -10,6 +10,7 @@
 namespace EPB\Themes;
 
 use EPB\Core\Notices;
+use EPB\Core\Constants;
 use EPB\CSS\Generator as CSSGenerator;
 use EPB\CSS\Component_Registry;
 
@@ -464,10 +465,9 @@ PHP;
 
         $components = Component_Registry::get_all();
         $has_overrides = false;
-        $component_prefix = 'epb_component_';
 
         foreach (array_keys($components) as $component) {
-            $saved = get_option($component_prefix . $component, []);
+            $saved = get_option(Constants::OPTION_PREFIX . $component, []);
 
             if (empty($saved)) {
                 continue;

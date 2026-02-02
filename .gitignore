@@ -1,5 +1,8 @@
 # Dependencies
-/vendor/
+# Note: /vendor/ is intentionally committed for WordPress plugin distribution
+# since users shouldn't need to run composer install
+composer.phar
+composer.lock
 
 # IDE & Editor
 .idea/

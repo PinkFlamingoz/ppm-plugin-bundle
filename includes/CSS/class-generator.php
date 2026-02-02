@@ -19,6 +19,7 @@ if (!defined('ABSPATH')) {
 }
 
 use EPB\CSS\Component_Registry;
+use EPB\Core\Constants;
 
 /**
  * Class Generator
@@ -29,13 +30,6 @@ use EPB\CSS\Component_Registry;
  */
 class Generator
 {
-    /**
-     * Option prefix for component storage.
-     *
-     * @var string
-     */
-    private const COMPONENT_PREFIX = 'epb_component_';
-
     /**
      * Generates the complete CSS content for the child theme.
      *
@@ -245,7 +239,7 @@ class Generator
 
         // Second pass: override with saved component values.
         foreach (array_keys($components) as $component) {
-            $saved = get_option(self::COMPONENT_PREFIX . $component, []);
+            $saved = get_option(Constants::OPTION_PREFIX . $component, []);
 
             foreach ($saved as $var_name => $value) {
                 $all_variables[$var_name] = $value;
@@ -528,7 +522,7 @@ class Generator
             return '';
         }
 
-        $saved = get_option(self::COMPONENT_PREFIX . $component, []);
+        $saved = get_option(Constants::OPTION_PREFIX . $component, []);
 
         if (empty($saved)) {
             return '';
@@ -1054,5 +1048,105 @@ h1, h2, h3, h4, h5, h6,
 }
 
 CSS;
+    }
+
+    /**
+     * Generate CSS custom properties for all saved component values.
+     *
+     * This method generates CSS variables from all saved component settings,
+     * resolving Less references and functions to final CSS values.
+     * Results are cached in a transient for performance.
+     *
+     * @return string Generated CSS with custom properties.
+     */
+    public static function generate_all_component_css(): string
+    {
+        $cached = get_transient(Constants::TRANSIENT_CSS);
+
+        if ($cached !== false) {
+            return $cached;
+        }
+
+        // Build a map of all parsed variables with their resolved values.
+        $all_parsed = [];
+        $components = Component_Registry::get_all();
+
+        // First pass: collect all parsed variable data.
+        foreach (array_keys($components) as $component) {
+            $parsed = Less_Parser::parse_component($component);
+            foreach ($parsed as $var_name => $meta) {
+                $all_parsed[$var_name] = $meta;
+            }
+        }
+
+        $css = "/* EPB Component Theme Variables */\n:root {\n";
+
+        foreach (array_keys($components) as $component) {
+            $parsed = Less_Parser::parse_component($component);
+            $saved  = get_option(Constants::OPTION_PREFIX . $component, []);
+
+            if (empty($saved)) {
+                continue;
+            }
+
+            $css .= "\n    /* " . ucfirst($component) . " */\n";
+
+            foreach ($saved as $var_name => $saved_value) {
+                $meta = $parsed[$var_name] ?? null;
+                if (!$meta) {
+                    continue;
+                }
+
+                // Determine the final CSS value.
+                $css_value = self::resolve_to_css_value($saved_value, $meta, $all_parsed);
+
+                // Convert Less variable to CSS custom property.
+                $css_var = '--uk-' . $var_name;
+                $css .= "    {$css_var}: {$css_value};\n";
+            }
+        }
+
+        $css .= "}\n";
+
+        // Cache for 1 hour.
+        set_transient(Constants::TRANSIENT_CSS, $css, Constants::CACHE_DURATION);
+
+        return $css;
+    }
+
+    /**
+     * Resolve a saved value to a CSS-compatible value.
+     *
+     * @param string $saved_value The saved value (could be reference or direct).
+     * @param array  $meta        Variable metadata from parser.
+     * @param array  $all_parsed  All parsed variables for reference lookup.
+     * @return string CSS-compatible value.
+     */
+    private static function resolve_to_css_value(string $saved_value, array $meta, array $all_parsed): string
+    {
+        $original_value = $meta['value'];
+        $resolved = $meta['resolved'] ?? $original_value;
+
+        // If saved value equals original value (unchanged), use parser's resolved value.
+        if ($saved_value === $original_value) {
+            return $resolved;
+        }
+
+        // If saved value is a simple reference like @global-color.
+        if (preg_match('/^@([\w-]+)$/', $saved_value, $matches)) {
+            $ref_name = $matches[1];
+            // Look up the referenced variable's resolved value.
+            if (isset($all_parsed[$ref_name])) {
+                return $all_parsed[$ref_name]['resolved'] ?? $all_parsed[$ref_name]['value'];
+            }
+        }
+
+        // If saved value contains Less functions like darken(), use parser's resolved.
+        if (preg_match('/(darken|lighten|fade|saturate|spin)\s*\(/', $saved_value)) {
+            return $resolved;
+        }
+
+        // Otherwise, saved value is a direct value (like #ff5500 or 16px).
+        return $saved_value;
     }
 }
