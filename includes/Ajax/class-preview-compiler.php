@@ -172,42 +172,4 @@ class Preview_Compiler
 
         return $sanitized;
     }
-
-    /**
-     * Get cache key for a component + overrides combination.
-     *
-     * @param string $component The component name.
-     * @param array  $overrides The variable overrides.
-     * @return string The cache key.
-     */
-    private static function get_cache_key(string $component, array $overrides): string
-    {
-        ksort($overrides);
-        $hash = md5($component . serialize($overrides));
-        return 'epb_preview_' . $hash;
-    }
-
-    /**
-     * Get cached CSS if available.
-     *
-     * @param string $cache_key The cache key.
-     * @return string|false The cached CSS or false.
-     */
-    private static function get_cached(string $cache_key)
-    {
-        return get_transient($cache_key);
-    }
-
-    /**
-     * Cache compiled CSS.
-     *
-     * @param string $cache_key The cache key.
-     * @param string $css       The compiled CSS.
-     * @param int    $expiry    Cache expiry in seconds.
-     * @return void
-     */
-    private static function set_cache(string $cache_key, string $css, int $expiry = 300): void
-    {
-        set_transient($cache_key, $css, $expiry);
-    }
 }
