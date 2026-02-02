@@ -1,0 +1,56 @@
+﻿// Name:            Slidenav
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@slidenav-active-background:                      transparent; // [master]
+@slidenav-active-color:              fade(@global-color, 50%); // [component]
+@slidenav-backdrop-filter:                                ~''; // [master]
+@slidenav-background:                             transparent; // [master]
+@slidenav-color:                     fade(@global-color, 50%); // [component]
+@slidenav-hover-background:                       transparent; // [master]
+@slidenav-hover-color:               fade(@global-color, 90%); // [component]
+@slidenav-margin:                                           0; // [master]
+@slidenav-padding-horizontal:                            10px; // [component]
+@slidenav-padding-vertical:                               5px; // [component]
+
+// Internal
+@internal-slidenav-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-slidenav-hover-glitch-duration:                0.2s; // [master]
+@internal-slidenav-hover-mode:                            ~''; // [master]
+@internal-slidenav-next-previous-mode:                    ~''; // [master]
+
+// Inverse
+@inverse-slidenav-active-background:              transparent; // [master]
+@inverse-slidenav-background:                     transparent; // [master]
+@inverse-slidenav-hover-background:               transparent; // [master]
+
+// @group: Border
+@slidenav-active-border:                          transparent; // [master]
+@slidenav-border:                                 transparent; // [master]
+@slidenav-border-width:                                     0; // [master]
+@slidenav-hover-border:                           transparent; // [master]
+
+// Inverse
+@inverse-slidenav-active-border:                  transparent; // [master]
+@inverse-slidenav-border:                         transparent; // [master]
+@inverse-slidenav-hover-border:                   transparent; // [master]
+
+// @group: Border Radius
+@slidenav-border-radius:                                    0; // [master]
+
+// @group: Inverse
+
+// Inverse
+@inverse-slidenav-active-color: fade(@inverse-global-color, 70%); // [component]
+@inverse-slidenav-color:     fade(@inverse-global-color, 70%); // [component]
+@inverse-slidenav-hover-color: fade(@inverse-global-color, 95%); // [component]
+
+// @group: Large Size
+@slidenav-large-padding-horizontal: @slidenav-large-padding-vertical; // [component]
+@slidenav-large-padding-vertical:                        10px; // [component]

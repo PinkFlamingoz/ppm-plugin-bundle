@@ -1084,7 +1084,8 @@
         },
 
         /**
-         * Export as YOOtheme style.less format.
+         * Export as YOOtheme JSON style format.
+         * Creates a JSON file that can be imported directly into YOOtheme Pro.
          */
         exportYoothemeLess() {
             const self = this;
@@ -1098,12 +1099,13 @@
                 },
                 success(response) {
                     if (response.success) {
-                        const less = response.data.less;
-                        const filename = response.data.filename || 'style.less';
+                        const jsonData = response.data.json;
+                        const filename = response.data.filename || 'yootheme-style.json';
 
-                        // Create download.
+                        // Create download as JSON.
                         try {
-                            const blob = new Blob([less], { type: 'text/plain' });
+                            const jsonString = JSON.stringify(jsonData);
+                            const blob = new Blob([jsonString], { type: 'application/json' });
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement('a');
                             a.href = url;
@@ -1114,7 +1116,7 @@
                             
                             setTimeout(() => {
                                 URL.revokeObjectURL(url);
-                                self.showToast('Exported as YOOtheme style.less!', 'success');
+                                self.showToast('Exported YOOtheme style JSON!', 'success');
                             }, 100);
                         } catch (e) {
                             self.showToast(self.config.strings.error, 'error');

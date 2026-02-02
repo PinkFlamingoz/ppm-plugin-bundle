@@ -1,0 +1,81 @@
+﻿// Name:            Modal
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@modal-backdrop-filter:                                   ~''; // [master]
+@modal-close-full-background:        @modal-dialog-background; // [theme, master]
+@modal-close-full-padding:                               10px; // [theme, master]
+@modal-close-full-padding-m:                   @global-margin; // [theme, master]
+@modal-footer-border:                          @global-border; // [theme, master]
+@modal-footer-border-width:              @global-border-width; // [theme, master]
+@modal-header-border:                          @global-border; // [theme, master]
+@modal-header-border-width:              @global-border-width; // [theme, master]
+
+// @group: Body
+@modal-body-padding-horizontal:                          20px; // [component]
+@modal-body-padding-horizontal-s:              @global-gutter; // [component]
+@modal-body-padding-vertical:                            20px; // [component]
+@modal-body-padding-vertical-s:                @global-gutter; // [component]
+
+// @group: Border Radius
+@modal-dialog-border-radius:                                0; // [master]
+
+// @group: Box Shadow
+@modal-dialog-box-shadow:                                none; // [master]
+
+// @group: Close Button
+@modal-close-outside-color: lighten(@global-inverse-color, 20%); // [component]
+@modal-close-outside-hover-color:       @global-inverse-color; // [component]
+@modal-close-outside-position:                              0; // [component]
+@modal-close-outside-translate:                          100%; // [component]
+@modal-close-padding:                                     5px; // [component]
+@modal-close-position:                   @global-small-margin; // [component]
+
+// @group: Container
+@modal-container-width:                                1200px; // [component]
+
+// @group: Dialog
+@modal-dialog-background:                  @global-background; // [component]
+@modal-dialog-width:                                    600px; // [component]
+
+// @group: Footer
+@modal-footer-background:            @modal-dialog-background; // [component, theme, master]
+@modal-footer-padding-horizontal:                        20px; // [component]
+@modal-footer-padding-horizontal-s:            @global-gutter; // [component]
+@modal-footer-padding-vertical: (@modal-footer-padding-horizontal / 2); // [component]
+@modal-footer-padding-vertical-s: (@modal-footer-padding-horizontal-s / 2); // [component]
+
+// @group: Header
+@modal-header-background:            @modal-dialog-background; // [component, theme, master]
+@modal-header-padding-horizontal:                        20px; // [component]
+@modal-header-padding-horizontal-s:            @global-gutter; // [component]
+@modal-header-padding-vertical: (@modal-header-padding-horizontal / 2); // [component]
+@modal-header-padding-vertical-s: (@modal-header-padding-horizontal-s / 2); // [component]
+
+// @group: Overlay
+@modal-background:                            rgba(0,0,0,0.6); // [component]
+@modal-z-index:                          @global-z-index + 10; // [component]
+
+// @group: Padding
+@modal-padding-horizontal:                               15px; // [component]
+@modal-padding-horizontal-m:            @global-medium-gutter; // [component]
+@modal-padding-horizontal-s:                   @global-gutter; // [component]
+@modal-padding-vertical:            @modal-padding-horizontal; // [component]
+@modal-padding-vertical-s:                               50px; // [component]
+
+// @group: Title
+@modal-title-font-size:              @global-xlarge-font-size; // [component]
+@modal-title-line-height:                                 1.3; // [component]
+
+// @group: Typo
+@modal-title-font-family:         @global-primary-font-family; // [master]
+@modal-title-font-style:           @global-primary-font-style; // [master]
+@modal-title-font-weight:         @global-primary-font-weight; // [master]
+@modal-title-letter-spacing:   @global-primary-letter-spacing; // [master]
+@modal-title-text-transform:   @global-primary-text-transform; // [master]

@@ -13,7 +13,7 @@
  */
 
 // Configuration
-$less_dir = __DIR__ . '/../docs/uikit-less/';
+$less_dir = __DIR__ . '/../docs/uikit-less-consolidated/';
 
 /**
  * Analyze a Less file for group annotations.

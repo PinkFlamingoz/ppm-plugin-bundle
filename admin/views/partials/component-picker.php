@@ -43,7 +43,7 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                 <button type="button" id="import-figma" class="ppm-button-icon" title="<?php esc_attr_e('Import from Figma Tokens Studio', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-migrate"></span>
                 </button>
-                <button type="button" id="export-yootheme-less" class="ppm-button-icon" title="<?php esc_attr_e('Export as YOOtheme style.less', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="export-yootheme-less" class="ppm-button-icon" title="<?php esc_attr_e('Export YOOtheme Style JSON', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-editor-code"></span>
                 </button>
                 <button type="button" id="export-all-components" class="ppm-button-icon" title="<?php esc_attr_e('Export All (JSON)', 'enhanced-plugin-bundle'); ?>">

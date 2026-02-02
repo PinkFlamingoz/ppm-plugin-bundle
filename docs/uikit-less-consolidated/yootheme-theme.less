@@ -1,0 +1,133 @@
+﻿// Name:            YOOtheme Theme
+// Description:     YOOtheme-specific theme variables (page, toolbar, header, etc.)
+// Source:          themes/yootheme/less/theme.less
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Page
+@theme-page-border:                               transparent;
+@theme-page-border-mode:                                  ~'';
+@theme-page-border-width:                                   0;
+@theme-page-border-width-l:          @theme-page-border-width;
+
+// Internal
+@internal-theme-page-border-gradient:                     ~'';
+
+// @group: Page Container
+@theme-page-container-background: darken(@global-muted-background, 3%);
+@theme-page-container-color-mode:                        dark;
+@theme-page-container-margin-bottom: @theme-page-container-margin-top;
+@theme-page-container-margin-top:        @global-large-margin;
+@theme-page-container-width:                           1500px;
+
+// @group: Toolbar
+@theme-toolbar-background:       @global-secondary-background;
+@theme-toolbar-border:                            transparent;
+@theme-toolbar-border-width:                                0;
+@theme-toolbar-color-mode:                              light;
+@theme-toolbar-font-family:                           inherit;
+@theme-toolbar-font-size:             @global-small-font-size;
+@theme-toolbar-padding-bottom:                           10px;
+@theme-toolbar-padding-top:                              10px;
+
+// @group: Header
+@theme-headerbar-bottom-background:        @navbar-background;
+@theme-headerbar-bottom-border:                   transparent;
+@theme-headerbar-bottom-border-width:                       0;
+@theme-headerbar-bottom-padding-bottom:                  20px;
+@theme-headerbar-bottom-padding-top:                     20px;
+@theme-headerbar-color-mode:               @navbar-color-mode;
+@theme-headerbar-font-size:                           inherit;
+@theme-headerbar-stacked-margin-top:                     20px;
+@theme-headerbar-top-background:           @navbar-background;
+@theme-headerbar-top-border:                      transparent;
+@theme-headerbar-top-border-width:                          0;
+@theme-headerbar-top-padding-bottom:                     20px;
+@theme-headerbar-top-padding-top:                        20px;
+
+// @group: Sidebar
+@theme-sidebar-min-width:                               200px;
+
+// @group: Firefox Fallback
+@theme-box-decoration-bottom:                               0;
+@theme-box-decoration-default-backdrop-filter:            ~'';
+@theme-box-decoration-default-background: darken(@global-muted-background, 3%);
+@theme-box-decoration-default-blend-mode:                 ~'';
+@theme-box-decoration-default-border:             transparent;
+@theme-box-decoration-default-border-width:                 0;
+@theme-box-decoration-default-transform-horizontal:     -20px;
+@theme-box-decoration-default-transform-vertical:        20px;
+@theme-box-decoration-left:                                 0;
+@theme-box-decoration-primary-backdrop-filter:            ~'';
+@theme-box-decoration-primary-background: darken(@global-muted-background, 3%);
+@theme-box-decoration-primary-blend-mode:                 ~'';
+@theme-box-decoration-primary-border:             transparent;
+@theme-box-decoration-primary-border-width:                 0;
+@theme-box-decoration-primary-transform-horizontal:      20px;
+@theme-box-decoration-primary-transform-vertical:        20px;
+@theme-box-decoration-right:                                0;
+@theme-box-decoration-secondary-backdrop-filter:          ~'';
+@theme-box-decoration-secondary-background: darken(@global-muted-background, 3%);
+@theme-box-decoration-secondary-blend-mode:               ~'';
+@theme-box-decoration-secondary-border:           transparent;
+@theme-box-decoration-secondary-border-width:               0;
+@theme-box-decoration-secondary-transform-horizontal:    20px;
+@theme-box-decoration-secondary-transform-vertical:     -20px;
+@theme-box-decoration-top:                                  0;
+@theme-box-decoration-z-index:                             -1;
+@theme-transition-border-blend-mode:                      ~'';
+@theme-transition-border-border:   @global-primary-background;
+@theme-transition-border-border-width:                      0;
+@theme-transition-border-direction-mode:               inside;
+@theme-transition-border-hover-border: @global-primary-background;
+@theme-transition-border-hover-border-width:             10px;
+@theme-transition-border-transition-duration:            0.1s;
+
+// Internal
+@internal-theme-transition-border-border-gradient:        ~'';
+@internal-theme-transition-border-hover-border-gradient:  ~'';
+
+// Inverse
+@inverse-theme-box-decoration-default-background: @inverse-global-muted-background;
+@inverse-theme-box-decoration-default-border:     transparent;
+@inverse-theme-box-decoration-primary-background: @inverse-global-muted-background;
+@inverse-theme-box-decoration-primary-border:     transparent;
+@inverse-theme-box-decoration-secondary-background: @inverse-global-muted-background;
+@inverse-theme-box-decoration-secondary-border:   transparent;
+
+// @group: Image
+
+// Internal
+@internal-inverse-section-title-dash-color: @inverse-global-color;
+@internal-theme-mask-default-border-image:                ~'';
+@internal-theme-mask-default-border-image-repeat:       round;
+@internal-theme-mask-default-border-image-slice:           30;
+@internal-theme-mask-default-border-image-width:          ~'';
+@internal-theme-mask-default-image: "../vendor/assets/uikit-themes/master/images/mask-default-image.svg";
+@internal-theme-mask-default-image-repeat:              round;
+@internal-theme-mask-default-image-size:                 100%;
+
+// Inverse
+@inverse-section-title-color:           @inverse-global-color;
+
+// @group: List
+@section-title-color:                     @global-muted-color;
+@section-title-font-family:     @global-secondary-font-family;
+@section-title-font-size:             @global-small-font-size;
+@section-title-font-style:       @global-secondary-font-style;
+@section-title-font-weight:     @global-secondary-font-weight;
+@section-title-letter-spacing: @global-secondary-letter-spacing;
+@section-title-line-height:               @global-line-height;
+@section-title-text-transform: @global-secondary-text-transform;
+
+// Internal
+@internal-section-title-dash-background-image:            ~'';
+@internal-section-title-dash-border-height:              15px;
+@internal-section-title-dash-border-margin:              15px;
+@internal-section-title-dash-border-width: @global-border-width;
+@internal-section-title-dash-color:              currentColor;
+@internal-section-title-mode:                            dash;

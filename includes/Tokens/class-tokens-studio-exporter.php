@@ -48,7 +48,7 @@ class Tokens_Studio_Exporter
      */
     public static function export(): array
     {
-        self::$less_dir = EPB_PLUGIN_DIR . 'docs/uikit-less';
+        self::$less_dir = EPB_PLUGIN_DIR . 'docs/uikit-less-consolidated';
         self::$all_variables = [];
 
         // Parse all Less files.
@@ -93,8 +93,17 @@ class Tokens_Studio_Exporter
                 $var_name = $match[1];
                 $var_value = trim($match[2]);
 
-                // Skip internal/deprecated variables.
-                if ($var_name === 'deprecated' || strpos($var_name, 'internal') !== false) {
+                // Skip internal/hook/deprecated variables.
+                if (
+                    $var_name === 'deprecated' ||
+                    strpos($var_name, 'internal') !== false ||
+                    strpos($var_name, 'hook-') === 0
+                ) {
+                    continue;
+                }
+
+                // Skip empty Less values (~'' or ~"").
+                if ($var_value === "~''" || $var_value === '~""' || $var_value === '') {
                     continue;
                 }
 

@@ -1,0 +1,101 @@
+﻿// Name:            Icon
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+
+// Internal
+@internal-icon-button-active-gradient:                    ~''; // [master]
+@internal-icon-button-gradient:                           ~''; // [master]
+@internal-icon-button-hover-gradient:                     ~''; // [master]
+
+// @group: Base
+@icon-button-backdrop-filter:                             ~''; // [master]
+@icon-button-transition-duration:                        0.1s; // [master]
+
+// Internal
+@internal-icon-button-glow-filter:                        ~''; // [master]
+@internal-icon-button-glow-gradient:                      ~''; // [master]
+@internal-icon-button-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-icon-button-hover-glitch-duration:             0.2s; // [master]
+@internal-icon-button-hover-glow-filter:                  ~''; // [master]
+@internal-icon-button-hover-mode:                         ~''; // [master]
+@internal-icon-button-mode:                               ~''; // [master]
+@internal-inverse-icon-button-glow-gradient:              ~''; // [master]
+
+// @group: Border
+@icon-button-active-border:                       transparent; // [master]
+@icon-button-border:                              transparent; // [master]
+@icon-button-border-width:                                  0; // [master]
+@icon-button-hover-border:                        transparent; // [master]
+
+// Internal
+@internal-icon-button-border-image:                       ~''; // [master]
+@internal-icon-button-border-image-repeat:                ~''; // [master]
+@internal-icon-button-border-image-slice:                 ~''; // [master]
+@internal-icon-button-border-image-width:                 ~''; // [master]
+
+// Inverse
+@inverse-icon-button-active-border:               transparent; // [master]
+@inverse-icon-button-border:                      transparent; // [master]
+@inverse-icon-button-hover-border:                transparent; // [master]
+
+// @group: Box Shadow
+@icon-button-active-box-shadow:                          none; // [master]
+@icon-button-box-shadow:                                 none; // [master]
+@icon-button-hover-box-shadow:                           none; // [master]
+
+// Inverse
+@inverse-icon-button-active-box-shadow:                  none; // [master]
+@inverse-icon-button-box-shadow:                         none; // [master]
+@inverse-icon-button-hover-box-shadow:                   none; // [master]
+
+// @group: Button Style
+@icon-button-active-background: darken(@icon-button-background, 10%); // [component]
+@icon-button-active-color:                      @global-color; // [component]
+@icon-button-background:             @global-muted-background; // [component]
+@icon-button-border-radius:                             500px; // [component]
+@icon-button-color:                       @global-muted-color; // [component]
+@icon-button-hover-background: darken(@icon-button-background, 5%); // [component]
+@icon-button-hover-color:                       @global-color; // [component]
+@icon-button-size:                                       36px; // [component]
+
+// @group: Image
+@icon-image-size:                                        20px; // [component]
+
+// @group: Inverse - Button
+
+// Inverse
+@inverse-icon-button-active-background: fadein(@inverse-icon-button-background, 10%); // [component]
+@inverse-icon-button-active-color:      @inverse-global-color; // [component]
+@inverse-icon-button-background: @inverse-global-muted-background; // [component]
+@inverse-icon-button-color:       @inverse-global-muted-color; // [component]
+@inverse-icon-button-hover-background: fadein(@inverse-icon-button-background, 5%); // [component]
+@inverse-icon-button-hover-color:       @inverse-global-color; // [component]
+
+// @group: Inverse - Link
+
+// Inverse
+@inverse-icon-link-active-color:        @inverse-global-color; // [component]
+@inverse-icon-link-color:         @inverse-global-muted-color; // [component]
+@inverse-icon-link-hover-color:         @inverse-global-color; // [component]
+
+// @group: Inverse - Overlay
+
+// Inverse
+@inverse-icon-overlay-color: fade(@inverse-global-emphasis-color, 60%); // [component]
+@inverse-icon-overlay-hover-color: @inverse-global-emphasis-color; // [component]
+
+// @group: Link Style
+@icon-link-active-color:            darken(@global-color, 5%); // [component]
+@icon-link-color:                         @global-muted-color; // [component]
+@icon-link-hover-color:                         @global-color; // [component]
+
+// @group: Overlay Style
+@icon-overlay-color:        fade(@global-emphasis-color, 60%); // [component]
+@icon-overlay-hover-color:             @global-emphasis-color; // [component]

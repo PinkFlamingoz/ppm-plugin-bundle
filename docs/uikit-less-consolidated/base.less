@@ -1,0 +1,213 @@
+﻿// Name:            Base
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@base-blockquote-background:                      transparent; // [master]
+@base-blockquote-footer-em-dash:                         true; // [master]
+@base-blockquote-padding-left:                              0; // [master]
+@base-blockquote-padding-right:                             0; // [master]
+@base-blockquote-padding-vertical:                          0; // [master]
+@base-code-background:                            transparent; // [theme, master]
+@base-code-padding-horizontal:                              0; // [theme, master]
+@base-code-padding-vertical:                                0; // [theme, master]
+@base-pre-background:                             transparent; // [theme, master]
+@base-pre-padding:                                          0; // [theme, master]
+
+// Internal
+@internal-base-body-mode:                                none; // [master]
+@internal-base-body-overlay-background-repeat:         repeat; // [master]
+@internal-base-body-overlay-background-size:             auto; // [master]
+@internal-base-body-overlay-blend-mode:                   ~''; // [master]
+@internal-base-body-overlay-image:                        ~''; // [master]
+@internal-base-body-overlay-image-2:                      ~''; // [master]
+@internal-base-body-overlay-opacity:                      0.1; // [master]
+@internal-base-body-overlay-z-index:    @global-z-index + 100; // [master]
+
+// Inverse
+@inverse-base-blockquote-background:              transparent; // [master]
+@inverse-base-code-background:                    transparent; // [master]
+
+// @group: Blockquote
+@base-blockquote-font-size:          @global-medium-font-size; // [component]
+@base-blockquote-font-style:                           italic; // [component]
+@base-blockquote-footer-font-size:    @global-small-font-size; // [component]
+@base-blockquote-footer-line-height:                      1.5; // [component]
+@base-blockquote-footer-margin-top:      @global-small-margin; // [component]
+@base-blockquote-line-height:                             1.5; // [component]
+@base-blockquote-margin-vertical:              @global-margin; // [component]
+
+// @group: Body
+@base-body-background:                     @global-background; // [component]
+@base-body-color:                               @global-color; // [component]
+@base-body-font-family:                   @global-font-family; // [component]
+@base-body-font-size:                       @global-font-size; // [component]
+@base-body-font-weight:                                normal; // [component]
+@base-body-line-height:                   @global-line-height; // [component]
+
+// @group: Border
+@base-blockquote-border:                          transparent; // [master]
+@base-blockquote-border-mode:                             ~''; // [master]
+@base-blockquote-border-width:                              0; // [master]
+@base-code-border:                                transparent; // [master]
+@base-code-border-width:                                    0; // [master]
+@base-pre-border:                                 transparent; // [theme, master]
+@base-pre-border-mode:                                    ~''; // [master]
+@base-pre-border-width:                                     0; // [theme, master]
+
+// Inverse
+@inverse-base-blockquote-border:                  transparent; // [master]
+@inverse-base-code-border:                        transparent; // [master]
+
+// @group: Border Radius
+@base-code-border-radius:                                   0; // [master]
+@base-pre-border-radius:                                    0; // [theme, master]
+
+// @group: Box Shadow
+@base-hr-box-shadow:                                     none; // [master]
+
+// Inverse
+@inverse-base-hr-box-shadow:                             none; // [master]
+
+// @group: Focus
+@base-focus-outline:                   @global-emphasis-color; // [component]
+@base-focus-outline-offset:                               1px; // [component]
+@base-focus-outline-style:                             dotted; // [component]
+@base-focus-outline-width:                                2px; // [component]
+@base-selection-background:                              #39f; // [component]
+@base-selection-color:                  @global-inverse-color; // [component]
+
+// @group: Headings
+@base-h1-font-size:               @base-h1-font-size-m * 0.85; // [component]
+@base-h1-font-size-m:               @global-2xlarge-font-size; // [component]
+@base-h1-line-height:                                     1.2; // [component]
+@base-h2-font-size:               @base-h2-font-size-m * 0.85; // [component]
+@base-h2-font-size-m:                @global-xlarge-font-size; // [component]
+@base-h2-line-height:                                     1.3; // [component]
+@base-h3-font-size:                   @global-large-font-size; // [component]
+@base-h3-line-height:                                     1.4; // [component]
+@base-h4-font-size:                  @global-medium-font-size; // [component]
+@base-h4-line-height:                                     1.4; // [component]
+@base-h5-font-size:                         @global-font-size; // [component]
+@base-h5-line-height:                                     1.4; // [component]
+@base-h6-font-size:                   @global-small-font-size; // [component]
+@base-h6-line-height:                                     1.4; // [component]
+@base-heading-color:                   @global-emphasis-color; // [component]
+@base-heading-font-family:                @global-font-family; // [component]
+@base-heading-font-weight:                             normal; // [component]
+@base-heading-margin-top:               @global-medium-margin; // [component]
+@base-heading-text-transform:                            none; // [component]
+
+// @group: Horizontal Rule
+@base-hr-border:                               @global-border; // [component]
+@base-hr-border-width:                   @global-border-width; // [component]
+@base-hr-margin-vertical:                      @global-margin; // [component]
+
+// @group: Inverse
+
+// Inverse
+@inverse-base-code-color:               @inverse-global-color; // [component]
+@inverse-base-color:                    @inverse-global-color; // [component]
+@inverse-base-em-color:        @inverse-global-emphasis-color; // [component]
+@inverse-base-focus-outline:   @inverse-global-emphasis-color; // [component]
+@inverse-base-heading-color:   @inverse-global-emphasis-color; // [component]
+@inverse-base-hr-border:               @inverse-global-border; // [component]
+@inverse-base-link-color:      @inverse-global-emphasis-color; // [component]
+@inverse-base-link-hover-color: @inverse-global-emphasis-color; // [component]
+
+// @group: Links
+@base-link-color:                          @global-link-color; // [component]
+@base-link-hover-color:              @global-link-hover-color; // [component]
+@base-link-hover-text-decoration:                   underline; // [component]
+@base-link-text-decoration:                              none; // [component]
+
+// @group: Lists
+@base-list-padding-left:                                 30px; // [component]
+
+// @group: Margins
+@base-margin-vertical:                         @global-margin; // [component]
+
+// @group: Preformatted
+@base-pre-color:                                @global-color; // [component]
+@base-pre-font-family:                 @base-code-font-family; // [component]
+@base-pre-font-size:                  @global-small-font-size; // [component]
+@base-pre-line-height:                                    1.5; // [component]
+
+// @group: Text Elements
+@base-code-color:                   @global-danger-background; // [component]
+@base-code-font-family:           Consolas, monaco, monospace; // [component]
+@base-code-font-size:                 @global-small-font-size; // [component]
+@base-em-color:                     @global-danger-background; // [component]
+@base-ins-background:                                    #ffd; // [component]
+@base-ins-color:                                @global-color; // [component]
+@base-mark-background:                                   #ffd; // [component]
+@base-mark-color:                               @global-color; // [component]
+@base-quote-font-style:                                italic; // [component]
+@base-small-font-size:                                    80%; // [component]
+@base-strong-font-weight:                              bolder; // [component]
+
+// @group: Typo
+@base-blockquote-color:                @global-emphasis-color; // [theme, master]
+@base-blockquote-font-family:     @global-primary-font-family; // [master]
+@base-blockquote-font-weight:     @global-primary-font-weight; // [master]
+@base-blockquote-footer-color:                  @global-color; // [theme, master]
+@base-blockquote-footer-font-family: @global-secondary-font-family; // [master]
+@base-blockquote-footer-font-style:                   inherit; // [master]
+@base-blockquote-footer-font-weight: @global-secondary-font-weight; // [master]
+@base-blockquote-footer-letter-spacing:               inherit; // [master]
+@base-blockquote-footer-text-transform: @global-secondary-text-transform; // [master]
+@base-blockquote-letter-spacing: @global-primary-letter-spacing; // [master]
+@base-blockquote-text-transform: @global-primary-text-transform; // [master]
+@base-h1-color:                           @base-heading-color; // [master]
+@base-h1-font-family:             @global-primary-font-family; // [master]
+@base-h1-font-style:               @global-primary-font-style; // [master]
+@base-h1-font-weight:             @global-primary-font-weight; // [master]
+@base-h1-letter-spacing:       @global-primary-letter-spacing; // [master]
+@base-h1-text-transform:       @global-primary-text-transform; // [master]
+@base-h2-color:                           @base-heading-color; // [master]
+@base-h2-font-family:             @global-primary-font-family; // [master]
+@base-h2-font-style:               @global-primary-font-style; // [master]
+@base-h2-font-weight:             @global-primary-font-weight; // [master]
+@base-h2-letter-spacing:       @global-primary-letter-spacing; // [master]
+@base-h2-text-transform:       @global-primary-text-transform; // [master]
+@base-h3-color:                           @base-heading-color; // [master]
+@base-h3-font-family:             @global-primary-font-family; // [master]
+@base-h3-font-style:               @global-primary-font-style; // [master]
+@base-h3-font-weight:             @global-primary-font-weight; // [master]
+@base-h3-letter-spacing:       @global-primary-letter-spacing; // [master]
+@base-h3-text-transform:       @global-primary-text-transform; // [master]
+@base-h4-color:                           @base-heading-color; // [master]
+@base-h4-font-family:           @global-secondary-font-family; // [master]
+@base-h4-font-style:             @global-secondary-font-style; // [master]
+@base-h4-font-weight:           @global-secondary-font-weight; // [master]
+@base-h4-letter-spacing:     @global-secondary-letter-spacing; // [master]
+@base-h4-text-transform:     @global-secondary-text-transform; // [master]
+@base-h5-color:                           @base-heading-color; // [master]
+@base-h5-font-family:           @global-secondary-font-family; // [master]
+@base-h5-font-style:             @global-secondary-font-style; // [master]
+@base-h5-font-weight:           @global-secondary-font-weight; // [master]
+@base-h5-letter-spacing:     @global-secondary-letter-spacing; // [master]
+@base-h5-text-transform:     @global-secondary-text-transform; // [master]
+@base-h6-color:                           @base-heading-color; // [master]
+@base-h6-font-family:           @global-secondary-font-family; // [master]
+@base-h6-font-style:             @global-secondary-font-style; // [master]
+@base-h6-font-weight:           @global-secondary-font-weight; // [master]
+@base-h6-letter-spacing:     @global-secondary-letter-spacing; // [master]
+@base-h6-text-transform:     @global-secondary-text-transform; // [master]
+@base-heading-font-style:          @global-primary-font-style; // [master]
+@base-heading-letter-spacing:  @global-primary-letter-spacing; // [master]
+
+// Inverse
+@inverse-base-blockquote-color: @inverse-global-emphasis-color; // [theme, master]
+@inverse-base-blockquote-footer-color:  @inverse-global-color; // [theme, master]
+@inverse-base-h1-color:        @inverse-global-emphasis-color; // [master]
+@inverse-base-h2-color:        @inverse-global-emphasis-color; // [master]
+@inverse-base-h3-color:        @inverse-global-emphasis-color; // [master]
+@inverse-base-h4-color:        @inverse-global-emphasis-color; // [master]
+@inverse-base-h5-color:        @inverse-global-emphasis-color; // [master]
+@inverse-base-h6-color:        @inverse-global-emphasis-color; // [master]

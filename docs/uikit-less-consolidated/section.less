@@ -1,0 +1,71 @@
+﻿// Name:            Section
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+
+// Internal
+@internal-section-default-background-repeat:           repeat; // [master]
+@internal-section-default-gradient:                       ~''; // [master]
+@internal-section-default-image:                          ~''; // [master]
+@internal-section-default-mode:                          none; // [master]
+@internal-section-default-overlap-image:                  ~''; // [master]
+@internal-section-muted-background-repeat:             repeat; // [master]
+@internal-section-muted-gradient:                         ~''; // [master]
+@internal-section-muted-image:                            ~''; // [master]
+@internal-section-muted-mode:                            none; // [master]
+@internal-section-muted-overlap-image:                    ~''; // [master]
+@internal-section-overlap-background-size:                ~''; // [master]
+@internal-section-overlap-height:                           0; // [master]
+@internal-section-primary-background-repeat:           repeat; // [master]
+@internal-section-primary-gradient:                       ~''; // [master]
+@internal-section-primary-image:                          ~''; // [master]
+@internal-section-primary-mode:                          none; // [master]
+@internal-section-primary-overlap-image:                  ~''; // [master]
+@internal-section-secondary-background-repeat:         repeat; // [master]
+@internal-section-secondary-gradient:                     ~''; // [master]
+@internal-section-secondary-image:                        ~''; // [master]
+@internal-section-secondary-mode:                        none; // [master]
+@internal-section-secondary-overlap-image:                ~''; // [master]
+
+// @group: Border Radius
+@section-border-radius: clamp(30px, 7.1429px + 3.5714vw, 50px); // [master]
+
+// @group: Default Background
+@section-default-background:               @global-background; // [component]
+@section-default-color-mode:                             dark; // [component]
+
+// @group: Default Padding
+@section-padding-vertical:              @global-medium-margin; // [component]
+@section-padding-vertical-m:             @global-large-margin; // [component]
+
+// @group: Large Padding
+@section-large-padding-vertical:         @global-large-margin; // [component]
+@section-large-padding-vertical-m:      @global-xlarge-margin; // [component]
+
+// @group: Muted Background
+@section-muted-background:           @global-muted-background; // [component]
+@section-muted-color-mode:                               dark; // [component]
+
+// @group: Primary Background
+@section-primary-background:       @global-primary-background; // [component]
+@section-primary-color-mode:                            light; // [component]
+
+// @group: Secondary Background
+@section-secondary-background:   @global-secondary-background; // [component]
+@section-secondary-color-mode:                          light; // [component]
+
+// @group: Small Padding
+@section-small-padding-vertical:        @global-medium-margin; // [component]
+
+// @group: X-Large Padding
+@section-xlarge-padding-vertical:       @global-xlarge-margin; // [component]
+@section-xlarge-padding-vertical-m: (@global-large-margin + @global-xlarge-margin); // [component]
+
+// @group: X-Small Padding
+@section-xsmall-padding-vertical:              @global-margin; // [component]

@@ -1,0 +1,132 @@
+﻿// Name:            Subnav
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+
+// Internal
+@internal-subnav-pill-item-active-gradient:               ~''; // [master]
+@internal-subnav-pill-item-background-image:              ~''; // [master]
+
+// @group: Base
+@subnav-item-active-text-decoration:                     none; // [master]
+@subnav-item-text-decoration:                         inherit; // [master]
+@subnav-item-transition-duration:                        0.1s; // [master]
+@subnav-margin-horizontal:                               20px; // [component]
+@subnav-pill-item-active-backdrop-filter:                 ~''; // [master]
+@subnav-pill-item-hover-backdrop-filter:                  ~''; // [master]
+@subnav-siblings-filter:                                  ~''; // [master]
+@subnav-siblings-opacity:                                   1; // [master]
+
+// Internal
+@internal-inverse-subnav-pill-item-glow-gradient:         ~''; // [master]
+@internal-subnav-item-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-subnav-item-hover-glitch-duration:             0.2s; // [master]
+@internal-subnav-item-hover-mode:                         ~''; // [master]
+@internal-subnav-pill-item-active-glow-opacity:             1; // [master]
+@internal-subnav-pill-item-glow-filter:                   ~''; // [master]
+@internal-subnav-pill-item-glow-gradient:                 ~''; // [master]
+@internal-subnav-pill-item-glow-opacity:                    1; // [master]
+@internal-subnav-pill-item-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-subnav-pill-item-hover-glitch-duration:        0.2s; // [master]
+@internal-subnav-pill-item-hover-glow-filter:             ~''; // [master]
+@internal-subnav-pill-item-hover-glow-opacity:              1; // [master]
+@internal-subnav-pill-item-hover-mode:                    ~''; // [master]
+@internal-subnav-pill-item-mode:                          ~''; // [master]
+
+// @group: Border
+@subnav-pill-item-active-border:                  transparent; // [master]
+@subnav-pill-item-border:                         transparent; // [master]
+@subnav-pill-item-border-width:                             0; // [master]
+@subnav-pill-item-disabled-border:                transparent; // [master]
+@subnav-pill-item-hover-border:                   transparent; // [master]
+@subnav-pill-item-onclick-border:                 transparent; // [master]
+
+// Internal
+@internal-subnav-divider-border-gradient:                 ~''; // [master]
+@internal-subnav-pill-item-border-image:                  ~''; // [master]
+@internal-subnav-pill-item-border-image-repeat:           ~''; // [master]
+@internal-subnav-pill-item-border-image-slice:            ~''; // [master]
+@internal-subnav-pill-item-border-image-width:            ~''; // [master]
+
+// Inverse
+@inverse-subnav-pill-item-active-border:          transparent; // [master]
+@inverse-subnav-pill-item-border:                 transparent; // [master]
+@inverse-subnav-pill-item-disabled-border:        transparent; // [master]
+@inverse-subnav-pill-item-hover-border:           transparent; // [master]
+@inverse-subnav-pill-item-onclick-border:         transparent; // [master]
+
+// @group: Border Radius
+@subnav-pill-item-border-radius:                            0; // [master]
+
+// @group: Box Shadow
+@subnav-pill-item-active-box-shadow:                     none; // [master]
+@subnav-pill-item-box-shadow:                            none; // [master]
+@subnav-pill-item-hover-box-shadow:                      none; // [master]
+@subnav-pill-item-onclick-box-shadow:                    none; // [master]
+
+// Inverse
+@inverse-subnav-pill-item-active-box-shadow:             none; // [master]
+@inverse-subnav-pill-item-box-shadow:                    none; // [master]
+@inverse-subnav-pill-item-hover-box-shadow:              none; // [master]
+@inverse-subnav-pill-item-onclick-box-shadow:            none; // [master]
+
+// @group: Divider
+@subnav-divider-border:                        @global-border; // [component]
+@subnav-divider-border-height:                          1.5em; // [component]
+@subnav-divider-border-width:            @global-border-width; // [component]
+@subnav-divider-margin-horizontal:  @subnav-margin-horizontal; // [component]
+
+// @group: Inverse - Item
+
+// Inverse
+@inverse-subnav-divider-border:        @inverse-global-border; // [component]
+@inverse-subnav-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-subnav-item-color:       @inverse-global-muted-color; // [component]
+@inverse-subnav-item-disabled-color: @inverse-global-muted-color; // [component]
+@inverse-subnav-item-hover-color:       @inverse-global-color; // [component]
+
+// @group: Inverse - Pill
+
+// Inverse
+@inverse-subnav-pill-item-active-background: @inverse-global-primary-background; // [component]
+@inverse-subnav-pill-item-active-color: @inverse-global-inverse-color; // [component]
+@inverse-subnav-pill-item-background:             transparent; // [component]
+@inverse-subnav-pill-item-color:  @inverse-global-muted-color; // [component]
+@inverse-subnav-pill-item-hover-background: @inverse-global-muted-background; // [component]
+@inverse-subnav-pill-item-hover-color:  @inverse-global-color; // [component]
+@inverse-subnav-pill-item-onclick-background: @inverse-subnav-pill-item-hover-background; // [component]
+@inverse-subnav-pill-item-onclick-color: @inverse-subnav-pill-item-hover-color; // [component]
+
+// @group: Item
+@subnav-item-active-color:             @global-emphasis-color; // [component]
+@subnav-item-color:                       @global-muted-color; // [component]
+@subnav-item-disabled-color:              @global-muted-color; // [component]
+@subnav-item-hover-color:                       @global-color; // [component]
+@subnav-item-hover-text-decoration:                      none; // [component]
+
+// @group: Pill Style
+@subnav-pill-item-active-background: @global-primary-background; // [component]
+@subnav-pill-item-active-color:         @global-inverse-color; // [component]
+@subnav-pill-item-background:                     transparent; // [component]
+@subnav-pill-item-color:                   @subnav-item-color; // [component]
+@subnav-pill-item-hover-background:  @global-muted-background; // [component]
+@subnav-pill-item-hover-color:                  @global-color; // [component]
+@subnav-pill-item-onclick-background: @subnav-pill-item-hover-background; // [component]
+@subnav-pill-item-onclick-color: @subnav-pill-item-hover-color; // [component]
+@subnav-pill-item-padding-horizontal:                    10px; // [component]
+@subnav-pill-item-padding-vertical:                       5px; // [component]
+@subnav-pill-margin-horizontal:     @subnav-margin-horizontal; // [component]
+
+// @group: Typo
+@subnav-item-font-family:       @global-secondary-font-family; // [master]
+@subnav-item-font-size:                     @global-font-size; // [theme, master]
+@subnav-item-font-style:         @global-secondary-font-style; // [master]
+@subnav-item-font-weight:       @global-secondary-font-weight; // [master]
+@subnav-item-letter-spacing: @global-secondary-letter-spacing; // [master]
+@subnav-item-text-transform: @global-secondary-text-transform; // [theme, master]

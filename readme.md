@@ -227,7 +227,7 @@ assets/
     ├── admin.js                # Plugin table JS
     └── component-picker.js     # Component picker JS
 
-docs/uikit-less/                # UIkit Less source files
+docs/uikit-less-consolidated/   # Consolidated UIkit Less variables (from all layers)
     ├── variables.less          # Global variables
     ├── base.less               # Base styles
     ├── button.less             # Button component

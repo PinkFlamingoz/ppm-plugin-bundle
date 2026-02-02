@@ -44,6 +44,9 @@ class Handler
 
         // Component-based theming operations.
         Component_Handler::register();
+
+        // Preview compilation (server-side Less).
+        Preview_Compiler::register();
     }
 
     /**

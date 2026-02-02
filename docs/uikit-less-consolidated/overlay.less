@@ -1,0 +1,34 @@
+﻿// Name:            Overlay
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+
+// Internal
+@internal-overlay-default-gradient:                       ~''; // [master]
+@internal-overlay-primary-gradient:                       ~''; // [master]
+
+// @group: Base
+@overlay-default-backdrop-filter:                         ~''; // [master]
+@overlay-default-inverse-background: @overlay-default-background; // [master]
+@overlay-padding-horizontal:                   @global-gutter; // [component]
+@overlay-padding-vertical:                     @global-gutter; // [component]
+@overlay-primary-backdrop-filter:                         ~''; // [master]
+@overlay-primary-inverse-background: @overlay-primary-background; // [master]
+
+// Internal
+@internal-overlay-default-backdrop-filter:                ~''; // [master]
+@internal-overlay-primary-backdrop-filter:                ~''; // [master]
+
+// @group: Default Style
+@overlay-default-background:    fade(@global-background, 90%); // [component]
+@overlay-default-color-mode:                             dark; // [component]
+
+// @group: Primary Style
+@overlay-primary-background: fade(@global-secondary-background, 90%); // [component]
+@overlay-primary-color-mode:                            light; // [component]

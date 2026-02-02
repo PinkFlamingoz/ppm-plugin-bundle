@@ -1,0 +1,246 @@
+﻿// Name:            Navbar
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+
+// Internal
+@internal-navbar-gradient:                                ~''; // [master]
+@internal-navbar-nav-item-active-gradient:                ~''; // [master]
+@internal-navbar-nav-item-background-image:               ~''; // [master]
+@internal-navbar-nav-item-background-size:              cover; // [master]
+@internal-navbar-nav-item-gradient:                       ~''; // [master]
+@internal-navbar-nav-item-hover-gradient:                 ~''; // [master]
+@internal-navbar-nav-item-line-gradient:                  ~''; // [master]
+
+// @group: Base
+@navbar-backdrop-filter:                                  ~''; // [master]
+@navbar-container-padding:                               true; // [master]
+@navbar-dropdown-backdrop-filter:                         ~''; // [master]
+@navbar-dropdown-dropbar-large-shift-margin-m: @navbar-dropdown-dropbar-large-shift-margin; // [master]
+@navbar-dropdown-dropbar-shift-margin-m: @navbar-dropdown-dropbar-shift-margin; // [master]
+@navbar-dropdown-large-shift-margin-m: @navbar-dropdown-large-shift-margin; // [master]
+@navbar-dropdown-nav-divider-margin-vertical: @nav-divider-margin-vertical; // [master]
+@navbar-dropdown-nav-item-hover-background:       transparent; // [master]
+@navbar-dropdown-nav-item-padding-horizontal: @nav-item-padding-horizontal; // [master]
+@navbar-dropdown-nav-item-padding-vertical: @nav-item-padding-vertical; // [master]
+@navbar-dropdown-nav-margin-horizontal:                     0; // [master]
+@navbar-dropdown-nav-sublist-padding-left: (@navbar-dropdown-nav-item-padding-horizontal + @nav-sublist-deeper-padding-left); // [master]
+@navbar-dropdown-shift-margin-m: @navbar-dropdown-shift-margin; // [master]
+@navbar-gap-m:                                           30px; // [theme, master]
+@navbar-item-padding-horizontal-m: @navbar-item-padding-horizontal; // [master]
+@navbar-nav-gap-m:                                       30px; // [theme, master]
+@navbar-nav-item-active-background:               transparent; // [master]
+@navbar-nav-item-background:                      transparent; // [master]
+@navbar-nav-item-hover-background:                transparent; // [master]
+@navbar-nav-item-line-active-background: @global-primary-background; // [master]
+@navbar-nav-item-line-active-height:                      1px; // [master]
+@navbar-nav-item-line-active-mode:                       true; // [master]
+@navbar-nav-item-line-active-opacity:                       1; // [master]
+@navbar-nav-item-line-background:                 transparent; // [master]
+@navbar-nav-item-line-border-radius:                        0; // [master]
+@navbar-nav-item-line-height:                             1px; // [master]
+@navbar-nav-item-line-hover-background: @global-primary-background; // [master]
+@navbar-nav-item-line-hover-height:                       1px; // [master]
+@navbar-nav-item-line-hover-opacity:                        1; // [master]
+@navbar-nav-item-line-margin-horizontal:                    0; // [master]
+@navbar-nav-item-line-margin-horizontal-m: @navbar-nav-item-line-margin-horizontal; // [master]
+@navbar-nav-item-line-margin-vertical:                      0; // [master]
+@navbar-nav-item-line-mode:                             false; // [master]
+@navbar-nav-item-line-onclick-background: @global-primary-background; // [master]
+@navbar-nav-item-line-onclick-height:                     1px; // [master]
+@navbar-nav-item-line-opacity:                              1; // [master]
+@navbar-nav-item-line-position-mode:                   bottom; // [master]
+@navbar-nav-item-line-slide-mode:                         ~''; // [master]
+@navbar-nav-item-line-transition-duration:               0.1s; // [master]
+@navbar-nav-item-padding-horizontal-m: @navbar-nav-item-padding-horizontal; // [master]
+@navbar-nav-item-transition-duration:                    0.1s; // [master]
+@navbar-padding-bottom:                                     0; // [master]
+@navbar-padding-bottom-m:                                   0; // [master]
+@navbar-padding-top:                                        0; // [master]
+@navbar-padding-top-m:                                      0; // [master]
+@navbar-primary-gap:                              @navbar-gap; // [master]
+@navbar-primary-gap-m:                          @navbar-gap-m; // [master]
+@navbar-primary-item-padding-horizontal: @navbar-item-padding-horizontal; // [master]
+@navbar-primary-item-padding-horizontal-m: @navbar-item-padding-horizontal-m; // [master]
+@navbar-primary-nav-gap:                      @navbar-nav-gap; // [master]
+@navbar-primary-nav-gap-m:                  @navbar-nav-gap-m; // [master]
+@navbar-primary-nav-item-padding-horizontal: @navbar-nav-item-padding-horizontal; // [master]
+@navbar-primary-nav-item-padding-horizontal-m: @navbar-nav-item-padding-horizontal-m; // [master]
+@navbar-toggle-background:                        transparent; // [master]
+@navbar-toggle-hover-background:                  transparent; // [master]
+
+// Internal
+@internal-navbar-nav-item-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-navbar-nav-item-hover-glitch-duration:         0.2s; // [master]
+@internal-navbar-nav-item-hover-mode:                     ~''; // [master]
+
+// Inverse
+@inverse-navbar-nav-item-line-active-background: @inverse-global-primary-background; // [master]
+@inverse-navbar-nav-item-line-background:         transparent; // [master]
+@inverse-navbar-nav-item-line-hover-background: @inverse-global-primary-background; // [master]
+@inverse-navbar-nav-item-line-onclick-background: @inverse-global-primary-background; // [master]
+
+// @group: Border
+@navbar-border:                                   transparent; // [master]
+@navbar-border-mode:                       bottom-transparent; // [master]
+@navbar-border-vertical-mode:                             ~''; // [master]
+@navbar-border-width:                                       0; // [master]
+@navbar-dropdown-border:                          transparent; // [master]
+@navbar-dropdown-border-width:                              0; // [master]
+
+// Internal
+@internal-navbar-border-border-gradient:                  ~''; // [master]
+@internal-navbar-border-mode:                             ~''; // [master]
+
+// Inverse
+@inverse-navbar-border:                           transparent; // [master]
+
+// @group: Border Radius
+@navbar-dropdown-border-radius:                             0; // [master]
+@navbar-dropdown-nav-item-border-radius:                    0; // [master]
+
+// @group: Box Shadow
+@navbar-box-shadow:                                      none; // [master]
+@navbar-dropdown-box-shadow:                             none; // [theme, master]
+@navbar-group-box-shadow:                                none; // [master]
+@navbar-nav-item-active-box-shadow:                      none; // [master]
+@navbar-nav-item-box-shadow:                             none; // [master]
+@navbar-nav-item-hover-box-shadow:                       none; // [master]
+@navbar-sticky-box-shadow:                               none; // [master]
+
+// Inverse
+@inverse-navbar-group-box-shadow:                        none; // [master]
+@inverse-navbar-nav-item-active-box-shadow:              none; // [master]
+@inverse-navbar-nav-item-box-shadow:                     none; // [master]
+@inverse-navbar-nav-item-hover-box-shadow:               none; // [master]
+
+// @group: Container
+@navbar-background:                  @global-muted-background; // [component]
+@navbar-color-mode:                                      dark; // [component]
+@navbar-gap:                                             15px; // [component, theme, master]
+
+// @group: Dropdown
+@navbar-dropdown-background:               @global-background; // [component, theme]
+@navbar-dropdown-color:                         @global-color; // [component]
+@navbar-dropdown-color-mode:                             dark; // [component]
+@navbar-dropdown-focus-outline:           @base-focus-outline; // [component]
+@navbar-dropdown-grid-gutter-horizontal:       @global-gutter; // [component]
+@navbar-dropdown-grid-gutter-vertical: @navbar-dropdown-grid-gutter-horizontal; // [component]
+@navbar-dropdown-margin:                                 15px; // [component, theme]
+@navbar-dropdown-padding:                                25px; // [component, theme]
+@navbar-dropdown-shift-margin:                              0; // [component]
+@navbar-dropdown-viewport-margin:                        15px; // [component]
+@navbar-dropdown-width:                                 200px; // [component]
+
+// @group: Dropdown Dropbar
+@navbar-dropdown-dropbar-large-padding-bottom: @navbar-dropdown-dropbar-large-padding-top; // [component]
+@navbar-dropdown-dropbar-large-padding-top: @navbar-dropdown-large-padding; // [component]
+@navbar-dropdown-dropbar-large-shift-margin:                0; // [component]
+@navbar-dropdown-dropbar-margin:                            0; // [component]
+@navbar-dropdown-dropbar-padding-bottom: @navbar-dropdown-dropbar-padding-top; // [component]
+@navbar-dropdown-dropbar-padding-top: @navbar-dropdown-padding; // [component]
+@navbar-dropdown-dropbar-shift-margin:                      0; // [component]
+@navbar-dropdown-dropbar-viewport-margin:                15px; // [component]
+@navbar-dropdown-dropbar-viewport-margin-m: @global-medium-gutter; // [component]
+@navbar-dropdown-dropbar-viewport-margin-s:    @global-gutter; // [component]
+
+// @group: Dropdown Large
+@navbar-dropdown-large-padding:                          40px; // [component]
+@navbar-dropdown-large-shift-margin:                        0; // [component]
+
+// @group: Dropdown Nav
+@navbar-dropdown-nav-divider-border:           @global-border; // [component]
+@navbar-dropdown-nav-divider-border-width: @global-border-width; // [component]
+@navbar-dropdown-nav-header-color:     @global-emphasis-color; // [component]
+@navbar-dropdown-nav-item-active-color: @global-emphasis-color; // [component]
+@navbar-dropdown-nav-item-color:          @global-muted-color; // [component]
+@navbar-dropdown-nav-item-hover-color:          @global-color; // [component]
+@navbar-dropdown-nav-sublist-item-active-color: @global-emphasis-color; // [component]
+@navbar-dropdown-nav-sublist-item-color:  @global-muted-color; // [component]
+@navbar-dropdown-nav-sublist-item-hover-color:  @global-color; // [component]
+@navbar-dropdown-nav-subtitle-font-size:                 12px; // [component, theme]
+
+// @group: Inverse
+
+// Inverse
+@inverse-navbar-item-color:             @inverse-global-color; // [component]
+@inverse-navbar-nav-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-navbar-nav-item-color:   @inverse-global-muted-color; // [component]
+@inverse-navbar-nav-item-hover-color:   @inverse-global-color; // [component]
+@inverse-navbar-nav-item-onclick-color: @inverse-global-emphasis-color; // [component]
+@inverse-navbar-toggle-color:     @inverse-global-muted-color; // [component]
+@inverse-navbar-toggle-hover-color:     @inverse-global-color; // [component]
+
+// @group: Item
+@navbar-item-color:                             @global-color; // [component]
+@navbar-item-padding-horizontal:                            0; // [component, theme, master]
+
+// @group: Nav Item Colors
+@navbar-nav-item-active-color:         @global-emphasis-color; // [component]
+@navbar-nav-item-color:                   @global-muted-color; // [component]
+@navbar-nav-item-hover-color:                   @global-color; // [component]
+@navbar-nav-item-onclick-color:        @global-emphasis-color; // [component]
+
+// @group: Nav Items
+@navbar-nav-gap:                                         15px; // [component, theme, master]
+@navbar-nav-item-font-size:           @global-small-font-size; // [component, theme]
+@navbar-nav-item-height:                                 80px; // [component]
+@navbar-nav-item-padding-horizontal:                        0; // [component, theme, master]
+
+// @group: Parent Icon
+@navbar-parent-icon-margin-left:                          4px; // [component]
+
+// @group: Subtitle
+@navbar-subtitle-font-size:           @global-small-font-size; // [component]
+
+// @group: Toggle
+@navbar-toggle-color:                     @global-muted-color; // [component]
+@navbar-toggle-hover-color:                     @global-color; // [component]
+
+// @group: Typo
+@navbar-dropdown-nav-font-family: @global-secondary-font-family; // [master]
+@navbar-dropdown-nav-font-size:             @global-font-size; // [theme, master]
+@navbar-dropdown-nav-font-style: @global-secondary-font-style; // [master]
+@navbar-dropdown-nav-font-weight: @global-secondary-font-weight; // [master]
+@navbar-dropdown-nav-letter-spacing: @global-secondary-letter-spacing; // [master]
+@navbar-dropdown-nav-subtitle-color: @navbar-dropdown-nav-item-color; // [master]
+@navbar-dropdown-nav-subtitle-font-family:            inherit; // [master]
+@navbar-dropdown-nav-subtitle-font-style:             inherit; // [master]
+@navbar-dropdown-nav-subtitle-font-weight:            inherit; // [master]
+@navbar-dropdown-nav-subtitle-letter-spacing:         inherit; // [master]
+@navbar-dropdown-nav-subtitle-line-height:            inherit; // [master]
+@navbar-dropdown-nav-subtitle-text-transform:         inherit; // [master]
+@navbar-dropdown-nav-text-transform: @global-secondary-text-transform; // [master]
+@navbar-item-font-family:        @navbar-nav-item-font-family; // [master]
+@navbar-item-font-size:            @navbar-nav-item-font-size; // [master]
+@navbar-nav-item-active-text-shadow:                     none; // [master]
+@navbar-nav-item-font-family:   @global-secondary-font-family; // [component, master]
+@navbar-nav-item-font-style:     @global-secondary-font-style; // [master]
+@navbar-nav-item-font-weight:   @global-secondary-font-weight; // [master]
+@navbar-nav-item-hover-text-shadow:                      none; // [master]
+@navbar-nav-item-letter-spacing: @global-secondary-letter-spacing; // [master]
+@navbar-nav-item-text-shadow:                            none; // [master]
+@navbar-nav-item-text-transform: @global-secondary-text-transform; // [theme, master]
+@navbar-primary-nav-item-active-color:            transparent; // [master]
+@navbar-primary-nav-item-color:                   transparent; // [master]
+@navbar-primary-nav-item-font-size:   @global-large-font-size; // [master]
+@navbar-primary-nav-item-font-weight:                     400; // [master]
+@navbar-primary-nav-item-hover-color:             transparent; // [master]
+@navbar-primary-nav-item-onclick-color:           transparent; // [master]
+@navbar-primary-toggle-icon-width:                       26px; // [master]
+@navbar-subtitle-color:                @navbar-nav-item-color; // [master]
+@navbar-subtitle-font-family:                         inherit; // [master]
+@navbar-subtitle-font-style:                          inherit; // [master]
+@navbar-subtitle-font-weight:                         inherit; // [master]
+@navbar-subtitle-letter-spacing:                      inherit; // [master]
+@navbar-subtitle-line-height:                         inherit; // [master]
+@navbar-subtitle-text-transform:                      inherit; // [master]
+
+// Inverse
+@inverse-navbar-subtitle-color: @inverse-navbar-nav-item-color; // [master]

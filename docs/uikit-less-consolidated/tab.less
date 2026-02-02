@@ -1,0 +1,95 @@
+﻿// Name:            Tab
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+
+// Internal
+@internal-tab-item-background-image:                      ~''; // [master]
+
+// @group: Base
+@tab-item-active-background:             @tab-item-background; // [master]
+@tab-item-background:                             transparent; // [master]
+@tab-item-hover-background:              @tab-item-background; // [master]
+@tab-item-mode:                                        border; // [master]
+@tab-margin-horizontal:                                  20px; // [component]
+@tab-vertical-item-margin-vertical:                         0; // [master]
+@tab-vertical-item-padding-horizontal: @tab-item-padding-horizontal; // [master]
+@tab-vertical-item-padding-vertical: @tab-item-padding-vertical; // [master]
+
+// Internal
+@internal-tab-item-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-tab-item-hover-glitch-duration:                0.2s; // [master]
+@internal-tab-item-hover-mode:                            ~''; // [master]
+
+// Inverse
+@inverse-tab-item-active-background: @inverse-tab-item-background; // [master]
+@inverse-tab-item-background:                     transparent; // [master]
+@inverse-tab-item-hover-background: @inverse-tab-item-background; // [master]
+
+// @group: Border
+@tab-border:                                   @global-border; // [theme, master]
+@tab-border-width:                       @global-border-width; // [theme, master]
+@tab-item-active-border:           @global-primary-background; // [theme, master]
+@tab-item-border:                              @global-border; // [master]
+@tab-item-border-width:                  @global-border-width; // [theme, master]
+@tab-item-hover-border:                          currentColor; // [master]
+@tab-item-line-hover-left:                                  0; // [master]
+@tab-item-line-hover-right:                                 0; // [master]
+@tab-item-line-left:                                        0; // [master]
+@tab-item-line-right:                                    100%; // [master]
+@tab-item-line-transition-duration:                      0.3s; // [master]
+@tab-item-line-transition-timing-function:           ease-out; // [master]
+
+// Internal
+@internal-tab-item-active-border-gradient:                ~''; // [master]
+@internal-tab-item-active-border-image:                   ~''; // [master]
+@internal-tab-item-active-border-image-slice:             ~''; // [master]
+@internal-tab-item-hover-border-gradient:                 ~''; // [master]
+@internal-tab-vertical-item-active-border-image:          ~''; // [master]
+
+// Inverse
+@inverse-tab-border:                   @inverse-global-border; // [theme, master]
+@inverse-tab-item-active-border: @inverse-global-primary-background; // [master]
+@inverse-tab-item-border:              @inverse-global-border; // [master]
+@inverse-tab-item-hover-border:                  currentColor; // [master]
+
+// @group: Border Radius
+@tab-item-border-radius:                                    0; // [master]
+
+// @group: Box Shadow
+@tab-box-shadow:                                         none; // [master]
+
+// Inverse
+@inverse-tab-box-shadow:                                 none; // [master]
+
+// @group: Inverse
+
+// Inverse
+@inverse-tab-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-tab-item-color:          @inverse-global-muted-color; // [component]
+@inverse-tab-item-disabled-color: @inverse-global-muted-color; // [component]
+@inverse-tab-item-hover-color:          @inverse-global-color; // [component]
+
+// @group: Item
+@tab-item-active-color:                @global-emphasis-color; // [component]
+@tab-item-color:                          @global-muted-color; // [component]
+@tab-item-disabled-color:                 @global-muted-color; // [component]
+@tab-item-hover-color:                          @global-color; // [component]
+@tab-item-hover-text-decoration:                         none; // [component]
+@tab-item-padding-horizontal:                            10px; // [component]
+@tab-item-padding-vertical:                               5px; // [component]
+
+// @group: Typo
+@tab-item-font-family:          @global-secondary-font-family; // [master]
+@tab-item-font-size:                        @global-font-size; // [theme, master]
+@tab-item-font-style:            @global-secondary-font-style; // [master]
+@tab-item-font-weight:          @global-secondary-font-weight; // [master]
+@tab-item-letter-spacing:    @global-secondary-letter-spacing; // [master]
+@tab-item-line-height:                    @global-line-height; // [master]
+@tab-item-text-transform:    @global-secondary-text-transform; // [theme, master]

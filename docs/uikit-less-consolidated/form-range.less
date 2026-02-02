@@ -1,0 +1,51 @@
+﻿// Name:            Form Range
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+
+// Internal
+@internal-form-range-thumb-background-image:              ~''; // [master]
+
+// @group: Border
+@form-range-thumb-border:                         transparent; // [theme, master]
+@form-range-thumb-border-width:                             0; // [theme, master]
+
+// Inverse
+@inverse-form-range-thumb-border: darken(fadein(@inverse-global-border, 100%), 10%); // [theme, master]
+
+// @group: Border Radius
+@form-range-track-border-radius:                        500px; // [theme, master]
+
+// @group: Box Shadow
+@form-range-thumb-box-shadow:                            none; // [master]
+@form-range-track-box-shadow:                            none; // [master]
+@form-range-track-focus-box-shadow:                      none; // [master]
+
+// Inverse
+@inverse-form-range-thumb-box-shadow:                    none; // [master]
+@inverse-form-range-track-box-shadow:                    none; // [master]
+@inverse-form-range-track-focus-box-shadow:              none; // [master]
+
+// @group: Inverse
+
+// Inverse
+@inverse-form-range-thumb-background: darken(fadein(@inverse-global-color, 100%), 50%); // [component, theme]
+@inverse-form-range-track-background: darken(@inverse-global-muted-background, 5%); // [component]
+@inverse-form-range-track-focus-background: fadein(@inverse-form-range-track-background, 5%); // [component]
+
+// @group: Thumb
+@form-range-thumb-background:              @global-background; // [component, theme]
+@form-range-thumb-border-radius:                        500px; // [component]
+@form-range-thumb-height:                                15px; // [component]
+@form-range-thumb-width:             @form-range-thumb-height; // [component]
+
+// @group: Track
+@form-range-track-background: darken(@global-muted-background, 5%); // [component]
+@form-range-track-focus-background: darken(@form-range-track-background, 5%); // [component]
+@form-range-track-height:                                 3px; // [component]

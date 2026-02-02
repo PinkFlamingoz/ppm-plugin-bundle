@@ -1,0 +1,59 @@
+﻿// Name:            Dotnav
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@dotnav-margin-horizontal:                               12px; // [component]
+@dotnav-margin-vertical:            @dotnav-margin-horizontal; // [component]
+
+// Internal
+@internal-dotnav-item-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-dotnav-item-hover-glitch-duration:             0.2s; // [master]
+@internal-dotnav-item-hover-mode:                         ~''; // [master]
+
+// @group: Border
+@dotnav-item-active-border:                       transparent; // [theme, master]
+@dotnav-item-border:                              transparent; // [theme, master]
+@dotnav-item-border-width:                                  0; // [theme, master]
+@dotnav-item-hover-border:                        transparent; // [theme, master]
+@dotnav-item-onclick-border:                      transparent; // [theme, master]
+
+// Inverse
+@inverse-dotnav-item-active-border:               transparent; // [master]
+@inverse-dotnav-item-border:                      transparent; // [master]
+@inverse-dotnav-item-hover-border:                transparent; // [master]
+@inverse-dotnav-item-onclick-border:              transparent; // [master]
+
+// @group: Box Shadow
+@dotnav-item-active-box-shadow:                          none; // [master]
+@dotnav-item-box-shadow:                                 none; // [master]
+@dotnav-item-hover-box-shadow:                           none; // [master]
+@dotnav-item-onclick-box-shadow:                         none; // [master]
+
+// Inverse
+@inverse-dotnav-item-active-box-shadow:                  none; // [master]
+@inverse-dotnav-item-box-shadow:                         none; // [master]
+@inverse-dotnav-item-hover-box-shadow:                   none; // [master]
+@inverse-dotnav-item-onclick-box-shadow:                 none; // [master]
+
+// @group: Inverse
+
+// Inverse
+@inverse-dotnav-item-active-background: fade(@inverse-global-color, 90%); // [component]
+@inverse-dotnav-item-background:                  transparent; // [component, theme]
+@inverse-dotnav-item-hover-background: fade(@inverse-global-color, 90%); // [component]
+@inverse-dotnav-item-onclick-background: fade(@inverse-global-color, 50%); // [component]
+
+// @group: Item
+@dotnav-item-active-background:      fade(@global-color, 60%); // [component]
+@dotnav-item-background:                          transparent; // [component, theme]
+@dotnav-item-border-radius:                               50%; // [component]
+@dotnav-item-height:                       @dotnav-item-width; // [component]
+@dotnav-item-hover-background:       fade(@global-color, 60%); // [component]
+@dotnav-item-onclick-background:     fade(@global-color, 20%); // [component]
+@dotnav-item-width:                                      10px; // [component]

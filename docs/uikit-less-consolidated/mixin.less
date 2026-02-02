@@ -1,0 +1,14 @@
+﻿// Name:            Mixin
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@data-uri:                            data-uri('image/svg+xml; // [component]
+@escape-color-default:                 escape(@color-default); // [component]
+@escape-color-new:                     escape("@{color-new}"); // [component]
+@replace-src: replace("@{data-uri}", "@{escape-color-default}", "@{escape-color-new}", "g"); // [component]

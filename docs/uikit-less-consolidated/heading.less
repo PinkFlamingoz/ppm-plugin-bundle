@@ -1,0 +1,150 @@
+﻿// Name:            Heading
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: 2X-Large
+@heading-2xlarge-font-size:       @heading-xlarge-font-size-m; // [component]
+@heading-2xlarge-font-size-l:                           11rem; // [component]
+@heading-2xlarge-font-size-m:     @heading-xlarge-font-size-l; // [component]
+@heading-2xlarge-line-height:                               1; // [component]
+
+// @group: 3X-Large
+@heading-3xlarge-font-size:      @heading-2xlarge-font-size-m; // [component]
+@heading-3xlarge-font-size-l:                           15rem; // [component]
+@heading-3xlarge-font-size-m:    @heading-2xlarge-font-size-l; // [component]
+@heading-3xlarge-line-height:                               1; // [component]
+
+// @group: Base
+
+// Internal
+@internal-heading-2xlarge-mode:                          none; // [master]
+@internal-heading-3xlarge-mode:                          none; // [master]
+@internal-heading-glitch-animation:     uk-glitch-text-shadow; // [master]
+@internal-heading-glitch-duration:                      0.65s; // [master]
+@internal-heading-large-mode:                            none; // [master]
+@internal-heading-medium-mode:                           none; // [master]
+@internal-heading-small-mode:                            none; // [master]
+@internal-heading-xlarge-mode:                           none; // [master]
+
+// @group: Border
+
+// Internal
+@internal-heading-bullet-border-image:                    ~''; // [master]
+@internal-heading-bullet-border-image-repeat:             ~''; // [master]
+@internal-heading-bullet-border-image-slice:              ~''; // [master]
+@internal-heading-bullet-border-image-width:              ~''; // [master]
+
+// @group: Box Shadow
+@heading-divider-box-shadow:                             none; // [master]
+@heading-line-box-shadow:                                none; // [master]
+
+// Inverse
+@inverse-heading-divider-box-shadow:                     none; // [master]
+@inverse-heading-line-box-shadow:                        none; // [master]
+
+// @group: Bullet Style
+@heading-bullet-border:                        @global-border; // [component]
+@heading-bullet-border-width:            ~'calc(5px + 0.1em)'; // [component]
+@heading-bullet-height:                  ~'calc(4px + 0.7em)'; // [component]
+@heading-bullet-margin-right:            ~'calc(5px + 0.2em)'; // [component]
+@heading-bullet-top:                      ~'calc(-0.1 * 1em)'; // [component]
+
+// @group: Divider Style
+@heading-divider-border:                       @global-border; // [component]
+@heading-divider-border-width:        ~'calc(0.2px + 0.05em)'; // [component]
+@heading-divider-padding-bottom:         ~'calc(5px + 0.1em)'; // [component]
+
+// @group: Inverse
+
+// Inverse
+@inverse-heading-bullet-border:        @inverse-global-border; // [component]
+@inverse-heading-divider-border:       @inverse-global-border; // [component]
+@inverse-heading-line-border:          @inverse-global-border; // [component]
+
+// @group: Large
+@heading-large-font-size:   @heading-large-font-size-m * 0.85; // [component]
+@heading-large-font-size-l:                              6rem; // [component]
+@heading-large-font-size-m:       @heading-medium-font-size-l; // [component]
+@heading-large-line-height:                               1.1; // [component]
+
+// @group: Line Style
+@heading-line-border:                          @global-border; // [component]
+@heading-line-border-width:           ~'calc(0.2px + 0.05em)'; // [component]
+@heading-line-height:              @heading-line-border-width; // [component]
+@heading-line-margin-horizontal:         ~'calc(5px + 0.3em)'; // [component]
+@heading-line-top:                                        50%; // [component]
+@heading-line-width:                                   2000px; // [component]
+
+// @group: Medium
+@heading-medium-font-size: @heading-medium-font-size-m * 0.825; // [component]
+@heading-medium-font-size-l:                             4rem; // [component]
+@heading-medium-font-size-m: @heading-medium-font-size-l * 0.875; // [component]
+@heading-medium-line-height:                              1.1; // [component]
+
+// @group: Small
+@heading-small-font-size:    @heading-small-font-size-m * 0.8; // [component]
+@heading-small-font-size-m: @heading-medium-font-size-l * 0.8125; // [component]
+@heading-small-line-height:                               1.2; // [component]
+
+// @group: Typo
+@heading-2xlarge-color:                @global-emphasis-color; // [master]
+@heading-2xlarge-font-family:     @global-primary-font-family; // [master]
+@heading-2xlarge-font-style:       @global-primary-font-style; // [master]
+@heading-2xlarge-font-weight:     @global-primary-font-weight; // [master]
+@heading-2xlarge-letter-spacing: @global-primary-letter-spacing; // [master]
+@heading-2xlarge-text-shadow:                            none; // [master]
+@heading-2xlarge-text-transform: @global-primary-text-transform; // [master]
+@heading-3xlarge-color:                @global-emphasis-color; // [master]
+@heading-3xlarge-font-family:     @global-primary-font-family; // [master]
+@heading-3xlarge-font-style:       @global-primary-font-style; // [master]
+@heading-3xlarge-font-weight:     @global-primary-font-weight; // [master]
+@heading-3xlarge-letter-spacing: @global-primary-letter-spacing; // [master]
+@heading-3xlarge-text-shadow:                            none; // [master]
+@heading-3xlarge-text-transform: @global-primary-text-transform; // [master]
+@heading-large-color:                  @global-emphasis-color; // [master]
+@heading-large-font-family:       @global-primary-font-family; // [master]
+@heading-large-font-style:         @global-primary-font-style; // [master]
+@heading-large-font-weight:       @global-primary-font-weight; // [master]
+@heading-large-letter-spacing: @global-primary-letter-spacing; // [master]
+@heading-large-text-shadow:                              none; // [master]
+@heading-large-text-transform: @global-primary-text-transform; // [master]
+@heading-medium-color:                 @global-emphasis-color; // [master]
+@heading-medium-font-family:      @global-primary-font-family; // [master]
+@heading-medium-font-style:        @global-primary-font-style; // [master]
+@heading-medium-font-weight:      @global-primary-font-weight; // [master]
+@heading-medium-letter-spacing: @global-primary-letter-spacing; // [master]
+@heading-medium-text-shadow:                             none; // [master]
+@heading-medium-text-transform: @global-primary-text-transform; // [master]
+@heading-small-color:                  @global-emphasis-color; // [master]
+@heading-small-font-family:       @global-primary-font-family; // [master]
+@heading-small-font-style:         @global-primary-font-style; // [master]
+@heading-small-font-weight:       @global-primary-font-weight; // [master]
+@heading-small-letter-spacing: @global-primary-letter-spacing; // [master]
+@heading-small-text-shadow:                              none; // [master]
+@heading-small-text-transform: @global-primary-text-transform; // [master]
+@heading-xlarge-color:                 @global-emphasis-color; // [master]
+@heading-xlarge-font-family:      @global-primary-font-family; // [master]
+@heading-xlarge-font-style:        @global-primary-font-style; // [master]
+@heading-xlarge-font-weight:      @global-primary-font-weight; // [master]
+@heading-xlarge-letter-spacing: @global-primary-letter-spacing; // [master]
+@heading-xlarge-text-shadow:                             none; // [master]
+@heading-xlarge-text-transform: @global-primary-text-transform; // [master]
+
+// Inverse
+@inverse-heading-2xlarge-color: @inverse-global-emphasis-color; // [master]
+@inverse-heading-3xlarge-color: @inverse-global-emphasis-color; // [master]
+@inverse-heading-large-color:  @inverse-global-emphasis-color; // [master]
+@inverse-heading-medium-color: @inverse-global-emphasis-color; // [master]
+@inverse-heading-small-color:  @inverse-global-emphasis-color; // [master]
+@inverse-heading-xlarge-color: @inverse-global-emphasis-color; // [master]
+
+// @group: X-Large
+@heading-xlarge-font-size:         @heading-large-font-size-m; // [component]
+@heading-xlarge-font-size-l:                             8rem; // [component]
+@heading-xlarge-font-size-m:       @heading-large-font-size-l; // [component]
+@heading-xlarge-line-height:                                1; // [component]

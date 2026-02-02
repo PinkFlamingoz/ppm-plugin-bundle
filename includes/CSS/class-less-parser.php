@@ -27,11 +27,11 @@ if (!defined('ABSPATH')) {
 class Less_Parser
 {
     /**
-     * Path to the Less files directory.
+     * Path to the Less files directory (consolidated from all UIkit layers).
      *
      * @var string
      */
-    private const LESS_DIR = EPB_PLUGIN_DIR . 'docs/uikit-less/';
+    private const LESS_DIR = EPB_PLUGIN_DIR . 'docs/uikit-less-consolidated/';
 
     /**
      * Cache for parsed components.
@@ -108,6 +108,15 @@ class Less_Parser
                 if (
                     str_starts_with($name, 'internal-') ||
                     str_starts_with($name, 'hook-')
+                ) {
+                    continue;
+                }
+
+                // Skip empty Less values (~'' or ~"" or just empty).
+                if (
+                    $value === "~''" ||
+                    $value === '~""' ||
+                    $value === ''
                 ) {
                     continue;
                 }

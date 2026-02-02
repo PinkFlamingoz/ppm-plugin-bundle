@@ -1,0 +1,53 @@
+﻿// Name:            Alert
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@alert-backdrop-filter:                                   ~''; // [master]
+@alert-background:                   @global-muted-background; // [component]
+@alert-close-hover-opacity:                               0.8; // [theme, master]
+@alert-close-opacity:                                     0.4; // [theme, master]
+@alert-color:                                   @global-color; // [component]
+@alert-margin-vertical:                        @global-margin; // [component]
+@alert-padding:                                          15px; // [component]
+@alert-padding-right:                   @alert-padding + 14px; // [component]
+
+// @group: Border
+@alert-border:                                    transparent; // [master]
+@alert-border-mode:                                       ~''; // [master]
+@alert-border-width:                                        0; // [master]
+@alert-danger-border:                             transparent; // [master]
+@alert-primary-border:                            transparent; // [master]
+@alert-success-border:                            transparent; // [master]
+@alert-warning-border:                            transparent; // [master]
+
+// @group: Border Radius
+@alert-border-radius:                                       0; // [master]
+
+// @group: Box Shadow
+@alert-box-shadow:                                       none; // [master]
+
+// @group: Close Button
+@alert-close-right:                            @alert-padding; // [component]
+@alert-close-top:                        @alert-padding + 5px; // [component]
+
+// @group: Danger
+@alert-danger-background: lighten(tint(@global-danger-background, 40%), 20%); // [component]
+@alert-danger-color:                @global-danger-background; // [component]
+
+// @group: Primary
+@alert-primary-background: lighten(tint(@global-primary-background, 40%), 20%); // [component]
+@alert-primary-color:              @global-primary-background; // [component]
+
+// @group: Success
+@alert-success-background: lighten(tint(@global-success-background, 40%), 25%); // [component]
+@alert-success-color:              @global-success-background; // [component]
+
+// @group: Warning
+@alert-warning-background: lighten(tint(@global-warning-background, 45%), 15%); // [component]
+@alert-warning-color:              @global-warning-background; // [component]
