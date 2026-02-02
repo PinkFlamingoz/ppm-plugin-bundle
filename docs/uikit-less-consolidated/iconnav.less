@@ -1,0 +1,35 @@
+﻿// Name:            Iconnav
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@iconnav-margin-horizontal:              @global-small-margin; // [component]
+@iconnav-margin-vertical:          @iconnav-margin-horizontal; // [component]
+@iconnav-siblings-filter:                                 ~''; // [master]
+@iconnav-siblings-opacity:                                  1; // [master]
+@subnav-item-font-size:               @global-small-font-size; // [theme]
+
+// Internal
+@internal-iconnav-item-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-iconnav-item-hover-glitch-duration:            0.2s; // [master]
+@internal-iconnav-item-hover-mode:                        ~''; // [master]
+
+// @group: Inverse
+
+// Inverse
+@inverse-iconnav-item-active-color:     @inverse-global-color; // [component]
+@inverse-iconnav-item-color:      @inverse-global-muted-color; // [component]
+@inverse-iconnav-item-hover-color:      @inverse-global-color; // [component]
+
+// @group: Item
+@iconnav-item-active-color:                     @global-color; // [component]
+@iconnav-item-color:                      @global-muted-color; // [component]
+@iconnav-item-hover-color:                      @global-color; // [component]
+
+// @group: Typo
+@iconnav-item-font-size:              @global-small-font-size; // [master]

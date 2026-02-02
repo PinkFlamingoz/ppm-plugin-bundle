@@ -10,10 +10,9 @@
 namespace EPB\Themes;
 
 use EPB\Core\Notices;
+use EPB\Core\Constants;
 use EPB\CSS\Generator as CSSGenerator;
 use EPB\CSS\Component_Registry;
-use EPB\CSS\Less_Parser;
-use EPB\Ajax\Component_Handler;
 
 // Prevent direct access.
 if (!defined('ABSPATH')) {
@@ -73,9 +72,8 @@ class Child_Theme
             $wp_filesystem->put_contents($css_dir . '/custom.css', $css_content, FS_CHMOD_FILE);
         }
 
-        // Regenerate Less file for YOOtheme compilation.
-        $less_content = self::generate_less();
-        $wp_filesystem->put_contents($child_dir . '/style.less', $less_content, FS_CHMOD_FILE);
+        // Regenerate Less style file.
+        self::write_less_style($child_dir);
     }
 
     /**
@@ -136,7 +134,7 @@ class Child_Theme
         $style_written     = self::write_root_style($child_dir);
         $functions_written = self::write_functions_php($child_dir, $regenerate_functions);
         $css_written       = self::write_custom_css($child_dir);
-        $less_written      = self::write_style_less($child_dir);
+        $less_written      = self::write_less_style($child_dir);
 
         if ($style_written && $functions_written && $css_written && $less_written) {
             // Activate theme if not already active.
@@ -167,7 +165,7 @@ class Child_Theme
         $style_written     = self::write_root_style($child_dir);
         $functions_written = self::write_functions_php($child_dir, true);
         $css_written       = self::write_custom_css($child_dir);
-        $less_written      = self::write_style_less($child_dir);
+        $less_written      = self::write_less_style($child_dir);
 
         if ($style_written && $functions_written && $css_written && $less_written) {
             switch_theme(self::THEME_SLUG);
@@ -357,74 +355,152 @@ PHP;
     }
 
     /**
-     * Writes the child theme's style.less file for YOOtheme Less compilation.
+     * Less style file name (without extension).
      *
-     * This file contains Less variable overrides that YOOtheme will compile
-     * with UIkit, allowing the custom variables to take effect.
+     * @var string
+     */
+    public const LESS_STYLE_NAME = 'ppm-style';
+
+    /**
+     * Writes the child theme's Less style file for YOOtheme Style Library.
+     *
+     * Creates a Less file that appears in YOOtheme's Style Library and contains
+     * all saved component variable overrides.
      *
      * @param string $child_dir Absolute path to the child theme directory.
      * @return bool True on success, false on failure.
      */
-    private static function write_style_less(string $child_dir): bool
+    private static function write_less_style(string $child_dir): bool
     {
-        $less_content = self::generate_less();
-        $file = $child_dir . '/style.less';
+        // Path to the less directory inside the child theme.
+        $less_dir = $child_dir . '/less';
 
-        if (!self::write_file($file, $less_content, 'style.less', false)) {
+        // Ensure the 'less' folder exists.
+        if (!wp_mkdir_p($less_dir)) {
+            Notices::error(
+                __('Failed to create the child theme Less directory.', 'enhanced-plugin-bundle')
+            );
             return false;
         }
 
+        // Generate the Less content.
+        $less_content = self::generate_less_style();
+
+        $file = $less_dir . '/theme.' . self::LESS_STYLE_NAME . '.less';
+        if (!self::write_file($file, $less_content, 'theme.' . self::LESS_STYLE_NAME . '.less', false)) {
+            return false;
+        }
+
+        Notices::success(
+            __('Child theme Less style file updated successfully.', 'enhanced-plugin-bundle')
+        );
         return true;
     }
 
     /**
-     * Generates Less variable overrides for YOOtheme compilation.
+     * Generates the content for the child theme's Less style file.
      *
-     * @return string The generated Less content with variable overrides.
+     * Creates a YOOtheme-compatible Less file with proper header metadata,
+     * full UIkit import stack, and all saved component variable overrides.
+     *
+     * @return string The generated Less content.
      */
-    public static function generate_less(): string
+    public static function generate_less_style(): string
     {
-        $less = "//\n";
-        $less .= "// Enhanced Plugin Bundle - UIkit Variable Overrides\n";
-        $less .= "// Generated: " . current_time('c') . "\n";
-        $less .= "//\n";
-        $less .= "// These variables override UIkit defaults when YOOtheme compiles Less.\n";
-        $less .= "//\n\n";
+        // Allow style metadata to be filtered for customization.
+        $style_meta = apply_filters('epb_less_style_metadata', [
+            'name'       => 'PPM Style',
+            'background' => '#ffffff',
+            'color'      => '#1e87f0',
+            'type'       => 'light',
+            'preview'    => '',
+        ]);
+
+        // Build the Less header comment (YOOtheme style format).
+        // Using /* */ block comment format like theme.uikit.less
+        $less = "/*\n\n";
+        $less .= "Name: {$style_meta['name']}\n";
+        $less .= "Background: {$style_meta['background']}\n";
+        $less .= "Color: {$style_meta['color']}\n";
+        $less .= "Type: {$style_meta['type']}\n";
+        if (!empty($style_meta['preview'])) {
+            $less .= "Preview: {$style_meta['preview']}\n";
+        }
+        $less .= "\n*/\n\n";
+
+        // Import the full UIkit stack (same structure as theme.uikit.less).
+        $less .= "// Platform\n";
+        $less .= "@import \"../../yootheme/less/platform.less\";\n\n";
+
+        $less .= "// UIkit Core\n";
+        $less .= "@import \"../../yootheme/vendor/assets/uikit/src/less/uikit.less\";\n\n";
+
+        $less .= "// UIkit Theme\n";
+        $less .= "@import \"../../yootheme/vendor/assets/uikit-themes/master/_import.less\";\n\n";
+
+        $less .= "// Theme\n";
+        $less .= "@import \"../../yootheme/less/theme.less\";\n\n";
+
+        // Add variable overrides AFTER imports so they take precedence.
+        $less .= self::generate_less_variable_overrides();
+
+        return $less;
+    }
+
+    /**
+     * Generates Less variable overrides from saved component values.
+     *
+     * @return string The Less variable declarations.
+     */
+    private static function generate_less_variable_overrides(): string
+    {
+        $output = "// ==========================================================================\n";
+        $output .= "//   UIkit Variable Overrides\n";
+        $output .= "//   Generated by Enhanced Plugin Bundle\n";
+        $output .= "// ==========================================================================\n\n";
+
+        if (!class_exists(Component_Registry::class)) {
+            return $output . "// No component registry available\n";
+        }
 
         $components = Component_Registry::get_all();
-        $has_variables = false;
+        $has_overrides = false;
 
-        foreach ($components as $component_key => $component_data) {
-            $saved = get_option(Component_Handler::OPTION_PREFIX . $component_key, []);
+        foreach (array_keys($components) as $component) {
+            $saved = get_option(Constants::OPTION_PREFIX . $component, []);
 
             if (empty($saved)) {
                 continue;
             }
 
-            $has_variables = true;
-            $component_label = $component_data['label'] ?? ucfirst(str_replace('-', ' ', $component_key));
-            $less .= "//\n// {$component_label}\n//\n\n";
+            // Add component section header.
+            $component_title = ucwords(str_replace('-', ' ', $component));
+            $output .= "//\n";
+            $output .= "// {$component_title}\n";
+            $output .= "//\n\n";
 
-            // Get grouped variables to preserve order.
-            $grouped = Less_Parser::get_grouped_variables($component_key);
+            // Sort variables alphabetically for consistency.
+            ksort($saved);
 
-            foreach ($grouped as $group_vars) {
-                foreach ($group_vars as $var_name => $meta) {
-                    if (isset($saved[$var_name])) {
-                        $value = $saved[$var_name];
-                        $less .= "@{$var_name}: {$value};\n";
-                    }
+            foreach ($saved as $var_name => $value) {
+                // Skip empty values.
+                if (empty($value) || $value === "~''" || $value === '~""') {
+                    continue;
                 }
+
+                $output .= "@{$var_name}: {$value};\n";
+                $has_overrides = true;
             }
 
-            $less .= "\n";
+            $output .= "\n";
         }
 
-        if (!$has_variables) {
-            $less .= "// No custom variables defined yet.\n";
+        if (!$has_overrides) {
+            $output .= "// No variable overrides saved yet.\n";
+            $output .= "// Use the Component Picker to customize UIkit variables.\n";
         }
 
-        return $less;
+        return $output;
     }
 
     /**

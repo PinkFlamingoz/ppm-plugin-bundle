@@ -21,6 +21,7 @@ if (!defined('ABSPATH')) {
 
 use EPB\CSS\Component_Registry;
 use EPB\Themes\Renderer\Dynamic_Renderer;
+use EPB\Core\Constants;
 
 /**
  * Class Component_Loader
@@ -36,7 +37,7 @@ class Component_Loader
      */
     public static function load_component(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -56,7 +57,7 @@ class Component_Loader
         }
 
         // Get saved values.
-        $saved = get_option(Component_Handler::OPTION_PREFIX . $component, []);
+        $saved = get_option(Constants::OPTION_PREFIX . $component, []);
 
         // Render fields to HTML string.
         ob_start();
@@ -80,7 +81,7 @@ class Component_Loader
      */
     public static function get_components_menu(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -98,7 +99,7 @@ class Component_Loader
      */
     public static function get_component_preview(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -126,7 +127,7 @@ class Component_Loader
     public static function get_preview_page(): void
     {
         // Verify nonce.
-        if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], Component_Handler::NONCE_ACTION)) {
+        if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], Constants::NONCE_ACTION)) {
             wp_die(__('Security check failed.', 'enhanced-plugin-bundle'));
         }
 

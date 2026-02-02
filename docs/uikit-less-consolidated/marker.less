@@ -1,0 +1,42 @@
+﻿// Name:            Marker
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@marker-background:              @global-secondary-background; // [component]
+@marker-color:                          @global-inverse-color; // [component]
+@marker-hover-background:                  @marker-background; // [master]
+@marker-hover-color:                    @global-inverse-color; // [component]
+@marker-padding:                                          5px; // [component]
+
+// Internal
+@internal-marker-hover-glitch-animation:    uk-glitch-opacity; // [master]
+@internal-marker-hover-glitch-duration:                  0.2s; // [master]
+@internal-marker-hover-mode:                              ~''; // [master]
+
+// Inverse
+@inverse-marker-hover-background:  @inverse-marker-background; // [master]
+
+// @group: Border
+@marker-border:                                   transparent; // [master]
+@marker-border-width:                                       0; // [master]
+@marker-hover-border:                             transparent; // [master]
+
+// Inverse
+@inverse-marker-border:                           transparent; // [master]
+@inverse-marker-hover-border:                     transparent; // [master]
+
+// @group: Border Radius
+@marker-border-radius:                                  500px; // [master]
+
+// @group: Inverse
+
+// Inverse
+@inverse-marker-background:          @global-muted-background; // [component]
+@inverse-marker-color:                          @global-color; // [component]
+@inverse-marker-hover-color:                    @global-color; // [component]

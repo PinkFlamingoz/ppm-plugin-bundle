@@ -1,0 +1,200 @@
+﻿// Name:            Search
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@search-color:                                  @global-color; // [component]
+@search-default-backdrop-filter:                          ~''; // [master]
+@search-icon-color:                       @global-muted-color; // [component]
+@search-large-backdrop-filter:                            ~''; // [master]
+@search-large-color:                                      ~''; // [master]
+@search-large-icon-color:                                 ~''; // [master]
+@search-large-placeholder-color:                          ~''; // [master]
+@search-medium-backdrop-filter:                           ~''; // [master]
+@search-medium-color:                                     ~''; // [master]
+@search-medium-icon-color:                                ~''; // [master]
+@search-medium-placeholder-color:                         ~''; // [master]
+@search-navbar-backdrop-filter:                           ~''; // [master]
+@search-navbar-color:                                     ~''; // [master]
+@search-navbar-icon-color:                                ~''; // [master]
+@search-navbar-placeholder-color:                         ~''; // [master]
+@search-placeholder-color:                @global-muted-color; // [component]
+
+// Inverse
+@inverse-search-large-color:                              ~''; // [master]
+@inverse-search-large-icon-color:                         ~''; // [master]
+@inverse-search-large-placeholder-color:                  ~''; // [master]
+@inverse-search-medium-color:                             ~''; // [master]
+@inverse-search-medium-icon-color:                        ~''; // [master]
+@inverse-search-medium-placeholder-color:                 ~''; // [master]
+@inverse-search-navbar-color:                             ~''; // [master]
+@inverse-search-navbar-icon-color:                        ~''; // [master]
+@inverse-search-navbar-placeholder-color:                 ~''; // [master]
+
+// @group: Border
+@search-default-border:                           transparent; // [theme, master]
+@search-default-border-mode:                              ~''; // [master]
+@search-default-border-width:                               0; // [theme, master]
+@search-default-focus-border:                     transparent; // [theme, master]
+@search-large-border:                             transparent; // [theme, master]
+@search-large-border-mode:                                ~''; // [master]
+@search-large-border-width:                                 0; // [theme, master]
+@search-large-focus-border:                       transparent; // [theme, master]
+@search-medium-border:                            transparent; // [theme, master]
+@search-medium-border-mode:                               ~''; // [master]
+@search-medium-border-width:                                0; // [theme, master]
+@search-medium-focus-border:                      transparent; // [theme, master]
+@search-navbar-border:                            transparent; // [theme, master]
+@search-navbar-border-mode:                               ~''; // [master]
+@search-navbar-border-width:                                0; // [theme, master]
+@search-navbar-focus-border:                      transparent; // [theme, master]
+
+// Inverse
+@inverse-search-default-border:                   transparent; // [master]
+@inverse-search-default-focus-border:             transparent; // [master]
+@inverse-search-large-border:                     transparent; // [master]
+@inverse-search-large-focus-border:               transparent; // [master]
+@inverse-search-medium-border:                    transparent; // [master]
+@inverse-search-medium-focus-border:              transparent; // [master]
+@inverse-search-navbar-border:                    transparent; // [master]
+@inverse-search-navbar-focus-border:              transparent; // [master]
+
+// @group: Border Radius
+@search-default-border-radius:                              0; // [master]
+@search-large-border-radius:                                0; // [master]
+@search-medium-border-radius:                               0; // [master]
+@search-navbar-border-radius:                               0; // [master]
+
+// @group: Box Shadow
+@search-default-input-box-shadow:                        none; // [master]
+@search-default-input-focus-box-shadow:                  none; // [master]
+@search-large-input-box-shadow:                          none; // [master]
+@search-large-input-focus-box-shadow:                    none; // [master]
+@search-medium-input-box-shadow:                         none; // [master]
+@search-medium-input-focus-box-shadow:                   none; // [master]
+@search-navbar-input-box-shadow:                         none; // [master]
+@search-navbar-input-focus-box-shadow:                   none; // [master]
+
+// Inverse
+@inverse-search-default-input-box-shadow:                none; // [master]
+@inverse-search-default-input-focus-box-shadow:          none; // [master]
+@inverse-search-large-input-box-shadow:                  none; // [master]
+@inverse-search-large-input-focus-box-shadow:            none; // [master]
+@inverse-search-medium-input-box-shadow:                 none; // [master]
+@inverse-search-medium-input-focus-box-shadow:           none; // [master]
+@inverse-search-navbar-input-box-shadow:                 none; // [master]
+@inverse-search-navbar-input-focus-box-shadow:           none; // [master]
+
+// @group: Default Style
+@search-default-background:                       transparent; // [component, theme]
+@search-default-focus-background: darken(@search-default-background, 2%); // [component]
+@search-default-height:                @global-control-height; // [component]
+@search-default-icon-padding:                            10px; // [component]
+@search-default-icon-width:                              20px; // [component]
+@search-default-padding-horizontal:                      10px; // [component]
+@search-default-width:                                  240px; // [component]
+
+// @group: Inverse - Base
+
+// Inverse
+@inverse-search-color:                  @inverse-global-color; // [component]
+@inverse-search-icon-color:       @inverse-global-muted-color; // [component]
+@inverse-search-placeholder-color: @inverse-global-muted-color; // [component]
+
+// @group: Inverse - Default
+
+// Inverse
+@inverse-search-default-background:               transparent; // [component, theme]
+@inverse-search-default-focus-background: fadein(@inverse-search-default-background, 5%); // [component]
+
+// @group: Inverse - Large
+
+// Inverse
+@inverse-search-large-background:                 transparent; // [component, theme]
+@inverse-search-large-focus-background: fadein(@inverse-search-large-background, 5%); // [component]
+
+// @group: Inverse - Medium
+
+// Inverse
+@inverse-search-medium-background:                transparent; // [component, theme]
+@inverse-search-medium-focus-background: fadein(@inverse-search-medium-background, 5%); // [component]
+
+// @group: Inverse - Navbar
+
+// Inverse
+@inverse-search-navbar-background:                transparent; // [component, theme]
+@inverse-search-navbar-focus-background: fadein(@inverse-search-navbar-background, 5%); // [component]
+
+// @group: Inverse - Toggle
+
+// Inverse
+@inverse-search-toggle-color:     @inverse-global-muted-color; // [component]
+@inverse-search-toggle-hover-color:     @inverse-global-color; // [component]
+
+// @group: Large Size
+@search-large-background:                         transparent; // [component, theme]
+@search-large-focus-background: darken(@search-large-background, 2%); // [component]
+@search-large-font-size:            @global-2xlarge-font-size; // [component]
+@search-large-height:                                    90px; // [component]
+@search-large-icon-padding:                              20px; // [component]
+@search-large-icon-width:                                40px; // [component]
+@search-large-padding-horizontal:                        20px; // [component]
+@search-large-width:                                    500px; // [component]
+
+// @group: Medium Size
+@search-medium-background:                        transparent; // [component, theme]
+@search-medium-focus-background: darken(@search-medium-background, 2%); // [component]
+@search-medium-font-size:             @global-large-font-size; // [component]
+@search-medium-height:           @global-control-large-height; // [component]
+@search-medium-icon-padding:                             12px; // [component]
+@search-medium-icon-width:                               24px; // [component]
+@search-medium-padding-horizontal:                       12px; // [component]
+@search-medium-width:                                   400px; // [component]
+
+// @group: Navbar Style
+@search-navbar-background:                 @global-background; // [component]
+@search-navbar-focus-background:    @search-navbar-background; // [component, theme]
+@search-navbar-height:                 @global-control-height; // [component]
+@search-navbar-icon-padding:                             10px; // [component]
+@search-navbar-icon-width:                               20px; // [component]
+@search-navbar-padding-horizontal:                       10px; // [component]
+@search-navbar-width:                                   240px; // [component]
+
+// @group: Toggle
+@search-toggle-color:                     @global-muted-color; // [component]
+@search-toggle-hover-color:                     @global-color; // [component]
+
+// @group: Typo - Default
+@search-default-font-family:                          inherit; // [master]
+@search-default-font-size:                            inherit; // [master]
+@search-default-font-style:                           inherit; // [master]
+@search-default-font-weight:                          inherit; // [master]
+@search-default-letter-spacing:                       inherit; // [master]
+@search-default-text-transform:                       inherit; // [master]
+
+// @group: Typo - Large
+@search-large-font-family:                            inherit; // [master]
+@search-large-font-style:                             inherit; // [master]
+@search-large-font-weight:                            inherit; // [master]
+@search-large-letter-spacing:                         inherit; // [master]
+@search-large-text-transform:                         inherit; // [master]
+
+// @group: Typo - Medium
+@search-medium-font-family:                           inherit; // [master]
+@search-medium-font-style:                            inherit; // [master]
+@search-medium-font-weight:                           inherit; // [master]
+@search-medium-letter-spacing:                        inherit; // [master]
+@search-medium-text-transform:                        inherit; // [master]
+
+// @group: Typo - Navbar
+@search-navbar-font-family:                           inherit; // [master]
+@search-navbar-font-size:                             inherit; // [master]
+@search-navbar-font-style:                            inherit; // [master]
+@search-navbar-font-weight:                           inherit; // [master]
+@search-navbar-letter-spacing:                        inherit; // [master]
+@search-navbar-text-transform:                        inherit; // [master]

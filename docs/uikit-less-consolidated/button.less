@@ -1,0 +1,297 @@
+﻿// Name:            Button
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+@button-background-position-x:                              0; // [master]
+@button-background-size:                                 auto; // [master]
+@button-hover-background-position-x:                        0; // [master]
+
+// Internal
+@internal-button-danger-active-gradient:                  ~''; // [master]
+@internal-button-danger-gradient:                         ~''; // [master]
+@internal-button-danger-hover-gradient:                   ~''; // [master]
+@internal-button-default-active-gradient:                 ~''; // [master]
+@internal-button-default-gradient:                        ~''; // [master]
+@internal-button-default-hover-gradient:                  ~''; // [master]
+@internal-button-primary-active-gradient:                 ~''; // [master]
+@internal-button-primary-gradient:                        ~''; // [master]
+@internal-button-primary-hover-gradient:                  ~''; // [master]
+@internal-button-secondary-active-gradient:               ~''; // [master]
+@internal-button-secondary-gradient:                      ~''; // [master]
+@internal-button-secondary-hover-gradient:                ~''; // [master]
+
+// @group: Base
+@button-danger-backdrop-filter:                           ~''; // [master]
+@button-default-backdrop-filter:                          ~''; // [master]
+@button-disabled-backdrop-filter:                         ~''; // [master]
+@button-primary-backdrop-filter:                          ~''; // [master]
+@button-secondary-backdrop-filter:                        ~''; // [master]
+@button-text-border:                             currentColor; // [theme, master]
+@button-text-border-width:               @global-border-width; // [theme, master]
+@button-text-hover-border:                       currentColor; // [master]
+@button-text-icon-mode:                                   ~''; // [master]
+@button-text-mode:                                       line; // [master]
+@button-transition-duration:                             0.1s; // [master]
+
+// Internal
+@internal-button-default-glow-filter:                     ~''; // [master]
+@internal-button-default-glow-gradient:                   ~''; // [master]
+@internal-button-default-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-button-default-hover-glitch-duration:          0.2s; // [master]
+@internal-button-default-hover-glow-filter:               ~''; // [master]
+@internal-button-default-hover-mode:                      ~''; // [master]
+@internal-button-default-mode:                            ~''; // [master]
+@internal-button-mode:                                    ~''; // [master]
+@internal-button-primary-glow-filter:                     ~''; // [master]
+@internal-button-primary-glow-gradient:                   ~''; // [master]
+@internal-button-primary-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-button-primary-hover-glitch-duration:          0.2s; // [master]
+@internal-button-primary-hover-glow-filter:               ~''; // [master]
+@internal-button-primary-hover-mode:                      ~''; // [master]
+@internal-button-primary-mode:                            ~''; // [master]
+@internal-button-ripple-position-x:                       50%; // [master]
+@internal-button-ripple-position-y:                      100%; // [master]
+@internal-button-ripple-transition-duration:             0.5s; // [master]
+@internal-button-ripple-transition-timing-function: cubic-bezier(.165,.85,.45,1); // [master]
+@internal-button-secondary-glow-filter:                   ~''; // [master]
+@internal-button-secondary-glow-gradient:                 ~''; // [master]
+@internal-button-secondary-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-button-secondary-hover-glitch-duration:        0.2s; // [master]
+@internal-button-secondary-hover-glow-filter:             ~''; // [master]
+@internal-button-secondary-hover-mode:                    ~''; // [master]
+@internal-button-secondary-mode:                          ~''; // [master]
+@internal-button-text-arrow-background:           transparent; // [master]
+@internal-button-text-arrow-border-radius:                  0; // [master]
+@internal-button-text-arrow-color:         @button-text-color; // [master]
+@internal-button-text-arrow-hover-color: @button-text-hover-color; // [master]
+@internal-button-text-arrow-hover-width: @internal-button-text-arrow-width; // [master]
+@internal-button-text-arrow-image: "../../../../uikit-themes/master/images/button-text-arrow.svg"; // [master]
+@internal-button-text-arrow-image-offset:                 5px; // [master]
+@internal-button-text-arrow-image-position:              100%; // [master]
+@internal-button-text-arrow-padding:                      5px; // [master]
+@internal-button-text-arrow-position:                   right; // [master]
+@internal-button-text-arrow-transition-duration:         0.2s; // [master]
+@internal-button-text-arrow-transition-timing-function: ease-out; // [master]
+@internal-button-text-arrow-width:                       22px; // [master]
+@internal-button-text-dash-padding:                       8px; // [master]
+@internal-button-text-dash-size:                         20px; // [master]
+@internal-button-text-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-button-text-hover-glitch-duration:             0.2s; // [master]
+@internal-button-text-hover-mode:                         ~''; // [master]
+@internal-button-text-line-bottom:                          0; // [master]
+@internal-button-text-line-hover-left:                      0; // [master]
+@internal-button-text-line-hover-right:                     0; // [master]
+@internal-button-text-line-left:                            0; // [master]
+@internal-button-text-line-right:                        100%; // [master]
+@internal-button-text-line-transition-duration:          0.3s; // [master]
+@internal-button-text-line-transition-timing-function: ease-out; // [master]
+@internal-inverse-button-default-glow-gradient:           ~''; // [master]
+@internal-inverse-button-primary-glow-gradient:           ~''; // [master]
+@internal-inverse-button-secondary-glow-gradient:         ~''; // [master]
+@internal-inverse-button-text-arrow-background:   transparent; // [master]
+@internal-inverse-button-text-arrow-color: @inverse-button-text-color; // [master]
+@internal-inverse-button-text-arrow-hover-color: @inverse-button-text-hover-color; // [master]
+
+// Inverse
+@inverse-button-text-border:                     currentColor; // [master]
+@inverse-button-text-hover-border:               currentColor; // [master]
+
+// @group: Border
+@button-border-mode:                                      ~''; // [master]
+@button-border-width:                                       0; // [theme, master]
+@button-danger-active-border:                     transparent; // [master]
+@button-danger-border:                            transparent; // [master]
+@button-danger-hover-border:                      transparent; // [master]
+@button-default-active-border:                    transparent; // [theme, master]
+@button-default-border:                           transparent; // [theme, master]
+@button-default-hover-border:                     transparent; // [theme, master]
+@button-disabled-border:                          transparent; // [theme, master]
+@button-large-line-height: @global-control-large-height - (@button-border-width * 2); // [component, theme, master]
+@button-line-height: @global-control-height - (@button-border-width * 2); // [component, theme, master]
+@button-primary-active-border:                    transparent; // [master]
+@button-primary-border:                           transparent; // [master]
+@button-primary-hover-border:                     transparent; // [master]
+@button-secondary-active-border:                  transparent; // [master]
+@button-secondary-border:                         transparent; // [master]
+@button-secondary-hover-border:                   transparent; // [master]
+@button-small-line-height: @global-control-small-height - (@button-border-width * 2); // [component, theme, master]
+
+// Internal
+@internal-button-border-image-repeat:                     ~''; // [master]
+@internal-button-border-image-slice:                      ~''; // [master]
+@internal-button-border-image-width:                      ~''; // [master]
+@internal-button-danger-active-border-gradient:           ~''; // [master]
+@internal-button-danger-border-gradient:                  ~''; // [master]
+@internal-button-danger-border-image:                     ~''; // [master]
+@internal-button-danger-hover-border-gradient:            ~''; // [master]
+@internal-button-default-active-border-gradient:          ~''; // [master]
+@internal-button-default-border-gradient:                 ~''; // [master]
+@internal-button-default-border-image:                    ~''; // [master]
+@internal-button-default-hover-border-gradient:           ~''; // [master]
+@internal-button-primary-active-border-gradient:          ~''; // [master]
+@internal-button-primary-border-gradient:                 ~''; // [master]
+@internal-button-primary-border-image:                    ~''; // [master]
+@internal-button-primary-hover-border-gradient:           ~''; // [master]
+@internal-button-secondary-active-border-gradient:        ~''; // [master]
+@internal-button-secondary-border-gradient:               ~''; // [master]
+@internal-button-secondary-border-image:                  ~''; // [master]
+@internal-button-secondary-hover-border-gradient:         ~''; // [master]
+
+// Inverse
+@inverse-button-default-active-border:            transparent; // [master]
+@inverse-button-default-border:                   transparent; // [master]
+@inverse-button-default-hover-border:             transparent; // [master]
+@inverse-button-primary-active-border:            transparent; // [master]
+@inverse-button-primary-border:                   transparent; // [master]
+@inverse-button-primary-hover-border:             transparent; // [master]
+@inverse-button-secondary-active-border:          transparent; // [master]
+@inverse-button-secondary-border:                 transparent; // [master]
+@inverse-button-secondary-hover-border:           transparent; // [master]
+
+// @group: Border Radius
+@button-border-radius:                                      0; // [master]
+@button-large-border-radius:                                0; // [master]
+@button-small-border-radius:                                0; // [master]
+
+// @group: Box Shadow
+@button-danger-active-box-shadow:                        none; // [master]
+@button-danger-box-shadow:                               none; // [master]
+@button-danger-hover-box-shadow:                         none; // [master]
+@button-default-active-box-shadow:                       none; // [master]
+@button-default-box-shadow:                              none; // [master]
+@button-default-hover-box-shadow:                        none; // [master]
+@button-primary-active-box-shadow:                       none; // [master]
+@button-primary-box-shadow:                              none; // [master]
+@button-primary-hover-box-shadow:                        none; // [master]
+@button-secondary-active-box-shadow:                     none; // [master]
+@button-secondary-box-shadow:                            none; // [master]
+@button-secondary-hover-box-shadow:                      none; // [master]
+
+// Inverse
+@inverse-button-default-active-box-shadow:               none; // [master]
+@inverse-button-default-box-shadow:                      none; // [master]
+@inverse-button-default-hover-box-shadow:                none; // [master]
+@inverse-button-primary-active-box-shadow:               none; // [master]
+@inverse-button-primary-box-shadow:                      none; // [master]
+@inverse-button-primary-hover-box-shadow:                none; // [master]
+@inverse-button-secondary-active-box-shadow:             none; // [master]
+@inverse-button-secondary-box-shadow:                    none; // [master]
+@inverse-button-secondary-hover-box-shadow:              none; // [master]
+
+// @group: Danger Style
+@button-danger-active-background: darken(@button-danger-background, 10%); // [component]
+@button-danger-active-color:            @global-inverse-color; // [component]
+@button-danger-background:          @global-danger-background; // [component]
+@button-danger-color:                   @global-inverse-color; // [component]
+@button-danger-hover-background: darken(@button-danger-background, 5%); // [component]
+@button-danger-hover-color:             @global-inverse-color; // [component]
+
+// @group: Default Style
+@button-default-active-background:                transparent; // [component, theme]
+@button-default-active-color:          @global-emphasis-color; // [component]
+@button-default-background:                       transparent; // [component, theme]
+@button-default-color:                 @global-emphasis-color; // [component]
+@button-default-hover-background:                 transparent; // [component, theme]
+@button-default-hover-color:           @global-emphasis-color; // [component]
+
+// @group: Disabled
+@button-disabled-background:                      transparent; // [component, theme]
+@button-disabled-color:                   @global-muted-color; // [component]
+
+// @group: Inverse - Default
+
+// Inverse
+@inverse-button-default-active-background:        transparent; // [component, theme]
+@inverse-button-default-active-color: @inverse-global-emphasis-color; // [component, theme]
+@inverse-button-default-background:               transparent; // [component, theme]
+@inverse-button-default-color: @inverse-global-emphasis-color; // [component, theme]
+@inverse-button-default-hover-background:         transparent; // [component, theme]
+@inverse-button-default-hover-color: @inverse-global-emphasis-color; // [component, theme]
+
+// @group: Inverse - Primary
+
+// Inverse
+@inverse-button-primary-active-background: darken(@inverse-button-primary-background, 10%); // [component]
+@inverse-button-primary-active-color: @inverse-global-inverse-color; // [component]
+@inverse-button-primary-background: @inverse-global-primary-background; // [component]
+@inverse-button-primary-color:  @inverse-global-inverse-color; // [component]
+@inverse-button-primary-hover-background: darken(@inverse-button-primary-background, 5%); // [component]
+@inverse-button-primary-hover-color: @inverse-global-inverse-color; // [component]
+
+// @group: Inverse - Secondary
+
+// Inverse
+@inverse-button-secondary-active-background: darken(@inverse-button-secondary-background, 10%); // [component]
+@inverse-button-secondary-active-color: @inverse-global-inverse-color; // [component]
+@inverse-button-secondary-background: @inverse-global-primary-background; // [component]
+@inverse-button-secondary-color: @inverse-global-inverse-color; // [component]
+@inverse-button-secondary-hover-background: darken(@inverse-button-secondary-background, 5%); // [component]
+@inverse-button-secondary-hover-color: @inverse-global-inverse-color; // [component]
+
+// @group: Inverse - Text & Link
+
+// Inverse
+@inverse-button-link-color:    @inverse-global-emphasis-color; // [component]
+@inverse-button-link-hover-color: @inverse-global-muted-color; // [component]
+@inverse-button-text-color:    @inverse-global-emphasis-color; // [component]
+@inverse-button-text-disabled-color: @inverse-global-muted-color; // [component]
+@inverse-button-text-hover-color: @inverse-global-emphasis-color; // [component, theme, master]
+
+// @group: Large
+@button-large-font-size:              @global-small-font-size; // [component, theme]
+@button-large-padding-horizontal:       @global-medium-gutter; // [component]
+
+// @group: Link Style
+@button-link-color:                    @global-emphasis-color; // [component]
+@button-link-disabled-color:              @global-muted-color; // [component]
+@button-link-hover-color:                 @global-muted-color; // [component]
+@button-link-hover-text-decoration:                      none; // [component]
+@button-link-line-height:                 @global-line-height; // [component]
+
+// @group: Primary Style
+@button-primary-active-background: darken(@button-primary-background, 10%); // [component]
+@button-primary-active-color:           @global-inverse-color; // [component]
+@button-primary-background:        @global-primary-background; // [component]
+@button-primary-color:                  @global-inverse-color; // [component]
+@button-primary-hover-background: darken(@button-primary-background, 5%); // [component]
+@button-primary-hover-color:            @global-inverse-color; // [component]
+
+// @group: Secondary Style
+@button-secondary-active-background: darken(@button-secondary-background, 10%); // [component]
+@button-secondary-active-color:         @global-inverse-color; // [component]
+@button-secondary-background:    @global-secondary-background; // [component]
+@button-secondary-color:                @global-inverse-color; // [component]
+@button-secondary-hover-background: darken(@button-secondary-background, 5%); // [component]
+@button-secondary-hover-color:          @global-inverse-color; // [component]
+
+// @group: Sizing
+@button-font-size:                    @global-small-font-size; // [component, theme]
+@button-padding-horizontal:                    @global-gutter; // [component]
+
+// @group: Small
+@button-small-font-size:              @global-small-font-size; // [component]
+@button-small-padding-horizontal:        @global-small-gutter; // [component]
+
+// @group: Text Style
+@button-text-color:                    @global-emphasis-color; // [component]
+@button-text-disabled-color:              @global-muted-color; // [component]
+@button-text-hover-color:              @global-emphasis-color; // [component, theme, master]
+@button-text-line-height:                 @global-line-height; // [component]
+
+// @group: Transform
+@button-default-hover-translate-vertical:                   0; // [master]
+@button-primary-hover-translate-vertical:                   0; // [master]
+@button-secondary-hover-translate-vertical:                 0; // [master]
+
+// @group: Typo
+@button-font-family:            @global-secondary-font-family; // [master]
+@button-font-style:              @global-secondary-font-style; // [master]
+@button-font-weight:            @global-secondary-font-weight; // [master]
+@button-letter-spacing:      @global-secondary-letter-spacing; // [master]
+@button-text-transform:      @global-secondary-text-transform; // [theme, master]

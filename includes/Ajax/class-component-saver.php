@@ -21,6 +21,8 @@ if (!defined('ABSPATH')) {
 
 use EPB\CSS\Less_Parser;
 use EPB\CSS\Component_Registry;
+use EPB\Core\Constants;
+use EPB\Core\Utils;
 
 /**
  * Class Component_Saver
@@ -36,7 +38,7 @@ class Component_Saver
      */
     public static function save_component(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -59,9 +61,9 @@ class Component_Saver
 
         // Save only modified values to database (or delete if none modified).
         if (empty($modified)) {
-            delete_option(Component_Handler::OPTION_PREFIX . $component);
+            delete_option(Constants::OPTION_PREFIX . $component);
         } else {
-            update_option(Component_Handler::OPTION_PREFIX . $component, $modified);
+            update_option(Constants::OPTION_PREFIX . $component, $modified);
         }
 
         // Regenerate CSS cache.
@@ -83,7 +85,7 @@ class Component_Saver
      */
     public static function reset_component(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -95,7 +97,7 @@ class Component_Saver
         }
 
         // Delete saved options for this component.
-        delete_option(Component_Handler::OPTION_PREFIX . $component);
+        delete_option(Constants::OPTION_PREFIX . $component);
 
         // Regenerate CSS.
         Component_Handler::regenerate_css();
@@ -116,7 +118,7 @@ class Component_Saver
      */
     public static function reset_all_components(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -125,7 +127,7 @@ class Component_Saver
         $count = 0;
 
         foreach ($components as $component_id => $component) {
-            if (delete_option(Component_Handler::OPTION_PREFIX . $component_id)) {
+            if (delete_option(Constants::OPTION_PREFIX . $component_id)) {
                 $count++;
             }
         }
@@ -163,8 +165,8 @@ class Component_Saver
             $original = $variables[$key]['value'];
 
             // Normalize Less escape syntax for comparison.
-            $normalized_value = Component_Handler::normalize_less_escape($value);
-            $normalized_original = Component_Handler::normalize_less_escape($original);
+            $normalized_value = Utils::normalize_less_escape($value);
+            $normalized_original = Utils::normalize_less_escape($original);
 
             // Compare values - only keep if different from original.
             if ($normalized_value !== $normalized_original) {

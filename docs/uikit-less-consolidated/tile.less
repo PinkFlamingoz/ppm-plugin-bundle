@@ -1,0 +1,66 @@
+﻿// Name:            Tile
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Background Image
+
+// Internal
+@internal-tile-default-gradient:                          ~''; // [master]
+@internal-tile-default-image:                             ~''; // [master]
+@internal-tile-muted-gradient:                            ~''; // [master]
+@internal-tile-muted-image:                               ~''; // [master]
+@internal-tile-primary-gradient:                          ~''; // [master]
+@internal-tile-primary-image:                             ~''; // [master]
+@internal-tile-secondary-gradient:                        ~''; // [master]
+@internal-tile-secondary-image:                           ~''; // [master]
+
+// @group: Base
+@tile-default-hover-background: darken(@tile-muted-background, 2%); // [master]
+@tile-muted-hover-background: darken(@tile-muted-background, 2%); // [master]
+@tile-primary-hover-background: darken(@tile-primary-background, 4%); // [master]
+@tile-secondary-hover-background: darken(@tile-secondary-background, 4%); // [master]
+
+// Internal
+@internal-tile-hover-mode:                                ~''; // [master]
+
+// @group: Default Background
+@tile-default-background:                  @global-background; // [component]
+@tile-default-color-mode:                                dark; // [component]
+
+// @group: Default Padding
+@tile-padding-horizontal:                                15px; // [component]
+@tile-padding-horizontal-m:             @global-medium-gutter; // [component]
+@tile-padding-horizontal-s:                    @global-gutter; // [component]
+@tile-padding-vertical:                 @global-medium-margin; // [component]
+@tile-padding-vertical-m:                @global-large-margin; // [component]
+
+// @group: Large Padding
+@tile-large-padding-vertical:            @global-large-margin; // [component]
+@tile-large-padding-vertical-m:         @global-xlarge-margin; // [component]
+
+// @group: Muted Background
+@tile-muted-background:              @global-muted-background; // [component]
+@tile-muted-color-mode:                                  dark; // [component]
+
+// @group: Primary Background
+@tile-primary-background:          @global-primary-background; // [component]
+@tile-primary-color-mode:                               light; // [component]
+
+// @group: Secondary Background
+@tile-secondary-background:      @global-secondary-background; // [component]
+@tile-secondary-color-mode:                             light; // [component]
+
+// @group: Small Padding
+@tile-small-padding-vertical:           @global-medium-margin; // [component]
+
+// @group: X-Large Padding
+@tile-xlarge-padding-vertical:          @global-xlarge-margin; // [component]
+@tile-xlarge-padding-vertical-m: (@global-large-margin + @global-xlarge-margin); // [component]
+
+// @group: X-Small Padding
+@tile-xsmall-padding-vertical:                 @global-margin; // [component]

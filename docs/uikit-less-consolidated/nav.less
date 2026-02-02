@@ -1,0 +1,288 @@
+﻿// Name:            Nav
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@nav-default-item-active-background:              transparent; // [master]
+@nav-default-item-hover-background:               transparent; // [master]
+@nav-default-item-line-background:               currentColor; // [master]
+@nav-default-item-line-bottom:                              0; // [master]
+@nav-default-item-line-height:           @global-border-width; // [master]
+@nav-default-item-line-hover-left:                          0; // [master]
+@nav-default-item-line-hover-right:                         0; // [master]
+@nav-default-item-line-left:                                0; // [master]
+@nav-default-item-line-right:                            100%; // [master]
+@nav-default-item-line-transition-duration:              0.3s; // [master]
+@nav-default-item-line-transition-timing-function:   ease-out; // [master]
+@nav-default-item-mode:                                   ~''; // [master]
+@nav-default-siblings-filter:                             ~''; // [master]
+@nav-default-siblings-opacity:                              1; // [master]
+@nav-primary-header-padding-horizontal: @nav-header-padding-horizontal; // [master]
+@nav-primary-header-padding-vertical: @nav-header-padding-vertical; // [master]
+@nav-primary-item-line-background:               currentColor; // [master]
+@nav-primary-item-line-bottom:                              0; // [master]
+@nav-primary-item-line-height:           @global-border-width; // [master]
+@nav-primary-item-line-hover-left:                          0; // [master]
+@nav-primary-item-line-hover-right:                         0; // [master]
+@nav-primary-item-line-left:                                0; // [master]
+@nav-primary-item-line-right:                            100%; // [master]
+@nav-primary-item-line-transition-duration:              0.3s; // [master]
+@nav-primary-item-line-transition-timing-function:   ease-out; // [master]
+@nav-primary-item-mode:                                   ~''; // [master]
+@nav-primary-item-padding-horizontal: @nav-item-padding-horizontal; // [master]
+@nav-primary-item-padding-vertical: @nav-item-padding-vertical; // [master]
+@nav-primary-siblings-filter:                             ~''; // [master]
+@nav-primary-siblings-opacity:                              1; // [master]
+@nav-secondary-item-active-background:            transparent; // [theme, master]
+@nav-secondary-item-hover-background:             transparent; // [theme, master]
+@nav-secondary-item-padding-horizontal: @nav-item-padding-horizontal; // [theme, master]
+@nav-secondary-item-padding-vertical: @nav-item-padding-vertical; // [theme, master]
+@nav-secondary-margin-top:                                  0; // [theme, master]
+
+// Internal
+@internal-nav-default-bullet-background: @global-primary-background; // [master]
+@internal-nav-default-bullet-border-radius:               50%; // [master]
+@internal-nav-default-bullet-height:                      6px; // [master]
+@internal-nav-default-bullet-margin:                      5px; // [master]
+@internal-nav-default-bullet-transition-duration:        0.2s; // [master]
+@internal-nav-default-bullet-transition-timing-function: ease-out; // [master]
+@internal-nav-default-bullet-width:                       6px; // [master]
+@internal-nav-default-icon-mode:                          ~''; // [master]
+@internal-nav-default-item-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-nav-default-item-hover-glitch-duration:        0.2s; // [master]
+@internal-nav-default-item-hover-mode:                    ~''; // [master]
+@internal-nav-primary-bullet-background: @global-primary-background; // [master]
+@internal-nav-primary-bullet-border-radius:               50%; // [master]
+@internal-nav-primary-bullet-height:                     10px; // [master]
+@internal-nav-primary-bullet-margin:                      5px; // [master]
+@internal-nav-primary-bullet-transition-duration:        0.2s; // [master]
+@internal-nav-primary-bullet-transition-timing-function: ease-out; // [master]
+@internal-nav-primary-bullet-width:                      10px; // [master]
+@internal-nav-primary-icon-mode:                          ~''; // [master]
+@internal-nav-primary-item-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-nav-primary-item-hover-glitch-duration:        0.2s; // [master]
+@internal-nav-primary-item-hover-mode:                    ~''; // [master]
+
+// Inverse
+@inverse-nav-background-item-active-background: @inverse-global-muted-background; // [theme]
+@inverse-nav-background-item-hover-background: @inverse-global-muted-background; // [theme]
+@inverse-nav-default-item-active-background:      transparent; // [master]
+@inverse-nav-default-item-hover-background:       transparent; // [master]
+@inverse-nav-default-item-line-background:       currentColor; // [master]
+@inverse-nav-primary-item-line-background:       currentColor; // [master]
+@inverse-nav-secondary-item-active-background:    transparent; // [master]
+@inverse-nav-secondary-item-hover-background:     transparent; // [master]
+
+// @group: Border Radius
+@nav-default-item-border-radius:                            0; // [master]
+@nav-secondary-item-border-radius:                          0; // [master]
+
+// @group: Box Shadow
+@nav-default-divider-box-shadow:                         none; // [master]
+@nav-default-item-hover-box-shadow:                      none; // [master]
+@nav-dividers-box-shadow:                                none; // [master]
+@nav-primary-divider-box-shadow:                         none; // [master]
+@nav-secondary-divider-box-shadow:                       none; // [master]
+
+// Inverse
+@inverse-nav-default-divider-box-shadow:                 none; // [master]
+@inverse-nav-default-item-hover-box-shadow:              none; // [master]
+@inverse-nav-dividers-box-shadow:                        none; // [master]
+@inverse-nav-primary-divider-box-shadow:                 none; // [master]
+@inverse-nav-secondary-divider-box-shadow:               none; // [master]
+
+// @group: Default Style
+@nav-default-divider-border:                   @global-border; // [component]
+@nav-default-divider-border-width:       @global-border-width; // [component]
+@nav-default-font-size:               @global-small-font-size; // [component, theme]
+@nav-default-header-color:             @global-emphasis-color; // [component]
+@nav-default-item-active-color:        @global-emphasis-color; // [component]
+@nav-default-item-color:                  @global-muted-color; // [component]
+@nav-default-item-hover-color:                  @global-color; // [component]
+@nav-default-line-height:                 @global-line-height; // [component]
+@nav-default-sublist-font-size:        @nav-default-font-size; // [component]
+@nav-default-sublist-item-active-color: @global-emphasis-color; // [component]
+@nav-default-sublist-item-color:          @global-muted-color; // [component]
+@nav-default-sublist-item-hover-color:          @global-color; // [component]
+@nav-default-sublist-line-height:    @nav-default-line-height; // [component]
+@nav-default-subtitle-font-size:                         12px; // [component, theme]
+
+// @group: Divider
+@nav-divider-margin-horizontal:                             0; // [component]
+@nav-divider-margin-vertical:                             5px; // [component]
+
+// @group: Dividers Modifier
+@nav-dividers-border:                          @global-border; // [component]
+@nav-dividers-border-width:              @global-border-width; // [component]
+@nav-dividers-margin-top:                                 5px; // [component]
+
+// @group: Header
+@nav-header-font-size:                @global-small-font-size; // [component]
+@nav-header-margin-top:                        @global-margin; // [component]
+@nav-header-padding-horizontal:  @nav-item-padding-horizontal; // [component]
+@nav-header-padding-vertical:      @nav-item-padding-vertical; // [component]
+@nav-header-text-transform:                         uppercase; // [component]
+
+// @group: Inverse - Default
+
+// Inverse
+@inverse-nav-default-divider-border:   @inverse-global-border; // [component]
+@inverse-nav-default-header-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-default-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-default-item-color:  @inverse-global-muted-color; // [component]
+@inverse-nav-default-item-hover-color:  @inverse-global-color; // [component]
+@inverse-nav-default-sublist-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-default-sublist-item-color: @inverse-global-muted-color; // [component]
+@inverse-nav-default-sublist-item-hover-color: @inverse-global-color; // [component]
+
+// @group: Inverse - Dividers
+
+// Inverse
+@inverse-nav-dividers-border:          @inverse-global-border; // [component]
+
+// @group: Inverse - Primary
+
+// Inverse
+@inverse-nav-primary-divider-border:   @inverse-global-border; // [component]
+@inverse-nav-primary-header-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-primary-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-primary-item-color:  @inverse-global-muted-color; // [component]
+@inverse-nav-primary-item-hover-color:  @inverse-global-color; // [component]
+@inverse-nav-primary-sublist-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-primary-sublist-item-color: @inverse-global-muted-color; // [component]
+@inverse-nav-primary-sublist-item-hover-color: @inverse-global-color; // [component]
+
+// @group: Inverse - Secondary
+
+// Inverse
+@inverse-nav-secondary-divider-border: @inverse-global-border; // [component]
+@inverse-nav-secondary-header-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-secondary-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-secondary-item-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-secondary-item-hover-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-secondary-sublist-item-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-secondary-sublist-item-color: @inverse-global-muted-color; // [component]
+@inverse-nav-secondary-sublist-item-hover-color: @inverse-global-color; // [component]
+@inverse-nav-secondary-subtitle-active-color: @inverse-global-emphasis-color; // [component]
+@inverse-nav-secondary-subtitle-color: @inverse-global-muted-color; // [component]
+@inverse-nav-secondary-subtitle-hover-color: @inverse-global-color; // [component]
+
+// @group: Item
+@nav-item-padding-horizontal:                               0; // [component]
+@nav-item-padding-vertical:                               5px; // [component]
+
+// @group: Large Size
+@nav-large-font-size:           @nav-large-font-size-m * 0.85; // [component]
+@nav-large-font-size-l:                                  6rem; // [component]
+@nav-large-font-size-m:                                  4rem; // [component]
+@nav-large-line-height:                                     1; // [component]
+
+// @group: Medium Size
+@nav-medium-font-size:        @nav-medium-font-size-m * 0.825; // [component]
+@nav-medium-font-size-l:                                 4rem; // [component]
+@nav-medium-font-size-m:      @nav-medium-font-size-l * 0.875; // [component]
+@nav-medium-line-height:                                    1; // [component]
+
+// @group: Parent Icon
+@nav-parent-icon-margin-left:                          0.25em; // [component]
+
+// @group: Primary Style
+@nav-primary-divider-border:                   @global-border; // [component]
+@nav-primary-divider-border-width:       @global-border-width; // [component]
+@nav-primary-font-size:               @global-large-font-size; // [component]
+@nav-primary-header-color:             @global-emphasis-color; // [component]
+@nav-primary-item-active-color:        @global-emphasis-color; // [component]
+@nav-primary-item-color:                  @global-muted-color; // [component]
+@nav-primary-item-hover-color:                  @global-color; // [component]
+@nav-primary-line-height:                 @global-line-height; // [component]
+@nav-primary-sublist-font-size:      @global-medium-font-size; // [component]
+@nav-primary-sublist-item-active-color: @global-emphasis-color; // [component]
+@nav-primary-sublist-item-color:          @global-muted-color; // [component]
+@nav-primary-sublist-item-hover-color:          @global-color; // [component]
+@nav-primary-sublist-line-height:         @global-line-height; // [component]
+@nav-primary-subtitle-font-size:     @global-medium-font-size; // [component]
+
+// @group: Secondary Style
+@nav-secondary-divider-border:                 @global-border; // [component]
+@nav-secondary-divider-border-width:     @global-border-width; // [component]
+@nav-secondary-font-size:                   @global-font-size; // [component]
+@nav-secondary-header-color:           @global-emphasis-color; // [component]
+@nav-secondary-item-active-color:      @global-emphasis-color; // [component]
+@nav-secondary-item-color:             @global-emphasis-color; // [component]
+@nav-secondary-item-hover-color:       @global-emphasis-color; // [component]
+@nav-secondary-line-height:               @global-line-height; // [component]
+@nav-secondary-sublist-font-size:     @global-small-font-size; // [component]
+@nav-secondary-sublist-item-active-color: @global-emphasis-color; // [component]
+@nav-secondary-sublist-item-color:        @global-muted-color; // [component]
+@nav-secondary-sublist-item-hover-color:        @global-color; // [component]
+@nav-secondary-sublist-line-height:       @global-line-height; // [component]
+@nav-secondary-subtitle-active-color:  @global-emphasis-color; // [component]
+@nav-secondary-subtitle-color:            @global-muted-color; // [component]
+@nav-secondary-subtitle-font-size:    @global-small-font-size; // [component]
+@nav-secondary-subtitle-hover-color:            @global-color; // [component]
+
+// @group: Sublist
+@nav-sublist-deeper-padding-left:                        15px; // [component]
+@nav-sublist-item-padding-vertical:                       2px; // [component]
+@nav-sublist-padding-left:                               15px; // [component]
+@nav-sublist-padding-vertical:                            5px; // [component]
+
+// @group: Typo - Default
+@nav-default-font-family:       @global-secondary-font-family; // [master]
+@nav-default-font-style:         @global-secondary-font-style; // [master]
+@nav-default-font-weight:       @global-secondary-font-weight; // [master]
+@nav-default-letter-spacing: @global-secondary-letter-spacing; // [master]
+@nav-default-subtitle-color:          @nav-default-item-color; // [master]
+@nav-default-subtitle-font-family:                    inherit; // [master]
+@nav-default-subtitle-font-style:                     inherit; // [master]
+@nav-default-subtitle-font-weight:                    inherit; // [master]
+@nav-default-subtitle-letter-spacing:                 inherit; // [master]
+@nav-default-subtitle-line-height:                    inherit; // [master]
+@nav-default-subtitle-text-transform:                 inherit; // [master]
+@nav-default-text-transform: @global-secondary-text-transform; // [master]
+
+// @group: Typo - Header
+@nav-header-font-weight:                              inherit; // [master]
+@nav-header-letter-spacing:  @global-secondary-letter-spacing; // [master]
+
+// @group: Typo - Primary
+@nav-primary-font-family:         @global-primary-font-family; // [master]
+@nav-primary-font-style:           @global-primary-font-style; // [master]
+@nav-primary-font-weight:         @global-primary-font-weight; // [master]
+@nav-primary-letter-spacing:   @global-primary-letter-spacing; // [master]
+@nav-primary-subtitle-color:          @nav-primary-item-color; // [master]
+@nav-primary-subtitle-font-family:                    inherit; // [master]
+@nav-primary-subtitle-font-style:                     inherit; // [master]
+@nav-primary-subtitle-font-weight:                    inherit; // [master]
+@nav-primary-subtitle-letter-spacing:                 inherit; // [master]
+@nav-primary-subtitle-line-height:                    inherit; // [master]
+@nav-primary-subtitle-text-transform:                 inherit; // [master]
+@nav-primary-text-transform:   @global-primary-text-transform; // [master]
+
+// @group: Typo - Secondary
+@nav-secondary-font-family:     @global-secondary-font-family; // [master]
+@nav-secondary-font-style:       @global-secondary-font-style; // [master]
+@nav-secondary-font-weight:     @global-secondary-font-weight; // [master]
+@nav-secondary-letter-spacing: @global-secondary-letter-spacing; // [master]
+@nav-secondary-subtitle-font-family:                  inherit; // [master]
+@nav-secondary-subtitle-font-style:                   inherit; // [master]
+@nav-secondary-subtitle-font-weight:                  inherit; // [master]
+@nav-secondary-subtitle-letter-spacing:               inherit; // [master]
+@nav-secondary-subtitle-line-height:                  inherit; // [master]
+@nav-secondary-subtitle-text-transform:               inherit; // [master]
+@nav-secondary-text-transform: @global-secondary-text-transform; // [master]
+
+// Inverse
+@inverse-nav-default-subtitle-color: @inverse-nav-default-item-color; // [master]
+@inverse-nav-primary-subtitle-color: @inverse-nav-primary-item-color; // [master]
+
+// @group: X-Large Size
+@nav-xlarge-font-size:                                   4rem; // [component]
+@nav-xlarge-font-size-l:                                 8rem; // [component]
+@nav-xlarge-font-size-m:                                 6rem; // [component]
+@nav-xlarge-line-height:                                    1; // [component]

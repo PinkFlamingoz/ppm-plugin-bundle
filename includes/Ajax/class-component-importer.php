@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 use EPB\CSS\Component_Registry;
+use EPB\Core\Constants;
 
 /**
  * Class Component_Importer
@@ -35,7 +36,7 @@ class Component_Importer
      */
     public static function import_components(): void
     {
-        if (!Handler::verify_request(Component_Handler::NONCE_ACTION)) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -65,7 +66,7 @@ class Component_Importer
                 continue;
             }
 
-            update_option(Component_Handler::OPTION_PREFIX . $component, $modified);
+            update_option(Constants::OPTION_PREFIX . $component, $modified);
             $imported++;
         }
 

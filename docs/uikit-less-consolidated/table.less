@@ -1,0 +1,81 @@
+﻿// Name:            Table
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Active Row
+@table-row-active-background:                            #ffd; // [component]
+
+// @group: Border
+@table-divider-header-border:                     transparent; // [master]
+@table-divider-header-border-width:                         0; // [master]
+@table-striped-border:                            transparent; // [theme, master]
+@table-striped-border-width:                                0; // [theme, master]
+
+// Inverse
+@inverse-table-divider-header-border:  @inverse-global-border; // [master]
+@inverse-table-striped-border:         @inverse-global-border; // [master]
+
+// @group: Box Shadow
+@table-divider-box-shadow:                               none; // [master]
+
+// Inverse
+@inverse-table-divider-box-shadow:                       none; // [master]
+
+// @group: Caption
+@table-caption-color:                     @global-muted-color; // [component]
+@table-caption-font-size:             @global-small-font-size; // [component]
+
+// @group: Divider
+@table-divider-border:                         @global-border; // [component]
+@table-divider-border-width:             @global-border-width; // [component]
+
+// @group: Expand
+@table-expand-min-width:                                150px; // [component]
+
+// @group: Footer
+@table-footer-font-size:              @global-small-font-size; // [component]
+
+// @group: Header
+@table-header-cell-color:                 @global-muted-color; // [component, theme, master]
+@table-header-cell-font-size:         @global-small-font-size; // [component, theme, master]
+@table-header-cell-font-weight:                        normal; // [component, theme, master]
+
+// @group: Hover
+@table-hover-row-background:     @table-row-active-background; // [component]
+
+// @group: Inverse
+
+// Inverse
+@inverse-table-caption-color:     @inverse-global-muted-color; // [component]
+@inverse-table-divider-border:         @inverse-global-border; // [component]
+@inverse-table-header-cell-color:       @inverse-global-color; // [component]
+@inverse-table-hover-row-background: @inverse-table-row-active-background; // [component]
+@inverse-table-row-active-background: fadeout(@inverse-global-muted-background, 2%); // [component]
+@inverse-table-striped-row-background: @inverse-global-muted-background; // [component]
+
+// @group: Large Size
+@table-large-cell-padding-horizontal:                    12px; // [component]
+@table-large-cell-padding-vertical:                      22px; // [component]
+
+// @group: Small Size
+@table-small-cell-padding-horizontal:                    12px; // [component]
+@table-small-cell-padding-vertical:                      10px; // [component]
+
+// @group: Spacing
+@table-cell-padding-horizontal:                          12px; // [component]
+@table-cell-padding-vertical:                            16px; // [component]
+@table-margin-vertical:                        @global-margin; // [component]
+
+// @group: Striped
+@table-striped-row-background:       @global-muted-background; // [component]
+
+// @group: Typo
+@table-header-cell-font-family:                       inherit; // [master]
+@table-header-cell-font-style:                        inherit; // [master]
+@table-header-cell-letter-spacing:                    inherit; // [master]
+@table-header-cell-text-transform:                  uppercase; // [master]

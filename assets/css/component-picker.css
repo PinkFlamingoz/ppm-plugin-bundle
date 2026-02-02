@@ -320,11 +320,6 @@
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
 }
 
-.menu-header .dashicons {
-    font-size: 14px;
-    margin-right: 4px;
-}
-
 /* Child Theme Status Dot in header */
 .ppm-button-icon .child-theme-status-dot {
     position: absolute;

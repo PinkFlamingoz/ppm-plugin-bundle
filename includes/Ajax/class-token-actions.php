@@ -11,6 +11,7 @@ namespace EPB\Ajax;
 
 use EPB\Tokens\Tokens_Studio_Exporter;
 use EPB\Tokens\Tokens_Studio_Importer;
+use EPB\Core\Constants;
 
 // Prevent direct access.
 if (!defined('ABSPATH')) {
@@ -34,7 +35,7 @@ class Token_Actions
     public static function export_figma(): void
     {
         // Verify nonce and permissions (uses component picker nonce).
-        if (!Handler::verify_request('epb_component_nonce')) {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
             return;
         }
 
@@ -56,7 +57,7 @@ class Token_Actions
     {
         try {
             // Verify nonce and permissions (uses component picker nonce).
-            if (!Handler::verify_request('epb_component_nonce')) {
+            if (!Handler::verify_request(Constants::NONCE_ACTION)) {
                 return;
             }
 
@@ -101,7 +102,7 @@ class Token_Actions
             }
 
             // Regenerate CSS after import.
-            delete_transient('epb_component_css');
+            delete_transient(Constants::TRANSIENT_CSS);
             do_action('epb_component_settings_updated');
 
             wp_send_json_success([

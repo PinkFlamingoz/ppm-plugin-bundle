@@ -1,0 +1,198 @@
+﻿// Name:            Form
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@form-backdrop-filter:                                    ~''; // [master]
+@form-danger-focus-background:                        inherit; // [master]
+@form-label-font-size:                      @global-font-size; // [theme, master]
+@form-success-focus-background:                       inherit; // [master]
+
+// @group: Border
+@form-blank-focus-border:                         transparent; // [theme, master]
+@form-blank-focus-border-style:                         solid; // [theme, master]
+@form-border:                                     transparent; // [theme, master]
+@form-border-mode:                                        ~''; // [master]
+@form-border-width:                                         0; // [theme, master]
+@form-danger-border:                              transparent; // [theme, master]
+@form-disabled-border:                            transparent; // [theme, master]
+@form-focus-border:                               transparent; // [theme, master]
+@form-large-line-height: @form-large-height - (@form-border-width * 2); // [component, theme, master]
+@form-line-height:    @form-height - (@form-border-width * 2); // [component, theme, master]
+@form-multi-line-border-mode:                             ~''; // [master]
+@form-radio-border:                               transparent; // [theme, master]
+@form-radio-border-width:                                   0; // [theme, master]
+@form-radio-checked-border:                       transparent; // [theme, master]
+@form-radio-disabled-border:                      transparent; // [theme, master]
+@form-radio-focus-border:                         transparent; // [theme, master]
+@form-small-line-height: @form-small-height - (@form-border-width * 2); // [component, theme, master]
+@form-success-border:                             transparent; // [theme, master]
+
+// Inverse
+@inverse-form-border:                             transparent; // [master]
+@inverse-form-focus-border:                       transparent; // [master]
+@inverse-form-radio-border:                       transparent; // [master]
+@inverse-form-radio-checked-border:               transparent; // [master]
+@inverse-form-radio-focus-border:                 transparent; // [master]
+
+// @group: Border Radius
+@form-border-radius:                                        0; // [master]
+@form-multi-line-border-radius:                           ~''; // [master]
+@form-radio-border-radius:                                  0; // [master]
+
+// @group: Box Shadow
+@form-blank-focus-box-shadow:                            none; // [master]
+@form-box-shadow:                                        none; // [master]
+@form-danger-box-shadow:                                 none; // [master]
+@form-disabled-box-shadow:                               none; // [master]
+@form-focus-box-shadow:                                  none; // [master]
+@form-radio-box-shadow:                                  none; // [master]
+@form-radio-checked-box-shadow:                          none; // [master]
+@form-radio-focus-box-shadow:                            none; // [master]
+@form-success-box-shadow:                                none; // [master]
+
+// Inverse
+@inverse-form-box-shadow:                                none; // [master]
+@inverse-form-focus-box-shadow:                          none; // [master]
+@inverse-form-radio-box-shadow:                          none; // [master]
+@inverse-form-radio-checked-box-shadow:                  none; // [master]
+@inverse-form-radio-focus-box-shadow:                    none; // [master]
+
+// @group: Datalist
+@form-datalist-icon-color:                      @global-color; // [component]
+@form-datalist-padding-right:                            20px; // [component]
+
+// @group: Disabled
+@form-disabled-background:           @global-muted-background; // [component]
+@form-disabled-color:                     @global-muted-color; // [component]
+
+// @group: Focus
+@form-focus-background:                    @global-background; // [component, theme]
+@form-focus-color:                              @global-color; // [component]
+
+// @group: Icon
+@form-icon-color:                         @global-muted-color; // [component]
+@form-icon-hover-color:                         @global-color; // [component]
+@form-icon-width:                                @form-height; // [component]
+
+// @group: Input Base
+@form-background:                          @global-background; // [component, theme]
+@form-color:                                    @global-color; // [component]
+@form-height:                          @global-control-height; // [component]
+@form-padding-horizontal:                                10px; // [component]
+
+// @group: Internal
+
+// Internal
+@internal-form-checkbox-image: "../../images/backgrounds/form-checkbox.svg"; // [component]
+@internal-form-checkbox-indeterminate-image: "../../images/backgrounds/form-checkbox-indeterminate.svg"; // [component]
+@internal-form-datalist-image: "../../images/backgrounds/form-datalist.svg"; // [component]
+@internal-form-radio-image: "../../images/backgrounds/form-radio.svg"; // [component]
+@internal-form-select-image: "../../images/backgrounds/form-select.svg"; // [component]
+
+// @group: Inverse - Icons
+
+// Inverse
+@inverse-form-icon-color:         @inverse-global-muted-color; // [component]
+@inverse-form-icon-hover-color:         @inverse-global-color; // [component]
+
+// @group: Inverse - Input
+
+// Inverse
+@inverse-form-background:    @inverse-global-muted-background; // [component]
+@inverse-form-color:                    @inverse-global-color; // [component]
+@inverse-form-focus-background: fadein(@inverse-form-background, 5%); // [component]
+@inverse-form-focus-color:              @inverse-global-color; // [component]
+@inverse-form-placeholder-color:  @inverse-global-muted-color; // [component]
+
+// @group: Inverse - Radio & Checkbox
+
+// Inverse
+@inverse-form-radio-background: @inverse-global-muted-background; // [component]
+@inverse-form-radio-checked-background: @inverse-global-primary-background; // [component]
+@inverse-form-radio-checked-focus-background: fadein(@inverse-global-primary-background, 10%); // [component]
+@inverse-form-radio-checked-icon-color: @inverse-global-inverse-color; // [component]
+@inverse-form-radio-focus-background: fadein(@inverse-form-radio-background, 5%); // [component]
+
+// @group: Inverse - Select & Datalist
+
+// Inverse
+@inverse-form-datalist-icon-color:      @inverse-global-color; // [component]
+@inverse-form-select-icon-color:        @inverse-global-color; // [component]
+
+// @group: Large Size
+@form-large-font-size:               @global-medium-font-size; // [component]
+@form-large-height:              @global-control-large-height; // [component]
+@form-large-multi-line-padding-horizontal: @form-large-padding-horizontal; // [component]
+@form-large-multi-line-padding-vertical: round(@form-large-multi-line-padding-horizontal * 0.6); // [component]
+@form-large-padding-horizontal:                          12px; // [component]
+@form-large-radio-size:                                  22px; // [component]
+
+// @group: Layout
+@form-horizontal-controls-margin-left:                  215px; // [component]
+@form-horizontal-controls-text-padding-top:               7px; // [component]
+@form-horizontal-label-margin-top:                        7px; // [component]
+@form-horizontal-label-width:                           200px; // [component]
+@form-stacked-margin-bottom:                              5px; // [component, theme]
+
+// @group: Legend
+@form-legend-font-size:               @global-large-font-size; // [component]
+@form-legend-line-height:                                 1.4; // [component]
+
+// @group: Multi-line
+@form-multi-line-padding-horizontal: @form-padding-horizontal; // [component]
+@form-multi-line-padding-vertical: round(@form-multi-line-padding-horizontal * 0.6); // [component]
+
+// @group: Placeholder
+@form-placeholder-color:                  @global-muted-color; // [component]
+
+// @group: Radio & Checkbox
+@form-radio-background:                           transparent; // [component, theme]
+@form-radio-checked-background:    @global-primary-background; // [component]
+@form-radio-checked-focus-background: darken(@global-primary-background, 10%); // [component]
+@form-radio-checked-icon-color:         @global-inverse-color; // [component]
+@form-radio-disabled-background:     @global-muted-background; // [component]
+@form-radio-disabled-icon-color:          @global-muted-color; // [component]
+@form-radio-focus-background: darken(@form-radio-background, 5%); // [component]
+@form-radio-margin-top:                                  -4px; // [component]
+@form-radio-size:                                        16px; // [component]
+
+// @group: Select
+@form-select-disabled-icon-color:         @global-muted-color; // [component]
+@form-select-icon-color:                        @global-color; // [component]
+@form-select-option-color:                      @global-color; // [component]
+@form-select-padding-right:                              20px; // [component]
+
+// @group: Small Size
+@form-small-font-size:                @global-small-font-size; // [component]
+@form-small-height:              @global-control-small-height; // [component]
+@form-small-multi-line-padding-horizontal: @form-small-padding-horizontal; // [component]
+@form-small-multi-line-padding-vertical: round(@form-small-multi-line-padding-horizontal * 0.6); // [component]
+@form-small-padding-horizontal:                           8px; // [component]
+@form-small-radio-size:                                  14px; // [component]
+
+// @group: Typo
+@form-label-color:                     @global-emphasis-color; // [theme, master]
+@form-label-font-family:        @global-secondary-font-family; // [master]
+@form-label-font-style:          @global-secondary-font-style; // [master]
+@form-label-font-weight:        @global-secondary-font-weight; // [master]
+@form-label-letter-spacing:  @global-secondary-letter-spacing; // [master]
+@form-label-text-transform:  @global-secondary-text-transform; // [master]
+
+// Inverse
+@inverse-form-label-color:     @inverse-global-emphasis-color; // [theme, master]
+
+// @group: Validation
+@form-danger-color:                 @global-danger-background; // [component]
+@form-success-color:               @global-success-background; // [component]
+
+// @group: Widths
+@form-width-large:                                      500px; // [component]
+@form-width-medium:                                     200px; // [component]
+@form-width-small:                                      130px; // [component]
+@form-width-xsmall:                                      50px; // [component]

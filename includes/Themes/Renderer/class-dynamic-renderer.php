@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 use EPB\CSS\Less_Parser;
+use EPB\Core\Utils;
 
 /**
  * Class Dynamic_Renderer
@@ -28,19 +29,6 @@ use EPB\CSS\Less_Parser;
  */
 class Dynamic_Renderer
 {
-    /**
-     * Normalize Less escape syntax to use consistent single quotes.
-     *
-     * Converts ~\'...\'  to ~'...' for consistent comparison.
-     *
-     * @param string $value The value to normalize.
-     * @return string The normalized value.
-     */
-    private static function normalize_less_escape(string $value): string
-    {
-        // Replace escaped quotes in Less escape syntax: ~\'...\'  -> ~'...'
-        return preg_replace("/~\\\\?['\"](.+?)\\\\?['\"]/", "~'$1'", $value);
-    }
     /**
      * Render form fields for a component's variables.
      *
@@ -70,8 +58,8 @@ class Dynamic_Renderer
                 $saved_value = $saved_values[$name] ?? null;
                 if ($saved_value !== null) {
                     // Normalize Less escape syntax for comparison.
-                    $normalized_saved = self::normalize_less_escape($saved_value);
-                    $normalized_original = self::normalize_less_escape($meta['value']);
+                    $normalized_saved = Utils::normalize_less_escape($saved_value);
+                    $normalized_original = Utils::normalize_less_escape($meta['value']);
 
                     if ($normalized_saved !== $normalized_original) {
                         // For color fields, compare resolved hex values.
@@ -112,7 +100,7 @@ class Dynamic_Renderer
                         // Use saved value if available, otherwise use original value (preserves references).
                         $value = $saved_values[$name] ?? $meta['value'];
                         // Normalize Less escape syntax for consistent comparison and display.
-                        $value = self::normalize_less_escape($value);
+                        $value = Utils::normalize_less_escape($value);
                         self::render_field($name, $meta, $value);
                     }
                     ?>
@@ -530,7 +518,15 @@ class Dynamic_Renderer
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
 
-        $keywords = ['none', 'auto', 'inherit', 'initial', 'unset', 'hidden', 'visible', 'solid', 'dashed', 'dotted'];
+        // Context-specific keywords based on variable name.
+        if (str_ends_with($name, '-font-style')) {
+            $keywords = ['normal', 'italic', 'oblique', 'inherit'];
+        } elseif (str_ends_with($name, '-text-transform')) {
+            $keywords = ['none', 'uppercase', 'lowercase', 'capitalize', 'inherit'];
+        } else {
+            // Generic keywords.
+            $keywords = ['none', 'auto', 'inherit', 'initial', 'unset', 'hidden', 'visible', 'solid', 'dashed', 'dotted'];
+        }
     ?>
         <div class="ppm-field ppm-field-keyword<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"

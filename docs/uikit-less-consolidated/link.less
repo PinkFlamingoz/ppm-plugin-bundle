@@ -1,0 +1,41 @@
+﻿// Name:            Link
+// Description:     Consolidated variables from component, theme, and master layers
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// @group: Base
+@link-heading-text-decoration:                        inherit; // [master]
+
+// Internal
+@internal-link-heading-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-link-heading-hover-glitch-duration:            0.2s; // [master]
+@internal-link-heading-hover-mode:                        ~''; // [master]
+@internal-link-muted-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-link-muted-hover-glitch-duration:              0.2s; // [master]
+@internal-link-muted-hover-mode:                          ~''; // [master]
+@internal-link-text-hover-glitch-animation: uk-glitch-skew, uk-glitch-opacity; // [master]
+@internal-link-text-hover-glitch-duration:               0.2s; // [master]
+@internal-link-text-hover-mode:                           ~''; // [master]
+
+// @group: Heading Style
+@link-heading-hover-color:         @global-primary-background; // [component]
+@link-heading-hover-text-decoration:                     none; // [component]
+
+// @group: Inverse
+
+// Inverse
+@inverse-link-heading-hover-color: @inverse-global-primary-background; // [component]
+@inverse-link-muted-color:        @inverse-global-muted-color; // [component]
+@inverse-link-muted-hover-color:        @inverse-global-color; // [component]
+@inverse-link-text-hover-color:   @inverse-global-muted-color; // [component]
+
+// @group: Muted Style
+@link-muted-color:                        @global-muted-color; // [component]
+@link-muted-hover-color:                        @global-color; // [component]
+
+// @group: Text Style
+@link-text-hover-color:                   @global-muted-color; // [component]

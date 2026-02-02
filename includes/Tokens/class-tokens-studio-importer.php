@@ -12,6 +12,7 @@
 namespace EPB\Tokens;
 
 use EPB\Ajax\Component_Saver;
+use EPB\Core\Constants;
 use WP_Error;
 
 // Prevent direct access.
@@ -28,13 +29,6 @@ if (!defined('ABSPATH')) {
  */
 class Tokens_Studio_Importer
 {
-    /**
-     * Option prefix for component storage.
-     *
-     * @var string
-     */
-    private const COMPONENT_PREFIX = 'epb_component_';
-
     /**
      * Token lookup table: token-name => set-name.
      *
@@ -148,9 +142,9 @@ class Tokens_Studio_Importer
             }
 
             $debug_logs[] = 'Saving ' . count($modified) . ' modified values to component: ' . $component;
-            $existing = get_option(self::COMPONENT_PREFIX . $component, []);
+            $existing = get_option(Constants::OPTION_PREFIX . $component, []);
             $merged = array_merge($existing, $modified);
-            update_option(self::COMPONENT_PREFIX . $component, $merged);
+            update_option(Constants::OPTION_PREFIX . $component, $merged);
             $components_updated++;
         }
 
