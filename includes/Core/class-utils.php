@@ -41,12 +41,16 @@ class Utils
         $normalized = preg_replace("/~\\\\?['\"](.+?)\\\\?['\"]/", "~'$1'", $value);
 
         // Normalize spaces around math operators for consistency.
-        // Only match operators that are NOT part of variable names (hyphens in @var-name).
-        // Match: space+operator, operator+space, or between non-word chars and values.
-        // Use negative lookbehind/lookahead to avoid matching hyphens in @variable-names.
+        // Only normalize +, *, / (not minus, which is too ambiguous with variable names).
         $normalized = preg_replace('/\s*([\+\*\/])\s*/', ' $1 ', $normalized);
-        // For minus sign: only normalize if preceded by a space, digit, or closing paren (not part of var name).
-        $normalized = preg_replace('/(?<=[\s\d\)])\s*-\s*/', ' - ', $normalized);
+
+        // For minus sign: only normalize when there's already a space on at least one side,
+        // indicating it's clearly meant as a math operator, not part of a variable name.
+        // This avoids breaking @base-h1-font-size-m into @base-h1 - font-size-m.
+        $normalized = preg_replace('/\s+-\s*/', ' - ', $normalized);  // space before minus
+        $normalized = preg_replace('/\s*-\s+/', ' - ', $normalized);  // space after minus
+
+        // Collapse multiple spaces.
         $normalized = preg_replace('/\s+/', ' ', trim($normalized));
 
         return $normalized;

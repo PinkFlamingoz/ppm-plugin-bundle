@@ -211,7 +211,11 @@ class Less_Compiler
                 // Check for url() - simplified check.
                 $in_url = preg_match('/url\([^)]*$/', $before_comment);
 
-                if (!$in_string && !$in_url) {
+                // Check if // is part of a URL scheme like https:// or http://.
+                // Look for : immediately before the //.
+                $is_url_scheme = $comment_pos > 0 && substr($line, $comment_pos - 1, 1) === ':';
+
+                if (!$in_string && !$in_url && !$is_url_scheme) {
                     // Safe to convert this // comment.
                     $comment_text = substr($line, $comment_pos + 2);
                     $line = substr($line, 0, $comment_pos) . '/*' . $comment_text . ' */';
@@ -219,6 +223,59 @@ class Less_Compiler
             }
 
             $result[] = $line;
+        }
+
+        $less_content = implode("\n", $result);
+
+        // Escape modern CSS pseudo-classes that less.php doesn't support.
+        // Convert :is(...) to ~":is(...)" so Less passes it through as raw CSS.
+        // Also handle :where(), :has() which are also modern CSS selectors.
+        // Use a function to handle nested parentheses properly.
+        $less_content = $this->escape_modern_pseudo_classes($less_content);
+
+        return $less_content;
+    }
+
+    /**
+     * Escape modern CSS pseudo-classes that less.php doesn't support.
+     *
+     * Less.php has issues with :is()/:where()/:has() when they contain both
+     * commas AND nested pseudo-classes like :not(). We work around this by
+     * converting such selectors to use variable interpolation.
+     *
+     * @param string $content The Less content.
+     * @return string The content with escaped pseudo-classes.
+     */
+    private function escape_modern_pseudo_classes(string $content): string
+    {
+        // Match rule sets that have problematic :is()/:where()/:has() selectors.
+        // Pattern: selector with :is/where/has containing comma AND nested pseudo-class.
+        $lines = explode("\n", $content);
+        $result = [];
+        $counter = 0;
+
+        foreach ($lines as $line) {
+            // Check if line has a problematic pattern: :is/where/has with comma AND :not/:where/:has/:is
+            if (preg_match('/:(?:is|where|has)\([^)]*,.*:(?:not|is|where|has)\(/', $line)) {
+                // This line has the problematic pattern.
+                // Find the selector part (before the {) and escape it.
+                if (preg_match('/^([^{]+)\{(.*)$/', $line, $match)) {
+                    $selector = trim($match[1]);
+                    $rest = $match[2];
+
+                    // Generate a unique variable name.
+                    $var_name = '__escaped_selector_' . $counter++;
+
+                    // Create the escaped variable definition and usage.
+                    $result[] = '@' . $var_name . ': ~"' . addslashes($selector) . '";';
+                    $result[] = '@{' . $var_name . '} {' . $rest;
+                } else {
+                    // No { found, just keep the line.
+                    $result[] = $line;
+                }
+            } else {
+                $result[] = $line;
+            }
         }
 
         return implode("\n", $result);
