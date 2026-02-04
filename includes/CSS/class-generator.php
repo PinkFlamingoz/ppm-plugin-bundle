@@ -83,14 +83,19 @@ class Generator
         'heading-small-font-size',
         'heading-small-font-size-m',
         'heading-medium-font-size',
+        'heading-medium-font-size-m',
         'heading-medium-font-size-l',
         'heading-large-font-size',
+        'heading-large-font-size-m',
         'heading-large-font-size-l',
         'heading-xlarge-font-size',
+        'heading-xlarge-font-size-m',
         'heading-xlarge-font-size-l',
         'heading-2xlarge-font-size',
+        'heading-2xlarge-font-size-m',
         'heading-2xlarge-font-size-l',
         'heading-3xlarge-font-size',
+        'heading-3xlarge-font-size-m',
         'heading-3xlarge-font-size-l',
 
         // Text
@@ -107,13 +112,16 @@ class Generator
 
         // Navbar
         'navbar-nav-item-font-size',
+        'navbar-item-font-size',
         'navbar-subtitle-font-size',
+        'navbar-primary-nav-item-font-size',
 
         // Form
         'form-font-size',
         'form-small-font-size',
         'form-large-font-size',
         'form-legend-font-size',
+        'form-label-font-size',
 
         // Accordion
         'accordion-default-title-font-size',
@@ -142,6 +150,7 @@ class Generator
         'countdown-separator-font-size',
 
         // Dropdown
+        'dropdown-nav-font-size',
         'dropdown-nav-subtitle-font-size',
 
         // Modal
@@ -162,19 +171,25 @@ class Generator
         'nav-secondary-subtitle-font-size',
         'nav-secondary-sublist-font-size',
         'nav-medium-font-size',
+        'nav-medium-font-size-m',
         'nav-medium-font-size-l',
         'nav-large-font-size',
+        'nav-large-font-size-m',
         'nav-large-font-size-l',
         'nav-xlarge-font-size',
+        'nav-xlarge-font-size-m',
         'nav-xlarge-font-size-l',
 
         // Navbar dropdown
+        'navbar-dropdown-nav-font-size',
         'navbar-dropdown-nav-subtitle-font-size',
 
         // Notification
         'notification-message-font-size',
 
         // Search
+        'search-default-font-size',
+        'search-navbar-font-size',
         'search-medium-font-size',
         'search-large-font-size',
 
@@ -185,6 +200,25 @@ class Generator
 
         // Tooltip
         'tooltip-font-size',
+
+        // Description List
+        'description-list-term-font-size',
+        'description-list-description-font-size',
+
+        // Iconnav
+        'iconnav-item-font-size',
+
+        // Leader
+        'leader-font-size',
+
+        // Pagination
+        'pagination-item-font-size',
+
+        // Subnav
+        'subnav-item-font-size',
+
+        // Tab
+        'tab-item-font-size',
 
         // Utility
         'dropcap-font-size',
@@ -711,6 +745,14 @@ h6, .uk-h6 {
     font-size: var(--uk-navbar-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
+.uk-navbar-item {
+    font-size: var(--uk-navbar-item-font-size, var(--uk-global-font-size, 1rem));
+}
+
+.uk-navbar-primary .uk-navbar-nav > li > a {
+    font-size: var(--uk-navbar-primary-nav-item-font-size, var(--uk-global-font-size, 1rem));
+}
+
 /* ==========================================================================
    Forms
    ========================================================================== */
@@ -731,6 +773,10 @@ h6, .uk-h6 {
 
 .uk-legend {
     font-size: var(--uk-form-legend-font-size, var(--uk-global-large-font-size, 1.5rem));
+}
+
+.uk-form-label {
+    font-size: var(--uk-form-label-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
 
 /* ==========================================================================
@@ -812,6 +858,10 @@ h6, .uk-h6 {
 /* ==========================================================================
    Dropdown
    ========================================================================== */
+
+.uk-dropdown-nav > li > a {
+    font-size: var(--uk-dropdown-nav-font-size, var(--uk-global-font-size, 1rem));
+}
 
 .uk-dropdown-nav .uk-nav-subtitle {
     font-size: var(--uk-dropdown-nav-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
@@ -908,6 +958,10 @@ h6, .uk-h6 {
    Navbar Dropdown
    ========================================================================== */
 
+.uk-navbar-dropdown-nav > li > a {
+    font-size: var(--uk-navbar-dropdown-nav-font-size, var(--uk-global-font-size, 1rem));
+}
+
 .uk-navbar-dropdown-nav .uk-nav-subtitle {
     font-size: var(--uk-navbar-dropdown-nav-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
 }
@@ -923,6 +977,14 @@ h6, .uk-h6 {
 /* ==========================================================================
    Search
    ========================================================================== */
+
+.uk-search-default .uk-search-input {
+    font-size: var(--uk-search-default-font-size, var(--uk-global-font-size, 1rem));
+}
+
+.uk-search-navbar .uk-search-input {
+    font-size: var(--uk-search-navbar-font-size, var(--uk-global-large-font-size, 1.5rem));
+}
 
 .uk-search-medium .uk-search-input {
     font-size: var(--uk-search-medium-font-size, var(--uk-global-large-font-size, 1.5rem));
@@ -966,6 +1028,59 @@ h6, .uk-h6 {
 
 .uk-logo {
     font-size: var(--uk-logo-font-size, var(--uk-global-large-font-size, 1.5rem));
+}
+
+/* ==========================================================================
+   Description List
+   ========================================================================== */
+
+.uk-description-list > dt {
+    font-size: var(--uk-description-list-term-font-size, var(--uk-global-font-size, 1rem));
+}
+
+.uk-description-list > dd {
+    font-size: var(--uk-description-list-description-font-size, var(--uk-global-font-size, 1rem));
+}
+
+/* ==========================================================================
+   Iconnav
+   ========================================================================== */
+
+.uk-iconnav > * > a {
+    font-size: var(--uk-iconnav-item-font-size, var(--uk-global-font-size, 1rem));
+}
+
+/* ==========================================================================
+   Leader
+   ========================================================================== */
+
+.uk-leader {
+    font-size: var(--uk-leader-font-size, var(--uk-global-font-size, 1rem));
+}
+
+/* ==========================================================================
+   Pagination
+   ========================================================================== */
+
+.uk-pagination > * > * {
+    font-size: var(--uk-pagination-item-font-size, var(--uk-global-font-size, 1rem));
+}
+
+/* ==========================================================================
+   Subnav
+   ========================================================================== */
+
+.uk-subnav > * > a,
+.uk-subnav > * > span {
+    font-size: var(--uk-subnav-item-font-size, var(--uk-global-font-size, 1rem));
+}
+
+/* ==========================================================================
+   Tab
+   ========================================================================== */
+
+.uk-tab > * > a {
+    font-size: var(--uk-tab-item-font-size, var(--uk-global-font-size, 1rem));
 }
 
 /* ==========================================================================
