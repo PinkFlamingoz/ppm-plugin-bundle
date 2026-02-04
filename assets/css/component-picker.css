@@ -109,6 +109,10 @@
     height: 20px;
 }
 
+.category-label-text {
+    flex: 1;
+}
+
 .menu-header .total-vars {
     font-size: 11px;
     color: var(--muted-color);
@@ -227,10 +231,23 @@
     color: var(--muted-color);
 }
 
+/* Category modified indicator */
+.menu-category.has-modified .category-label {
+    color: var(--primary-color);
+}
+
+.category-label .category-modified-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(234, 86, 35, 0.5);
+}
+
 .component-list {
     list-style: none;
     margin: 0;
-    padding: 0 10px;
     overflow: hidden;
     max-height: 1000px;
     transition: max-height 0.3s ease, opacity 0.2s ease;
@@ -254,7 +271,6 @@
     padding: 8px 12px;
     color: var(--color-text);
     text-decoration: none;
-    border-radius: 6px;
     transition: all 0.15s ease;
     font-size: 13px;
 }
@@ -530,7 +546,6 @@
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 15px;
     padding: 16px;
-    max-height: 2000px;
     overflow: hidden;
     transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
 }
@@ -628,8 +643,7 @@
 }
 
 .ppm-field input[type="text"],
-.ppm-field input[type="number"],
-.ppm-field select {
+.ppm-field input[type="number"] {
     flex: 1;
     padding: 8px 10px;
     border: 1px solid var(--table-border);
@@ -640,8 +654,7 @@
     min-width: 0;
 }
 
-.ppm-field input:focus,
-.ppm-field select:focus {
+.ppm-field input:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 1px var(--primary-color);
@@ -661,11 +674,6 @@
 .ppm-field .color-input {
     font-family: monospace;
     text-transform: uppercase;
-}
-
-.ppm-field .unit-select {
-    width: 70px;
-    flex: none;
 }
 
 .ppm-field .resolved-value {

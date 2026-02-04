@@ -330,7 +330,7 @@ class Dynamic_Renderer
     }
 
     /**
-     * Render a font-weight field with select dropdown.
+     * Render a font-weight field with text input and datalist suggestions.
      *
      * Supports both numeric (100-900) and keyword (normal, bold, etc.) values.
      *
@@ -348,12 +348,8 @@ class Dynamic_Renderer
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
 
-        // Font-weight options: keywords and numeric values.
+        // Font-weight options for datalist suggestions.
         $weights = [
-            'normal'  => __('Normal (400)', 'enhanced-plugin-bundle'),
-            'bold'    => __('Bold (700)', 'enhanced-plugin-bundle'),
-            'bolder'  => __('Bolder', 'enhanced-plugin-bundle'),
-            'lighter' => __('Lighter', 'enhanced-plugin-bundle'),
             '100'     => '100 - Thin',
             '200'     => '200 - Extra Light',
             '300'     => '300 - Light',
@@ -363,10 +359,14 @@ class Dynamic_Renderer
             '700'     => '700 - Bold',
             '800'     => '800 - Extra Bold',
             '900'     => '900 - Black',
-            'inherit' => __('Inherit', 'enhanced-plugin-bundle'),
+            'normal'  => 'Normal',
+            'bold'    => 'Bold',
+            'bolder'  => 'Bolder (relative)',
+            'lighter' => 'Lighter (relative)',
+            'inherit' => 'Inherit',
         ];
     ?>
-        <div class="ppm-field ppm-field-select<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="ppm-field ppm-field-weight<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">
@@ -375,16 +375,20 @@ class Dynamic_Renderer
                 <span class="variable-name">@<?php echo esc_html($name); ?></span>
             </label>
             <div class="field-inputs">
-                <select
+                <input type="text"
                     id="var-<?php echo esc_attr($name); ?>"
                     name="component_vars[<?php echo esc_attr($name); ?>]"
-                    class="select-input">
+                    class="weight-input"
+                    value="<?php echo esc_attr($value); ?>"
+                    placeholder="<?php echo esc_attr($original_value); ?>"
+                    list="weight-list-<?php echo esc_attr($name); ?>">
+                <datalist id="weight-list-<?php echo esc_attr($name); ?>">
                     <?php foreach ($weights as $weight_value => $weight_label) : ?>
-                        <option value="<?php echo esc_attr($weight_value); ?>" <?php selected($value, $weight_value); ?>>
+                        <option value="<?php echo esc_attr($weight_value); ?>">
                             <?php echo esc_html($weight_label); ?>
                         </option>
                     <?php endforeach; ?>
-                </select>
+                </datalist>
                 <span class="resolved-value<?php echo $show_resolved ? '' : ' hidden'; ?>" title="<?php esc_attr_e('Resolved value', 'enhanced-plugin-bundle'); ?>">
                     → <?php echo esc_html($resolved); ?>
                 </span>

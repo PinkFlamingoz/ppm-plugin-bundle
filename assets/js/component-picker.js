@@ -167,7 +167,7 @@
             });
 
             // Field change - update preview and modified state.
-            $(document).on('change input', '.ppm-field input, .ppm-field select', function() {
+            $(document).on('change input', '.ppm-field input', function() {
                 self.updatePreview();
                 self.updateFieldModifiedState($(this).closest('.ppm-field'));
                 self.markComponentDirty();
@@ -417,7 +417,7 @@
 
             // Collect form values.
             const values = {};
-            this.$fields.find('input, select').each(function() {
+            this.$fields.find('input').each(function() {
                 const name = $(this).attr('name');
                 if (name && name.startsWith('component_vars[')) {
                     const key = name.match(/\[([^\]]+)\]/)[1];
@@ -475,6 +475,15 @@
                 success(response) {
                     if (response.success) {
                         self.showToast(response.data.message, 'success');
+                        
+                        // Update the component's modified indicator in the menu.
+                        const $componentLink = $(`.component-link[data-component="${self.currentComponent}"]`);
+                        $componentLink.removeClass('has-modified');
+                        $componentLink.find('.component-modified-dot').remove();
+                        
+                        // Update category modified indicator if no other components in the category are modified.
+                        self.updateCategoryModifiedState($componentLink.closest('.menu-category'));
+                        
                         // Reload component to show defaults.
                         self.currentComponent = null;
                         self.loadComponent($('#current-component').val());
@@ -489,37 +498,69 @@
         },
 
         /**
-         * Reset a single field to its default value.
+         * Reset a single field to its default value via AJAX.
          *
          * @param {jQuery} $button - Reset button element.
          */
         resetField($button) {
-            // Use attr() instead of data() to get the raw string value,
-            // avoiding jQuery's automatic type conversion.
-            const defaultValue = $button.attr('data-default');
+            const self = this;
             const $field = $button.closest('.ppm-field');
-            const $input = $field.find('input[type="text"], input[type="number"], select').first();
+            const variable = $field.attr('data-variable');
+            const $input = $field.find('input[type="text"], input[type="number"]').first();
 
-            if ($input.length) {
-                const $picker = $field.find('.color-picker');
-                // Use attr() for data-resolved too.
-                const resolved = $field.attr('data-resolved');
-
-                // Set the text input to the original default (could be @reference or #hex).
-                $input.val(defaultValue);
-
-                // For color fields, update the picker with the resolved hex.
-                if ($picker.length && resolved) {
-                    $picker.val(resolved);
-                } else if ($picker.length && /^#[0-9A-Fa-f]{6}$/i.test(defaultValue)) {
-                    $picker.val(defaultValue);
-                }
-
-                // Remove modified state since we're back to default.
-                $field.removeClass('field-modified').removeClass('inheritance-broken');
-
-                $input.trigger('change');
+            if (!this.currentComponent || !variable) {
+                return;
             }
+
+            // Disable the button during the request.
+            $button.prop('disabled', true);
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_reset_field',
+                    component: this.currentComponent,
+                    variable: variable,
+                    nonce: this.config.nonce
+                },
+                success(response) {
+                    $button.prop('disabled', false);
+
+                    if (response.success) {
+                        const defaultValue = response.data.default;
+                        const resolved = response.data.resolved;
+                        const $picker = $field.find('.color-picker');
+
+                        // Set the input to the original default value.
+                        $input.val(defaultValue);
+
+                        // For color fields, update the picker with the resolved hex.
+                        if ($picker.length && resolved) {
+                            $picker.val(resolved);
+                        } else if ($picker.length && /^#[0-9A-Fa-f]{6}$/i.test(defaultValue)) {
+                            $picker.val(defaultValue);
+                        }
+
+                        // Update data attributes with fresh values from backend.
+                        $field.attr('data-default', defaultValue);
+                        $field.attr('data-resolved', resolved);
+
+                        // Remove modified state since we're back to default.
+                        $field.removeClass('field-modified').removeClass('inheritance-broken');
+
+                        $input.trigger('change');
+
+                        self.showToast(response.data.message, 'success');
+                    } else {
+                        self.showToast(response.data?.message || self.config.strings.error, 'error');
+                    }
+                },
+                error() {
+                    $button.prop('disabled', false);
+                    self.showToast(self.config.strings.error, 'error');
+                }
+            });
         },
 
         /**
@@ -577,7 +618,7 @@
             // Use attr() instead of data() to avoid jQuery's auto type conversion.
             const defaultValue = $field.attr('data-default');
             const resolved = $field.attr('data-resolved');
-            const $input = $field.find('input[type="text"], input[type="number"], select').first();
+            const $input = $field.find('input[type="text"], input[type="number"]').first();
             const isColorField = $field.hasClass('ppm-field-color');
 
             // Check if value contains Less functions like darken(), lighten(), etc.
@@ -644,7 +685,7 @@
 
             this.$fields.find('.ppm-field').each(function() {
                 const $field = $(this);
-                const $input = $field.find('input[type="text"], input[type="number"], select').first();
+                const $input = $field.find('input[type="text"], input[type="number"]').first();
                 
                 if ($input.length) {
                     const name = $input.attr('name');
@@ -843,7 +884,8 @@
                         self.showToast(response.data.message, 'success');
                         // Remove all modified indicators from menu.
                         $('.component-link').removeClass('has-modified');
-                        $('.modified-dot').remove();
+                        $('.menu-category').removeClass('has-modified');
+                        $('.modified-dot, .component-modified-dot, .category-modified-dot').remove();
                         // Reload current component to show defaults.
                         if (self.currentComponent) {
                             self.currentComponent = null;
@@ -1264,6 +1306,35 @@
                     self.showToast(self.config.strings.error, 'error');
                 }
             });
+        },
+
+        /**
+         * Update category modified state based on its components.
+         * Removes the has-modified class and dot if no components in the category are modified.
+         *
+         * @param {jQuery} $category - The menu-category element to check.
+         */
+        updateCategoryModifiedState($category) {
+            if (!$category.length) return;
+            
+            // Check if any component links in this category still have the has-modified class.
+            const hasModifiedComponents = $category.find('.component-link.has-modified').length > 0;
+            
+            if (hasModifiedComponents) {
+                // Ensure category has the modified class.
+                if (!$category.hasClass('has-modified')) {
+                    $category.addClass('has-modified');
+                    // Add the dot if it doesn't exist.
+                    if (!$category.find('.category-modified-dot').length) {
+                        const $categoryCount = $category.find('.category-count');
+                        $('<span class="category-modified-dot" title="Contains modified components"></span>').insertBefore($categoryCount);
+                    }
+                }
+            } else {
+                // No modified components, remove category modified state.
+                $category.removeClass('has-modified');
+                $category.find('.category-modified-dot').remove();
+            }
         },
 
         /**

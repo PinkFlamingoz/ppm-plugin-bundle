@@ -112,6 +112,62 @@ class Component_Saver
     }
 
     /**
+     * Reset a single field to its default value.
+     *
+     * @return void
+     */
+    public static function reset_field(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $component = sanitize_key($_POST['component'] ?? '');
+        $variable  = sanitize_key($_POST['variable'] ?? '');
+
+        if (empty($component) || empty($variable)) {
+            wp_send_json_error(['message' => __('Missing component or variable.', 'enhanced-plugin-bundle')]);
+            return;
+        }
+
+        if (!Component_Registry::has_component($component)) {
+            wp_send_json_error(['message' => __('Invalid component.', 'enhanced-plugin-bundle')]);
+            return;
+        }
+
+        // Get the original default value from the Less parser.
+        $variables = Less_Parser::parse_component($component);
+        if (!isset($variables[$variable])) {
+            wp_send_json_error(['message' => __('Variable not found.', 'enhanced-plugin-bundle')]);
+            return;
+        }
+
+        $meta = $variables[$variable];
+        $default_value = $meta['value'];
+        $resolved_value = $meta['resolved'] ?? $default_value;
+
+        // Remove this variable from saved options.
+        $saved = get_option(Constants::OPTION_PREFIX . $component, []);
+        if (isset($saved[$variable])) {
+            unset($saved[$variable]);
+            if (empty($saved)) {
+                delete_option(Constants::OPTION_PREFIX . $component);
+            } else {
+                update_option(Constants::OPTION_PREFIX . $component, $saved);
+            }
+        }
+
+        // Regenerate CSS.
+        Component_Handler::regenerate_css();
+
+        wp_send_json_success([
+            'message'  => __('Field reset to default.', 'enhanced-plugin-bundle'),
+            'default'  => $default_value,
+            'resolved' => $resolved_value,
+        ]);
+    }
+
+    /**
      * Reset all component customizations.
      *
      * @return void
@@ -162,11 +218,22 @@ class Component_Saver
                 continue;
             }
 
-            $original = $variables[$key]['value'];
+            $meta = $variables[$key];
+            $original = $meta['value'];
+            $resolved = $meta['resolved'] ?? $original;
 
             // Normalize Less escape syntax for comparison.
             $normalized_value = Utils::normalize_less_escape($value);
             $normalized_original = Utils::normalize_less_escape($original);
+
+            // For select-type fields (font-weight) where the original is a Less reference,
+            // also check if the value matches the resolved value.
+            // If it does, it's not actually modified - user just selected the default.
+            $original_is_reference = (strpos($original, '@') === 0);
+            if ($original_is_reference && $normalized_value === $resolved) {
+                // Value matches the resolved default, skip it (not modified).
+                continue;
+            }
 
             // Compare values - only keep if different from original.
             if ($normalized_value !== $normalized_original) {

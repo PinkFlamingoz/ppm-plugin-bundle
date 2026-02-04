@@ -50,6 +50,7 @@ class Component_Handler
         // Saving/resetting operations - delegated to Component_Saver.
         add_action('wp_ajax_epb_save_component', [Component_Saver::class, 'save_component']);
         add_action('wp_ajax_epb_reset_component', [Component_Saver::class, 'reset_component']);
+        add_action('wp_ajax_epb_reset_field', [Component_Saver::class, 'reset_field']);
         add_action('wp_ajax_epb_reset_all_components', [Component_Saver::class, 'reset_all_components']);
 
         // Export operations - delegated to Component_Exporter.
@@ -130,11 +131,21 @@ class Component_Handler
                     if (!isset($variables[$key])) {
                         continue;
                     }
-                    $original = $variables[$key]['value'];
+                    $meta = $variables[$key];
+                    $original = $meta['value'];
+                    $resolved = $meta['resolved'] ?? $original;
 
                     // Normalize and compare.
                     $normalized_saved = Utils::normalize_less_escape($value);
                     $normalized_original = Utils::normalize_less_escape($original);
+
+                    // For select-type fields where the original is a Less reference,
+                    // check if the saved value matches the resolved value (not modified).
+                    $original_is_reference = (strpos($original, '@') === 0);
+                    if ($original_is_reference && $normalized_saved === $resolved) {
+                        // Value matches the resolved default, not modified.
+                        continue;
+                    }
 
                     if ($normalized_saved !== $normalized_original) {
                         $actual_modified++;

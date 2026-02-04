@@ -84,11 +84,24 @@ $child_theme_active = ThemesManager::is_child_theme_active();
         <nav class="menu-categories">
             <?php foreach ($categories as $cat_key => $cat_data) : ?>
                 <?php if (!empty($cat_data['components'])) : ?>
-                    <div class="menu-category collapsed" data-category="<?php echo esc_attr($cat_key); ?>">
+                    <?php
+                    // Check if any component in this category has modifications.
+                    $category_has_modified = false;
+                    foreach ($cat_data['components'] as $comp_key => $comp_data) {
+                        if (!empty($modified_components[$comp_key])) {
+                            $category_has_modified = true;
+                            break;
+                        }
+                    }
+                    ?>
+                    <div class="menu-category collapsed<?php echo $category_has_modified ? ' has-modified' : ''; ?>" data-category="<?php echo esc_attr($cat_key); ?>">
                         <h4 class="category-label">
                             <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
                             <span class="dashicons dashicons-<?php echo esc_attr($cat_data['icon']); ?>"></span>
-                            <?php echo esc_html($cat_data['label']); ?>
+                            <span class="category-label-text"><?php echo esc_html($cat_data['label']); ?></span>
+                            <?php if ($category_has_modified) : ?>
+                                <span class="category-modified-dot" title="<?php esc_attr_e('Contains modified components', 'enhanced-plugin-bundle'); ?>"></span>
+                            <?php endif; ?>
                             <span class="category-count"><?php echo count($cat_data['components']); ?></span>
                         </h4>
                         <ul class="component-list">
