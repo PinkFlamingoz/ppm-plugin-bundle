@@ -41,6 +41,7 @@ class Handler
 
         // Child theme operations.
         add_action('wp_ajax_epb_create_child_theme', [Child_Theme_Actions::class, 'create']);
+        add_action('wp_ajax_epb_regenerate_child_styles', [Child_Theme_Actions::class, 'regenerate_styles']);
 
         // Component-based theming operations.
         Component_Handler::register();

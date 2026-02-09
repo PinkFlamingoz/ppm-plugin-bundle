@@ -59,6 +59,9 @@ class Component_Handler
 
         // Import operations - delegated to Component_Importer.
         add_action('wp_ajax_epb_import_components', [Component_Importer::class, 'import_components']);
+
+        // Resolve variable references.
+        add_action('wp_ajax_epb_resolve_variable', [self::class, 'resolve_variable']);
     }
 
     /**
@@ -76,6 +79,34 @@ class Component_Handler
 
         // Optionally trigger child theme CSS regeneration.
         do_action('epb_component_settings_updated');
+    }
+
+    /**
+     * Resolve a Less variable reference via AJAX.
+     *
+     * Accepts a value like '@global-color' and returns its resolved value.
+     *
+     * @return void
+     */
+    public static function resolve_variable(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $value = sanitize_text_field($_POST['value'] ?? '');
+
+        if (empty($value)) {
+            wp_send_json_error(['message' => __('No value specified.', 'enhanced-plugin-bundle')]);
+            return;
+        }
+
+        $resolved = Less_Parser::resolve_value($value);
+
+        wp_send_json_success([
+            'original' => $value,
+            'resolved' => $resolved,
+        ]);
     }
 
     /**
@@ -134,23 +165,7 @@ class Component_Handler
                     if (!isset($variables[$key])) {
                         continue;
                     }
-                    $meta = $variables[$key];
-                    $original = $meta['value'];
-                    $resolved = $meta['resolved'] ?? $original;
-
-                    // Normalize and compare.
-                    $normalized_saved = Utils::normalize_less_escape($value);
-                    $normalized_original = Utils::normalize_less_escape($original);
-
-                    // For select-type fields where the original is a Less reference,
-                    // check if the saved value matches the resolved value (not modified).
-                    $original_is_reference = (strpos($original, '@') === 0);
-                    if ($original_is_reference && $normalized_saved === $resolved) {
-                        // Value matches the resolved default, not modified.
-                        continue;
-                    }
-
-                    if ($normalized_saved !== $normalized_original) {
+                    if (Utils::is_value_modified($value, $variables[$key])) {
                         $actual_modified++;
                     }
                 }

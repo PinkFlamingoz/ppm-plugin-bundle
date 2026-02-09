@@ -62,7 +62,7 @@
 .menu-header {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 12px 15px;
     border-bottom: 1px solid var(--table-border);
@@ -107,6 +107,10 @@
     font-size: 20px;
     width: 20px;
     height: 20px;
+}
+
+.ppm-button-icon .spinner {
+    margin: 0;
 }
 
 .category-label-text {
@@ -352,7 +356,7 @@
     box-shadow: 0 0 4px rgba(70, 180, 80, 0.5);
 }
 
-#create-child-theme {
+#setup-child-theme {
     position: relative;
 }
 

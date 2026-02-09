@@ -52,11 +52,14 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                 <button type="button" id="import-components" class="ppm-button-icon" title="<?php esc_attr_e('Import (JSON)', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-upload"></span>
                 </button>
-                <button type="button" id="create-child-theme" class="ppm-button-icon" title="<?php esc_attr_e('Create or update child theme', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="setup-child-theme" class="ppm-button-icon" title="<?php esc_attr_e('Create or update child theme structure (functions.php, config.php)', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-admin-appearance"></span>
                     <?php if ($child_theme_exists) : ?>
                         <span class="child-theme-status-dot <?php echo $child_theme_active ? 'active' : 'exists'; ?>"></span>
                     <?php endif; ?>
+                </button>
+                <button type="button" id="regenerate-child-styles" class="ppm-button-icon" title="<?php esc_attr_e('Regenerate child theme CSS and Less styles', 'enhanced-plugin-bundle'); ?>" <?php echo !$child_theme_exists ? ' disabled' : ''; ?>>
+                    <span class="dashicons dashicons-art"></span>
                 </button>
             </div>
             <span class="total-vars"><?php printf(esc_html__('%d variables', 'enhanced-plugin-bundle'), $total_vars); ?></span>

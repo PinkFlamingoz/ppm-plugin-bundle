@@ -434,7 +434,7 @@ class Less_Parser
      * @param int    $max_depth Maximum recursion depth to prevent infinite loops (default 10).
      * @return string Resolved value or original if not resolvable.
      */
-    private static function resolve_value(string $value, int $depth = 0, int $max_depth = 10): string
+    public static function resolve_value(string $value, int $depth = 0, int $max_depth = 10): string
     {
         // Prevent infinite recursion from circular references.
         if ($depth >= $max_depth) {

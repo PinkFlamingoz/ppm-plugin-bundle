@@ -75,6 +75,8 @@ class Component_Saver
                 __('%s settings saved successfully.', 'enhanced-plugin-bundle'),
                 Component_Registry::get_component($component)['label'] ?? $component
             ),
+            'modified_count'     => count($modified),
+            'modified_variables' => array_keys($modified),
         ]);
     }
 
@@ -161,9 +163,11 @@ class Component_Saver
         Component_Handler::regenerate_css();
 
         wp_send_json_success([
-            'message'  => __('Field reset to default.', 'enhanced-plugin-bundle'),
-            'default'  => $default_value,
-            'resolved' => $resolved_value,
+            'message'            => __('Field reset to default.', 'enhanced-plugin-bundle'),
+            'default'            => $default_value,
+            'resolved'           => $resolved_value,
+            'modified_count'     => count($saved),
+            'modified_variables' => array_keys($saved),
         ]);
     }
 
@@ -218,27 +222,9 @@ class Component_Saver
                 continue;
             }
 
-            $meta = $variables[$key];
-            $original = $meta['value'];
-            $resolved = $meta['resolved'] ?? $original;
-
-            // Normalize Less escape syntax for comparison.
-            $normalized_value = Utils::normalize_less_escape($value);
-            $normalized_original = Utils::normalize_less_escape($original);
-
-            // For select-type fields (font-weight) where the original is a Less reference,
-            // also check if the value matches the resolved value.
-            // If it does, it's not actually modified - user just selected the default.
-            $original_is_reference = (strpos($original, '@') === 0);
-            if ($original_is_reference && $normalized_value === $resolved) {
-                // Value matches the resolved default, skip it (not modified).
-                continue;
-            }
-
-            // Compare values - only keep if different from original.
-            if ($normalized_value !== $normalized_original) {
+            if (Utils::is_value_modified($value, $variables[$key])) {
                 // Store the normalized value to avoid escaped quote issues.
-                $modified[$key] = $normalized_value;
+                $modified[$key] = Utils::normalize_less_escape($value);
             }
         }
 

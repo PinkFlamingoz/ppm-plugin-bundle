@@ -49,8 +49,8 @@ class Child_Theme_Actions
         // Capture output to prevent it from breaking JSON response.
         ob_start();
 
-        // Create and activate child theme.
-        Child_Theme::create_and_activate(false);
+        // Create and activate child theme (structure files + styles).
+        Child_Theme::create_and_activate(true);
 
         ob_get_clean();
 
@@ -71,5 +71,34 @@ class Child_Theme_Actions
                 'message' => __('Failed to create child theme.', 'enhanced-plugin-bundle'),
             ]);
         }
+    }
+
+    /**
+     * Regenerate only the child theme's CSS and Less style files.
+     *
+     * @return void
+     */
+    public static function regenerate_styles(): void
+    {
+        if (!Handler::verify_request('epb_component_nonce')) {
+            return;
+        }
+
+        $child_dir = Child_Theme::get_child_theme_dir();
+
+        if (!file_exists($child_dir)) {
+            wp_send_json_error([
+                'message' => __('Child theme does not exist. Create it first.', 'enhanced-plugin-bundle'),
+            ]);
+            return;
+        }
+
+        ob_start();
+        Child_Theme::regenerate_custom_css();
+        ob_get_clean();
+
+        wp_send_json_success([
+            'message' => __('Child theme styles regenerated successfully.', 'enhanced-plugin-bundle'),
+        ]);
     }
 }

@@ -55,4 +55,75 @@ class Utils
 
         return $normalized;
     }
+
+    /**
+     * Convert a color value to a normalized 6-character hex string.
+     *
+     * Expands shorthand hex (#fff → #ffffff), converts rgb()/rgba(), falls back to #000000.
+     *
+     * @param string $value Color value.
+     * @return string Hex color string.
+     */
+    public static function to_hex_color(string $value): string
+    {
+        // Already hex.
+        if (preg_match('/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/', $value)) {
+            // Expand 3-char hex to 6-char.
+            if (strlen($value) === 4) {
+                return '#' . $value[1] . $value[1] . $value[2] . $value[2] . $value[3] . $value[3];
+            }
+            return strtolower($value);
+        }
+
+        // RGB/RGBA - try to extract.
+        if (preg_match('/rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/', $value, $matches)) {
+            return sprintf('#%02x%02x%02x', (int) $matches[1], (int) $matches[2], (int) $matches[3]);
+        }
+
+        // Fallback.
+        return '#000000';
+    }
+
+    /**
+     * Determine if a variable value is modified compared to its original/default.
+     *
+     * Centralised comparison used by the sidebar indicators, group heading badges
+     * and the save filter so they all behave identically.
+     *
+     * @param string $saved_value    The value to test (user-saved or current).
+     * @param array  $meta           Variable metadata from Less_Parser (value, resolved, type).
+     * @return bool True when the value should be considered "modified".
+     */
+    public static function is_value_modified(string $saved_value, array $meta): bool
+    {
+        $original = $meta['value'];
+        $resolved = $meta['resolved'] ?? $original;
+
+        // Normalize Less escape syntax for both values.
+        $normalized_saved    = self::normalize_less_escape($saved_value);
+        $normalized_original = self::normalize_less_escape($original);
+
+        // Identical after normalisation ⇒ not modified.
+        if ($normalized_saved === $normalized_original) {
+            return false;
+        }
+
+        // For fields whose original is a Less reference (@something), also check
+        // whether the saved value matches the resolved value (e.g. user chose the
+        // same weight from a select that the reference resolved to).
+        $original_is_reference = (strpos($original, '@') === 0);
+        if ($original_is_reference && $normalized_saved === $resolved) {
+            return false;
+        }
+
+        // For color fields, compare normalised hex values so #fff === #ffffff.
+        if (($meta['type'] ?? '') === 'color') {
+            $resolved_hex = self::to_hex_color($resolved);
+            $saved_hex    = self::to_hex_color($saved_value);
+            return $saved_hex !== $resolved_hex;
+        }
+
+        // All other types: already know strings differ → modified.
+        return true;
+    }
 }

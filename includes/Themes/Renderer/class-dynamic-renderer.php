@@ -56,27 +56,9 @@ class Dynamic_Renderer
             $modified_labels = [];
             foreach ($vars as $name => $meta) {
                 $saved_value = $saved_values[$name] ?? null;
-                if ($saved_value !== null) {
-                    // Normalize Less escape syntax for comparison.
-                    $normalized_saved = Utils::normalize_less_escape($saved_value);
-                    $normalized_original = Utils::normalize_less_escape($meta['value']);
-
-                    if ($normalized_saved !== $normalized_original) {
-                        // For color fields, compare resolved hex values.
-                        if ($meta['type'] === 'color') {
-                            $resolved = $meta['resolved'] ?? $meta['value'];
-                            $resolved_hex = self::to_hex_color($resolved);
-                            $saved_hex = self::to_hex_color($saved_value);
-                            if ($saved_hex !== $resolved_hex) {
-                                $modified_vars[] = '@' . $name;
-                                $modified_labels[] = $meta['label'];
-                            }
-                        } else {
-                            // For non-color fields, any saved value different from original is modified.
-                            $modified_vars[] = '@' . $name;
-                            $modified_labels[] = $meta['label'];
-                        }
-                    }
+                if ($saved_value !== null && Utils::is_value_modified($saved_value, $meta)) {
+                    $modified_vars[]   = '@' . $name;
+                    $modified_labels[] = $meta['label'];
                 }
             }
             $modified_count = count($modified_vars);
@@ -655,26 +637,13 @@ class Dynamic_Renderer
     /**
      * Convert a color value to hex format for color picker.
      *
+     * Delegates to the shared Utils::to_hex_color() method.
+     *
      * @param string $value Color value.
      * @return string Hex color or #000000 as fallback.
      */
     private static function to_hex_color(string $value): string
     {
-        // Already hex.
-        if (preg_match('/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/', $value)) {
-            // Expand 3-char hex to 6-char.
-            if (strlen($value) === 4) {
-                return '#' . $value[1] . $value[1] . $value[2] . $value[2] . $value[3] . $value[3];
-            }
-            return $value;
-        }
-
-        // RGB/RGBA - try to extract.
-        if (preg_match('/rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/', $value, $matches)) {
-            return sprintf('#%02x%02x%02x', (int) $matches[1], (int) $matches[2], (int) $matches[3]);
-        }
-
-        // Fallback.
-        return '#000000';
+        return Utils::to_hex_color($value);
     }
 }

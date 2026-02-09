@@ -33,6 +33,12 @@
         pendingChanges: {},
 
         /**
+         * Timer for debounced variable resolution.
+         * @type {number|null}
+         */
+        resolveTimer: null,
+
+        /**
          * Configuration from PHP.
          * @type {Object}
          */
@@ -171,6 +177,16 @@
                 self.updatePreview();
                 self.updateFieldModifiedState($(this).closest('.ppm-field'));
                 self.markComponentDirty();
+
+                // Live-resolve typed variable references (debounced).
+                const $field = $(this).closest('.ppm-field');
+                const val = $(this).val().trim();
+                if (val.startsWith('@') && val.length > 1) {
+                    clearTimeout(self.resolveTimer);
+                    self.resolveTimer = setTimeout(() => {
+                        self.resolveVariable($field, val);
+                    }, 400);
+                }
             });
 
             // Export all.
@@ -238,9 +254,14 @@
                 self.saveAllComponents();
             });
 
-            // Child theme: create or update.
-            $(document).on('click', '#create-child-theme', function() {
-                self.createChildTheme();
+            // Child theme: create/update structure.
+            $(document).on('click', '#setup-child-theme', function() {
+                self.setupChildTheme();
+            });
+
+            // Child theme: regenerate CSS/Less only.
+            $(document).on('click', '#regenerate-child-styles', function() {
+                self.regenerateChildStyles();
             });
 
             // Preview tab switching.
@@ -439,6 +460,15 @@
 
                     if (response.success) {
                         self.showToast(response.data.message, 'success');
+
+                        // Apply server-authoritative modified state to all indicators.
+                        self.applyServerModifiedState(
+                            response.data.modified_variables || [],
+                            response.data.modified_count || 0
+                        );
+
+                        // Clear pending changes for this component.
+                        delete self.pendingChanges[self.currentComponent];
                     } else {
                         self.showToast(response.data?.message || self.config.strings.error, 'error');
                     }
@@ -548,6 +578,12 @@
 
                         // Remove modified state since we're back to default.
                         $field.removeClass('field-modified').removeClass('inheritance-broken');
+
+                        // Apply server-authoritative modified state to all indicators.
+                        self.applyServerModifiedState(
+                            response.data.modified_variables || [],
+                            response.data.modified_count || 0
+                        );
 
                         $input.trigger('change');
 
@@ -671,6 +707,55 @@
             
             // Store the current form values as pending changes.
             this.storePendingChanges();
+        },
+
+        /**
+         * Resolve a typed variable reference via AJAX and update the field's resolved display.
+         *
+         * @param {jQuery} $field - The .ppm-field element.
+         * @param {string} value  - The reference value (e.g. '@global-color').
+         */
+        resolveVariable($field, value) {
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_resolve_variable',
+                    value: value,
+                    nonce: this.config.nonce
+                },
+                success(response) {
+                    if (!response.success) return;
+
+                    const resolved = response.data.resolved;
+                    if (!resolved || resolved === value) return;
+
+                    // Update the data-resolved attribute.
+                    $field.attr('data-resolved', resolved);
+
+                    // Update the resolved value indicator.
+                    const $resolvedSpan = $field.find('.resolved-value');
+                    if ($resolvedSpan.length) {
+                        // Update text and swatch.
+                        const $swatch = $resolvedSpan.find('.resolved-color-swatch');
+                        if ($swatch.length) {
+                            $swatch.css('background-color', resolved);
+                        }
+                        // Update the displayed resolved text (after swatch or arrow).
+                        $resolvedSpan.contents().filter(function() {
+                            return this.nodeType === 3 && this.textContent.trim();
+                        }).last()[0].textContent = resolved;
+                        $resolvedSpan.removeClass('hidden');
+                    }
+
+                    // Update color picker if this is a color field.
+                    if ($field.hasClass('ppm-field-color') && /^#[0-9A-Fa-f]{3,6}$/i.test(resolved)) {
+                        $field.find('.color-picker').val(resolved.length === 4
+                            ? '#' + resolved[1]+resolved[1] + resolved[2]+resolved[2] + resolved[3]+resolved[3]
+                            : resolved);
+                    }
+                }
+            });
         },
 
         /**
@@ -928,6 +1013,8 @@
             let savedCount = 0;
             let errorCount = 0;
             let remaining = componentKeys.length;
+            let lastModifiedVars = null;
+            let lastModifiedCount = 0;
 
             // Save each component with pending changes.
             componentKeys.forEach(function(componentId) {
@@ -947,6 +1034,16 @@
                             savedCount++;
                             // Remove from pending changes.
                             delete self.pendingChanges[componentId];
+                            // Update sidebar dot for this component.
+                            self.updateComponentModifiedState(
+                                componentId,
+                                response.data.modified_count || 0
+                            );
+                            // If this is the currently loaded component, apply full state.
+                            if (componentId === self.currentComponent) {
+                                lastModifiedVars = response.data.modified_variables || [];
+                                lastModifiedCount = response.data.modified_count || 0;
+                            }
                         } else {
                             errorCount++;
                         }
@@ -960,6 +1057,11 @@
                         if (remaining === 0) {
                             $btn.prop('disabled', false).html(originalHtml);
                             
+                            // Update group heading badges for the currently loaded component.
+                            if (lastModifiedVars !== null) {
+                                self.applyServerModifiedState(lastModifiedVars, lastModifiedCount);
+                            }
+
                             if (errorCount === 0) {
                                 self.showToast(
                                     (self.config.strings.savedAllCount || 'Saved %d component(s) successfully.').replace('%d', savedCount),
@@ -978,11 +1080,11 @@
         },
 
         /**
-         * Create or update the child theme.
+         * Create or update the child theme structure (functions.php, config.php, style.css).
          */
-        createChildTheme() {
+        setupChildTheme() {
             const self = this;
-            const $btn = $('#create-child-theme');
+            const $btn = $('#setup-child-theme');
             const originalHtml = $btn.html();
 
             $btn.prop('disabled', true).html('<span class="spinner is-active"></span>');
@@ -1012,13 +1114,46 @@
         },
 
         /**
+         * Regenerate only the child theme's CSS and Less style files.
+         */
+        regenerateChildStyles() {
+            const self = this;
+            const $btn = $('#regenerate-child-styles');
+            const originalHtml = $btn.html();
+
+            $btn.prop('disabled', true).html('<span class="spinner is-active"></span>');
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_regenerate_child_styles',
+                    nonce: this.config.nonce
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                    } else {
+                        self.showToast(response.data.message || 'Failed to regenerate styles.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while regenerating styles.', 'error');
+                },
+                complete() {
+                    $btn.prop('disabled', false).html(originalHtml);
+                }
+            });
+        },
+
+        /**
          * Update the child theme status UI elements.
          *
          * @param {boolean} exists - Whether child theme exists.
          * @param {boolean} active - Whether child theme is active.
          */
         updateChildThemeStatus(exists, active) {
-            const $btn = $('#create-child-theme');
+            const $btn = $('#setup-child-theme');
 
             // Update or add status dot inside button.
             let $dot = $btn.find('.child-theme-status-dot');
@@ -1028,8 +1163,11 @@
                     $btn.append($dot);
                 }
                 $dot.removeClass('exists active').addClass(active ? 'active' : 'exists');
+                // Enable regenerate button now that child theme exists.
+                $('#regenerate-child-styles').prop('disabled', false);
             } else {
                 $dot.remove();
+                $('#regenerate-child-styles').prop('disabled', true);
             }
         },
 
@@ -1307,6 +1445,102 @@
                     self.showToast(self.config.strings.error, 'error');
                 }
             });
+        },
+
+        /**
+         * Apply the server's authoritative list of modified variables to the editor.
+         *
+         * Sets field-modified classes on fields, updates group heading badges,
+         * and updates the sidebar dot + category indicator — all from one
+         * server-provided array so every indicator uses the same comparison logic.
+         *
+         * @param {string[]} modifiedVars  - Variable names the server considers modified.
+         * @param {number}   modifiedCount - Total modified count (for sidebar dot).
+         */
+        applyServerModifiedState(modifiedVars, modifiedCount) {
+            const modifiedSet = new Set(modifiedVars || []);
+
+            // 1. Set field-modified class on each field based on the server list.
+            $('#component-fields .ppm-field').each(function () {
+                const varName = $(this).attr('data-variable');
+                $(this).toggleClass('field-modified', modifiedSet.has(varName));
+            });
+
+            // 2. Update each group heading badge.
+            $('#component-fields .variable-group').each(function () {
+                const $group   = $(this);
+                const $heading = $group.find('.variable-group__heading');
+                const $fields  = $group.find('.ppm-field.field-modified');
+                const count    = $fields.length;
+                let $badge     = $heading.find('.group-modified');
+
+                if (count > 0) {
+                    const labels = [];
+                    const displayLabels = [];
+                    $fields.each(function () {
+                        const vn = $(this).attr('data-variable');
+                        if (vn) labels.push('@' + vn);
+                        const label = $(this).find('label').first().contents().filter(function () {
+                            return this.nodeType === 3;
+                        }).text().trim();
+                        if (label) displayLabels.push(label);
+                    });
+
+                    const tooltip     = labels.join(', ');
+                    const displayText = displayLabels.join(', ');
+
+                    if ($badge.length) {
+                        $badge.attr('title', tooltip);
+                        $badge.contents().first().replaceWith(document.createTextNode(count));
+                        $badge.find('.modified-label').text(displayText);
+                    } else {
+                        $badge = $(
+                            '<span class="group-modified" title="' + $('<span>').text(tooltip).html() + '">' +
+                                count +
+                                '<span class="modified-separator">|</span>' +
+                                '<span class="modified-label">' + $('<span>').text(displayText).html() + '</span>' +
+                            '</span>'
+                        );
+                        $heading.append($badge);
+                    }
+                } else {
+                    $badge.remove();
+                }
+            });
+
+            // 3. Update sidebar dot and category.
+            if (this.currentComponent) {
+                this.updateComponentModifiedState(this.currentComponent, modifiedCount);
+            }
+        },
+
+        /**
+         * Update the modified indicator for a component in the sidebar menu.
+         *
+         * @param {string} component     - Component key.
+         * @param {number} modifiedCount  - Number of modified variables (0 = none modified).
+         */
+        updateComponentModifiedState(component, modifiedCount) {
+            const $link = $(`.component-link[data-component="${component}"]`);
+            if (!$link.length) return;
+
+            if (modifiedCount > 0) {
+                // Add or update the modified dot.
+                $link.addClass('has-modified');
+                let $dot = $link.find('.component-modified-dot');
+                if (!$dot.length) {
+                    $dot = $('<span class="component-modified-dot"></span>');
+                    $link.find('.component-vars').before($dot);
+                }
+                $dot.attr('title', modifiedCount + ' modified');
+            } else {
+                // Remove modified state.
+                $link.removeClass('has-modified');
+                $link.find('.component-modified-dot').remove();
+            }
+
+            // Update parent category indicator.
+            this.updateCategoryModifiedState($link.closest('.menu-category'));
         },
 
         /**
