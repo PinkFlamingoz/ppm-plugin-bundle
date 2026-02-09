@@ -11,6 +11,7 @@
 
 namespace EPB\Tokens;
 
+use EPB\Core\Constants;
 use EPB\CSS\Less_Parser;
 
 // Prevent direct access.
@@ -51,8 +52,11 @@ class Tokens_Studio_Exporter
         self::$less_dir = EPB_PLUGIN_DIR . 'docs/uikit-less-consolidated';
         self::$all_variables = [];
 
-        // Parse all Less files.
+        // Parse all Less files (defaults).
         self::parse_less_files();
+
+        // Overlay saved user settings on top of defaults.
+        self::apply_saved_overrides();
 
         // Build token structure.
         return self::build_tokens();
@@ -111,6 +115,40 @@ class Tokens_Studio_Exporter
                     'value' => $var_value,
                     'file'  => $filename,
                 ];
+            }
+        }
+    }
+
+    /**
+     * Apply saved user overrides on top of Less defaults.
+     *
+     * Reads component settings from the database and overrides the default
+     * values so that exports reflect the user's customised theme, not just
+     * UIkit defaults.
+     *
+     * @return void
+     */
+    private static function apply_saved_overrides(): void
+    {
+        $components = Less_Parser::get_consolidated_components();
+
+        foreach ($components as $component) {
+            $saved = get_option(Constants::OPTION_PREFIX . $component, []);
+
+            if (!is_array($saved)) {
+                continue;
+            }
+
+            foreach ($saved as $var_name => $var_value) {
+                // Only override when the user actually saved a value.
+                if ('' === $var_value) {
+                    continue;
+                }
+
+                // If the variable exists in our parsed defaults, override its value.
+                if (isset(self::$all_variables[$var_name])) {
+                    self::$all_variables[$var_name]['value'] = $var_value;
+                }
             }
         }
     }
