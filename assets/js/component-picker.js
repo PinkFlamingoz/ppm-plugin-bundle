@@ -737,12 +737,13 @@
                 return;
             }
 
-            // Expand all categories and filter.
-            $('.menu-category').removeClass('collapsed');
+            // Show all categories first so :visible checks on children work correctly.
+            $('.menu-category').removeClass('collapsed').show();
 
             $('.component-list li').each(function() {
                 const text = $(this).find('.component-name').text().toLowerCase();
-                const matches = text.includes(query);
+                const variables = ($(this).find('.component-link').attr('data-variables') || '').toLowerCase();
+                const matches = text.includes(query) || variables.includes(query);
                 $(this).toggle(matches);
             });
 

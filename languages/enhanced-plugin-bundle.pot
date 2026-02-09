@@ -494,7 +494,7 @@ msgid "Save All"
 msgstr ""
 
 #: admin/views/partials/component-picker.php
-msgid "Search components..."
+msgid "Search components or variables..."
 msgstr ""
 
 #: admin/views/partials/component-picker.php

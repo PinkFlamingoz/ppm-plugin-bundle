@@ -76,7 +76,7 @@ $child_theme_active = ThemesManager::is_child_theme_active();
         <div class="menu-search">
             <span class="dashicons dashicons-search"></span>
             <input type="text"
-                placeholder="<?php esc_attr_e('Search components...', 'enhanced-plugin-bundle'); ?>"
+                placeholder="<?php esc_attr_e('Search components or variables...', 'enhanced-plugin-bundle'); ?>"
                 id="component-search"
                 autocomplete="off">
         </div>
@@ -106,10 +106,14 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                         </h4>
                         <ul class="component-list">
                             <?php foreach ($cat_data['components'] as $comp_key => $comp_data) : ?>
-                                <?php $has_modified = !empty($modified_components[$comp_key]); ?>
+                                <?php
+                                $has_modified   = !empty($modified_components[$comp_key]);
+                                $variable_names = implode(' ', array_keys(Less_Parser::parse_component($comp_key)));
+                                ?>
                                 <li>
                                     <a href="#"
                                         data-component="<?php echo esc_attr($comp_key); ?>"
+                                        data-variables="<?php echo esc_attr($variable_names); ?>"
                                         class="component-link<?php echo $has_modified ? ' has-modified' : ''; ?>">
                                         <span class="dashicons dashicons-<?php echo esc_attr($comp_data['icon']); ?>"></span>
                                         <span class="component-name"><?php echo esc_html($comp_data['label']); ?></span>

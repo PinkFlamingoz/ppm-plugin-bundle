@@ -179,11 +179,7 @@
 .menu-categories {
     flex: 1;
     overflow-y: auto;
-    padding: 10px 0;
-}
-
-.menu-category {
-    margin-bottom: 5px;
+    padding: 0;
 }
 
 .category-label {
@@ -261,7 +257,7 @@
 }
 
 .component-list li {
-    margin: 2px 0;
+    margin: 0;
 }
 
 .component-link {
