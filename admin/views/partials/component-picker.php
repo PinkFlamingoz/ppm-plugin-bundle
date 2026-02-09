@@ -58,9 +58,6 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                         <span class="child-theme-status-dot <?php echo $child_theme_active ? 'active' : 'exists'; ?>"></span>
                     <?php endif; ?>
                 </button>
-                <button type="button" id="regenerate-child-styles" class="ppm-button-icon" title="<?php esc_attr_e('Regenerate child theme CSS and Less styles', 'enhanced-plugin-bundle'); ?>" <?php echo !$child_theme_exists ? ' disabled' : ''; ?>>
-                    <span class="dashicons dashicons-art"></span>
-                </button>
             </div>
             <span class="total-vars"><?php printf(esc_html__('%d variables', 'enhanced-plugin-bundle'), $total_vars); ?></span>
         </div>

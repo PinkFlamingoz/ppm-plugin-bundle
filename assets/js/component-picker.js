@@ -259,11 +259,6 @@
                 self.setupChildTheme();
             });
 
-            // Child theme: regenerate CSS/Less only.
-            $(document).on('click', '#regenerate-child-styles', function() {
-                self.regenerateChildStyles();
-            });
-
             // Preview tab switching.
             $(document).on('click', '.preview-tab', function() {
                 self.switchPreviewTab($(this).data('tab'));
@@ -1114,39 +1109,6 @@
         },
 
         /**
-         * Regenerate only the child theme's CSS and Less style files.
-         */
-        regenerateChildStyles() {
-            const self = this;
-            const $btn = $('#regenerate-child-styles');
-            const originalHtml = $btn.html();
-
-            $btn.prop('disabled', true).html('<span class="spinner is-active"></span>');
-
-            $.ajax({
-                url: this.config.ajaxUrl,
-                method: 'POST',
-                data: {
-                    action: 'epb_regenerate_child_styles',
-                    nonce: this.config.nonce
-                },
-                success(response) {
-                    if (response.success) {
-                        self.showToast(response.data.message, 'success');
-                    } else {
-                        self.showToast(response.data.message || 'Failed to regenerate styles.', 'error');
-                    }
-                },
-                error() {
-                    self.showToast('An error occurred while regenerating styles.', 'error');
-                },
-                complete() {
-                    $btn.prop('disabled', false).html(originalHtml);
-                }
-            });
-        },
-
-        /**
          * Update the child theme status UI elements.
          *
          * @param {boolean} exists - Whether child theme exists.
@@ -1163,11 +1125,8 @@
                     $btn.append($dot);
                 }
                 $dot.removeClass('exists active').addClass(active ? 'active' : 'exists');
-                // Enable regenerate button now that child theme exists.
-                $('#regenerate-child-styles').prop('disabled', false);
             } else {
                 $dot.remove();
-                $('#regenerate-child-styles').prop('disabled', true);
             }
         },
 

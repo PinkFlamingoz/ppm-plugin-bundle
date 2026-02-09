@@ -72,33 +72,4 @@ class Child_Theme_Actions
             ]);
         }
     }
-
-    /**
-     * Regenerate only the child theme's CSS and Less style files.
-     *
-     * @return void
-     */
-    public static function regenerate_styles(): void
-    {
-        if (!Handler::verify_request('epb_component_nonce')) {
-            return;
-        }
-
-        $child_dir = Child_Theme::get_child_theme_dir();
-
-        if (!file_exists($child_dir)) {
-            wp_send_json_error([
-                'message' => __('Child theme does not exist. Create it first.', 'enhanced-plugin-bundle'),
-            ]);
-            return;
-        }
-
-        ob_start();
-        Child_Theme::regenerate_custom_css();
-        ob_get_clean();
-
-        wp_send_json_success([
-            'message' => __('Child theme styles regenerated successfully.', 'enhanced-plugin-bundle'),
-        ]);
-    }
 }
