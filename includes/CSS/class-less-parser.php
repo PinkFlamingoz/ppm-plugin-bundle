@@ -445,7 +445,17 @@ class Less_Parser
         if (preg_match('/^@([a-z0-9_-]+)$/i', $value, $match)) {
             $ref_name = $match[1];
 
-            // First check in variables.less (global definitions).
+            // Check saved user overrides first (across all components).
+            $saved_value = self::get_saved_variable_value($ref_name);
+            if (null !== $saved_value) {
+                // If the saved value is itself a reference, resolve recursively.
+                if (preg_match('/^@/', $saved_value)) {
+                    return self::resolve_value($saved_value, $depth + 1, $max_depth);
+                }
+                return $saved_value;
+            }
+
+            // Fall back to default values from variables.less (global definitions).
             $globals = self::parse_component('variables');
             if (isset($globals[$ref_name])) {
                 $resolved = $globals[$ref_name]['value'];
@@ -458,6 +468,37 @@ class Less_Parser
         }
 
         return $value;
+    }
+
+    /**
+     * Look up a saved (user-customized) value for a variable across all components.
+     *
+     * @param string $variable_name Variable name (without @).
+     * @return string|null The saved value, or null if not customized.
+     */
+    private static function get_saved_variable_value(string $variable_name): ?string
+    {
+        static $saved_cache = null;
+
+        // Build a flat lookup of all saved variable overrides (cached).
+        if (null === $saved_cache) {
+            $saved_cache = [];
+            $components  = self::get_consolidated_components();
+
+            foreach ($components as $component) {
+                $saved = get_option(\EPB\Core\Constants::OPTION_PREFIX . $component, []);
+                if (is_array($saved)) {
+                    foreach ($saved as $var_name => $var_value) {
+                        // Only store if the value is non-empty and different from default.
+                        if ('' !== $var_value) {
+                            $saved_cache[$var_name] = $var_value;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $saved_cache[$variable_name] ?? null;
     }
 
     /**
