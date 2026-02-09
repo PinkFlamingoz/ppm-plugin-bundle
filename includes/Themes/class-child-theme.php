@@ -74,6 +74,11 @@ class Child_Theme
 
         // Regenerate Less style file.
         self::write_less_style($child_dir);
+
+        // Ensure config.php exists for YOOtheme recompile integration.
+        if (!file_exists($child_dir . '/config.php')) {
+            self::write_config_php($child_dir);
+        }
     }
 
     /**
@@ -135,6 +140,7 @@ class Child_Theme
         $functions_written = self::write_functions_php($child_dir, $regenerate_functions);
         $css_written       = self::write_custom_css($child_dir);
         $less_written      = self::write_less_style($child_dir);
+        self::write_config_php($child_dir);
 
         if ($style_written && $functions_written && $css_written && $less_written) {
             // Activate theme if not already active.
@@ -166,6 +172,7 @@ class Child_Theme
         $functions_written = self::write_functions_php($child_dir, true);
         $css_written       = self::write_custom_css($child_dir);
         $less_written      = self::write_less_style($child_dir);
+        self::write_config_php($child_dir);
 
         if ($style_written && $functions_written && $css_written && $less_written) {
             switch_theme(self::THEME_SLUG);
@@ -501,6 +508,60 @@ PHP;
         }
 
         return $output;
+    }
+
+    /**
+     * Write the child theme's config.php file.
+     *
+     * This registers a YOOtheme module that listens for the StylerConfig event.
+     * When our plugin has saved new variable overrides, it sets epb_needs_recompile = true.
+     * The StylerConfig listener picks this up and tells YOOtheme to recompile its CSS,
+     * so changes take effect without requiring a manual adjustment in the builder.
+     *
+     * @param string $child_dir Path to the child theme directory.
+     * @return bool True on success, false on failure.
+     */
+    private static function write_config_php(string $child_dir): bool
+    {
+        $config_content = <<<'PHP'
+<?php
+/**
+ * YOOtheme Pro module configuration for PPM Child Theme.
+ *
+ * Triggers automatic style recompilation when the Enhanced Plugin Bundle
+ * updates component variables, so changes apply without manual intervention.
+ *
+ * @package Enhanced_Plugin_Bundle
+ */
+
+use YOOtheme\Theme\Styler\StylerConfig;
+
+class EPB_StyleListener
+{
+    public static function config(StylerConfig $config): StylerConfig
+    {
+        if (get_option('epb_needs_recompile', false)) {
+            $config['update'] = true;
+            delete_option('epb_needs_recompile');
+        }
+        return $config;
+    }
+}
+
+return [
+
+    'events' => [
+
+        StylerConfig::class => [
+            EPB_StyleListener::class => 'config',
+        ],
+
+    ],
+
+];
+PHP;
+
+        return self::write_file($child_dir . '/config.php', $config_content, 'config.php', false);
     }
 
     /**

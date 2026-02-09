@@ -71,6 +71,9 @@ class Component_Handler
         // Clear any cached CSS.
         delete_transient(Constants::TRANSIENT_CSS);
 
+        // Flag that YOOtheme needs to recompile its styles on next customizer load.
+        update_option('epb_needs_recompile', true, false);
+
         // Optionally trigger child theme CSS regeneration.
         do_action('epb_component_settings_updated');
     }
