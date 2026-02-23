@@ -230,14 +230,6 @@ class Generator
         'base-pre-font-size',
         'base-code-font-size',
         'base-small-font-size',
-
-        // Border radius
-        'border-rounded-border-radius',
-        'badge-border-radius',
-        'tooltip-border-radius',
-        'dotnav-item-border-radius',
-        'icon-button-border-radius',
-        'form-range-thumb-border-radius',
     ];
 
     /**
@@ -1128,38 +1120,6 @@ h1, h2, h3, h4, h5, h6,
     hyphens: auto;
     overflow-wrap: break-word;
     word-break: break-word;
-}
-
-/* ==========================================================================
-   Border Radius
-   ========================================================================== */
-
-.uk-border-rounded {
-    border-radius: var(--uk-border-rounded-border-radius, 5px);
-}
-
-.uk-badge {
-    border-radius: var(--uk-badge-border-radius, 500px);
-}
-
-.uk-tooltip {
-    border-radius: var(--uk-tooltip-border-radius, 2px);
-}
-
-.uk-dotnav > * > * {
-    border-radius: var(--uk-dotnav-item-border-radius, 50%);
-}
-
-.uk-icon-button {
-    border-radius: var(--uk-icon-button-border-radius, 500px);
-}
-
-.uk-form-range::-webkit-slider-thumb {
-    border-radius: var(--uk-form-range-thumb-border-radius, 500px);
-}
-
-.uk-form-range::-moz-range-thumb {
-    border-radius: var(--uk-form-range-thumb-border-radius, 500px);
 }
 
 CSS;
