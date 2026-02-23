@@ -118,6 +118,18 @@ class Utils
 
         // For color fields, compare normalised hex values so #fff === #ffffff.
         if (($meta['type'] ?? '') === 'color') {
+            // CSS color keywords (transparent, currentColor, etc.) cannot be
+            // meaningfully converted to a 6-digit hex, so compare them as strings
+            // instead of going through to_hex_color() which would map e.g.
+            // "transparent" to #000000 and falsely match a resolved #000000.
+            $color_keywords = ['transparent', 'currentcolor', 'inherit', 'initial', 'unset'];
+            $saved_lower    = strtolower(trim($saved_value));
+            $original_lower = strtolower(trim($original));
+
+            if (in_array($saved_lower, $color_keywords, true) || in_array($original_lower, $color_keywords, true)) {
+                return $saved_lower !== $original_lower;
+            }
+
             $resolved_hex = self::to_hex_color($resolved);
             $saved_hex    = self::to_hex_color($saved_value);
             return $saved_hex !== $resolved_hex;
