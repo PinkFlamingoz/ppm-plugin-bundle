@@ -80,6 +80,71 @@ class Tokens_Studio_Importer
 
                 $value = $token_data['value'];
 
+                // Check if this token was exported with a CSS keyword (inherit,
+                // transparent, etc.). The exporter stores the original keyword
+                // and the fallback value it sent to Figma in $extensions.epb.less.
+                // If the value hasn't changed from the fallback, restore the
+                // keyword. If the user changed it in Figma, use the new value.
+                $epb_ext = $token_data['$extensions']['epb.less'] ?? null;
+                if (is_array($epb_ext) && isset($epb_ext['original'])) {
+                    $original_keyword = $epb_ext['original'];
+                    $exported_fallback = $epb_ext['fallback'] ?? null;
+                    $figma_value       = $epb_ext['figmaValue'] ?? null;
+
+                    // Determine if the value is unchanged from what we exported.
+                    // For CSS keywords: compare with the fallback value.
+                    // For Figma-mapped fonts: compare with the figmaValue string.
+                    $is_unchanged = false;
+                    if ($figma_value !== null && (string) $value === (string) $figma_value) {
+                        $is_unchanged = true;
+                    } elseif ($exported_fallback !== null && (string) $value === (string) $exported_fallback) {
+                        $is_unchanged = true;
+                    }
+
+                    if ($is_unchanged) {
+                        // Value unchanged in Figma — restore the original CSS value.
+                        $value = $original_keyword;
+                        $debug_logs[] = 'Restored CSS value: ' . $token_name . ' = ' . $value;
+
+                        $uikit_var = self::build_uikit_variable_name($group, $token_name);
+                        $target_component = self::get_target_component($uikit_var);
+                        if (!isset($components_data[$target_component])) {
+                            $components_data[$target_component] = [];
+                        }
+                        $components_data[$target_component][$uikit_var] = $value;
+                        $debug_logs[] = 'Imported: ' . $uikit_var . ' = ' . $value . ' -> ' . $target_component;
+                        $imported++;
+                        continue;
+                    } else {
+                        // Value was changed in Figma — reverse-map Figma font
+                        // strings back to CSS values if this was a font mapping.
+                        if ($figma_value !== null) {
+                            $css_weight_map = [
+                                'thin'        => '100',
+                                'extra light' => '200',
+                                'light'       => '300',
+                                'regular'     => 'normal',
+                                'medium'      => '500',
+                                'semi bold'   => '600',
+                                'bold'        => 'bold',
+                                'extra bold'  => '800',
+                                'black'       => '900',
+                                'italic'      => 'italic',
+                            ];
+                            $val_lower = strtolower(trim($value));
+                            if (isset($css_weight_map[$val_lower])) {
+                                $value = $css_weight_map[$val_lower];
+                                $debug_logs[] = 'Reverse-mapped Figma font value: ' . $token_name . ' "' . $val_lower . '" -> "' . $value . '"';
+                            } else {
+                                $debug_logs[] = 'Figma font value changed: ' . $token_name . ' was "' . $original_keyword . '", now "' . $value . '"';
+                            }
+                        } else {
+                            $debug_logs[] = 'CSS keyword overridden in Figma: ' . $token_name . ' was "' . $original_keyword . '", now "' . $value . '"';
+                        }
+                        // Fall through to normal processing below.
+                    }
+                }
+
                 // Check if this token has a color modifier (Tokens Studio format).
                 // These need to be converted back to Less functions.
                 $has_modifier = isset($token_data['$extensions']['studio.tokens']['modify']);
@@ -108,6 +173,24 @@ class Tokens_Studio_Importer
                     // {global.emphasis-color} -> @global-emphasis-color
                     // {button.primary-background} -> @button-primary-background
                     $value = self::convert_references_to_less($value);
+                }
+
+                // Normalise values that the exporter converted for Figma
+                // compatibility back to their original Less representation.
+                $token_type = $token_data['type'] ?? '';
+
+                // borderWidth "0px" → "0": the exporter added the 'px' unit
+                // for Figma dimension parsing, but Less defaults use bare "0".
+                if ($token_type === 'borderWidth' && trim($value) === '0px') {
+                    $value = '0';
+                }
+
+                // boxShadow empty shadow → "none": the exporter converted
+                // CSS "none" to "0 0 0 0 rgba(0,0,0,0)" for Figma. If the
+                // $extensions round-trip didn't catch it (e.g. extensions
+                // stripped), normalise it back here.
+                if ($token_type === 'boxShadow' && trim($value) === '0 0 0 0 rgba(0,0,0,0)') {
+                    $value = 'none';
                 }
 
                 // Build the UIkit variable name.

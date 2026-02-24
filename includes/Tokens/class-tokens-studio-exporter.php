@@ -97,11 +97,13 @@ class Tokens_Studio_Exporter
                 $var_name = $match[1];
                 $var_value = trim($match[2]);
 
-                // Skip internal/hook/deprecated variables.
+                // Skip internal/hook/deprecated/escape variables.
+                // escape-* are internal SVG data-URI helpers, not design tokens.
                 if (
                     $var_name === 'deprecated' ||
                     strpos($var_name, 'internal') !== false ||
-                    strpos($var_name, 'hook-') === 0
+                    strpos($var_name, 'hook-') === 0 ||
+                    strpos($var_name, 'escape-') === 0
                 ) {
                     continue;
                 }
@@ -147,6 +149,12 @@ class Tokens_Studio_Exporter
 
                 // If the variable exists in our parsed defaults, override its value.
                 if (isset(self::$all_variables[$var_name])) {
+                    // Preserve the Less default so we can fall back to it when the
+                    // override is a CSS keyword (inherit, transparent, etc.) that
+                    // Figma/Tokens Studio cannot resolve.
+                    if (!isset(self::$all_variables[$var_name]['original'])) {
+                        self::$all_variables[$var_name]['original'] = self::$all_variables[$var_name]['value'];
+                    }
                     self::$all_variables[$var_name]['value'] = $var_value;
                 }
             }
@@ -192,8 +200,153 @@ class Tokens_Studio_Exporter
                 $token_sets[$group] = [];
             }
 
+            // Handle CSS keywords (transparent, inherit, initial, unset, currentColor).
+            // These need special handling because Figma/Tokens Studio can't resolve
+            // CSS cascade keywords. We export a usable fallback value for Figma and
+            // store the original keyword in $extensions for round-trip fidelity.
+            $css_keywords = ['transparent', 'currentcolor', 'inherit', 'initial', 'unset'];
+            if (in_array(strtolower(trim($value)), $css_keywords, true)) {
+                $keyword       = trim($value);
+                $keyword_lower = strtolower($keyword);
+
+                // Determine the token's natural type from its variable name.
+                $intended_type = self::detect_token_type($name, $data['original'] ?? '');
+
+                if ($keyword_lower === 'transparent') {
+                    // transparent has a concrete color equivalent: fully transparent black.
+                    $token_sets[$group][$token_name] = [
+                        'value'       => 'rgba(0,0,0,0)',
+                        'type'        => 'color',
+                        'description' => 'CSS: transparent',
+                        '$extensions' => [
+                            'epb.less' => [
+                                'original' => $keyword,
+                                'fallback' => 'rgba(0,0,0,0)',
+                            ],
+                        ],
+                    ];
+                } elseif (
+                    isset($data['original']) &&
+                    !in_array(strtolower(trim($data['original'])), $css_keywords, true)
+                ) {
+                    // User override – fall back to the original Less default so
+                    // Figma has a concrete value to display.
+                    $fallback_value = self::parse_value($data['original']);
+                    $desc           = "CSS: {$keyword} (default shown for Figma)";
+                    if (preg_match('/^@/', $data['original'])) {
+                        $desc .= " | Less: {$data['original']}";
+                    }
+                    $token_sets[$group][$token_name] = [
+                        'value'       => $fallback_value,
+                        'type'        => $intended_type,
+                        'description' => $desc,
+                        '$extensions' => [
+                            'epb.less' => [
+                                'original' => $keyword,
+                                'fallback' => $fallback_value,
+                            ],
+                        ],
+                    ];
+                } else {
+                    // No fallback available (the Less default itself is a keyword).
+                    // For 'inherit', resolve to the effective CSS inherited/initial
+                    // value so Figma has a concrete value to work with.
+                    $resolved = self::resolve_inherit_value($name, $keyword_lower, $intended_type);
+                    if ($resolved !== null) {
+                        $ext = array_merge(
+                            ['original' => $keyword],
+                            $resolved['ext']
+                        );
+                        $token_sets[$group][$token_name] = [
+                            'value'       => $resolved['value'],
+                            'type'        => $resolved['type'],
+                            'description' => 'CSS: ' . $keyword . ' → ' . $resolved['source'],
+                            '$extensions' => [
+                                'epb.less' => $ext,
+                            ],
+                        ];
+                    } else {
+                        // Genuinely unresolvable CSS keyword — skip.
+                        // These have no meaningful representation in Figma.
+                    }
+                }
+                continue;
+            }
+
             // Get token type.
             $type = self::detect_token_type($name, $value);
+
+            // Skip type:other — these are CSS values (z-index, animation names,
+            // border-style keywords, etc.) that have no Figma token equivalent.
+            if ($type === 'other') {
+                continue;
+            }
+
+            // Convert boxShadow "none" to an invisible shadow shorthand.
+            // Tokens Studio/Figma expect a parseable shadow value, not the CSS
+            // keyword "none". An all-zero transparent shadow is the equivalent.
+            if ($type === 'boxShadow' && strtolower(trim($value)) === 'none') {
+                $token_sets[$group][$token_name] = [
+                    'value'       => '0 0 0 0 rgba(0,0,0,0)',
+                    'type'        => 'boxShadow',
+                    'description' => 'CSS: none (no shadow)',
+                    '$extensions' => [
+                        'epb.less' => [
+                            'original' => 'none',
+                            'fallback' => '0 0 0 0 rgba(0,0,0,0)',
+                        ],
+                    ],
+                ];
+                continue;
+            }
+
+            // Normalise borderWidth "0" → "0px" for Figma dimension parsing.
+            if ($type === 'borderWidth' && trim($value) === '0') {
+                $value = '0px';
+                $data['value'] = '0px';
+            }
+
+            // Map CSS font-weight keywords to Figma-compatible string values.
+            // Figma expects exact strings like "Regular", "Bold" — not CSS keywords.
+            // Tokens Studio auto-converts numeric values (400→Regular) but NOT
+            // CSS keywords (normal, bold, bolder). We convert them here.
+            // Font-style values (italic, oblique) also need Figma-compatible strings.
+            if ($type === 'fontWeights') {
+                $figma_weight_map = [
+                    'normal'  => 'Regular',
+                    'bold'    => 'Bold',
+                    'bolder'  => 'Bold',
+                    'lighter' => 'Light',
+                    '100'     => 'Thin',
+                    '200'     => 'Extra Light',
+                    '300'     => 'Light',
+                    '400'     => 'Regular',
+                    '500'     => 'Medium',
+                    '600'     => 'Semi Bold',
+                    '700'     => 'Bold',
+                    '800'     => 'Extra Bold',
+                    '900'     => 'Black',
+                    // Font-style values that Figma combines with weight.
+                    'italic'  => 'Italic',
+                    'oblique' => 'Italic',
+                ];
+                $val_lower = strtolower(trim($value));
+                if (isset($figma_weight_map[$val_lower]) && strpos($value, '@') === false) {
+                    $figma_value = $figma_weight_map[$val_lower];
+                    $token_sets[$group][$token_name] = [
+                        'value'       => $figma_value,
+                        'type'        => 'fontWeights',
+                        'description' => 'CSS: ' . trim($value),
+                        '$extensions' => [
+                            'epb.less' => [
+                                'original'    => trim($value),
+                                'figmaValue'  => $figma_value,
+                            ],
+                        ],
+                    ];
+                    continue;
+                }
+            }
 
             // Check if this is a color function that can be converted to Tokens Studio modify format.
             $color_modifier = self::parse_color_function($value);
@@ -316,21 +469,46 @@ class Tokens_Studio_Exporter
             return 'other';
         }
 
-        // CSS keyword values that aren't actually colors (transparent, inherit, etc.).
-        // These need to stay as plain strings, not be parsed as colors.
-        if (preg_match('/^(transparent|inherit|initial|unset|currentColor)$/i', $value)) {
-            return 'other';
+        // Opacity values (0-1 range).
+        if (strpos($name, 'opacity') !== false) {
+            return 'opacity';
         }
+
+        // NOTE: CSS keywords (transparent, inherit, etc.) are NOT short-circuited
+        // here. They are handled in build_tokens() with special $extensions
+        // metadata for Figma round-trip. Name-based detection below determines
+        // the token's intended type (color, fontFamilies, fontWeights, etc.).
 
         // === GENERAL TYPE DETECTION ===
 
         // Color detection.
+        // Many variable names contain generic words like "border", "background",
+        // "outline" or "color" that also appear in non-colour properties.
+        // We exclude specific sub-property patterns that are NOT colour values.
         if (
             preg_match('/^#[0-9a-fA-F]{3,8}$/', $value) ||
             preg_match('/^rgba?\(/', $value) ||
-            (strpos($name, 'color') !== false) ||
-            (strpos($name, 'background') !== false) ||
-            (strpos($name, 'border') !== false && strpos($name, 'width') === false && strpos($name, 'radius') === false)
+            (strpos($name, 'color') !== false
+                && strpos($name, 'color-mode') === false  // handled above, safety net
+            ) ||
+            (strpos($name, 'background') !== false
+                && strpos($name, 'background-position') === false
+                && strpos($name, 'background-size') === false
+                && strpos($name, 'padding') === false  // e.g. text-background-padding-right
+            ) ||
+            (strpos($name, 'border') !== false
+                && strpos($name, 'width') === false
+                && strpos($name, 'radius') === false
+                && strpos($name, 'border-style') === false
+                && strpos($name, 'border-mode') === false
+                && strpos($name, 'border-height') === false
+                && strpos($name, 'transition') === false  // e.g. theme-transition-border-*
+            ) ||
+            (strpos($name, 'outline') !== false
+                && strpos($name, 'outline-style') === false
+                && strpos($name, 'outline-width') === false
+                && strpos($name, 'outline-offset') === false
+            )
         ) {
             return 'color';
         }
@@ -353,6 +531,28 @@ class Tokens_Studio_Exporter
         // Font weight.
         if (strpos($name, 'font-weight') !== false || strpos($name, 'weight') !== false) {
             return 'fontWeights';
+        }
+
+        // Font style (italic, normal, etc.).
+        // Figma combines font-style with font-weight, but we export it
+        // separately so round-trip preserves the Less variable structure.
+        if (strpos($name, 'font-style') !== false) {
+            return 'fontWeights';
+        }
+
+        // Text decoration (none, underline, inherit, etc.).
+        if (strpos($name, 'text-decoration') !== false) {
+            return 'textDecoration';
+        }
+
+        // Text transform (uppercase, lowercase, capitalize, none, inherit).
+        if (strpos($name, 'text-transform') !== false) {
+            return 'textCase';
+        }
+
+        // Letter spacing.
+        if (strpos($name, 'letter-spacing') !== false) {
+            return 'letterSpacing';
         }
 
         // Border radius.
@@ -381,8 +581,21 @@ class Tokens_Studio_Exporter
         }
 
         // Box shadow.
+        // Only classify as boxShadow when the value looks like a CSS box-shadow
+        // shorthand (x y blur spread color), "none", or a variable reference.
+        // Sub-properties (blur amount, duration, etc.) fall through to later checks.
         if (strpos($name, 'box-shadow') !== false || strpos($name, 'shadow') !== false) {
-            return 'boxShadow';
+            $val_trimmed = trim($value);
+            if (
+                strtolower($val_trimmed) === 'none' ||
+                // Shorthand: at least two space-separated numeric values (x y).
+                preg_match('/^(inset\s+)?-?\d+\S*\s+-?\d/', $val_trimmed) ||
+                // Variable reference (could be referencing another shadow).
+                preg_match('/^@/', $val_trimmed)
+            ) {
+                return 'boxShadow';
+            }
+            // Sub-property — fall through to dimension/other/etc.
         }
 
         // Breakpoints.
@@ -395,8 +608,17 @@ class Tokens_Studio_Exporter
             return 'other';
         }
 
-        // Default to dimension for px/rem values.
-        if (preg_match('/^\d+(\.\d+)?(px|rem|em|%)$/', $value)) {
+        // Position offsets (top, right, bottom, left, position).
+        // These are dimensional/spacing values for element positioning.
+        if (
+            preg_match('/-(top|right|bottom|left)$/', $name) ||
+            (strpos($name, 'position') !== false && strpos($name, 'position-mode') === false)
+        ) {
+            return 'spacing';
+        }
+
+        // Default to dimension for px/rem values (including negative).
+        if (preg_match('/^-?\d+(\.\d+)?(px|rem|em|%)$/', $value)) {
             return 'dimension';
         }
 
@@ -549,6 +771,147 @@ class Tokens_Studio_Exporter
                     'space' => 'hsl',
                 ],
                 'isNested' => true, // Flag to indicate this was a nested function
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Resolve CSS 'inherit' (and 'initial'/'unset') to a concrete value
+     * that Figma can actually use.
+     *
+     * CSS 'inherit' means "use the parent element's computed value".
+     * In UIkit's theme structure this maps to well-known defaults:
+     *  - color        → @global-color (parent text colour)
+     *  - background   → transparent (CSS initial for backgrounds)
+     *  - font-family  → @global-font-family (the body font stack)
+     *  - font-weight  → CSS initial 'normal' → Figma "Regular"
+     *  - font-style   → CSS initial 'normal' → Figma "Regular"
+     *  - font-size    → @global-font-size (parent font size)
+     *  - line-height  → @global-line-height (parent line height)
+     *  - letter-spacing → CSS initial 'normal' → 0
+     *  - text-transform → CSS initial 'none'
+     *  - text-decoration → CSS initial 'none'
+     *
+     * Returns null when the keyword cannot be meaningfully resolved.
+     *
+     * @param string $name          Less variable name (without @).
+     * @param string $keyword_lower Lowercase CSS keyword (inherit, initial, unset).
+     * @param string $intended_type Token type detected from the variable name.
+     * @return array|null Array with 'value', 'type', 'source', 'ext' keys, or null.
+     */
+    private static function resolve_inherit_value(
+        string $name,
+        string $keyword_lower,
+        string $intended_type
+    ): ?array {
+        // Only resolve cascade keywords that mean "use another value".
+        if (!in_array($keyword_lower, ['inherit', 'initial', 'unset', 'currentcolor'], true)) {
+            return null;
+        }
+
+        // --- currentColor: always references the element's computed text colour.
+        // In UIkit's context this is @global-color.
+        if ($keyword_lower === 'currentcolor') {
+            return [
+                'value'  => '{global-color}',
+                'type'   => 'color',
+                'source' => '@global-color (currentColor)',
+                'ext'    => ['fallback' => '{global-color}'],
+            ];
+        }
+
+        // --- Color: distinguish background (→ transparent) from foreground (→ text colour).
+        if ($intended_type === 'color') {
+            if (strpos($name, 'background') !== false) {
+                return [
+                    'value'  => 'rgba(0,0,0,0)',
+                    'type'   => 'color',
+                    'source' => 'CSS default: transparent',
+                    'ext'    => ['fallback' => 'rgba(0,0,0,0)'],
+                ];
+            }
+            // Foreground colour — reference @global-color.
+            return [
+                'value'  => '{global-color}',
+                'type'   => 'color',
+                'source' => '@global-color',
+                'ext'    => ['fallback' => '{global-color}'],
+            ];
+        }
+
+        // --- Font family: inherit → reference @global-font-family.
+        // This creates a proper Tokens Studio reference so changes propagate.
+        if ($intended_type === 'fontFamilies') {
+            if (isset(self::$all_variables['global-font-family'])) {
+                return [
+                    'value'  => '{global-font-family}',
+                    'type'   => 'fontFamilies',
+                    'source' => '@global-font-family',
+                    'ext'    => ['fallback' => '{global-font-family}'],
+                ];
+            }
+        }
+
+        // --- Font weight / font style: inherit → CSS initial is 'normal'.
+        // Figma represents 'normal' weight/style as "Regular".
+        if ($intended_type === 'fontWeights') {
+            return [
+                'value'  => 'Regular',
+                'type'   => 'fontWeights',
+                'source' => 'CSS default: normal',
+                'ext'    => ['figmaValue' => 'Regular'],
+            ];
+        }
+
+        // --- Font size: inherit → reference @global-font-size.
+        if ($intended_type === 'fontSizes') {
+            return [
+                'value'  => '{global-font-size}',
+                'type'   => 'fontSizes',
+                'source' => '@global-font-size',
+                'ext'    => ['fallback' => '{global-font-size}'],
+            ];
+        }
+
+        // --- Line height: inherit → reference @global-line-height.
+        if ($intended_type === 'lineHeights') {
+            return [
+                'value'  => '{global-line-height}',
+                'type'   => 'lineHeights',
+                'source' => '@global-line-height',
+                'ext'    => ['fallback' => '{global-line-height}'],
+            ];
+        }
+
+        // --- Letter spacing: inherit → CSS initial is 'normal' (no extra spacing).
+        if (strpos($name, 'letter-spacing') !== false) {
+            return [
+                'value'  => '0',
+                'type'   => 'letterSpacing',
+                'source' => 'CSS default: normal (0)',
+                'ext'    => ['fallback' => '0'],
+            ];
+        }
+
+        // --- Text transform: inherit → CSS initial is 'none'.
+        if (strpos($name, 'text-transform') !== false) {
+            return [
+                'value'  => 'none',
+                'type'   => 'textCase',
+                'source' => 'CSS default: none',
+                'ext'    => ['fallback' => 'none'],
+            ];
+        }
+
+        // --- Text decoration: inherit → CSS initial is 'none'.
+        if (strpos($name, 'text-decoration') !== false) {
+            return [
+                'value'  => 'none',
+                'type'   => 'textDecoration',
+                'source' => 'CSS default: none',
+                'ext'    => ['fallback' => 'none'],
             ];
         }
 
