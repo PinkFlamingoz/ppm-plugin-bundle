@@ -56,6 +56,10 @@ class Preview_Compiler
         error_reporting(E_ALL);
         ini_set('display_errors', '0');
 
+        // Check if debug mode requested.
+        $debug = !empty($_POST['debug']);
+        $debug_info = [];
+
         try {
             // Verify nonce.
             if (!Handler::verify_nonce()) {
@@ -79,6 +83,11 @@ class Preview_Compiler
                 ], 400);
             }
 
+            if ($debug) {
+                $debug_info['component'] = $component;
+                $debug_info['timestamp'] = gmdate('Y-m-d H:i:s');
+            }
+
             // Get variable overrides.
             $overrides = [];
             if (isset($_POST['overrides']) && is_string($_POST['overrides'])) {
@@ -92,21 +101,50 @@ class Preview_Compiler
             // Sanitize override values.
             $sanitized_overrides = self::sanitize_overrides($overrides);
 
+            if ($debug) {
+                $debug_info['overrides_count'] = count($sanitized_overrides);
+                // Include a few sample override keys (not all, to keep response small).
+                $debug_info['override_keys_sample'] = array_slice(array_keys($sanitized_overrides), 0, 20);
+            }
+
             // Check if Less compiler is available.
             if (!Less_Compiler::is_available()) {
                 wp_send_json_error([
-                    'message' => 'Less compiler not available. Please run: composer install',
+                    'message'    => 'Less compiler not available. Please run: composer install',
+                    'debug_info' => $debug ? $debug_info : null,
                 ], 500);
             }
 
             // Build the Less source.
             $builder = new Component_Less_Builder();
+
+            if ($debug) {
+                $requirements = $builder->check_requirements();
+                $debug_info['requirements_check'] = $requirements === true ? 'OK' : $requirements;
+
+                // Check UIkit component file existence.
+                $uikit_path = WP_CONTENT_DIR . '/themes/yootheme/vendor/assets/uikit/src/less/components/' . $component . '.less';
+                $debug_info['uikit_component_file'] = $uikit_path;
+                $debug_info['uikit_component_exists'] = file_exists($uikit_path);
+            }
+
             $less_source = $builder->build_for_preview($component, $sanitized_overrides);
 
             if ($less_source === false) {
+                if ($debug) {
+                    $debug_info['build_result'] = 'false (failed)';
+                }
                 wp_send_json_error([
-                    'message' => 'Failed to build Less source for component: ' . $component,
+                    'message'    => 'Failed to build Less source for component: ' . $component,
+                    'debug_info' => $debug ? $debug_info : null,
                 ], 400);
+            }
+
+            if ($debug) {
+                $debug_info['less_source_length'] = strlen($less_source);
+                // Show first/last 200 chars of Less source for debugging.
+                $debug_info['less_source_head'] = substr($less_source, 0, 300);
+                $debug_info['less_source_tail'] = substr($less_source, -300);
             }
 
             // Compile the Less.
@@ -117,20 +155,85 @@ class Preview_Compiler
             $css = $compiler->compile($less_source);
 
             if ($css === false) {
+                $error = $compiler->get_error();
+                $error_context = [];
+
+                // Always extract error context on compilation failure.
+                if (preg_match('/index:\s*(\d+)/', $error, $idx_match)) {
+                    $err_idx = (int) $idx_match[1];
+                    // Use the preprocessed source since the error index refers to
+                    // the source after preprocessing (what the parser actually sees).
+                    $pp_source = $compiler->get_preprocessed_source();
+                    $use_source = !empty($pp_source) ? $pp_source : $less_source;
+                    $start = max(0, $err_idx - 300);
+                    $error_context['error_index'] = $err_idx;
+                    $error_context['source_around_error'] = substr($use_source, $start, 600);
+                    $error_context['source_around_start'] = $start;
+
+                    // Find the line number.
+                    $before_error = substr($use_source, 0, $err_idx);
+                    $line_number = substr_count($before_error, "\n") + 1;
+                    $error_context['error_line_number'] = $line_number;
+
+                    // Show the specific line.
+                    $lines = explode("\n", $use_source);
+                    if (isset($lines[$line_number - 1])) {
+                        $error_context['error_line'] = $lines[$line_number - 1];
+                    }
+                    // Show 5 lines before and after.
+                    $context_start = max(0, $line_number - 6);
+                    $context_end = min(count($lines) - 1, $line_number + 5);
+                    $error_context['error_context_lines'] = [];
+                    for ($cl = $context_start; $cl <= $context_end; $cl++) {
+                        $prefix = ($cl === $line_number - 1) ? '>>> ' : '    ';
+                        $error_context['error_context_lines'][] = $prefix . ($cl + 1) . ': ' . $lines[$cl];
+                    }
+                }
+
+                if ($debug) {
+                    $debug_info['compile_error'] = $error;
+                    $debug_info = array_merge($debug_info, $error_context);
+                }
+
                 wp_send_json_error([
-                    'message' => 'Less compilation failed: ' . $compiler->get_error(),
+                    'message'       => 'Less compilation failed: ' . $error,
+                    'error_context' => $error_context,
+                    'debug_info'    => $debug ? $debug_info : null,
                 ], 500);
             }
 
+            if ($debug) {
+                $debug_info['css_length'] = strlen($css);
+            }
+
             // Return the compiled CSS.
-            wp_send_json_success([
+            $response = [
                 'css'       => $css,
                 'component' => $component,
                 'variables' => count($sanitized_overrides),
-            ]);
+            ];
+
+            if ($debug) {
+                $response['debug_info'] = $debug_info;
+            }
+
+            wp_send_json_success($response);
         } catch (\Throwable $e) {
+            if ($debug) {
+                $debug_info['exception_class'] = get_class($e);
+                $debug_info['exception_message'] = $e->getMessage();
+                $debug_info['exception_file'] = $e->getFile() . ':' . $e->getLine();
+                $debug_info['exception_trace'] = array_slice(
+                    array_map(function ($frame) {
+                        return ($frame['file'] ?? '?') . ':' . ($frame['line'] ?? '?') . ' ' . ($frame['class'] ?? '') . ($frame['type'] ?? '') . ($frame['function'] ?? '');
+                    }, $e->getTrace()),
+                    0,
+                    10
+                );
+            }
             wp_send_json_error([
-                'message' => 'PHP Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(),
+                'message'    => 'PHP Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(),
+                'debug_info' => $debug ? $debug_info : null,
             ], 500);
         }
     }

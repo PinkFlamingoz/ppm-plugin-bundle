@@ -7,7 +7,7 @@
  * @since 4.1.0
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     /**
@@ -108,62 +108,62 @@
             const self = this;
 
             // Category toggle (expand/collapse).
-            $(document).on('click', '.category-label', function(e) {
+            $(document).on('click', '.category-label', function (e) {
                 e.preventDefault();
                 const $category = $(this).closest('.menu-category');
                 $category.toggleClass('collapsed');
             });
 
             // Preview panel collapse toggle.
-            $(document).on('click', '.preview-collapse-toggle', function(e) {
+            $(document).on('click', '.preview-collapse-toggle', function (e) {
                 e.preventDefault();
                 self.$preview.toggleClass('collapsed');
                 $(this).find('.dashicons').toggleClass('dashicons-arrow-right-alt2 dashicons-arrow-left-alt2');
             });
 
             // Component selection.
-            $(document).on('click', '.component-link', function(e) {
+            $(document).on('click', '.component-link', function (e) {
                 e.preventDefault();
                 const component = $(this).data('component');
-                
+
                 // Expand parent category if collapsed.
                 const $category = $(this).closest('.menu-category');
                 if ($category.hasClass('collapsed')) {
                     $category.removeClass('collapsed');
                 }
-                
+
                 self.loadComponent(component);
             });
 
             // Search filter.
-            this.$search.on('input', function() {
+            this.$search.on('input', function () {
                 self.filterComponents(this.value);
             });
 
             // Form submission.
-            this.$form.on('submit', function(e) {
+            this.$form.on('submit', function (e) {
                 e.preventDefault();
                 self.saveComponent();
             });
 
             // Reset button.
-            $(document).on('click', '#reset-component', function() {
+            $(document).on('click', '#reset-component', function () {
                 self.resetComponent();
             });
 
             // Individual field reset.
-            $(document).on('click', '.reset-field', function() {
+            $(document).on('click', '.reset-field', function () {
                 self.resetField($(this));
             });
 
             // Color picker sync.
-            $(document).on('input', '.color-picker', function() {
+            $(document).on('input', '.color-picker', function () {
                 const targetId = $(this).data('target');
                 $('#' + targetId).val(this.value).trigger('change');
             });
 
             // Color input sync.
-            $(document).on('input', '.color-input', function() {
+            $(document).on('input', '.color-input', function () {
                 const $picker = $(this).siblings('.color-picker');
                 const hex = this.value;
                 if (/^#[0-9A-Fa-f]{6}$/i.test(hex)) {
@@ -173,7 +173,7 @@
             });
 
             // Field change - update preview and modified state.
-            $(document).on('change input', '.ppm-field input', function() {
+            $(document).on('change input', '.ppm-field input', function () {
                 self.updatePreview();
                 self.updateFieldModifiedState($(this).closest('.ppm-field'));
                 self.markComponentDirty();
@@ -190,82 +190,82 @@
             });
 
             // Export all.
-            $(document).on('click', '#export-all-components', function() {
+            $(document).on('click', '#export-all-components', function () {
                 self.exportAll();
             });
 
             // Export for Figma (Tokens Studio format).
-            $(document).on('click', '#export-figma', function() {
+            $(document).on('click', '#export-figma', function () {
                 self.exportFigma();
             });
 
             // Export as YOOtheme style.less.
-            $(document).on('click', '#export-yootheme-less', function() {
+            $(document).on('click', '#export-yootheme-less', function () {
                 self.exportYoothemeLess();
             });
 
             // Import button.
-            $(document).on('click', '#import-components', function() {
+            $(document).on('click', '#import-components', function () {
                 self.showImportModal();
             });
 
             // Import Figma button.
-            $(document).on('click', '#import-figma', function() {
+            $(document).on('click', '#import-figma', function () {
                 self.showImportFigmaModal();
             });
 
             // Import modal.
-            $(document).on('click', '#confirm-import', function() {
+            $(document).on('click', '#confirm-import', function () {
                 self.importComponents();
             });
 
             // Import Figma modal confirm.
-            $(document).on('click', '#confirm-import-figma', function() {
+            $(document).on('click', '#confirm-import-figma', function () {
                 self.importFigma();
             });
 
             // Modal close.
-            $(document).on('click', '.modal-close, .modal-cancel, .modal-backdrop', function() {
+            $(document).on('click', '.modal-close, .modal-cancel, .modal-backdrop', function () {
                 self.hideModal();
             });
 
             // Variable group collapse toggle (within editor).
-            $(document).on('click', '.variable-group__heading', function() {
+            $(document).on('click', '.variable-group__heading', function () {
                 $(this).closest('.variable-group').toggleClass('collapsed');
             });
 
             // Toggle all groups collapse/expand.
-            $(document).on('click', '#toggle-all-groups', function() {
+            $(document).on('click', '#toggle-all-groups', function () {
                 self.toggleAllGroups();
             });
 
             // Copy CSS to clipboard.
-            $(document).on('click', '#copy-css', function() {
+            $(document).on('click', '#copy-css', function () {
                 self.copyCss();
             });
 
             // Global reset all components.
-            $(document).on('click', '#reset-all-components', function() {
+            $(document).on('click', '#reset-all-components', function () {
                 self.resetAllComponents();
             });
 
             // Global save all components.
-            $(document).on('click', '#save-all-components', function() {
+            $(document).on('click', '#save-all-components', function () {
                 self.saveAllComponents();
             });
 
             // Child theme: create/update structure.
-            $(document).on('click', '#setup-child-theme', function() {
+            $(document).on('click', '#setup-child-theme', function () {
                 self.setupChildTheme();
             });
 
             // Preview tab switching.
-            $(document).on('click', '.preview-tab', function() {
+            $(document).on('click', '.preview-tab', function () {
                 self.switchPreviewTab($(this).data('tab'));
             });
 
             // Listen for messages from preview iframe.
-            window.addEventListener('message', function(event) {
+            window.addEventListener('message', function (event) {
                 if (event.data && event.data.type === 'previewReady') {
                     self.onPreviewReady();
                 }
@@ -314,8 +314,8 @@
          */
         collectCurrentVariables() {
             const variables = {};
-            
-            this.$fields.find('.ppm-field').each(function() {
+
+            this.$fields.find('.ppm-field').each(function () {
                 const $field = $(this);
                 const varName = $field.data('variable');
                 if (!varName) return;
@@ -326,14 +326,14 @@
                     // Use attr() instead of data() to get the raw string value,
                     // avoiding jQuery's automatic type conversion.
                     const defaultValue = $field.attr('data-default');
-                    
+
                     // Only include if different from default.
                     if (value && value !== defaultValue) {
                         variables[varName] = value;
                     }
                 }
             });
-            
+
             return variables;
         },
 
@@ -433,7 +433,7 @@
 
             // Collect form values.
             const values = {};
-            this.$fields.find('input').each(function() {
+            this.$fields.find('input').each(function () {
                 const name = $(this).attr('name');
                 if (name && name.startsWith('component_vars[')) {
                     const key = name.match(/\[([^\]]+)\]/)[1];
@@ -500,15 +500,15 @@
                 success(response) {
                     if (response.success) {
                         self.showToast(response.data.message, 'success');
-                        
+
                         // Update the component's modified indicator in the menu.
                         const $componentLink = $(`.component-link[data-component="${self.currentComponent}"]`);
                         $componentLink.removeClass('has-modified');
                         $componentLink.find('.component-modified-dot').remove();
-                        
+
                         // Update category modified indicator if no other components in the category are modified.
                         self.updateCategoryModifiedState($componentLink.closest('.menu-category'));
-                        
+
                         // Reload component to show defaults.
                         self.currentComponent = null;
                         self.loadComponent($('#current-component').val());
@@ -699,7 +699,7 @@
          */
         markComponentDirty() {
             if (!this.currentComponent) return;
-            
+
             // Store the current form values as pending changes.
             this.storePendingChanges();
         },
@@ -737,7 +737,7 @@
                             $swatch.css('background-color', resolved);
                         }
                         // Update the displayed resolved text (after swatch or arrow).
-                        $resolvedSpan.contents().filter(function() {
+                        $resolvedSpan.contents().filter(function () {
                             return this.nodeType === 3 && this.textContent.trim();
                         }).last()[0].textContent = resolved;
                         $resolvedSpan.removeClass('hidden');
@@ -746,7 +746,7 @@
                     // Update color picker if this is a color field.
                     if ($field.hasClass('ppm-field-color') && /^#[0-9A-Fa-f]{3,6}$/i.test(resolved)) {
                         $field.find('.color-picker').val(resolved.length === 4
-                            ? '#' + resolved[1]+resolved[1] + resolved[2]+resolved[2] + resolved[3]+resolved[3]
+                            ? '#' + resolved[1] + resolved[1] + resolved[2] + resolved[2] + resolved[3] + resolved[3]
                             : resolved);
                     }
                 }
@@ -763,10 +763,10 @@
             let hasModifications = false;
             const self = this;
 
-            this.$fields.find('.ppm-field').each(function() {
+            this.$fields.find('.ppm-field').each(function () {
                 const $field = $(this);
                 const $input = $field.find('input[type="text"], input[type="number"]').first();
-                
+
                 if ($input.length) {
                     const name = $input.attr('name');
                     if (name && name.startsWith('component_vars[')) {
@@ -774,9 +774,9 @@
                         const currentValue = $input.val();
                         // Use attr() instead of data() and get from parent field, not input.
                         const defaultValue = $field.attr('data-default');
-                        
+
                         values[key] = currentValue;
-                        
+
                         // Check if this field is actually modified from default.
                         if (!self.valuesAreEqual(currentValue, defaultValue)) {
                             hasModifications = true;
@@ -820,7 +820,7 @@
             // Show all categories first so :visible checks on children work correctly.
             $('.menu-category').removeClass('collapsed').show();
 
-            $('.component-list li').each(function() {
+            $('.component-list li').each(function () {
                 const text = $(this).find('.component-name').text().toLowerCase();
                 const variables = ($(this).find('.component-link').attr('data-variables') || '').toLowerCase();
                 const matches = text.includes(query) || variables.includes(query);
@@ -828,7 +828,7 @@
             });
 
             // Hide empty categories.
-            $('.menu-category').each(function() {
+            $('.menu-category').each(function () {
                 const hasVisible = $(this).find('.component-list li:visible').length > 0;
                 $(this).toggle(hasVisible);
             });
@@ -846,12 +846,12 @@
                 // Expand all.
                 $groups.removeClass('collapsed');
                 $btn.find('.dashicons').removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
-                $btn.contents().filter(function() { return this.nodeType === 3; }).last()[0].textContent = ' ' + this.config.strings.collapseAll;
+                $btn.contents().filter(function () { return this.nodeType === 3; }).last()[0].textContent = ' ' + this.config.strings.collapseAll;
             } else {
                 // Collapse all.
                 $groups.addClass('collapsed');
                 $btn.find('.dashicons').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
-                $btn.contents().filter(function() { return this.nodeType === 3; }).last()[0].textContent = ' ' + this.config.strings.expandAll;
+                $btn.contents().filter(function () { return this.nodeType === 3; }).last()[0].textContent = ' ' + this.config.strings.expandAll;
             }
         },
 
@@ -900,7 +900,7 @@
          */
         generateLessVariablesDisplay(variables) {
             const entries = Object.entries(variables);
-            
+
             if (entries.length === 0) {
                 return '// No modifications - using default values';
             }
@@ -932,8 +932,11 @@
             $('#preview-placeholder').hide();
             this.$previewFrame.show();
 
-            // Build the preview URL.
-            const previewUrl = this.config.previewUrl + '&component=' + encodeURIComponent(component);
+            // Build the preview URL.  Forward ?debug from parent page.
+            let previewUrl = this.config.previewUrl + '&component=' + encodeURIComponent(component);
+            if (new URLSearchParams(window.location.search).has('debug')) {
+                previewUrl += '&debug=1';
+            }
             this.$previewFrame.attr('src', previewUrl);
         },
 
@@ -997,7 +1000,7 @@
             }
 
             const componentKeys = Object.keys(this.pendingChanges);
-            
+
             if (componentKeys.length === 0) {
                 this.showToast(this.config.strings.noChanges || 'No unsaved changes to save.', 'info');
                 return;
@@ -1012,7 +1015,7 @@
             let lastModifiedCount = 0;
 
             // Save each component with pending changes.
-            componentKeys.forEach(function(componentId) {
+            componentKeys.forEach(function (componentId) {
                 const values = self.pendingChanges[componentId];
 
                 $.ajax({
@@ -1048,10 +1051,10 @@
                     },
                     complete() {
                         remaining--;
-                        
+
                         if (remaining === 0) {
                             $btn.prop('disabled', false).html(originalHtml);
-                            
+
                             // Update group heading badges for the currently loaded component.
                             if (lastModifiedVars !== null) {
                                 self.applyServerModifiedState(lastModifiedVars, lastModifiedCount);
@@ -1157,7 +1160,7 @@
                             document.body.appendChild(a);
                             a.click();
                             document.body.removeChild(a);
-                            
+
                             // Small delay to allow download to initiate.
                             setTimeout(() => {
                                 URL.revokeObjectURL(url);
@@ -1204,7 +1207,7 @@
                             document.body.appendChild(a);
                             a.click();
                             document.body.removeChild(a);
-                            
+
                             // Small delay to allow download to initiate.
                             setTimeout(() => {
                                 URL.revokeObjectURL(url);
@@ -1253,7 +1256,7 @@
                             document.body.appendChild(a);
                             a.click();
                             document.body.removeChild(a);
-                            
+
                             setTimeout(() => {
                                 URL.revokeObjectURL(url);
                                 self.showToast('Exported YOOtheme style JSON!', 'success');
@@ -1328,14 +1331,14 @@
                 },
                 success(response) {
                     self.log('log', '[EPB Import] AJAX response:', response);
-                    
+
                     // Log debug messages from server.
                     if (response.data?.debug_logs) {
                         self.log('group', '[EPB Import] Server Debug Logs');
                         response.data.debug_logs.forEach(log => self.log('log', log));
                         self.log('groupEnd');
                     }
-                    
+
                     self.hideModal();
 
                     if (response.success) {
@@ -1427,11 +1430,11 @@
 
             // 2. Update each group heading badge.
             $('#component-fields .variable-group').each(function () {
-                const $group   = $(this);
+                const $group = $(this);
                 const $heading = $group.find('.variable-group__heading');
-                const $fields  = $group.find('.ppm-field.field-modified');
-                const count    = $fields.length;
-                let $badge     = $heading.find('.group-modified');
+                const $fields = $group.find('.ppm-field.field-modified');
+                const count = $fields.length;
+                let $badge = $heading.find('.group-modified');
 
                 if (count > 0) {
                     const labels = [];
@@ -1445,7 +1448,7 @@
                         if (label) displayLabels.push(label);
                     });
 
-                    const tooltip     = labels.join(', ');
+                    const tooltip = labels.join(', ');
                     const displayText = displayLabels.join(', ');
 
                     if ($badge.length) {
@@ -1455,9 +1458,9 @@
                     } else {
                         $badge = $(
                             '<span class="group-modified" title="' + $('<span>').text(tooltip).html() + '">' +
-                                count +
-                                '<span class="modified-separator">|</span>' +
-                                '<span class="modified-label">' + $('<span>').text(displayText).html() + '</span>' +
+                            count +
+                            '<span class="modified-separator">|</span>' +
+                            '<span class="modified-label">' + $('<span>').text(displayText).html() + '</span>' +
                             '</span>'
                         );
                         $heading.append($badge);
@@ -1510,10 +1513,10 @@
          */
         updateCategoryModifiedState($category) {
             if (!$category.length) return;
-            
+
             // Check if any component links in this category still have the has-modified class.
             const hasModifiedComponents = $category.find('.component-link.has-modified').length > 0;
-            
+
             if (hasModifiedComponents) {
                 // Ensure category has the modified class.
                 if (!$category.hasClass('has-modified')) {

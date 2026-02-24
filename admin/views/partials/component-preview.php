@@ -173,6 +173,7 @@ $compiler_available = Less_Compiler::is_available();
             var ajaxUrl = <?php echo json_encode(admin_url('admin-ajax.php')); ?>;
             var nonce = <?php echo json_encode($compile_nonce); ?>;
             var compilerAvailable = <?php echo $compiler_available ? 'true' : 'false'; ?>;
+            var debugMode = (new URLSearchParams(window.location.search)).has('debug');
 
             // Current variable overrides - start with all saved values.
             var currentOverrides = <?php echo json_encode($initial_overrides); ?>;
@@ -231,6 +232,15 @@ $compiler_available = Less_Compiler::is_available();
                 formData.append('nonce', nonce);
                 formData.append('component', componentName);
                 formData.append('overrides', JSON.stringify(currentOverrides));
+                if (debugMode) {
+                    formData.append('debug', '1');
+                }
+
+                if (debugMode) {
+                    console.group('[EPB Preview Debug] Compile request for: ' + componentName);
+                    console.log('Overrides count:', Object.keys(currentOverrides).length);
+                    console.log('Overrides:', JSON.parse(JSON.stringify(currentOverrides)));
+                }
 
                 // Make the request.
                 pendingRequest = new XMLHttpRequest();
@@ -243,6 +253,13 @@ $compiler_available = Less_Compiler::is_available();
                         try {
                             var response = JSON.parse(this.responseText);
 
+                            if (debugMode) {
+                                console.log('Response status:', response.success ? 'success' : 'error');
+                                if (response.data && response.data.debug_info) {
+                                    console.log('Server debug info:', response.data.debug_info);
+                                }
+                            }
+
                             if (response.success && response.data && response.data.css) {
                                 // Inject the compiled CSS.
                                 var styleEl = document.getElementById('compiled-preview-styles');
@@ -250,7 +267,10 @@ $compiler_available = Less_Compiler::is_available();
                                     styleEl.textContent = response.data.css;
                                 }
 
-                                console.log('Compiled CSS:', response.data.css.length, 'bytes');
+                                if (debugMode) {
+                                    console.log('Compiled CSS:', response.data.css.length, 'bytes');
+                                    console.groupEnd();
+                                }
                                 showStatus('Updated', 'success');
                                 hideStatusDelayed(1000);
                             } else {
@@ -258,17 +278,60 @@ $compiler_available = Less_Compiler::is_available();
                                     response.data.message :
                                     'Unknown error';
                                 console.error('Compilation failed:', errorMsg);
+                                if (debugMode) {
+                                    console.log('Full response:', response);
+                                    console.groupEnd();
+                                }
                                 showStatus('Error: ' + errorMsg, 'error');
                                 hideStatusDelayed(3000);
                             }
                         } catch (e) {
                             console.error('Invalid response:', e);
+                            if (debugMode) {
+                                console.log('Raw response text:', this.responseText.substring(0, 500));
+                                console.groupEnd();
+                            }
                             showStatus('Invalid response', 'error');
                             hideStatusDelayed(2000);
                         }
                     } else {
-                        console.error('Request failed:', this.status);
-                        showStatus('Request failed', 'error');
+                        console.error('Compile request failed — HTTP', this.status, this.statusText);
+                        console.error('Response body:', this.responseText.substring(0, 2000));
+                        // Try to parse as JSON anyway (WP may return error JSON with 500 status).
+                        try {
+                            var errResponse = JSON.parse(this.responseText);
+                            if (errResponse.data && errResponse.data.message) {
+                                console.error('Server message:', errResponse.data.message);
+                                if (errResponse.data.error_context) {
+                                    console.group('Error context (source around failure)');
+                                    var ctx = errResponse.data.error_context;
+                                    if (ctx.error_line_number) {
+                                        console.log('Error at line:', ctx.error_line_number, '| index:', ctx.error_index);
+                                    }
+                                    if (ctx.error_line) {
+                                        console.log('Error line:', ctx.error_line);
+                                    }
+                                    if (ctx.error_context_lines) {
+                                        console.log('Context:\n' + ctx.error_context_lines.join('\n'));
+                                    }
+                                    if (ctx.source_around_error) {
+                                        console.log('Source ±300 chars around error:', ctx.source_around_error);
+                                    }
+                                    console.groupEnd();
+                                }
+                                if (errResponse.data.debug_info) {
+                                    console.log('Server debug info:', errResponse.data.debug_info);
+                                }
+                                showStatus('Error: ' + errResponse.data.message, 'error');
+                                if (debugMode) { console.groupEnd(); }
+                                hideStatusDelayed(5000);
+                                return;
+                            }
+                        } catch(ignore) {}
+                        if (debugMode) {
+                            console.groupEnd();
+                        }
+                        showStatus('Request failed (' + this.status + ')', 'error');
                         hideStatusDelayed(2000);
                     }
                 };
@@ -276,6 +339,9 @@ $compiler_available = Less_Compiler::is_available();
                 pendingRequest.onerror = function() {
                     pendingRequest = null;
                     console.error('Network error');
+                    if (debugMode) {
+                        console.groupEnd();
+                    }
                     showStatus('Network error', 'error');
                     hideStatusDelayed(2000);
                 };

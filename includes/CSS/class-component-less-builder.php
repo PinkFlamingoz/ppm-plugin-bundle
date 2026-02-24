@@ -277,6 +277,29 @@ class Component_Less_Builder
     }
 
     /**
+     * CSS color keywords that break Less color math functions like rgba(), fade(), lighten().
+     * Map to their equivalent numeric representations so Less can process them.
+     *
+     * @var array<string, string>
+     */
+    private const COLOR_KEYWORD_MAP = [
+        'transparent' => 'rgba(0, 0, 0, 0)',
+    ];
+
+    /**
+     * CSS keywords that should not be used as Less variable overrides.
+     * They aren't real values — they reference cascade behaviour or defaults
+     * and would break Less color/math functions (rgba, fade, darken, …).
+     * Variables with these values are omitted so the Less defaults apply.
+     *
+     * @var string[]
+     */
+    private const SKIP_KEYWORDS = [
+        'inherit', 'initial', 'unset', 'revert', 'revert-layer',
+        'none', 'auto', 'currentcolor',
+    ];
+
+    /**
      * Generate Less variable override string from an array.
      *
      * @param array $overrides Variable name => value pairs.
@@ -290,6 +313,18 @@ class Component_Less_Builder
             // Sanitize variable name.
             $name = preg_replace('/[^a-zA-Z0-9_-]/', '', $name);
             if (empty($name) || empty($value)) {
+                continue;
+            }
+
+            // Convert CSS color keywords to numeric equivalents for Less compatibility.
+            $lower = strtolower(trim($value));
+            if (isset(self::COLOR_KEYWORD_MAP[$lower])) {
+                $value = self::COLOR_KEYWORD_MAP[$lower];
+            }
+
+            // Skip pure CSS keywords that would break Less function evaluation.
+            // These variables should use their default values from the Less source.
+            if (in_array($lower, self::SKIP_KEYWORDS, true)) {
                 continue;
             }
 

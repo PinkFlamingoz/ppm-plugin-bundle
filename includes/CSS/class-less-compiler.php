@@ -49,6 +49,14 @@ class Less_Compiler
     private string $last_error = '';
 
     /**
+     * Preprocessed Less source (after all transformations, before parsing).
+     * Stored for debugging when compilation fails.
+     *
+     * @var string
+     */
+    private string $preprocessed_source = '';
+
+    /**
      * Constructor.
      *
      * @param array $options Optional. Less compiler options.
@@ -233,8 +241,29 @@ class Less_Compiler
         // Use a function to handle nested parentheses properly.
         $less_content = $this->escape_modern_pseudo_classes($less_content);
 
+        // Escape color function calls that contain CSS var() references.
+        // Less tries to evaluate rgba(), hsla() etc. as Less functions, but
+        // var(--custom-prop) is not a number — it must be passed through as raw CSS.
+        $less_content = $this->escape_color_functions_with_vars($less_content);
+
+        // Expand 2-argument rgba(color, alpha) calls to 4-argument form.
+        // wikimedia/less.php only handles rgba(r, g, b, a) with numeric args,
+        // but UIkit uses the CSS4 shorthand rgba(@color-var, alpha).
+        $less_content = $this->expand_rgba_shorthand($less_content);
+
+        // Extract CSS @property blocks that less.php cannot parse.
+        // They will be re-injected into the compiled CSS output.
+        $less_content = $this->extract_at_property_blocks($less_content);
+
         return $less_content;
     }
+
+    /**
+     * Stored @property blocks extracted during preprocessing.
+     *
+     * @var string[]
+     */
+    private array $extracted_at_property_blocks = [];
 
     /**
      * Escape modern CSS pseudo-classes that less.php doesn't support.
@@ -282,6 +311,216 @@ class Less_Compiler
     }
 
     /**
+     * Escape CSS color function calls that contain var() references.
+     *
+     * Less evaluates rgba(), hsla(), rgb(), hsl() as built-in functions and
+     * expects numeric arguments. When these calls contain CSS custom property
+     * references like var(--name), the evaluation fails. This method wraps
+     * such calls in Less escape syntax ~"..." so they pass through as raw CSS.
+     *
+     * Handles: rgba(), hsla(), rgb(), hsl()
+     *
+     * @param string $content The Less content.
+     * @return string The content with var()-containing color functions escaped.
+     */
+    private function escape_color_functions_with_vars(string $content): string
+    {
+        // Match color function names that Less tries to evaluate.
+        $functions = ['rgba', 'hsla', 'rgb', 'hsl'];
+
+        foreach ($functions as $func_name) {
+            $search = $func_name . '(';
+            $offset = 0;
+
+            while (($pos = strpos($content, $search, $offset)) !== false) {
+                $inner_start = $pos + strlen($search);
+
+                // Find the matching closing parenthesis.
+                $close_pos = $this->find_matching_paren($content, $inner_start);
+                if ($close_pos === false) {
+                    $offset = $inner_start;
+                    continue;
+                }
+
+                // Extract the full function call contents.
+                $inner = substr($content, $inner_start, $close_pos - $inner_start);
+
+                // Check if the arguments contain var(.
+                if (stripos($inner, 'var(') !== false) {
+                    // Wrap the entire function call in ~"..." to escape from Less evaluation.
+                    $full_call = substr($content, $pos, $close_pos + 1 - $pos);
+                    $escaped = '~"' . $full_call . '"';
+                    $content = substr_replace($content, $escaped, $pos, $close_pos + 1 - $pos);
+                    $offset = $pos + strlen($escaped);
+                } else {
+                    $offset = $close_pos + 1;
+                }
+            }
+        }
+
+        return $content;
+    }
+
+    /**
+     * Find the position of the matching closing parenthesis.
+     *
+     * @param string $content The source string.
+     * @param int    $start   Position right after the opening '('.
+     * @return int|false Position of the matching ')', or false if not found.
+     */
+    private function find_matching_paren(string $content, int $start): int|false
+    {
+        $len = strlen($content);
+        $depth = 0;
+
+        for ($i = $start; $i < $len; $i++) {
+            $ch = $content[$i];
+            if ($ch === '(') {
+                $depth++;
+            } elseif ($ch === ')') {
+                if ($depth === 0) {
+                    return $i;
+                }
+                $depth--;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Expand CSS4 2-argument rgba(color, alpha) to 4-argument form.
+     *
+     * wikimedia/less.php's built-in rgba() only accepts four numeric parameters
+     * (r, g, b, a). CSS4 and JavaScript Less allow a shorthand with two
+     * arguments: rgba(@color, alpha). This method rewrites those calls so the
+     * PHP Less compiler can process them:
+     *
+     *   rgba(EXPR, alpha)  →  rgba(red(EXPR), green(EXPR), blue(EXPR), alpha)
+     *
+     * Only top-level 2-argument calls are rewritten (nested parens are tracked
+     * to avoid false positives).
+     *
+     * @param string $content The Less content.
+     * @return string The content with expanded rgba() calls.
+     */
+    private function expand_rgba_shorthand(string $content): string
+    {
+        $search = 'rgba(';
+        $offset = 0;
+
+        while (($pos = strpos($content, $search, $offset)) !== false) {
+            $inner_start = $pos + strlen($search);
+
+            // Find the matching closing parenthesis and split top-level args.
+            $args = $this->split_function_args($content, $inner_start, $close_pos);
+            if ($args === false || $close_pos === false) {
+                // Malformed — skip past this occurrence.
+                $offset = $inner_start;
+                continue;
+            }
+
+            // Only rewrite when there are exactly 2 top-level arguments.
+            if (count($args) === 2) {
+                $color_expr = trim($args[0]);
+                $alpha_expr = trim($args[1]);
+
+                // Build the expanded call.
+                $expanded = sprintf(
+                    'rgba(red(%s), green(%s), blue(%s), %s)',
+                    $color_expr,
+                    $color_expr,
+                    $color_expr,
+                    $alpha_expr
+                );
+
+                // Replace the original rgba(...) substring.
+                $original_len = $close_pos + 1 - $pos; // includes 'rgba(' … ')'
+                $content = substr_replace($content, $expanded, $pos, $original_len);
+
+                // Advance past the replacement to avoid re-processing.
+                $offset = $pos + strlen($expanded);
+            } else {
+                // 1, 3, or 4+ args — leave as-is.
+                $offset = $close_pos + 1;
+            }
+        }
+
+        return $content;
+    }
+
+    /**
+     * Split function arguments respecting nested parentheses.
+     *
+     * Starting right after the opening '(' of a function call, this walks the
+     * source to find the matching ')' while tracking nesting depth.  It splits
+     * on commas that are at nesting depth 0 (top-level arguments).
+     *
+     * @param string   $content   The full Less source.
+     * @param int      $start     Position right after the opening '('.
+     * @param int|null &$close_pos Set to the position of the matching ')'.
+     * @return string[]|false      Array of argument strings, or false on error.
+     */
+    private function split_function_args(string $content, int $start, ?int &$close_pos): array|false
+    {
+        $len   = strlen($content);
+        $depth = 0;
+        $args  = [];
+        $arg_start = $start;
+        $close_pos = null;
+
+        for ($i = $start; $i < $len; $i++) {
+            $ch = $content[$i];
+
+            if ($ch === '(') {
+                $depth++;
+            } elseif ($ch === ')') {
+                if ($depth === 0) {
+                    // Matching close paren found.
+                    $args[] = substr($content, $arg_start, $i - $arg_start);
+                    $close_pos = $i;
+                    return $args;
+                }
+                $depth--;
+            } elseif ($ch === ',' && $depth === 0) {
+                $args[] = substr($content, $arg_start, $i - $arg_start);
+                $arg_start = $i + 1;
+            }
+        }
+
+        // Never found the matching ')'.
+        return false;
+    }
+
+    /**
+     * Extract CSS @property blocks that less.php cannot parse.
+     *
+     * CSS @property at-rules (e.g. @property --uk-overflow-fade-start-opacity)
+     * are valid CSS but not understood by the Less parser. This method strips
+     * them from the input and stores them so they can be appended to the
+     * compiled CSS output.
+     *
+     * @param string $content The Less content.
+     * @return string The content with @property blocks removed.
+     */
+    private function extract_at_property_blocks(string $content): string
+    {
+        $this->extracted_at_property_blocks = [];
+
+        // Match @property --name { ... } blocks.
+        $content = preg_replace_callback(
+            '/@property\s+--[a-zA-Z0-9_-]+\s*\{[^}]*\}/s',
+            function ($match) {
+                $this->extracted_at_property_blocks[] = $match[0];
+                return '/* @property block extracted */';
+            },
+            $content
+        );
+
+        return $content;
+    }
+
+    /**
      * Compile Less content to CSS.
      *
      * @param string $less_content The Less content to compile.
@@ -298,6 +537,9 @@ class Less_Compiler
             // Preprocess to handle // comments.
             $less_content = $this->preprocess($less_content);
 
+            // Store preprocessed source for debugging.
+            $this->preprocessed_source = $less_content;
+
             // Modify variables if provided.
             if (!empty($variables)) {
                 $parser->ModifyVars($variables);
@@ -307,7 +549,14 @@ class Less_Compiler
             $parser->parse($less_content);
 
             // Get the compiled CSS.
-            return $parser->getCss();
+            $css = $parser->getCss();
+
+            // Re-inject any @property blocks that were extracted during preprocessing.
+            if (!empty($this->extracted_at_property_blocks)) {
+                $css .= "\n" . implode("\n", $this->extracted_at_property_blocks) . "\n";
+            }
+
+            return $css;
         } catch (\Less_Exception_Parser $e) {
             $this->last_error = 'Less Parse Error: ' . $e->getMessage();
             return false;
@@ -363,6 +612,19 @@ class Less_Compiler
     public function get_error(): string
     {
         return $this->last_error;
+    }
+
+    /**
+     * Get the preprocessed Less source from the last compilation attempt.
+     *
+     * Useful for debugging: the error index in Less parse errors refers to
+     * this string (the source after all preprocessing transformations).
+     *
+     * @return string
+     */
+    public function get_preprocessed_source(): string
+    {
+        return $this->preprocessed_source;
     }
 
     /**
