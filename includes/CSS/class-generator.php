@@ -633,58 +633,6 @@ h6, .uk-h6 {
 }
 
 /* ==========================================================================
-   Heading Component Classes - Fluid scaling for larger displays
-   ========================================================================== */
-
-.uk-heading-small {
-    font-size: clamp(
-        var(--uk-heading-small-font-size, 2.4rem),
-        calc(var(--uk-heading-small-font-size, 2.4rem) + (var(--uk-heading-small-font-size-m, 3.25rem) - var(--uk-heading-small-font-size, 2.4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px)))),
-        var(--uk-heading-small-font-size-m, 3.25rem)
-    );
-}
-
-.uk-heading-medium {
-    font-size: clamp(
-        var(--uk-heading-medium-font-size, 2.5rem),
-        calc(var(--uk-heading-medium-font-size, 2.5rem) + (var(--uk-heading-medium-font-size-l, 4rem) - var(--uk-heading-medium-font-size, 2.5rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
-        var(--uk-heading-medium-font-size-l, 4rem)
-    );
-}
-
-.uk-heading-large {
-    font-size: clamp(
-        var(--uk-heading-large-font-size, 3.4rem),
-        calc(var(--uk-heading-large-font-size, 3.4rem) + (var(--uk-heading-large-font-size-l, 6rem) - var(--uk-heading-large-font-size, 3.4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
-        var(--uk-heading-large-font-size-l, 6rem)
-    );
-}
-
-.uk-heading-xlarge {
-    font-size: clamp(
-        var(--uk-heading-xlarge-font-size, 4rem),
-        calc(var(--uk-heading-xlarge-font-size, 4rem) + (var(--uk-heading-xlarge-font-size-l, 8rem) - var(--uk-heading-xlarge-font-size, 4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
-        var(--uk-heading-xlarge-font-size-l, 8rem)
-    );
-}
-
-.uk-heading-2xlarge {
-    font-size: clamp(
-        var(--uk-heading-2xlarge-font-size, 6rem),
-        calc(var(--uk-heading-2xlarge-font-size, 6rem) + (var(--uk-heading-2xlarge-font-size-l, 11rem) - var(--uk-heading-2xlarge-font-size, 6rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
-        var(--uk-heading-2xlarge-font-size-l, 11rem)
-    );
-}
-
-.uk-heading-3xlarge {
-    font-size: clamp(
-        var(--uk-heading-3xlarge-font-size, 8rem),
-        calc(var(--uk-heading-3xlarge-font-size, 8rem) + (var(--uk-heading-3xlarge-font-size-l, 15rem) - var(--uk-heading-3xlarge-font-size, 8rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
-        var(--uk-heading-3xlarge-font-size-l, 15rem)
-    );
-}
-
-/* ==========================================================================
    Text Utilities
    ========================================================================== */
 
@@ -1120,6 +1068,58 @@ h1, h2, h3, h4, h5, h6,
     hyphens: auto;
     overflow-wrap: break-word;
     word-break: break-word;
+}
+
+/* ==========================================================================
+   Heading Component Classes - Fluid scaling for larger displays
+   ========================================================================== */
+
+.uk-heading-small {
+    font-size: clamp(
+        var(--uk-heading-small-font-size, 2.4rem),
+        calc(var(--uk-heading-small-font-size, 2.4rem) + (var(--uk-heading-small-font-size-m, 3.25rem) - var(--uk-heading-small-font-size, 2.4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-small-font-size-m, 3.25rem)
+    );
+}
+
+.uk-heading-medium {
+    font-size: clamp(
+        var(--uk-heading-medium-font-size, 2.5rem),
+        calc(var(--uk-heading-medium-font-size, 2.5rem) + (var(--uk-heading-medium-font-size-l, 4rem) - var(--uk-heading-medium-font-size, 2.5rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-medium-font-size-l, 4rem)
+    );
+}
+
+.uk-heading-large {
+    font-size: clamp(
+        var(--uk-heading-large-font-size, 3.4rem),
+        calc(var(--uk-heading-large-font-size, 3.4rem) + (var(--uk-heading-large-font-size-l, 6rem) - var(--uk-heading-large-font-size, 3.4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-large-font-size-l, 6rem)
+    );
+}
+
+.uk-heading-xlarge {
+    font-size: clamp(
+        var(--uk-heading-xlarge-font-size, 4rem),
+        calc(var(--uk-heading-xlarge-font-size, 4rem) + (var(--uk-heading-xlarge-font-size-l, 8rem) - var(--uk-heading-xlarge-font-size, 4rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-xlarge-font-size-l, 8rem)
+    );
+}
+
+.uk-heading-2xlarge {
+    font-size: clamp(
+        var(--uk-heading-2xlarge-font-size, 6rem),
+        calc(var(--uk-heading-2xlarge-font-size, 6rem) + (var(--uk-heading-2xlarge-font-size-l, 11rem) - var(--uk-heading-2xlarge-font-size, 6rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-2xlarge-font-size-l, 11rem)
+    );
+}
+
+.uk-heading-3xlarge {
+    font-size: clamp(
+        var(--uk-heading-3xlarge-font-size, 8rem),
+        calc(var(--uk-heading-3xlarge-font-size, 8rem) + (var(--uk-heading-3xlarge-font-size-l, 15rem) - var(--uk-heading-3xlarge-font-size, 8rem)) * ((100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-xl, 1600px) - var(--uk-breakpoint-s, 640px)))),
+        var(--uk-heading-3xlarge-font-size-l, 15rem)
+    );
 }
 
 CSS;
