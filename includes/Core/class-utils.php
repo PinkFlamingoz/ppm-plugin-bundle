@@ -108,16 +108,31 @@ class Utils
             return false;
         }
 
+        $original_is_reference = (strpos($original, '@') === 0);
+        $is_color              = (($meta['type'] ?? '') === 'color');
+
+        // For color fields where the original is a reference: if the user entered
+        // a direct value (not a reference), the inheritance chain is intentionally
+        // broken. Always treat as modified so the explicit value is written to the
+        // Less overrides, preventing theme-layer redefinitions (e.g. the master
+        // UIkit theme remapping a variable to @global-muted-background) from
+        // silently overriding the user's choice.
+        if ($is_color && $original_is_reference) {
+            $saved_is_reference = (strpos(trim($saved_value), '@') === 0);
+            if (!$saved_is_reference) {
+                return true;
+            }
+        }
+
         // For fields whose original is a Less reference (@something), also check
         // whether the saved value matches the resolved value (e.g. user chose the
         // same weight from a select that the reference resolved to).
-        $original_is_reference = (strpos($original, '@') === 0);
         if ($original_is_reference && $normalized_saved === $resolved) {
             return false;
         }
 
         // For color fields, compare normalised hex values so #fff === #ffffff.
-        if (($meta['type'] ?? '') === 'color') {
+        if ($is_color) {
             // CSS color keywords (transparent, currentColor, etc.) cannot be
             // meaningfully converted to a 6-digit hex, so compare them as strings
             // instead of going through to_hex_color() which would map e.g.

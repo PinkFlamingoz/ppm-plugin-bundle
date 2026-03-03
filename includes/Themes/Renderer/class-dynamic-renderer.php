@@ -161,7 +161,15 @@ class Dynamic_Renderer
     private static function render_color_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved_value = $meta['resolved'] ?? $original_value;
+
+        // When the current value differs from the original (user changed the reference),
+        // resolve the CURRENT value dynamically instead of using the pre-cached resolved
+        // value from parse_component() which was computed for the original default.
+        if ($value !== $original_value && (strpos($value, '@') === 0 || preg_match('/(darken|lighten|fade|saturate|spin)\s*\(/', $value))) {
+            $resolved_value = Less_Parser::resolve_value($value);
+        } else {
+            $resolved_value = $meta['resolved'] ?? $original_value;
+        }
 
         // Check if original is a reference or contains Less functions.
         $original_is_reference = (strpos($original_value, '@') === 0);
@@ -234,7 +242,13 @@ class Dynamic_Renderer
     private static function render_size_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $value;
+
+        // Dynamically re-resolve when the user changed the reference.
+        if ($value !== $original_value && strpos($value, '@') === 0) {
+            $resolved = Less_Parser::resolve_value($value);
+        } else {
+            $resolved = $meta['resolved'] ?? $value;
+        }
         $is_reference = (strpos($original_value, '@') === 0);
         $value_is_reference = (strpos($value, '@') === 0);
 
@@ -280,7 +294,13 @@ class Dynamic_Renderer
     private static function render_number_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $value;
+
+        // Dynamically re-resolve when the user changed the reference.
+        if ($value !== $original_value && strpos($value, '@') === 0) {
+            $resolved = Less_Parser::resolve_value($value);
+        } else {
+            $resolved = $meta['resolved'] ?? $value;
+        }
         $value_is_reference = (strpos($value, '@') === 0);
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
@@ -325,7 +345,13 @@ class Dynamic_Renderer
     private static function render_font_weight_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $value;
+
+        // Dynamically re-resolve when the user changed the reference.
+        if ($value !== $original_value && strpos($value, '@') === 0) {
+            $resolved = Less_Parser::resolve_value($value);
+        } else {
+            $resolved = $meta['resolved'] ?? $value;
+        }
         $value_is_reference = (strpos($value, '@') === 0);
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
@@ -394,7 +420,13 @@ class Dynamic_Renderer
     private static function render_font_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $value;
+
+        // Dynamically re-resolve when the user changed the reference.
+        if ($value !== $original_value && strpos($value, '@') === 0) {
+            $resolved = Less_Parser::resolve_value($value);
+        } else {
+            $resolved = $meta['resolved'] ?? $value;
+        }
         $value_is_reference = (strpos($value, '@') === 0);
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
@@ -456,7 +488,13 @@ class Dynamic_Renderer
     private static function render_reference_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $value;
+
+        // Dynamically re-resolve when the user changed the reference.
+        if ($value !== $original_value && strpos($value, '@') === 0) {
+            $resolved = Less_Parser::resolve_value($value);
+        } else {
+            $resolved = $meta['resolved'] ?? $value;
+        }
         $value_is_reference = (strpos($value, '@') === 0);
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
@@ -499,7 +537,13 @@ class Dynamic_Renderer
     private static function render_keyword_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $value;
+
+        // Dynamically re-resolve when the user changed the reference.
+        if ($value !== $original_value && strpos($value, '@') === 0) {
+            $resolved = Less_Parser::resolve_value($value);
+        } else {
+            $resolved = $meta['resolved'] ?? $value;
+        }
         $value_is_reference = (strpos($value, '@') === 0);
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
@@ -560,7 +604,13 @@ class Dynamic_Renderer
     private static function render_duration_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $value;
+
+        // Dynamically re-resolve when the user changed the reference.
+        if ($value !== $original_value && strpos($value, '@') === 0) {
+            $resolved = Less_Parser::resolve_value($value);
+        } else {
+            $resolved = $meta['resolved'] ?? $value;
+        }
         $value_is_reference = (strpos($value, '@') === 0);
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
@@ -603,7 +653,13 @@ class Dynamic_Renderer
     private static function render_text_field(string $name, string $value, string $label, array $meta): void
     {
         $original_value = $meta['value'];
-        $resolved = $meta['resolved'] ?? $value;
+
+        // Dynamically re-resolve when the user changed the reference.
+        if ($value !== $original_value && strpos($value, '@') === 0) {
+            $resolved = Less_Parser::resolve_value($value);
+        } else {
+            $resolved = $meta['resolved'] ?? $value;
+        }
         $value_is_reference = (strpos($value, '@') === 0);
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);

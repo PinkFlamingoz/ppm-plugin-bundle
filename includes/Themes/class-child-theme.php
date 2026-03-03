@@ -13,6 +13,7 @@ use EPB\Core\Notices;
 use EPB\Core\Constants;
 use EPB\CSS\Generator as CSSGenerator;
 use EPB\CSS\Component_Registry;
+use EPB\CSS\Less_Parser;
 
 // Prevent direct access.
 if (!defined('ABSPATH')) {
@@ -472,6 +473,7 @@ PHP;
 
         $components = Component_Registry::get_all();
         $has_overrides = false;
+        $all_saved = []; // Track all explicitly saved variable names.
 
         foreach (array_keys($components) as $component) {
             $saved = get_option(Constants::OPTION_PREFIX . $component, []);
@@ -497,6 +499,7 @@ PHP;
 
                 $output .= "@{$var_name}: {$value};\n";
                 $has_overrides = true;
+                $all_saved[$var_name] = true;
             }
 
             $output .= "\n";
@@ -506,6 +509,92 @@ PHP;
             $output .= "// No variable overrides saved yet.\n";
             $output .= "// Use the Component Picker to customize UIkit variables.\n";
         }
+
+        // Re-assert inherited references affected by saved global variables.
+        // When a global like @global-background is overridden, component variables
+        // that inherit from it (e.g. @dropbar-background: @global-background) must
+        // be re-asserted. Without this, UIkit's master theme layer may redefine those
+        // component variables to reference a DIFFERENT global (e.g. @global-muted-
+        // background), silently breaking the expected inheritance.
+        if ($has_overrides) {
+            $output .= self::generate_reference_reassertions($all_saved);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Generate Less re-assertions for variables that inherit from overridden globals.
+     *
+     * When a variable like @global-background is overridden, any component variable
+     * whose default is a reference to it may be silently overridden by UIkit's master
+     * theme layer (which can remap e.g. @dropbar-background to @global-muted-background).
+     * Re-asserting the original reference ensures the user's global override cascades
+     * correctly through all theme layers.
+     *
+     * @param array<string, true> $all_saved Map of all explicitly saved variable names.
+     * @return string Less variable declarations for re-assertions.
+     */
+    private static function generate_reference_reassertions(array $all_saved): string
+    {
+        // Only re-assert references to variables saved in the global 'variables' component,
+        // since those are the ones most commonly overridden by the master theme layer.
+        $global_saved = get_option(Constants::OPTION_PREFIX . 'variables', []);
+
+        if (empty($global_saved) || !is_array($global_saved)) {
+            return '';
+        }
+
+        $global_var_names = array_keys($global_saved);
+        $reassertions = [];
+        $components = Component_Registry::get_all();
+
+        foreach (array_keys($components) as $component) {
+            // Skip the globals component itself.
+            if ($component === 'variables') {
+                continue;
+            }
+
+            $variables = Less_Parser::parse_component($component);
+
+            foreach ($variables as $name => $meta) {
+                // Skip if already explicitly saved/overridden by the user.
+                if (isset($all_saved[$name])) {
+                    continue;
+                }
+
+                $value = $meta['value'];
+
+                // Only handle simple references: @variable-name.
+                if (!preg_match('/^@([a-z0-9_-]+)$/i', $value, $match)) {
+                    continue;
+                }
+
+                $ref_name = $match[1];
+
+                // Re-assert if the referenced variable is a saved global.
+                if (in_array($ref_name, $global_var_names, true)) {
+                    $reassertions[$name] = $value;
+                }
+            }
+        }
+
+        if (empty($reassertions)) {
+            return '';
+        }
+
+        $output = "//\n";
+        $output .= "// Inherited Reference Re-assertions\n";
+        $output .= "// Ensures overridden globals cascade correctly through theme layers\n";
+        $output .= "//\n\n";
+
+        ksort($reassertions);
+
+        foreach ($reassertions as $name => $value) {
+            $output .= "@{$name}: {$value};\n";
+        }
+
+        $output .= "\n";
 
         return $output;
     }

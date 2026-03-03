@@ -17,6 +17,8 @@
 
 namespace EPB\CSS;
 
+use EPB\CSS\Less_Parser;
+
 /**
  * Component Less Builder class.
  */
@@ -116,6 +118,16 @@ class Component_Less_Builder
         // 5. User variable overrides (LAST - highest priority).
         if (!empty($overrides)) {
             $parts[] = $this->generate_overrides($overrides);
+
+            // 6. Re-assert inherited references affected by overridden globals.
+            // When a global like @global-background is overridden, component variables
+            // that reference it (e.g. @dropbar-background: @global-background) must be
+            // re-asserted after the UIkit component source, which may redefine them.
+            // This mirrors the fix in Child_Theme::generate_reference_reassertions().
+            $reassertions = $this->generate_reference_reassertions($overrides);
+            if (!empty($reassertions)) {
+                $parts[] = $reassertions;
+            }
         }
 
         return implode("\n\n", array_filter($parts));
@@ -295,8 +307,14 @@ class Component_Less_Builder
      * @var string[]
      */
     private const SKIP_KEYWORDS = [
-        'inherit', 'initial', 'unset', 'revert', 'revert-layer',
-        'none', 'auto', 'currentcolor',
+        'inherit',
+        'initial',
+        'unset',
+        'revert',
+        'revert-layer',
+        'none',
+        'auto',
+        'currentcolor',
     ];
 
     /**
@@ -334,6 +352,76 @@ class Component_Less_Builder
             }
 
             $lines[] = "{$name}: {$value};";
+        }
+
+        return implode("\n", $lines);
+    }
+
+    /**
+     * Generate reference re-assertions for variables that inherit from overridden globals.
+     *
+     * When the user overrides a global variable (e.g. @global-background), component
+     * variables that reference it (e.g. @dropbar-background: @global-background) need
+     * to be explicitly re-asserted. This is because the UIkit component Less source
+     * (loaded in step 4 of build()) may redefine these variables, and theme layers
+     * may remap them to different globals (e.g. @global-muted-background).
+     *
+     * Re-asserting the original reference after all imports ensures the user's global
+     * override cascades correctly to all dependent variables.
+     *
+     * @param array $overrides The user's variable overrides (name => value).
+     * @return string Less variable declarations for re-assertions, or empty string.
+     */
+    private function generate_reference_reassertions(array $overrides): string
+    {
+        // Build a set of overridden variable names (without @ prefix).
+        $overridden_names = [];
+        foreach (array_keys($overrides) as $name) {
+            $overridden_names[ltrim($name, '@')] = true;
+        }
+
+        // Scan ALL consolidated component variables to find references to overridden globals.
+        $reassertions = [];
+        $all_components = Component_Registry::get_all();
+
+        foreach (array_keys($all_components) as $comp_name) {
+            $variables = Less_Parser::parse_component($comp_name);
+
+            foreach ($variables as $name => $meta) {
+                // Skip if this variable is already explicitly overridden.
+                if (isset($overridden_names[$name])) {
+                    continue;
+                }
+
+                $value = $meta['value'];
+
+                // Only handle simple references: @variable-name.
+                if (!preg_match('/^@([a-z0-9_-]+)$/i', $value, $match)) {
+                    continue;
+                }
+
+                $ref_name = $match[1];
+
+                // Re-assert if the referenced variable is in the user's overrides.
+                if (isset($overridden_names[$ref_name])) {
+                    $reassertions[$name] = $value;
+                }
+            }
+        }
+
+        if (empty($reassertions)) {
+            return '';
+        }
+
+        $lines = [
+            "// Inherited Reference Re-assertions",
+            "// Ensures overridden globals cascade correctly through component variables",
+        ];
+
+        ksort($reassertions);
+
+        foreach ($reassertions as $name => $value) {
+            $lines[] = "@{$name}: {$value};";
         }
 
         return implode("\n", $lines);
