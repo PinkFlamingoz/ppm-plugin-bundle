@@ -270,6 +270,24 @@
                     self.onPreviewReady();
                 }
             });
+
+            // Fluid scale ratios: sync range ↔ number inputs.
+            $(document).on('input', '.fluid-ratio-range', function () {
+                const targetId = $(this).data('target');
+                $('#' + targetId).val($(this).val());
+            });
+            $(document).on('input', '.fluid-ratio-number', function () {
+                const val = parseFloat($(this).val());
+                const targetRange = $(this).closest('.setting-input-group').find('.fluid-ratio-range');
+                if (!isNaN(val) && val >= 0.1 && val <= 1) {
+                    targetRange.val(val);
+                }
+            });
+
+            // Fluid scale ratios: save all button.
+            $(document).on('click', '#save-fluid-ratios', function () {
+                self.saveFluidScaleRatios();
+            });
         },
 
         /**
@@ -1131,6 +1149,62 @@
             } else {
                 $dot.remove();
             }
+        },
+
+        /**
+         * Save all fluid scale ratios via AJAX.
+         */
+        saveFluidScaleRatios() {
+            const self = this;
+            const $btn = $('#save-fluid-ratios');
+
+            // Collect all ratio values.
+            const ratios = {};
+            let valid = true;
+
+            $('.fluid-ratio-number').each(function () {
+                const key = $(this).data('option');
+                const val = parseFloat($(this).val());
+                if (isNaN(val) || val < 0.1 || val > 1) {
+                    valid = false;
+                    return false; // break
+                }
+                ratios[key] = $(this).val();
+            });
+
+            if (!valid) {
+                self.showToast('All ratios must be between 0.1 and 1.0', 'error');
+                return;
+            }
+
+            $btn.prop('disabled', true);
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_save_fluid_scale_ratio',
+                    nonce: this.config.nonce,
+                    ratio: ratios.fluid_scale_ratio || '',
+                    ratio_navbar: ratios.fluid_scale_ratio_navbar || '',
+                    ratio_nav: ratios.fluid_scale_ratio_nav || ''
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        $btn.addClass('saved');
+                        setTimeout(() => $btn.removeClass('saved'), 2000);
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to save ratios.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while saving ratios.', 'error');
+                },
+                complete() {
+                    $btn.prop('disabled', false);
+                }
+            });
         },
 
         /**

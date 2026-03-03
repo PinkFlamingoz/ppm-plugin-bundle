@@ -19,12 +19,18 @@ use EPB\CSS\Less_Parser;
 use EPB\Ajax\Component_Handler;
 use EPB\Themes\Manager as ThemesManager;
 use EPB\Themes\Child_Theme;
+use EPB\Core\Constants;
 
 $categories = Component_Registry::get_components_by_category();
 $total_vars = Component_Registry::get_total_variable_count();
 
 // Get saved counts for each component to show modified indicator.
 $modified_components = Component_Handler::get_all_modified_counts();
+
+// Get the current fluid scale ratios.
+$fluid_scale_ratio = get_option(Constants::OPTION_FLUID_SCALE_RATIO, Constants::DEFAULT_FLUID_SCALE_RATIO);
+$fluid_scale_ratio_navbar = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR);
+$fluid_scale_ratio_nav = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV);
 
 // Check child theme status.
 $child_theme_exists = file_exists(Child_Theme::get_child_theme_dir());
@@ -79,6 +85,89 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                 placeholder="<?php esc_attr_e('Search components or variables...', 'enhanced-plugin-bundle'); ?>"
                 id="component-search"
                 autocomplete="off">
+        </div>
+
+        <div class="menu-global-settings">
+            <h4 class="global-settings-label">
+                <span class="dashicons dashicons-admin-settings"></span>
+                <?php esc_html_e('Fluid Scale Ratios', 'enhanced-plugin-bundle'); ?>
+                <span class="setting-hint" title="<?php esc_attr_e('Controls how much font-sizes shrink on mobile. 0.85 = 85% of desktop size. Lower values = smaller mobile text.', 'enhanced-plugin-bundle'); ?>">?</span>
+            </h4>
+            <div class="global-setting-row">
+                <label for="fluid-scale-ratio">
+                    <?php esc_html_e('General', 'enhanced-plugin-bundle'); ?>
+                </label>
+                <div class="setting-input-group">
+                    <input type="range"
+                        class="fluid-ratio-range"
+                        data-target="fluid-scale-ratio"
+                        min="0.1"
+                        max="1"
+                        step="0.01"
+                        value="<?php echo esc_attr($fluid_scale_ratio); ?>">
+                    <input type="number"
+                        id="fluid-scale-ratio"
+                        name="fluid_scale_ratio"
+                        data-option="fluid_scale_ratio"
+                        min="0.1"
+                        max="1"
+                        step="0.01"
+                        value="<?php echo esc_attr($fluid_scale_ratio); ?>"
+                        class="setting-number-input fluid-ratio-number">
+                </div>
+            </div>
+            <div class="global-setting-row">
+                <label for="fluid-scale-ratio-navbar">
+                    <?php esc_html_e('Navbar', 'enhanced-plugin-bundle'); ?>
+                </label>
+                <div class="setting-input-group">
+                    <input type="range"
+                        class="fluid-ratio-range"
+                        data-target="fluid-scale-ratio-navbar"
+                        min="0.1"
+                        max="1"
+                        step="0.01"
+                        value="<?php echo esc_attr($fluid_scale_ratio_navbar); ?>">
+                    <input type="number"
+                        id="fluid-scale-ratio-navbar"
+                        name="fluid_scale_ratio_navbar"
+                        data-option="fluid_scale_ratio_navbar"
+                        min="0.1"
+                        max="1"
+                        step="0.01"
+                        value="<?php echo esc_attr($fluid_scale_ratio_navbar); ?>"
+                        class="setting-number-input fluid-ratio-number">
+                </div>
+            </div>
+            <div class="global-setting-row">
+                <label for="fluid-scale-ratio-nav">
+                    <?php esc_html_e('Nav', 'enhanced-plugin-bundle'); ?>
+                </label>
+                <div class="setting-input-group">
+                    <input type="range"
+                        class="fluid-ratio-range"
+                        data-target="fluid-scale-ratio-nav"
+                        min="0.1"
+                        max="1"
+                        step="0.01"
+                        value="<?php echo esc_attr($fluid_scale_ratio_nav); ?>">
+                    <input type="number"
+                        id="fluid-scale-ratio-nav"
+                        name="fluid_scale_ratio_nav"
+                        data-option="fluid_scale_ratio_nav"
+                        min="0.1"
+                        max="1"
+                        step="0.01"
+                        value="<?php echo esc_attr($fluid_scale_ratio_nav); ?>"
+                        class="setting-number-input fluid-ratio-number">
+                </div>
+            </div>
+            <div class="global-setting-row setting-row-actions">
+                <button type="button" id="save-fluid-ratios" class="ppm-button ppm-button-small ppm-button-primary" title="<?php esc_attr_e('Save all ratios', 'enhanced-plugin-bundle'); ?>">
+                    <span class="dashicons dashicons-saved"></span>
+                    <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
+                </button>
+            </div>
         </div>
 
         <nav class="menu-categories">

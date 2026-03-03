@@ -401,6 +401,31 @@ msgid "Reset %d component(s) to defaults."
 msgstr "%d Komponente(n) auf Standardwerte zurückgesetzt."
 
 #. ========================================================================
+#. Component Handler (AJAX)
+#. ========================================================================
+
+#: includes/Ajax/class-component-handler.php
+msgid "No value specified."
+msgstr "Kein Wert angegeben."
+
+#: includes/Ajax/class-component-handler.php
+#, php-format
+msgid "Invalid value for %s."
+msgstr "Ungültiger Wert für %s."
+
+#: includes/Ajax/class-component-handler.php
+msgid "Ratios must be between 0.1 and 1.0."
+msgstr "Verhältnisse müssen zwischen 0,1 und 1,0 liegen."
+
+#: includes/Ajax/class-component-handler.php
+msgid "No ratio values provided."
+msgstr "Keine Verhältniswerte angegeben."
+
+#: includes/Ajax/class-component-handler.php
+msgid "Fluid scale ratios saved."
+msgstr "Fluid-Skalierungsverhältnisse gespeichert."
+
+#. ========================================================================
 #. Component Importer
 #. ========================================================================
 
@@ -498,6 +523,34 @@ msgstr "Alle speichern"
 #: admin/views/partials/component-picker.php
 msgid "Search components or variables..."
 msgstr "Komponenten oder Variablen suchen..."
+
+#: admin/views/partials/component-picker.php
+msgid "Fluid Scale Ratios"
+msgstr "Fluid-Skalierungsverhältnisse"
+
+#: admin/views/partials/component-picker.php
+msgid "Controls how much font-sizes shrink on mobile. 0.85 = 85% of desktop size. Lower values = smaller mobile text."
+msgstr "Steuert, wie stark Schriftgrößen auf Mobilgeräten schrumpfen. 0,85 = 85% der Desktop-Größe. Niedrigere Werte = kleinerer mobiler Text."
+
+#: admin/views/partials/component-picker.php
+msgid "General"
+msgstr "Allgemein"
+
+#: admin/views/partials/component-picker.php
+msgid "Navbar"
+msgstr "Navigationsleiste"
+
+#: admin/views/partials/component-picker.php
+msgid "Nav"
+msgstr "Navigation"
+
+#: admin/views/partials/component-picker.php
+msgid "Save all ratios"
+msgstr "Alle Verhältnisse speichern"
+
+#: admin/views/partials/component-picker.php
+msgid "Save"
+msgstr "Speichern"
 
 #: admin/views/partials/component-picker.php
 #, php-format

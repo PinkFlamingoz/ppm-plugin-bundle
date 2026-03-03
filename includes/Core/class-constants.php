@@ -53,4 +53,46 @@ class Constants
      * @var int
      */
     public const CACHE_DURATION = HOUR_IN_SECONDS;
+
+    /**
+     * Option key for the general fluid typography scale ratio.
+     *
+     * @var string
+     */
+    public const OPTION_FLUID_SCALE_RATIO = 'epb_fluid_scale_ratio';
+
+    /**
+     * Option key for the navbar fluid typography scale ratio.
+     *
+     * @var string
+     */
+    public const OPTION_FLUID_SCALE_RATIO_NAVBAR = 'epb_fluid_scale_ratio_navbar';
+
+    /**
+     * Option key for the nav fluid typography scale ratio.
+     *
+     * @var string
+     */
+    public const OPTION_FLUID_SCALE_RATIO_NAV = 'epb_fluid_scale_ratio_nav';
+
+    /**
+     * Default general fluid scale ratio value.
+     *
+     * @var string
+     */
+    public const DEFAULT_FLUID_SCALE_RATIO = '0.85';
+
+    /**
+     * Default navbar fluid scale ratio value.
+     *
+     * @var string
+     */
+    public const DEFAULT_FLUID_SCALE_RATIO_NAVBAR = '0.85';
+
+    /**
+     * Default nav fluid scale ratio value.
+     *
+     * @var string
+     */
+    public const DEFAULT_FLUID_SCALE_RATIO_NAV = '0.85';
 }

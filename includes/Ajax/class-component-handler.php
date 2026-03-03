@@ -62,6 +62,9 @@ class Component_Handler
 
         // Resolve variable references.
         add_action('wp_ajax_epb_resolve_variable', [self::class, 'resolve_variable']);
+
+        // Global settings.
+        add_action('wp_ajax_epb_save_fluid_scale_ratio', [self::class, 'save_fluid_scale_ratio']);
     }
 
     /**
@@ -106,6 +109,71 @@ class Component_Handler
         wp_send_json_success([
             'original' => $value,
             'resolved' => $resolved,
+        ]);
+    }
+
+    /**
+     * Save fluid typography scale ratios via AJAX.
+     *
+     * Accepts one or more ratio values: ratio, ratio_navbar, ratio_nav.
+     *
+     * @return void
+     */
+    public static function save_fluid_scale_ratio(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $ratio_map = [
+            'ratio'        => [Constants::OPTION_FLUID_SCALE_RATIO, Constants::DEFAULT_FLUID_SCALE_RATIO],
+            'ratio_navbar' => [Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR],
+            'ratio_nav'    => [Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV],
+        ];
+
+        $updated = [];
+
+        foreach ($ratio_map as $post_key => [$option_key, $default]) {
+            if (!isset($_POST[$post_key]) || !is_string($_POST[$post_key]) || $_POST[$post_key] === '') {
+                continue;
+            }
+
+            $value = sanitize_text_field(wp_unslash($_POST[$post_key]));
+
+            if (!is_numeric($value)) {
+                wp_send_json_error(['message' => sprintf(
+                    /* translators: %s: field name */
+                    __('Invalid value for %s.', 'enhanced-plugin-bundle'),
+                    $post_key
+                )]);
+                return;
+            }
+
+            $val = (float) $value;
+
+            if ($val < 0.1 || $val > 1.0) {
+                wp_send_json_error(['message' => __('Ratios must be between 0.1 and 1.0.', 'enhanced-plugin-bundle')]);
+                return;
+            }
+
+            $updated[$option_key] = number_format($val, 2, '.', '');
+        }
+
+        if (empty($updated)) {
+            wp_send_json_error(['message' => __('No ratio values provided.', 'enhanced-plugin-bundle')]);
+            return;
+        }
+
+        foreach ($updated as $option_key => $formatted) {
+            update_option($option_key, $formatted, false);
+        }
+
+        // Regenerate CSS since the ratios affect the output.
+        self::regenerate_css();
+
+        wp_send_json_success([
+            'message' => __('Fluid scale ratios saved.', 'enhanced-plugin-bundle'),
+            'ratios'  => $updated,
         ]);
     }
 

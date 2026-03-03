@@ -399,6 +399,31 @@ msgid "Reset %d component(s) to defaults."
 msgstr ""
 
 #. ========================================================================
+#. Component Handler (AJAX)
+#. ========================================================================
+
+#: includes/Ajax/class-component-handler.php
+msgid "No value specified."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+#, php-format
+msgid "Invalid value for %s."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "Ratios must be between 0.1 and 1.0."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "No ratio values provided."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "Fluid scale ratios saved."
+msgstr ""
+
+#. ========================================================================
 #. Component Importer
 #. ========================================================================
 
@@ -495,6 +520,34 @@ msgstr ""
 
 #: admin/views/partials/component-picker.php
 msgid "Search components or variables..."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Fluid Scale Ratios"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Controls how much font-sizes shrink on mobile. 0.85 = 85% of desktop size. Lower values = smaller mobile text."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "General"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Navbar"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Nav"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save all ratios"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save"
 msgstr ""
 
 #: admin/views/partials/component-picker.php

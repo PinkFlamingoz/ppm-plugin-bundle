@@ -180,6 +180,149 @@
     color: var(--muted-color);
 }
 
+/* ==========================================================================
+   Global Settings
+   ========================================================================== */
+
+.menu-global-settings {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--table-border);
+    background: var(--header-bg);
+}
+
+.global-settings-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted-color);
+}
+
+.global-settings-label .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+.global-setting-row label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--color-text);
+    margin-bottom: 5px;
+}
+
+.setting-hint {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--table-border);
+    color: var(--muted-color);
+    font-size: 10px;
+    font-weight: 700;
+    cursor: help;
+    line-height: 1;
+}
+
+.setting-input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.setting-input-group input[type="range"] {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--table-border);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.setting-input-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-color, #3582c4);
+    cursor: pointer;
+    border: 2px solid var(--header-bg);
+    box-shadow: 0 0 0 1px var(--table-border);
+}
+
+.setting-input-group input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-color, #3582c4);
+    cursor: pointer;
+    border: 2px solid var(--header-bg);
+    box-shadow: 0 0 0 1px var(--table-border);
+}
+
+.setting-number-input {
+    width: 70px;
+    padding: 4px 6px;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid var(--table-border);
+    border-radius: 4px;
+    background: var(--light-bg);
+    color: var(--color-text);
+}
+
+.setting-input-group .ppm-button-small {
+    padding: 4px 8px;
+    font-size: 0;
+    line-height: 1;
+}
+
+.setting-input-group .ppm-button-small .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.setting-input-group .ppm-button-small.saved {
+    background: var(--success-color, #46b450);
+    border-color: var(--success-color, #46b450);
+}
+
+.setting-row-actions {
+    padding-top: 4px;
+}
+
+.setting-row-actions .ppm-button-small {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 11px;
+    padding: 5px 10px;
+}
+
+.setting-row-actions .ppm-button-small .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+.setting-row-actions .ppm-button-small.saved {
+    background: var(--success-color, #46b450);
+    border-color: var(--success-color, #46b450);
+}
+
 .menu-categories {
     flex: 1;
     overflow-y: auto;

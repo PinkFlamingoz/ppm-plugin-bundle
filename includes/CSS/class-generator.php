@@ -291,6 +291,13 @@ class Generator
         $css .= "   UIkit CSS Custom Properties\n";
         $css .= "   ========================================================================== */\n\n";
         $css .= ":root {\n";
+        $css .= "    /* Fluid scale ratios for auto-calculated mobile minimums */\n";
+        $ratio = get_option(Constants::OPTION_FLUID_SCALE_RATIO, Constants::DEFAULT_FLUID_SCALE_RATIO);
+        $ratio_navbar = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR);
+        $ratio_nav = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV);
+        $css .= "    --uk-fluid-scale-ratio: {$ratio};\n";
+        $css .= "    --uk-fluid-scale-ratio-navbar: {$ratio_navbar};\n";
+        $css .= "    --uk-fluid-scale-ratio-nav: {$ratio_nav};\n\n";
 
         foreach (self::FLUID_TYPOGRAPHY_VARIABLES as $name) {
             if (isset($variables[$name])) {
@@ -592,7 +599,13 @@ html {
 }
 
 body {
-    font-size: var(--uk-base-body-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-base-body-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
     line-height: var(--uk-base-body-line-height, var(--uk-global-line-height, 1.5));
 }
 
@@ -617,11 +630,23 @@ h2, .uk-h2 {
 }
 
 h3, .uk-h3 {
-    font-size: var(--uk-base-h3-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-base-h3-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 h4, .uk-h4 {
-    font-size: var(--uk-base-h4-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-base-h4-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 h5, .uk-h5 {
@@ -637,12 +662,24 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-text-lead {
-    font-size: var(--uk-text-lead-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-text-lead-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
     line-height: var(--uk-text-lead-line-height, 1.5);
 }
 
 .uk-text-meta {
-    font-size: var(--uk-text-meta-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-text-meta-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-text-small {
@@ -650,11 +687,23 @@ h6, .uk-h6 {
 }
 
 .uk-text-large {
-    font-size: var(--uk-text-large-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-text-large-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-text-default {
-    font-size: var(--uk-global-font-size, 1rem);
+    --_fs: var(--uk-global-font-size, 1rem);
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -662,15 +711,33 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-button {
-    font-size: var(--uk-button-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-button-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-button-small {
-    font-size: var(--uk-button-small-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-button-small-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-button-large {
-    font-size: var(--uk-button-large-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-button-large-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -678,19 +745,43 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-navbar-nav > li > a {
-    font-size: var(--uk-navbar-nav-item-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-navbar-nav-item-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-navbar, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-navbar-subtitle {
-    font-size: var(--uk-navbar-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-navbar-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-navbar, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-navbar-item {
-    font-size: var(--uk-navbar-item-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-navbar-item-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-navbar, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-navbar-primary .uk-navbar-nav > li > a {
-    font-size: var(--uk-navbar-primary-nav-item-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-navbar-primary-nav-item-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-navbar, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -708,11 +799,23 @@ h6, .uk-h6 {
 }
 
 .uk-form-large:is(.uk-input, .uk-select, .uk-textarea) {
-    font-size: var(--uk-form-large-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-form-large-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-legend {
-    font-size: var(--uk-form-legend-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-form-legend-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-form-label {
@@ -724,7 +827,13 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-accordion-title {
-    font-size: var(--uk-accordion-default-title-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-accordion-default-title-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -768,7 +877,13 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-card-title {
-    font-size: var(--uk-card-title-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-card-title-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-card-badge {
@@ -780,7 +895,13 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-comment-title {
-    font-size: var(--uk-comment-title-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-comment-title-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-comment-meta {
@@ -800,11 +921,23 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-dropdown-nav > li > a {
-    font-size: var(--uk-dropdown-nav-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-dropdown-nav-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-dropdown-nav .uk-nav-subtitle {
-    font-size: var(--uk-dropdown-nav-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-dropdown-nav-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -812,7 +945,13 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-modal-title {
-    font-size: var(--uk-modal-title-font-size, var(--uk-global-xlarge-font-size, 2rem));
+    --_fs: var(--uk-modal-title-font-size, var(--uk-global-xlarge-font-size, 2rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -828,43 +967,103 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-nav-header {
-    font-size: var(--uk-nav-header-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-nav-header-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-default > li > a {
-    font-size: var(--uk-nav-default-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-nav-default-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-default .uk-nav-subtitle {
-    font-size: var(--uk-nav-default-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-nav-default-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-default .uk-nav-sub a {
-    font-size: var(--uk-nav-default-sublist-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-nav-default-sublist-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-primary > li > a {
-    font-size: var(--uk-nav-primary-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-nav-primary-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-primary .uk-nav-subtitle {
-    font-size: var(--uk-nav-primary-subtitle-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-nav-primary-subtitle-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-primary .uk-nav-sub a {
-    font-size: var(--uk-nav-primary-sublist-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-nav-primary-sublist-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-secondary > li > a {
-    font-size: var(--uk-nav-secondary-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-nav-secondary-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-secondary .uk-nav-subtitle {
-    font-size: var(--uk-nav-secondary-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-nav-secondary-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-nav-secondary .uk-nav-sub a {
-    font-size: var(--uk-nav-secondary-sublist-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-nav-secondary-sublist-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-nav, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* Nav Medium - Fluid scaling */
@@ -899,11 +1098,23 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-navbar-dropdown-nav > li > a {
-    font-size: var(--uk-navbar-dropdown-nav-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-navbar-dropdown-nav-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-navbar, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-navbar-dropdown-nav .uk-nav-subtitle {
-    font-size: var(--uk-navbar-dropdown-nav-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-navbar-dropdown-nav-subtitle-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-navbar, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -911,7 +1122,13 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-notification-message {
-    font-size: var(--uk-notification-message-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-notification-message-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -923,15 +1140,33 @@ h6, .uk-h6 {
 }
 
 .uk-search-navbar .uk-search-input {
-    font-size: var(--uk-search-navbar-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-search-navbar-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-navbar, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-search-medium .uk-search-input {
-    font-size: var(--uk-search-medium-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-search-medium-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-search-large .uk-search-input {
-    font-size: var(--uk-search-large-font-size, var(--uk-global-2xlarge-font-size, 2.625rem));
+    --_fs: var(--uk-search-large-font-size, var(--uk-global-2xlarge-font-size, 2.625rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -939,15 +1174,33 @@ h6, .uk-h6 {
    ========================================================================== */
 
 .uk-table th {
-    font-size: var(--uk-table-header-cell-font-size, var(--uk-global-font-size, 1rem));
+    --_fs: var(--uk-table-header-cell-font-size, var(--uk-global-font-size, 1rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-table tfoot {
-    font-size: var(--uk-table-footer-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-table-footer-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 .uk-table caption {
-    font-size: var(--uk-table-caption-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_fs: var(--uk-table-caption-font-size, var(--uk-global-small-font-size, 0.875rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -967,7 +1220,13 @@ h6, .uk-h6 {
 }
 
 .uk-logo {
-    font-size: var(--uk-logo-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_fs: var(--uk-logo-font-size, var(--uk-global-large-font-size, 1.5rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 /* ==========================================================================
@@ -1029,7 +1288,13 @@ h6, .uk-h6 {
 
 blockquote,
 .uk-blockquote {
-    font-size: var(--uk-base-blockquote-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_fs: var(--uk-base-blockquote-font-size, var(--uk-global-medium-font-size, 1.25rem));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    font-size: clamp(
+        var(--_min),
+        calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_fs)
+    );
 }
 
 blockquote footer,
