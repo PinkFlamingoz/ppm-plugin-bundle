@@ -57,9 +57,9 @@
 }
 
 /* Reset margins/paddings and set scoped typography (only for plugin container). */
-.wrap .ppm-header,
-.wrap .ppm-section,
-.wrap .ppm-info-box,
+.wrap .epb-header,
+.wrap .epb-section,
+.wrap .epb-info-box,
 .wrap .child-theme-form {
     font-family: var(--body-font), sans-serif;
     font-weight: 400;
@@ -117,14 +117,14 @@
 /*  Header & Logo                          */
 /* ---------------------------------------- */
 /* Style for the header area and company logo. */
-.ppm-header-left {
+.epb-header-left {
     display: flex;
     align-items: center;
     gap: 35px;
     width: 80%;
 }
 
-.ppm-header {
+.epb-header {
     display: flex;
     align-items: center;
     gap: 35px;
@@ -132,12 +132,12 @@
     margin-bottom: 40px;
 }
 
-.ppm-logo {
+.epb-logo {
     max-height: 120px;
     width: auto;
 }
 
-.ppm-h1 {
+.epb-h1 {
     padding: 0 !important;
     font-weight: 700 !important;
     font-style: normal;
@@ -147,14 +147,14 @@
 }
 
 /* Footer styling */
-.ppm-footer {
+.epb-footer {
     margin-top: 40px;
     padding-top: 20px;
     border-top: 1px solid var(--table-border);
     text-align: center;
 }
 
-.ppm-version {
+.epb-version {
     font-size: var(--font-size-s);
     color: var(--muted-color);
     margin: 0;
@@ -234,7 +234,7 @@ p {
 /*  Theme Section                          */
 /* ---------------------------------------- */
 /* Container styling for different sections of the plugin UI. */
-.ppm-section {
+.epb-section {
     margin-top: 30px;
     padding: 30px;
     background-color: var(--light-bg);
@@ -243,7 +243,7 @@ p {
     box-shadow: 0 12px 36px rgba(5, 6, 9, 0.45);
 }
 
-.ppm-section h2 {
+.epb-section h2 {
     margin-bottom: 25px;
     padding-bottom: 10px;
     padding-top: 10px;
@@ -253,7 +253,7 @@ p {
     border-bottom: 1px solid var(--table-border);
 }
 
-.ppm-section h3 {
+.epb-section h3 {
     letter-spacing: 1px;
     margin-bottom: 15px;
     font-size: var(--font-size-m);
@@ -267,15 +267,15 @@ p {
 }
 
 /* Paragraph styling within sections */
-.ppm-section p {
+.epb-section p {
     font-size: var(--font-size-text);
     color: var(--color-p);
     margin-bottom: 15px;
 }
 
 /* Input field styling in sections */
-.ppm-section input[type="file"],
-.ppm-section input[type="text"] {
+.epb-section input[type="file"],
+.epb-section input[type="text"] {
     width: 70%;
     padding: 10px;
     border: 1px solid var(--table-border);
@@ -286,12 +286,12 @@ p {
 }
 
 /* When an input field is empty (i.e., placeholder is visible), display a grayish border */
-.ppm-section input[type="text"]:placeholder-shown,
-.ppm-section input[type="number"]:placeholder-shown {
+.epb-section input[type="text"]:placeholder-shown,
+.epb-section input[type="number"]:placeholder-shown {
     border: 1px solid var(--border-color-input) !important;
 }
 
-.ppm-section label {
+.epb-section label {
     font-weight: 600;
     color: var(--light-text);
     letter-spacing: 1.2px;
@@ -301,7 +301,7 @@ p {
 /*  Buttons                                */
 /* ---------------------------------------- */
 /* General button styling across the UI. */
-.ppm-button {
+.epb-button {
     line-height: 38px;
     background-color: var(--primary-color);
     color: #ffffff;
@@ -315,23 +315,23 @@ p {
     cursor: pointer;
 }
 
-.ppm-button-primary {
+.epb-button-primary {
     background-color: var(--primary-color);
     color: #ffffff;
 }
 
-.ppm-button-primary:hover {
+.epb-button-primary:hover {
     background-color: var(--primary-button-hover);
     color: var(--primary-button-color);
 }
 
-.ppm-button-secondary {
+.epb-button-secondary {
     background-color: var(--light-bg);
     color: var(--color-text);
     border: 1px solid var(--table-border);
 }
 
-.ppm-button-secondary:hover {
+.epb-button-secondary:hover {
     background-color: var(--table-hover);
     color: var(--color-text);
 }
@@ -340,7 +340,7 @@ p {
 /*  Select Box Styling                     */
 /* ---------------------------------------- */
 /* Custom styling for dropdown select elements. */
-.ppm-select {
+.epb-select {
     display: inline-block !important;
     line-height: 38px !important;
     background-color: var(--secondary-color) !important;
@@ -363,7 +363,7 @@ p {
 
 }
 
-.ppm-select:hover {
+.epb-select:hover {
     background-color: var(--primary-button-hover) !important;
     color: var(--primary-button-color) !important;
 }
@@ -505,8 +505,8 @@ p {
 }
 
 /* Enhanced Focus Indicators */
-.ppm-button:focus,
-.ppm-select:focus,
+.epb-button:focus,
+.epb-select:focus,
 input[type="checkbox"]:focus,
 input[type="file"]:focus {
     outline: 2px solid var(--primary-color) !important;
@@ -580,13 +580,13 @@ input[type="file"]:focus {
 }
 
 /* Loading States */
-.ppm-button.loading {
+.epb-button.loading {
     position: relative;
     color: transparent !important;
     pointer-events: none;
 }
 
-.ppm-button.loading:before {
+.epb-button.loading:before {
     content: '';
     position: absolute;
     top: 50%;
@@ -659,17 +659,17 @@ input[type="file"]:focus {
 }
 
 /* Additional status classes for plugin notifications */
-.ppm-status-success {
+.epb-status-success {
     color: var(--secondary-color);
     font-weight: bold;
 }
 
-.ppm-status-danger {
+.epb-status-danger {
     color: var(--primary-color);
     font-weight: bold;
 }
 
-.ppm-status-warning {
+.epb-status-warning {
     color: var(--primary-color);
     font-weight: bold;
 }
@@ -681,11 +681,11 @@ input[type="file"]:focus {
 @media (max-width: 768px) {
 
     .plugin-table,
-    .ppm-section {
+    .epb-section {
         font-size: 90%;
     }
 
-    .ppm-section {
+    .epb-section {
         padding: 20px;
     }
 }
@@ -777,7 +777,7 @@ input[type="file"]:focus {
  * Branded Buttons & Selects
  * ================================ */
 
-.wrap .ppm-select {
+.wrap .epb-select {
     background-color: var(--group-header-bg);
     color: var(--color-text);
     border: 1px solid var(--table-border);

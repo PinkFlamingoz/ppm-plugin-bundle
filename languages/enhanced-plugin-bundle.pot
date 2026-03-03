@@ -423,6 +423,35 @@ msgstr ""
 msgid "Fluid scale ratios saved."
 msgstr ""
 
+#: includes/Ajax/class-component-handler.php
+msgid "Please enter an Adobe Fonts CSS URL."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "Please enter a valid URL starting with https://"
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "Adobe Fonts enabled and saved."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "Adobe Fonts disabled."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+#, php-format
+msgid "%s must be a valid URL starting with https://"
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "Branding settings saved."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "Branding saved and child theme files updated."
+msgstr ""
+
 #. ========================================================================
 #. Component Importer
 #. ========================================================================
@@ -548,6 +577,62 @@ msgstr ""
 
 #: admin/views/partials/component-picker.php
 msgid "Save"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Adobe Fonts"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Load an Adobe Fonts (Typekit) stylesheet on your site. Paste the CSS URL from your Adobe Fonts project."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Enable Adobe Fonts"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "CSS URL"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save Adobe Font settings"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Child Theme Branding"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Customize the child theme identity. These values are used when generating the child theme files."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Theme Name"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Company Name"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Company URL"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Login Logo URL"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Theme Description"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Theme Version"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save branding settings"
 msgstr ""
 
 #: admin/views/partials/component-picker.php

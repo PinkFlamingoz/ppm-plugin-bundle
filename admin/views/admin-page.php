@@ -24,7 +24,7 @@ use EPB\Themes\Manager as ThemesManager;
     <!-- Form for handling bulk actions on plugins -->
     <form method="post">
         <?php wp_nonce_field('epb_plugin_actions', 'epb_plugin_nonce'); ?>
-        <div class="ppm-section">
+        <div class="epb-section">
             <?php PluginManager::render_bulk_controls(); ?>
             <?php PluginManager::render_plugin_table($plugins); ?>
         </div>

@@ -398,7 +398,7 @@ For more information:
 
 - [UIkit Documentation](https://getuikit.com/docs/introduction)
 - [Tokens Studio Documentation](https://docs.tokens.studio/)
-- [Plugin Issues](https://github.com/PinkFlamingoz/ppm-plugin-bundle/issues)
+- [Plugin Issues](https://github.com/PinkFlamingoz/epb-plugin-bundle/issues)
 
 ---
 

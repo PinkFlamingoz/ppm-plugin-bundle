@@ -12,7 +12,7 @@
    Layout
    ========================================================================== */
 
-.ppm-theme-builder {
+.epb-theme-builder {
     display: grid;
     grid-template-columns: 333px minmax(400px, 1fr) minmax(400px, 1.2fr);
     gap: 20px;
@@ -21,27 +21,27 @@
 }
 
 @media (max-width: 1600px) {
-    .ppm-theme-builder {
+    .epb-theme-builder {
         grid-template-columns: 240px minmax(350px, 1fr) minmax(350px, 1fr);
     }
 }
 
 @media (max-width: 1400px) {
-    .ppm-theme-builder {
+    .epb-theme-builder {
         grid-template-columns: 220px 1fr;
     }
 
-    .ppm-preview-panel {
+    .epb-preview-panel {
         display: none;
     }
 }
 
 @media (max-width: 1024px) {
-    .ppm-theme-builder {
+    .epb-theme-builder {
         grid-template-columns: 1fr;
     }
 
-    .ppm-component-menu {
+    .epb-component-menu {
         max-height: 300px;
     }
 }
@@ -50,7 +50,7 @@
    Component Menu (Sidebar)
    ========================================================================== */
 
-.ppm-component-menu {
+.epb-component-menu {
     background: var(--light-bg);
     border-radius: 8px;
     display: flex;
@@ -84,7 +84,7 @@
     flex-wrap: wrap;
 }
 
-.ppm-button-icon {
+.epb-button-icon {
     background: transparent;
     border: 1px solid var(--table-border);
     border-radius: 4px;
@@ -97,19 +97,19 @@
     transition: all 0.2s ease;
 }
 
-.ppm-button-icon:hover {
+.epb-button-icon:hover {
     background: var(--group-header-bg);
     color: var(--color-text);
     border-color: var(--accent-color);
 }
 
-.ppm-button-icon .dashicons {
+.epb-button-icon .dashicons {
     font-size: 20px;
     width: 20px;
     height: 20px;
 }
 
-.ppm-button-icon .spinner {
+.epb-button-icon .spinner {
     margin: 0;
 }
 
@@ -136,7 +136,7 @@
     background: var(--header-bg);
 }
 
-.menu-global-actions .ppm-button-small {
+.menu-global-actions .epb-button-small {
     flex: 1;
     font-size: 11px;
     padding: 6px 10px;
@@ -146,7 +146,7 @@
     gap: 4px;
 }
 
-.menu-global-actions .ppm-button-small .dashicons {
+.menu-global-actions .epb-button-small .dashicons {
     font-size: 14px;
     width: 14px;
     height: 14px;
@@ -281,19 +281,19 @@
     color: var(--color-text);
 }
 
-.setting-input-group .ppm-button-small {
+.setting-input-group .epb-button-small {
     padding: 4px 8px;
     font-size: 0;
     line-height: 1;
 }
 
-.setting-input-group .ppm-button-small .dashicons {
+.setting-input-group .epb-button-small .dashicons {
     font-size: 16px;
     width: 16px;
     height: 16px;
 }
 
-.setting-input-group .ppm-button-small.saved {
+.setting-input-group .epb-button-small.saved {
     background: var(--success-color, #46b450);
     border-color: var(--success-color, #46b450);
 }
@@ -302,7 +302,7 @@
     padding-top: 4px;
 }
 
-.setting-row-actions .ppm-button-small {
+.setting-row-actions .epb-button-small {
     width: 100%;
     display: inline-flex;
     align-items: center;
@@ -312,15 +312,118 @@
     padding: 5px 10px;
 }
 
-.setting-row-actions .ppm-button-small .dashicons {
+.setting-row-actions .epb-button-small .dashicons {
     font-size: 14px;
     width: 14px;
     height: 14px;
 }
 
-.setting-row-actions .ppm-button-small.saved {
+.setting-row-actions .epb-button-small.saved {
     background: var(--success-color, #46b450);
     border-color: var(--success-color, #46b450);
+}
+
+/* Toggle switch */
+.setting-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--color-text);
+    cursor: pointer;
+    user-select: none;
+}
+
+.setting-toggle-checkbox {
+    display: none !important;
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.setting-toggle-switch {
+    position: relative;
+    width: 32px;
+    height: 18px;
+    background: var(--table-border);
+    border-radius: 9px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.setting-toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.setting-toggle-checkbox:checked+.setting-toggle-switch {
+    background: var(--accent-color, #3582c4);
+}
+
+.setting-toggle-checkbox:checked+.setting-toggle-switch::after {
+    transform: translateX(14px);
+}
+
+/* URL / text input for settings */
+.setting-text-input {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 12px;
+    border: 1px solid var(--table-border);
+    border-radius: 4px;
+    background: var(--light-bg);
+    color: var(--color-text);
+    box-sizing: border-box;
+}
+
+.setting-text-input::placeholder {
+    color: var(--muted-color);
+    opacity: 0.7;
+}
+
+.setting-text-input:focus {
+    border-color: var(--accent-color, #3582c4);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--accent-color, #3582c4);
+}
+
+.adobe-font-url-row {
+    margin-top: 2px;
+}
+
+.menu-global-settings .global-setting-row+.global-setting-row {
+    margin-top: 6px;
+}
+
+/* Accordion: toggle header */
+.global-settings-toggle {
+    cursor: pointer;
+    user-select: none;
+}
+
+.global-settings-toggle .toggle-icon {
+    transition: transform 0.2s ease;
+}
+
+.menu-global-settings:not(.collapsed) .toggle-icon {
+    transform: rotate(90deg);
+}
+
+.menu-global-settings.collapsed .global-settings-label {
+    margin-bottom: 0;
+}
+
+.menu-global-settings.collapsed .global-settings-body {
+    display: none;
 }
 
 .menu-categories {
@@ -480,7 +583,7 @@
 }
 
 /* Child Theme Status Dot in header */
-.ppm-button-icon .child-theme-status-dot {
+.epb-button-icon .child-theme-status-dot {
     position: absolute;
     top: 2px;
     right: 2px;
@@ -489,12 +592,12 @@
     border-radius: 50%;
 }
 
-.ppm-button-icon .child-theme-status-dot.exists {
+.epb-button-icon .child-theme-status-dot.exists {
     background: #f0c14b;
     box-shadow: 0 0 4px rgba(240, 193, 75, 0.5);
 }
 
-.ppm-button-icon .child-theme-status-dot.active {
+.epb-button-icon .child-theme-status-dot.active {
     background: #46b450;
     box-shadow: 0 0 4px rgba(70, 180, 80, 0.5);
 }
@@ -507,7 +610,7 @@
    Component Editor (Main)
    ========================================================================== */
 
-.ppm-component-editor {
+.epb-component-editor {
     background: var(--light-bg);
     border-radius: 8px;
     display: flex;
@@ -700,7 +803,7 @@
 }
 
 /* Field Styles */
-.ppm-field {
+.epb-field {
     background: var(--header-bg);
     border: 1px solid var(--table-border);
     border-radius: 6px;
@@ -708,27 +811,27 @@
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.ppm-field:hover {
+.epb-field:hover {
     border-color: var(--muted-color);
 }
 
-.ppm-field:focus-within {
+.epb-field:focus-within {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 1px var(--primary-color);
 }
 
 /* Modified field highlight - orange glow */
-.ppm-field.field-modified {
+.epb-field.field-modified {
     border-color: var(--primary-color);
     box-shadow: 0 0 8px rgba(234, 86, 35, 0.4);
 }
 
-.ppm-field.field-modified label {
+.epb-field.field-modified label {
     color: var(--primary-color);
 }
 
 /* Inheritance broken indicator - adds unlink icon next to label */
-.ppm-field.inheritance-broken .variable-name::after {
+.epb-field.inheritance-broken .variable-name::after {
     content: "\f225";
     /* dashicons unlink */
     font-family: dashicons;
@@ -738,7 +841,7 @@
 }
 
 /* Inheritance indicator */
-.ppm-field .inherits-indicator {
+.epb-field .inherits-indicator {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -751,18 +854,18 @@
     font-family: monospace;
 }
 
-.ppm-field .inherits-indicator .dashicons {
+.epb-field .inherits-indicator .dashicons {
     font-size: 14px;
     width: 14px;
     height: 14px;
 }
 
-.ppm-field .inherits-indicator.overridden {
+.epb-field .inherits-indicator.overridden {
     color: var(--primary-color);
     background: rgba(234, 86, 35, 0.15);
 }
 
-.ppm-field label {
+.epb-field label {
     display: block;
     font-size: 13px;
     font-weight: 500;
@@ -770,7 +873,7 @@
     margin-bottom: 8px;
 }
 
-.ppm-field .variable-name {
+.epb-field .variable-name {
     display: block;
     font-size: 11px;
     font-weight: 400;
@@ -785,8 +888,8 @@
     gap: 8px;
 }
 
-.ppm-field input[type="text"],
-.ppm-field input[type="number"] {
+.epb-field input[type="text"],
+.epb-field input[type="number"] {
     flex: 1;
     padding: 8px 10px;
     border: 1px solid var(--table-border);
@@ -797,13 +900,13 @@
     min-width: 0;
 }
 
-.ppm-field input:focus {
+.epb-field input:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 1px var(--primary-color);
 }
 
-.ppm-field input[type="color"] {
+.epb-field input[type="color"] {
     width: 40px;
     height: 40px;
     padding: 2px;
@@ -814,12 +917,12 @@
     background: var(--light-bg);
 }
 
-.ppm-field .color-input {
+.epb-field .color-input {
     font-family: monospace;
     text-transform: uppercase;
 }
 
-.ppm-field .resolved-value {
+.epb-field .resolved-value {
     font-size: 11px;
     color: var(--muted-color);
     font-family: monospace;
@@ -832,11 +935,11 @@
     gap: 4px;
 }
 
-.ppm-field .resolved-value.hidden {
+.epb-field .resolved-value.hidden {
     display: none;
 }
 
-.ppm-field .resolved-color-swatch {
+.epb-field .resolved-color-swatch {
     display: inline-block;
     width: 14px;
     height: 14px;
@@ -939,7 +1042,7 @@
    Preview Panel
    ========================================================================== */
 
-.ppm-preview-panel {
+.epb-preview-panel {
     background: var(--light-bg);
     border-radius: 8px;
     display: flex;
@@ -952,34 +1055,34 @@
     transition: width 0.3s ease, min-width 0.3s ease;
 }
 
-.ppm-preview-panel.collapsed {
+.epb-preview-panel.collapsed {
     width: 77px;
     min-width: 77px;
 }
 
 /* When preview is collapsed, expand the component editor */
-.ppm-theme-builder:has(.ppm-preview-panel.collapsed) {
+.epb-theme-builder:has(.epb-preview-panel.collapsed) {
     grid-template-columns: 333px 1fr 77px;
 }
 
 @media (max-width: 1600px) {
-    .ppm-theme-builder:has(.ppm-preview-panel.collapsed) {
+    .epb-theme-builder:has(.epb-preview-panel.collapsed) {
         grid-template-columns: 240px 1fr 77px;
     }
 }
 
-.ppm-preview-panel.collapsed .preview-tab-content,
-.ppm-preview-panel.collapsed .preview-tab span:not(.dashicons) {
+.epb-preview-panel.collapsed .preview-tab-content,
+.epb-preview-panel.collapsed .preview-tab span:not(.dashicons) {
     display: none;
 }
 
-.ppm-preview-panel.collapsed .preview-tabs {
+.epb-preview-panel.collapsed .preview-tabs {
     flex-direction: column;
     padding: 8px 4px;
     gap: 8px;
 }
 
-.ppm-preview-panel.collapsed .preview-tab {
+.epb-preview-panel.collapsed .preview-tab {
     padding: 8px;
     justify-content: center;
 }
@@ -1001,7 +1104,7 @@
     color: var(--color-text);
 }
 
-.ppm-preview-panel.collapsed .preview-collapse-toggle {
+.epb-preview-panel.collapsed .preview-collapse-toggle {
     margin: 0 auto;
 }
 
@@ -1181,7 +1284,7 @@
    Modal
    ========================================================================== */
 
-.ppm-modal {
+.epb-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -1283,7 +1386,7 @@
    Buttons (extending existing styles)
    ========================================================================== */
 
-.ppm-theme-builder .ppm-button {
+.epb-theme-builder .epb-button {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -1299,28 +1402,28 @@
     text-decoration: none;
 }
 
-.ppm-theme-builder .ppm-button:hover {
+.epb-theme-builder .epb-button:hover {
     background: var(--group-header-bg);
     border-color: var(--muted-color);
 }
 
-.ppm-theme-builder .ppm-button-primary {
+.epb-theme-builder .epb-button-primary {
     background: var(--primary-color);
     border-color: var(--primary-color);
     color: #fff;
 }
 
-.ppm-theme-builder .ppm-button-primary:hover {
+.epb-theme-builder .epb-button-primary:hover {
     background: var(--primary-hover);
     border-color: var(--primary-hover);
 }
 
-.ppm-theme-builder .ppm-button-small {
+.epb-theme-builder .epb-button-small {
     padding: 5px 10px;
     font-size: 12px;
 }
 
-.ppm-theme-builder .ppm-button .dashicons {
+.epb-theme-builder .epb-button .dashicons {
     font-size: 16px;
     width: 16px;
     height: 16px;

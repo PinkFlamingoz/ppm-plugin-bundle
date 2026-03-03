@@ -106,17 +106,17 @@ class Manager
         if (!is_dir(WP_PLUGIN_DIR . '/' . $slug)) {
             return [
                 'label'     => __('Not Installed', 'enhanced-plugin-bundle'),
-                'css_class' => 'ppm-status-danger',
+                'css_class' => 'epb-status-danger',
             ];
         }
         return is_plugin_active($plugin_file)
             ? [
                 'label'     => __('Installed & Active', 'enhanced-plugin-bundle'),
-                'css_class' => 'ppm-status-success',
+                'css_class' => 'epb-status-success',
             ]
             : [
                 'label'     => __('Installed & Deactivated', 'enhanced-plugin-bundle'),
-                'css_class' => 'ppm-status-warning',
+                'css_class' => 'epb-status-warning',
             ];
     }
 

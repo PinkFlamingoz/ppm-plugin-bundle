@@ -81,9 +81,9 @@
          * Cache DOM elements.
          */
         cacheElements() {
-            this.$menu = $('.ppm-component-menu');
-            this.$editor = $('.ppm-component-editor');
-            this.$preview = $('.ppm-preview-panel');
+            this.$menu = $('.epb-component-menu');
+            this.$editor = $('.epb-component-editor');
+            this.$preview = $('.epb-preview-panel');
             this.$search = $('#component-search');
             this.$form = $('#component-form');
             this.$fields = $('#component-fields');
@@ -173,13 +173,13 @@
             });
 
             // Field change - update preview and modified state.
-            $(document).on('change input', '.ppm-field input', function () {
+            $(document).on('change input', '.epb-field input', function () {
                 self.updatePreview();
-                self.updateFieldModifiedState($(this).closest('.ppm-field'));
+                self.updateFieldModifiedState($(this).closest('.epb-field'));
                 self.markComponentDirty();
 
                 // Live-resolve typed variable references (debounced).
-                const $field = $(this).closest('.ppm-field');
+                const $field = $(this).closest('.epb-field');
                 const val = $(this).val().trim();
                 if (val.startsWith('@') && val.length > 1) {
                     clearTimeout(self.resolveTimer);
@@ -288,6 +288,30 @@
             $(document).on('click', '#save-fluid-ratios', function () {
                 self.saveFluidScaleRatios();
             });
+
+            // Adobe Font: toggle URL field visibility.
+            $(document).on('change', '#adobe-font-enabled', function () {
+                const isChecked = $(this).is(':checked');
+                $('.adobe-font-url-row').toggle(isChecked);
+                if (isChecked) {
+                    $('#adobe-font-url').focus();
+                }
+            });
+
+            // Adobe Font: save settings.
+            $(document).on('click', '#save-adobe-font', function () {
+                self.saveAdobeFont();
+            });
+
+            // Branding: save settings.
+            $(document).on('click', '#save-branding', function () {
+                self.saveBranding();
+            });
+
+            // Global settings: accordion toggle.
+            $(document).on('click', '.global-settings-toggle', function () {
+                $(this).closest('.menu-global-settings').toggleClass('collapsed');
+            });
         },
 
         /**
@@ -333,7 +357,7 @@
         collectCurrentVariables() {
             const variables = {};
 
-            this.$fields.find('.ppm-field').each(function () {
+            this.$fields.find('.epb-field').each(function () {
                 const $field = $(this);
                 const varName = $field.data('variable');
                 if (!varName) return;
@@ -547,7 +571,7 @@
          */
         resetField($button) {
             const self = this;
-            const $field = $button.closest('.ppm-field');
+            const $field = $button.closest('.epb-field');
             const variable = $field.attr('data-variable');
             const $input = $field.find('input[type="text"], input[type="number"]').first();
 
@@ -668,7 +692,7 @@
             const defaultValue = $field.attr('data-default');
             const resolved = $field.attr('data-resolved');
             const $input = $field.find('input[type="text"], input[type="number"]').first();
-            const isColorField = $field.hasClass('ppm-field-color');
+            const isColorField = $field.hasClass('epb-field-color');
 
             // Check if value contains Less functions like darken(), lighten(), etc.
             const hasLessFunction = (val) => /(?:darken|lighten|fade|saturate|spin)\s*\(/.test(val);
@@ -725,7 +749,7 @@
         /**
          * Resolve a typed variable reference via AJAX and update the field's resolved display.
          *
-         * @param {jQuery} $field - The .ppm-field element.
+         * @param {jQuery} $field - The .epb-field element.
          * @param {string} value  - The reference value (e.g. '@global-color').
          */
         resolveVariable($field, value) {
@@ -762,7 +786,7 @@
                     }
 
                     // Update color picker if this is a color field.
-                    if ($field.hasClass('ppm-field-color') && /^#[0-9A-Fa-f]{3,6}$/i.test(resolved)) {
+                    if ($field.hasClass('epb-field-color') && /^#[0-9A-Fa-f]{3,6}$/i.test(resolved)) {
                         $field.find('.color-picker').val(resolved.length === 4
                             ? '#' + resolved[1] + resolved[1] + resolved[2] + resolved[2] + resolved[3] + resolved[3]
                             : resolved);
@@ -781,7 +805,7 @@
             let hasModifications = false;
             const self = this;
 
-            this.$fields.find('.ppm-field').each(function () {
+            this.$fields.find('.epb-field').each(function () {
                 const $field = $(this);
                 const $input = $field.find('input[type="text"], input[type="number"]').first();
 
@@ -1208,6 +1232,98 @@
         },
 
         /**
+         * Save Adobe Font settings via AJAX.
+         */
+        saveAdobeFont() {
+            const self = this;
+            const $btn = $('#save-adobe-font');
+            const enabled = $('#adobe-font-enabled').is(':checked') ? '1' : '0';
+            const url = $('#adobe-font-url').val().trim();
+
+            // If enabling, URL is required.
+            if (enabled === '1' && !url) {
+                self.showToast('Please enter an Adobe Fonts CSS URL.', 'error');
+                $('#adobe-font-url').focus();
+                return;
+            }
+
+            // Basic URL validation.
+            if (url && !/^https?:\/\//i.test(url)) {
+                self.showToast('Please enter a valid URL starting with https://', 'error');
+                $('#adobe-font-url').focus();
+                return;
+            }
+
+            $btn.prop('disabled', true);
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_save_adobe_font',
+                    nonce: this.config.nonce,
+                    enabled: enabled,
+                    url: url
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        $btn.addClass('saved');
+                        setTimeout(() => $btn.removeClass('saved'), 2000);
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to save Adobe Font settings.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while saving Adobe Font settings.', 'error');
+                },
+                complete() {
+                    $btn.prop('disabled', false);
+                }
+            });
+        },
+
+        /**
+         * Save child theme branding settings via AJAX.
+         */
+        saveBranding() {
+            const self = this;
+            const $btn = $('#save-branding');
+            const data = {
+                action: 'epb_save_branding',
+                nonce: this.config.nonce
+            };
+
+            // Collect all branding fields.
+            $('.branding-field').each(function () {
+                data[$(this).data('key')] = $(this).val().trim();
+            });
+
+            $btn.prop('disabled', true);
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: data,
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        $btn.addClass('saved');
+                        setTimeout(() => $btn.removeClass('saved'), 2000);
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to save branding.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while saving branding.', 'error');
+                },
+                complete() {
+                    $btn.prop('disabled', false);
+                }
+            });
+        },
+
+        /**
          * Export all component settings.
          */
         exportAll() {
@@ -1368,7 +1484,7 @@
          * Hide modal.
          */
         hideModal() {
-            $('.ppm-modal').hide();
+            $('.epb-modal').hide();
         },
 
         /**
@@ -1497,7 +1613,7 @@
             const modifiedSet = new Set(modifiedVars || []);
 
             // 1. Set field-modified class on each field based on the server list.
-            $('#component-fields .ppm-field').each(function () {
+            $('#component-fields .epb-field').each(function () {
                 const varName = $(this).attr('data-variable');
                 $(this).toggleClass('field-modified', modifiedSet.has(varName));
             });
@@ -1506,7 +1622,7 @@
             $('#component-fields .variable-group').each(function () {
                 const $group = $(this);
                 const $heading = $group.find('.variable-group__heading');
-                const $fields = $group.find('.ppm-field.field-modified');
+                const $fields = $group.find('.epb-field.field-modified');
                 const count = $fields.length;
                 let $badge = $heading.find('.group-modified');
 

@@ -13,8 +13,8 @@ if (! defined('ABSPATH')) {
     exit;
 }
 ?>
-<div class="ppm-footer">
-    <p class="ppm-version">
+<div class="epb-footer">
+    <p class="epb-version">
         <?php
         printf(
             /* translators: %s: Plugin version number */

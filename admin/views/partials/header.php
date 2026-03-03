@@ -21,11 +21,11 @@ use EPB\Core\Notices;
     <?php Notices::display_queued_notices(); ?>
 </div>
 
-<div class="ppm-header">
-    <div class="ppm-header-left">
+<div class="epb-header">
+    <div class="epb-header-left">
         <img src="<?php echo esc_url(EPB_PLUGIN_URL . 'assets/images/plappermaullogo_header_horizontal.png'); ?>"
             alt="<?php esc_attr_e('Company Logo', 'enhanced-plugin-bundle'); ?>"
-            class="ppm-logo" />
-        <h1 class="ppm-h1"><?php esc_html_e('Plugin Bundle Manager', 'enhanced-plugin-bundle'); ?></h1>
+            class="epb-logo" />
+        <h1 class="epb-h1"><?php esc_html_e('Plugin Bundle Manager', 'enhanced-plugin-bundle'); ?></h1>
     </div>
 </div>

@@ -36,14 +36,14 @@ class Renderer
     {
 ?>
         <div class="bulk-controls">
-            <select name="bulk_action" class="ppm-select">
+            <select name="bulk_action" class="epb-select">
                 <option value="install"><?php esc_html_e('Install', 'enhanced-plugin-bundle'); ?></option>
                 <option value="activate"><?php esc_html_e('Activate', 'enhanced-plugin-bundle'); ?></option>
                 <option value="deactivate"><?php esc_html_e('Deactivate', 'enhanced-plugin-bundle'); ?></option>
                 <option value="delete"><?php esc_html_e('Delete', 'enhanced-plugin-bundle'); ?></option>
                 <option value="delete_from_list"><?php esc_html_e('Delete from List', 'enhanced-plugin-bundle'); ?></option>
             </select>
-            <input type="submit" name="bulk_action_submit" class="ppm-button ppm-button-primary" value="<?php echo esc_attr__('Apply to Selected', 'enhanced-plugin-bundle'); ?>">
+            <input type="submit" name="bulk_action_submit" class="epb-button epb-button-primary" value="<?php echo esc_attr__('Apply to Selected', 'enhanced-plugin-bundle'); ?>">
         </div>
     <?php
     }
@@ -81,8 +81,8 @@ class Renderer
                     // Use the CSS class from status array for reliable styling.
                     $css_class    = $status['css_class'];
                     $status_class = match ($css_class) {
-                        'ppm-status-success' => 'status-active',
-                        'ppm-status-warning' => 'status-inactive',
+                        'epb-status-success' => 'status-active',
+                        'epb-status-warning' => 'status-inactive',
                         default              => 'status-not-installed',
                     };
                 ?>
@@ -99,10 +99,10 @@ class Renderer
                 ?>
                 <tr>
                     <td colspan="4">
-                        <h2 class="ppm-heading"><?php esc_html_e('Add New Plugin', 'enhanced-plugin-bundle'); ?></h2>
+                        <h2 class="epb-heading"><?php esc_html_e('Add New Plugin', 'enhanced-plugin-bundle'); ?></h2>
                         <div class="new-plugin-container">
                             <input type="text" name="new_plugin_url" placeholder="<?php esc_attr_e('Enter plugin URL (e.g., https://wordpress.org/plugins/wordpress-seo/)', 'enhanced-plugin-bundle'); ?>">
-                            <button type="submit" class="ppm-button ppm-button-primary" name="add_plugin">
+                            <button type="submit" class="epb-button epb-button-primary" name="add_plugin">
                                 <?php esc_html_e('Add New Plugin', 'enhanced-plugin-bundle'); ?>
                             </button>
                         </div>

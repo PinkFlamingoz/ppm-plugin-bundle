@@ -34,7 +34,7 @@ class Main_Renderer
     public static function render_upload_section(): void
     {
 ?>
-        <div class="ppm-section">
+        <div class="epb-section">
             <h2><?php esc_html_e('Upload Parent Theme', 'enhanced-plugin-bundle'); ?>
                 <?php if (ThemesManager::is_yootheme_installed()) : ?>
                     <span class="theme-status-badge theme-status-active"><?php esc_html_e('Installed', 'enhanced-plugin-bundle'); ?></span>
@@ -45,7 +45,7 @@ class Main_Renderer
             <p><?php esc_html_e('Upload your parent theme ZIP file below to install it:', 'enhanced-plugin-bundle'); ?></p>
             <div class="new-plugin-container">
                 <input type="file" name="theme_zip" id="theme-zip" class="form-input file-input">
-                <button type="submit" name="upload_theme" class="ppm-button ppm-button-primary">
+                <button type="submit" name="upload_theme" class="epb-button epb-button-primary">
                     <?php esc_html_e('Upload and Install Parent Theme', 'enhanced-plugin-bundle'); ?>
                 </button>
             </div>

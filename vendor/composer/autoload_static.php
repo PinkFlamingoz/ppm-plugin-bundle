@@ -6,31 +6,31 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit1279c50b497f78c92b63573f40da0de9
 {
-    public static $prefixLengthsPsr4 = array (
+    public static $prefixLengthsPsr4 = array(
         'E' =>
-        array (
+        array(
             'EPB\\Vendor\\' => 11,
         ),
     );
 
-    public static $prefixDirsPsr4 = array (
+    public static $prefixDirsPsr4 = array(
         'EPB\\Vendor\\' =>
-        array (
-            0 => 'C:\\Users\\Pink\\Local Sites\\assd\\app\\public\\wp-content\\plugins\\ppm-plugin-bundle\\vendor',
+        array(
+            0 => 'C:\\Users\\Pink\\Local Sites\\assd\\app\\public\\wp-content\\plugins\\epb-plugin-bundle\\vendor',
         ),
     );
 
-    public static $prefixesPsr0 = array (
+    public static $prefixesPsr0 = array(
         'L' =>
-        array (
+        array(
             'Less' =>
-            array (
+            array(
                 0 => __DIR__ . '/..' . '/wikimedia/less.php/lib',
             ),
         ),
     );
 
-    public static $classMap = array (
+    public static $classMap = array(
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Less_Autoloader' => __DIR__ . '/..' . '/wikimedia/less.php/lib/Less/Autoloader.php',
         'Less_Cache' => __DIR__ . '/..' . '/wikimedia/less.php/lib/Less/Cache.php',
@@ -106,7 +106,6 @@ class ComposerStaticInit1279c50b497f78c92b63573f40da0de9
             $loader->prefixDirsPsr4 = ComposerStaticInit1279c50b497f78c92b63573f40da0de9::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit1279c50b497f78c92b63573f40da0de9::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit1279c50b497f78c92b63573f40da0de9::$classMap;
-
         }, null, ClassLoader::class);
     }
 }

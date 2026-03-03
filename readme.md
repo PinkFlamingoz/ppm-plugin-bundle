@@ -67,7 +67,7 @@ A WordPress plugin that centralizes plugin management and provides a powerful co
 ## Installation
 
 1. **Copy the plugin**  
-   Extract or clone the repository into `/wp-content/plugins/ppm-plugin-bundle/`
+   Extract or clone the repository into `/wp-content/plugins/epb-plugin-bundle/`
 
 2. **Install TGM Plugin Activation**  
    Download `class-tgm-plugin-activation.php` from [TGM Plugin Activation](https://github.com/TGMPA/TGM-Plugin-Activation) and place it in the `vendor/` directory

@@ -425,6 +425,35 @@ msgstr "Keine Verhältniswerte angegeben."
 msgid "Fluid scale ratios saved."
 msgstr "Fluid-Skalierungsverhältnisse gespeichert."
 
+#: includes/Ajax/class-component-handler.php
+msgid "Please enter an Adobe Fonts CSS URL."
+msgstr "Bitte geben Sie eine Adobe Fonts CSS-URL ein."
+
+#: includes/Ajax/class-component-handler.php
+msgid "Please enter a valid URL starting with https://"
+msgstr "Bitte geben Sie eine gültige URL ein, die mit https:// beginnt."
+
+#: includes/Ajax/class-component-handler.php
+msgid "Adobe Fonts enabled and saved."
+msgstr "Adobe Fonts aktiviert und gespeichert."
+
+#: includes/Ajax/class-component-handler.php
+msgid "Adobe Fonts disabled."
+msgstr "Adobe Fonts deaktiviert."
+
+#: includes/Ajax/class-component-handler.php
+#, php-format
+msgid "%s must be a valid URL starting with https://"
+msgstr "%s muss eine gültige URL sein, die mit https:// beginnt."
+
+#: includes/Ajax/class-component-handler.php
+msgid "Branding settings saved."
+msgstr "Branding-Einstellungen gespeichert."
+
+#: includes/Ajax/class-component-handler.php
+msgid "Branding saved and child theme files updated."
+msgstr "Branding gespeichert und Child-Theme-Dateien aktualisiert."
+
 #. ========================================================================
 #. Component Importer
 #. ========================================================================
@@ -551,6 +580,62 @@ msgstr "Alle Verhältnisse speichern"
 #: admin/views/partials/component-picker.php
 msgid "Save"
 msgstr "Speichern"
+
+#: admin/views/partials/component-picker.php
+msgid "Adobe Fonts"
+msgstr "Adobe Schriften"
+
+#: admin/views/partials/component-picker.php
+msgid "Load an Adobe Fonts (Typekit) stylesheet on your site. Paste the CSS URL from your Adobe Fonts project."
+msgstr "Laden Sie ein Adobe Fonts (Typekit) Stylesheet auf Ihrer Website. Fügen Sie die CSS-URL aus Ihrem Adobe Fonts-Projekt ein."
+
+#: admin/views/partials/component-picker.php
+msgid "Enable Adobe Fonts"
+msgstr "Adobe Fonts aktivieren"
+
+#: admin/views/partials/component-picker.php
+msgid "CSS URL"
+msgstr "CSS-URL"
+
+#: admin/views/partials/component-picker.php
+msgid "Save Adobe Font settings"
+msgstr "Adobe Font-Einstellungen speichern"
+
+#: admin/views/partials/component-picker.php
+msgid "Child Theme Branding"
+msgstr "Child-Theme-Branding"
+
+#: admin/views/partials/component-picker.php
+msgid "Customize the child theme identity. These values are used when generating the child theme files."
+msgstr "Passen Sie die Identität des Child-Themes an. Diese Werte werden beim Generieren der Child-Theme-Dateien verwendet."
+
+#: admin/views/partials/component-picker.php
+msgid "Theme Name"
+msgstr "Theme-Name"
+
+#: admin/views/partials/component-picker.php
+msgid "Company Name"
+msgstr "Firmenname"
+
+#: admin/views/partials/component-picker.php
+msgid "Company URL"
+msgstr "Firmen-URL"
+
+#: admin/views/partials/component-picker.php
+msgid "Login Logo URL"
+msgstr "Login-Logo-URL"
+
+#: admin/views/partials/component-picker.php
+msgid "Theme Description"
+msgstr "Theme-Beschreibung"
+
+#: admin/views/partials/component-picker.php
+msgid "Theme Version"
+msgstr "Theme-Version"
+
+#: admin/views/partials/component-picker.php
+msgid "Save branding settings"
+msgstr "Branding-Einstellungen speichern"
 
 #: admin/views/partials/component-picker.php
 #, php-format

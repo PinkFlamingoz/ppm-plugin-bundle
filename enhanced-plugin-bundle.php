@@ -96,6 +96,9 @@ function epb_init(): void
 
     // Initialize child theme hooks (for auto CSS regeneration).
     EPB\Themes\Child_Theme::init();
+
+    // Initialize frontend Adobe Font loading.
+    EPB\Core\Adobe_Font::init();
 }
 add_action('plugins_loaded', 'epb_init');
 

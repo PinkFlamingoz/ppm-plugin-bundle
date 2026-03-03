@@ -199,7 +199,7 @@ class Dynamic_Renderer
         // Is inheritance broken? (original was inherited but user saved a direct hex value).
         $inheritance_broken = $original_is_inherited && !$value_is_inherited;
         ?>
-        <div class="ppm-field ppm-field-color<?php echo $is_modified ? ' field-modified' : ''; ?><?php echo $inheritance_broken ? ' inheritance-broken' : ''; ?>"
+        <div class="epb-field epb-field-color<?php echo $is_modified ? ' field-modified' : ''; ?><?php echo $inheritance_broken ? ' inheritance-broken' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved_hex); ?>">
@@ -256,7 +256,7 @@ class Dynamic_Renderer
         $show_resolved = $is_reference && $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
     ?>
-        <div class="ppm-field ppm-field-size<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="epb-field epb-field-size<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">
@@ -305,7 +305,7 @@ class Dynamic_Renderer
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
     ?>
-        <div class="ppm-field ppm-field-number<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="epb-field epb-field-number<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">
@@ -374,7 +374,7 @@ class Dynamic_Renderer
             'inherit' => 'Inherit',
         ];
     ?>
-        <div class="ppm-field ppm-field-weight<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="epb-field epb-field-weight<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">
@@ -442,7 +442,7 @@ class Dynamic_Renderer
             'inherit'                    => 'Inherit',
         ];
     ?>
-        <div class="ppm-field ppm-field-font<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="epb-field epb-field-font<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">
@@ -499,7 +499,7 @@ class Dynamic_Renderer
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
     ?>
-        <div class="ppm-field ppm-field-reference<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="epb-field epb-field-reference<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">
@@ -558,7 +558,7 @@ class Dynamic_Renderer
             $keywords = ['none', 'auto', 'inherit', 'initial', 'unset', 'hidden', 'visible', 'solid', 'dashed', 'dotted'];
         }
     ?>
-        <div class="ppm-field ppm-field-keyword<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="epb-field epb-field-keyword<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">
@@ -615,7 +615,7 @@ class Dynamic_Renderer
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
     ?>
-        <div class="ppm-field ppm-field-duration<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="epb-field epb-field-duration<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">
@@ -664,7 +664,7 @@ class Dynamic_Renderer
         $show_resolved = $value_is_reference && ($resolved !== $value);
         $is_modified = ($value !== $original_value);
     ?>
-        <div class="ppm-field ppm-field-text<?php echo $is_modified ? ' field-modified' : ''; ?>"
+        <div class="epb-field epb-field-text<?php echo $is_modified ? ' field-modified' : ''; ?>"
             data-variable="<?php echo esc_attr($name); ?>"
             data-default="<?php echo esc_attr($original_value); ?>"
             data-resolved="<?php echo esc_attr($resolved); ?>">

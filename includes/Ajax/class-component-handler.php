@@ -24,6 +24,7 @@ use EPB\CSS\Component_Registry;
 use EPB\CSS\Generator;
 use EPB\Core\Constants;
 use EPB\Core\Utils;
+use EPB\Themes\Child_Theme;
 
 /**
  * Class Component_Handler
@@ -65,6 +66,8 @@ class Component_Handler
 
         // Global settings.
         add_action('wp_ajax_epb_save_fluid_scale_ratio', [self::class, 'save_fluid_scale_ratio']);
+        add_action('wp_ajax_epb_save_adobe_font', [self::class, 'save_adobe_font']);
+        add_action('wp_ajax_epb_save_branding', [self::class, 'save_branding']);
     }
 
     /**
@@ -174,6 +177,108 @@ class Component_Handler
         wp_send_json_success([
             'message' => __('Fluid scale ratios saved.', 'enhanced-plugin-bundle'),
             'ratios'  => $updated,
+        ]);
+    }
+
+    /**
+     * Save Adobe Font settings via AJAX.
+     *
+     * Accepts 'enabled' (0/1) and 'url' (CSS URL string).
+     *
+     * @return void
+     */
+    public static function save_adobe_font(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $enabled = sanitize_text_field(wp_unslash($_POST['enabled'] ?? '0'));
+        $url     = esc_url_raw(wp_unslash($_POST['url'] ?? ''));
+
+        // Validate enabled is 0 or 1.
+        $enabled = ($enabled === '1') ? '1' : '0';
+
+        // If enabling, URL is required.
+        if ($enabled === '1' && empty($url)) {
+            wp_send_json_error([
+                'message' => __('Please enter an Adobe Fonts CSS URL.', 'enhanced-plugin-bundle'),
+            ]);
+            return;
+        }
+
+        // Validate URL format if provided.
+        if (!empty($url) && !preg_match('#^https?://#i', $url)) {
+            wp_send_json_error([
+                'message' => __('Please enter a valid URL starting with https://', 'enhanced-plugin-bundle'),
+            ]);
+            return;
+        }
+
+        update_option(Constants::OPTION_ADOBE_FONT_ENABLED, $enabled, false);
+        update_option(Constants::OPTION_ADOBE_FONT_URL, $url, false);
+
+        wp_send_json_success([
+            'message' => $enabled === '1'
+                ? __('Adobe Fonts enabled and saved.', 'enhanced-plugin-bundle')
+                : __('Adobe Fonts disabled.', 'enhanced-plugin-bundle'),
+            'enabled' => $enabled,
+            'url'     => $url,
+        ]);
+    }
+
+    /**
+     * Save child theme branding settings via AJAX.
+     *
+     * @return void
+     */
+    public static function save_branding(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $defaults = Constants::DEFAULT_BRANDING;
+        $branding = [];
+
+        foreach (array_keys($defaults) as $key) {
+            $value = isset($_POST[$key]) ? sanitize_text_field(wp_unslash($_POST[$key])) : '';
+
+            // Use default if empty.
+            $branding[$key] = !empty($value) ? $value : $defaults[$key];
+        }
+
+        // Validate URLs.
+        foreach (['company_url', 'logo_url'] as $url_key) {
+            if (!empty($branding[$url_key]) && !preg_match('#^https?://#i', $branding[$url_key])) {
+                wp_send_json_error([
+                    'message' => sprintf(
+                        /* translators: %s: field name */
+                        __('%s must be a valid URL starting with https://', 'enhanced-plugin-bundle'),
+                        $url_key
+                    ),
+                ]);
+                return;
+            }
+        }
+
+        update_option(Constants::OPTION_BRANDING, $branding, false);
+
+        // Regenerate child theme files (style.css + functions.php) with new branding.
+        $child_dir = Child_Theme::get_child_theme_dir();
+        $files_updated = false;
+
+        if (file_exists($child_dir)) {
+            Child_Theme::create_and_activate(true);
+            $files_updated = true;
+        }
+
+        wp_send_json_success([
+            'message'       => $files_updated
+                ? __('Branding saved and child theme files updated.', 'enhanced-plugin-bundle')
+                : __('Branding settings saved.', 'enhanced-plugin-bundle'),
+            'branding'      => $branding,
+            'files_updated' => $files_updated,
         ]);
     }
 

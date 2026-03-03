@@ -32,33 +32,40 @@ $fluid_scale_ratio = get_option(Constants::OPTION_FLUID_SCALE_RATIO, Constants::
 $fluid_scale_ratio_navbar = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR);
 $fluid_scale_ratio_nav = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV);
 
+// Get the current Adobe Font settings.
+$adobe_font_enabled = get_option(Constants::OPTION_ADOBE_FONT_ENABLED, '0');
+$adobe_font_url = get_option(Constants::OPTION_ADOBE_FONT_URL, '');
+
+// Get the current branding settings.
+$branding = Child_Theme::get_branding();
+
 // Check child theme status.
 $child_theme_exists = file_exists(Child_Theme::get_child_theme_dir());
 $child_theme_active = ThemesManager::is_child_theme_active();
 ?>
 
-<div class="ppm-theme-builder" id="epb-component-picker">
+<div class="epb-theme-builder" id="epb-component-picker">
     <!-- Sidebar: Component Menu -->
-    <aside class="ppm-component-menu">
+    <aside class="epb-component-menu">
         <div class="menu-header">
             <h3><?php esc_html_e('Components', 'enhanced-plugin-bundle'); ?></h3>
             <div class="menu-header-actions">
-                <button type="button" id="export-figma" class="ppm-button-icon" title="<?php esc_attr_e('Export for Figma Tokens Studio', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="export-figma" class="epb-button-icon" title="<?php esc_attr_e('Export for Figma Tokens Studio', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-share-alt2"></span>
                 </button>
-                <button type="button" id="import-figma" class="ppm-button-icon" title="<?php esc_attr_e('Import from Figma Tokens Studio', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="import-figma" class="epb-button-icon" title="<?php esc_attr_e('Import from Figma Tokens Studio', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-migrate"></span>
                 </button>
-                <button type="button" id="export-yootheme-less" class="ppm-button-icon" title="<?php esc_attr_e('Export YOOtheme Style JSON', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="export-yootheme-less" class="epb-button-icon" title="<?php esc_attr_e('Export YOOtheme Style JSON', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-editor-code"></span>
                 </button>
-                <button type="button" id="export-all-components" class="ppm-button-icon" title="<?php esc_attr_e('Export All (JSON)', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="export-all-components" class="epb-button-icon" title="<?php esc_attr_e('Export All (JSON)', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-download"></span>
                 </button>
-                <button type="button" id="import-components" class="ppm-button-icon" title="<?php esc_attr_e('Import (JSON)', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="import-components" class="epb-button-icon" title="<?php esc_attr_e('Import (JSON)', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-upload"></span>
                 </button>
-                <button type="button" id="setup-child-theme" class="ppm-button-icon" title="<?php esc_attr_e('Create or update child theme structure (functions.php, config.php)', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="setup-child-theme" class="epb-button-icon" title="<?php esc_attr_e('Create or update child theme structure (functions.php, config.php)', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-admin-appearance"></span>
                     <?php if ($child_theme_exists) : ?>
                         <span class="child-theme-status-dot <?php echo $child_theme_active ? 'active' : 'exists'; ?>"></span>
@@ -69,11 +76,11 @@ $child_theme_active = ThemesManager::is_child_theme_active();
         </div>
 
         <div class="menu-global-actions">
-            <button type="button" class="ppm-button ppm-button-small" id="reset-all-components" title="<?php esc_attr_e('Reset all components to defaults', 'enhanced-plugin-bundle'); ?>">
+            <button type="button" class="epb-button epb-button-small" id="reset-all-components" title="<?php esc_attr_e('Reset all components to defaults', 'enhanced-plugin-bundle'); ?>">
                 <span class="dashicons dashicons-image-rotate"></span>
                 <?php esc_html_e('Reset All', 'enhanced-plugin-bundle'); ?>
             </button>
-            <button type="button" class="ppm-button ppm-button-small ppm-button-primary" id="save-all-components" title="<?php esc_attr_e('Save all component changes', 'enhanced-plugin-bundle'); ?>">
+            <button type="button" class="epb-button epb-button-small epb-button-primary" id="save-all-components" title="<?php esc_attr_e('Save all component changes', 'enhanced-plugin-bundle'); ?>">
                 <span class="dashicons dashicons-saved"></span>
                 <?php esc_html_e('Save All', 'enhanced-plugin-bundle'); ?>
             </button>
@@ -87,86 +94,210 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                 autocomplete="off">
         </div>
 
-        <div class="menu-global-settings">
-            <h4 class="global-settings-label">
+        <div class="menu-global-settings collapsed">
+            <h4 class="global-settings-label global-settings-toggle">
+                <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
                 <span class="dashicons dashicons-admin-settings"></span>
                 <?php esc_html_e('Fluid Scale Ratios', 'enhanced-plugin-bundle'); ?>
                 <span class="setting-hint" title="<?php esc_attr_e('Controls how much font-sizes shrink on mobile. 0.85 = 85% of desktop size. Lower values = smaller mobile text.', 'enhanced-plugin-bundle'); ?>">?</span>
             </h4>
-            <div class="global-setting-row">
-                <label for="fluid-scale-ratio">
-                    <?php esc_html_e('General', 'enhanced-plugin-bundle'); ?>
-                </label>
-                <div class="setting-input-group">
-                    <input type="range"
-                        class="fluid-ratio-range"
-                        data-target="fluid-scale-ratio"
-                        min="0.1"
-                        max="2"
-                        step="0.01"
-                        value="<?php echo esc_attr($fluid_scale_ratio); ?>">
-                    <input type="number"
-                        id="fluid-scale-ratio"
-                        name="fluid_scale_ratio"
-                        data-option="fluid_scale_ratio"
-                        min="0.1"
-                        max="2"
-                        step="0.01"
-                        value="<?php echo esc_attr($fluid_scale_ratio); ?>"
-                        class="setting-number-input fluid-ratio-number">
+            <div class="global-settings-body">
+                <div class="global-setting-row">
+                    <label for="fluid-scale-ratio">
+                        <?php esc_html_e('General', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <div class="setting-input-group">
+                        <input type="range"
+                            class="fluid-ratio-range"
+                            data-target="fluid-scale-ratio"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio); ?>">
+                        <input type="number"
+                            id="fluid-scale-ratio"
+                            name="fluid_scale_ratio"
+                            data-option="fluid_scale_ratio"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio); ?>"
+                            class="setting-number-input fluid-ratio-number">
+                    </div>
+                </div>
+                <div class="global-setting-row">
+                    <label for="fluid-scale-ratio-navbar">
+                        <?php esc_html_e('Navbar', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <div class="setting-input-group">
+                        <input type="range"
+                            class="fluid-ratio-range"
+                            data-target="fluid-scale-ratio-navbar"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio_navbar); ?>">
+                        <input type="number"
+                            id="fluid-scale-ratio-navbar"
+                            name="fluid_scale_ratio_navbar"
+                            data-option="fluid_scale_ratio_navbar"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio_navbar); ?>"
+                            class="setting-number-input fluid-ratio-number">
+                    </div>
+                </div>
+                <div class="global-setting-row">
+                    <label for="fluid-scale-ratio-nav">
+                        <?php esc_html_e('Nav', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <div class="setting-input-group">
+                        <input type="range"
+                            class="fluid-ratio-range"
+                            data-target="fluid-scale-ratio-nav"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio_nav); ?>">
+                        <input type="number"
+                            id="fluid-scale-ratio-nav"
+                            name="fluid_scale_ratio_nav"
+                            data-option="fluid_scale_ratio_nav"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio_nav); ?>"
+                            class="setting-number-input fluid-ratio-number">
+                    </div>
+                </div>
+                <div class="global-setting-row setting-row-actions">
+                    <button type="button" id="save-fluid-ratios" class="epb-button epb-button-small epb-button-primary" title="<?php esc_attr_e('Save all ratios', 'enhanced-plugin-bundle'); ?>">
+                        <span class="dashicons dashicons-saved"></span>
+                        <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
+                    </button>
                 </div>
             </div>
-            <div class="global-setting-row">
-                <label for="fluid-scale-ratio-navbar">
-                    <?php esc_html_e('Navbar', 'enhanced-plugin-bundle'); ?>
-                </label>
-                <div class="setting-input-group">
-                    <input type="range"
-                        class="fluid-ratio-range"
-                        data-target="fluid-scale-ratio-navbar"
-                        min="0.1"
-                        max="2"
-                        step="0.01"
-                        value="<?php echo esc_attr($fluid_scale_ratio_navbar); ?>">
-                    <input type="number"
-                        id="fluid-scale-ratio-navbar"
-                        name="fluid_scale_ratio_navbar"
-                        data-option="fluid_scale_ratio_navbar"
-                        min="0.1"
-                        max="2"
-                        step="0.01"
-                        value="<?php echo esc_attr($fluid_scale_ratio_navbar); ?>"
-                        class="setting-number-input fluid-ratio-number">
+        </div>
+
+        <div class="menu-global-settings collapsed">
+            <h4 class="global-settings-label global-settings-toggle">
+                <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
+                <span class="dashicons dashicons-tagcloud"></span>
+                <?php esc_html_e('Adobe Fonts', 'enhanced-plugin-bundle'); ?>
+                <span class="setting-hint" title="<?php esc_attr_e('Load an Adobe Fonts (Typekit) stylesheet on your site. Paste the CSS URL from your Adobe Fonts project.', 'enhanced-plugin-bundle'); ?>">?</span>
+            </h4>
+            <div class="global-settings-body">
+                <div class="global-setting-row">
+                    <label class="setting-toggle-label" for="adobe-font-enabled">
+                        <input type="checkbox"
+                            id="adobe-font-enabled"
+                            class="setting-toggle-checkbox"
+                            value="1"
+                            <?php checked($adobe_font_enabled, '1'); ?>>
+                        <span class="setting-toggle-switch"></span>
+                        <?php esc_html_e('Enable Adobe Fonts', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                </div>
+                <div class="global-setting-row adobe-font-url-row" <?php echo $adobe_font_enabled !== '1' ? 'style="display:none"' : ''; ?>>
+                    <label for="adobe-font-url">
+                        <?php esc_html_e('CSS URL', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="url"
+                        id="adobe-font-url"
+                        class="setting-text-input"
+                        value="<?php echo esc_attr($adobe_font_url); ?>"
+                        placeholder="https://use.typekit.net/abc1234.css">
+                </div>
+                <div class="global-setting-row setting-row-actions">
+                    <button type="button" id="save-adobe-font" class="epb-button epb-button-small epb-button-primary" title="<?php esc_attr_e('Save Adobe Font settings', 'enhanced-plugin-bundle'); ?>">
+                        <span class="dashicons dashicons-saved"></span>
+                        <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
+                    </button>
                 </div>
             </div>
-            <div class="global-setting-row">
-                <label for="fluid-scale-ratio-nav">
-                    <?php esc_html_e('Nav', 'enhanced-plugin-bundle'); ?>
-                </label>
-                <div class="setting-input-group">
-                    <input type="range"
-                        class="fluid-ratio-range"
-                        data-target="fluid-scale-ratio-nav"
-                        min="0.1"
-                        max="2"
-                        step="0.01"
-                        value="<?php echo esc_attr($fluid_scale_ratio_nav); ?>">
-                    <input type="number"
-                        id="fluid-scale-ratio-nav"
-                        name="fluid_scale_ratio_nav"
-                        data-option="fluid_scale_ratio_nav"
-                        min="0.1"
-                        max="2"
-                        step="0.01"
-                        value="<?php echo esc_attr($fluid_scale_ratio_nav); ?>"
-                        class="setting-number-input fluid-ratio-number">
+        </div>
+
+        <div class="menu-global-settings collapsed">
+            <h4 class="global-settings-label global-settings-toggle">
+                <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
+                <span class="dashicons dashicons-admin-customizer"></span>
+                <?php esc_html_e('Child Theme Branding', 'enhanced-plugin-bundle'); ?>
+                <span class="setting-hint" title="<?php esc_attr_e('Customize the child theme identity. These values are used when generating the child theme files.', 'enhanced-plugin-bundle'); ?>">?</span>
+            </h4>
+            <div class="global-settings-body">
+                <div class="global-setting-row">
+                    <label for="branding-theme-name">
+                        <?php esc_html_e('Theme Name', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="text"
+                        id="branding-theme-name"
+                        class="setting-text-input branding-field"
+                        data-key="theme_name"
+                        value="<?php echo esc_attr($branding['theme_name']); ?>"
+                        placeholder="CT Child">
                 </div>
-            </div>
-            <div class="global-setting-row setting-row-actions">
-                <button type="button" id="save-fluid-ratios" class="ppm-button ppm-button-small ppm-button-primary" title="<?php esc_attr_e('Save all ratios', 'enhanced-plugin-bundle'); ?>">
-                    <span class="dashicons dashicons-saved"></span>
-                    <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
-                </button>
+                <div class="global-setting-row">
+                    <label for="branding-company-name">
+                        <?php esc_html_e('Company Name', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="text"
+                        id="branding-company-name"
+                        class="setting-text-input branding-field"
+                        data-key="company_name"
+                        value="<?php echo esc_attr($branding['company_name']); ?>"
+                        placeholder="Plappermaul OG">
+                </div>
+                <div class="global-setting-row">
+                    <label for="branding-company-url">
+                        <?php esc_html_e('Company URL', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="url"
+                        id="branding-company-url"
+                        class="setting-text-input branding-field"
+                        data-key="company_url"
+                        value="<?php echo esc_attr($branding['company_url']); ?>"
+                        placeholder="https://www.example.com">
+                </div>
+                <div class="global-setting-row">
+                    <label for="branding-logo-url">
+                        <?php esc_html_e('Login Logo URL', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="url"
+                        id="branding-logo-url"
+                        class="setting-text-input branding-field"
+                        data-key="logo_url"
+                        value="<?php echo esc_attr($branding['logo_url']); ?>"
+                        placeholder="https://www.example.com/logo.svg">
+                </div>
+                <div class="global-setting-row">
+                    <label for="branding-description">
+                        <?php esc_html_e('Theme Description', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="text"
+                        id="branding-description"
+                        class="setting-text-input branding-field"
+                        data-key="description"
+                        value="<?php echo esc_attr($branding['description']); ?>"
+                        placeholder="Child theme generated by Enhanced Plugin Bundle.">
+                </div>
+                <div class="global-setting-row">
+                    <label for="branding-version">
+                        <?php esc_html_e('Theme Version', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="text"
+                        id="branding-version"
+                        class="setting-text-input branding-field"
+                        data-key="version"
+                        value="<?php echo esc_attr($branding['version']); ?>"
+                        placeholder="1.0.0">
+                </div>
+                <div class="global-setting-row setting-row-actions">
+                    <button type="button" id="save-branding" class="epb-button epb-button-small epb-button-primary" title="<?php esc_attr_e('Save branding settings', 'enhanced-plugin-bundle'); ?>">
+                        <span class="dashicons dashicons-saved"></span>
+                        <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -221,7 +352,7 @@ $child_theme_active = ThemesManager::is_child_theme_active();
     </aside>
 
     <!-- Main: Component Variables -->
-    <main class="ppm-component-editor">
+    <main class="epb-component-editor">
         <header class="component-header">
             <div class="header-content">
                 <span class="component-icon dashicons dashicons-admin-site" id="component-icon"></span>
@@ -246,17 +377,17 @@ $child_theme_active = ThemesManager::is_child_theme_active();
 
             <div class="component-actions" id="component-actions" style="display: none;">
                 <div class="actions-left">
-                    <button type="button" class="ppm-button" id="toggle-all-groups" title="<?php esc_attr_e('Collapse/Expand All', 'enhanced-plugin-bundle'); ?>">
+                    <button type="button" class="epb-button" id="toggle-all-groups" title="<?php esc_attr_e('Collapse/Expand All', 'enhanced-plugin-bundle'); ?>">
                         <span class="dashicons dashicons-arrow-down-alt2"></span>
                         <?php esc_html_e('Expand All', 'enhanced-plugin-bundle'); ?>
                     </button>
-                    <button type="button" class="ppm-button" id="reset-component">
+                    <button type="button" class="epb-button" id="reset-component">
                         <span class="dashicons dashicons-image-rotate"></span>
                         <?php esc_html_e('Reset to Defaults', 'enhanced-plugin-bundle'); ?>
                     </button>
                 </div>
                 <div class="actions-right">
-                    <button type="submit" class="ppm-button ppm-button-primary" id="save-component">
+                    <button type="submit" class="epb-button epb-button-primary" id="save-component">
                         <span class="dashicons dashicons-saved"></span>
                         <?php esc_html_e('Save Changes', 'enhanced-plugin-bundle'); ?>
                     </button>
@@ -279,7 +410,7 @@ $child_theme_active = ThemesManager::is_child_theme_active();
     </main>
 
     <!-- Preview Panel -->
-    <aside class="ppm-preview-panel">
+    <aside class="epb-preview-panel">
         <div class="preview-tabs">
             <button type="button" class="preview-tab active" data-tab="preview">
                 <span class="dashicons dashicons-visibility"></span>
@@ -309,7 +440,7 @@ $child_theme_active = ThemesManager::is_child_theme_active();
         <div class="preview-tab-content" id="preview-tab-css">
             <div class="preview-header">
                 <h3><?php esc_html_e('Generated CSS', 'enhanced-plugin-bundle'); ?></h3>
-                <button type="button" id="copy-css" class="ppm-button ppm-button-primary" title="<?php esc_attr_e('Copy to clipboard', 'enhanced-plugin-bundle'); ?>">
+                <button type="button" id="copy-css" class="epb-button epb-button-primary" title="<?php esc_attr_e('Copy to clipboard', 'enhanced-plugin-bundle'); ?>">
                     <span class="dashicons dashicons-clipboard"></span>
                     <?php esc_html_e('Copy', 'enhanced-plugin-bundle'); ?>
                 </button>
@@ -322,7 +453,7 @@ $child_theme_active = ThemesManager::is_child_theme_active();
 </div>
 
 <!-- Import Modal -->
-<div id="import-modal" class="ppm-modal" style="display: none;">
+<div id="import-modal" class="epb-modal" style="display: none;">
     <div class="modal-backdrop"></div>
     <div class="modal-content">
         <div class="modal-header">
@@ -334,14 +465,14 @@ $child_theme_active = ThemesManager::is_child_theme_active();
             <textarea id="import-data" rows="10" placeholder='{"button": {"button-color": "#fff"}, ...}'></textarea>
         </div>
         <div class="modal-footer">
-            <button type="button" class="ppm-button modal-cancel"><?php esc_html_e('Cancel', 'enhanced-plugin-bundle'); ?></button>
-            <button type="button" class="ppm-button ppm-button-primary" id="confirm-import"><?php esc_html_e('Import', 'enhanced-plugin-bundle'); ?></button>
+            <button type="button" class="epb-button modal-cancel"><?php esc_html_e('Cancel', 'enhanced-plugin-bundle'); ?></button>
+            <button type="button" class="epb-button epb-button-primary" id="confirm-import"><?php esc_html_e('Import', 'enhanced-plugin-bundle'); ?></button>
         </div>
     </div>
 </div>
 
 <!-- Import Figma Modal -->
-<div id="import-figma-modal" class="ppm-modal" style="display: none;">
+<div id="import-figma-modal" class="epb-modal" style="display: none;">
     <div class="modal-backdrop"></div>
     <div class="modal-content">
         <div class="modal-header">
@@ -354,8 +485,8 @@ $child_theme_active = ThemesManager::is_child_theme_active();
             <textarea id="import-figma-data" rows="12" placeholder='{"global": {"font-size": {"value": "16px", "type": "fontSizes"}}, ...}'></textarea>
         </div>
         <div class="modal-footer">
-            <button type="button" class="ppm-button modal-cancel"><?php esc_html_e('Cancel', 'enhanced-plugin-bundle'); ?></button>
-            <button type="button" class="ppm-button ppm-button-primary" id="confirm-import-figma"><?php esc_html_e('Import', 'enhanced-plugin-bundle'); ?></button>
+            <button type="button" class="epb-button modal-cancel"><?php esc_html_e('Cancel', 'enhanced-plugin-bundle'); ?></button>
+            <button type="button" class="epb-button epb-button-primary" id="confirm-import-figma"><?php esc_html_e('Import', 'enhanced-plugin-bundle'); ?></button>
         </div>
     </div>
 </div>
