@@ -151,8 +151,8 @@ class Component_Handler
 
             $val = (float) $value;
 
-            if ($val < 0.1 || $val > 1.0) {
-                wp_send_json_error(['message' => __('Ratios must be between 0.1 and 1.0.', 'enhanced-plugin-bundle')]);
+            if ($val < 0.1 || $val > 2.0) {
+                wp_send_json_error(['message' => __('Ratios must be between 0.1 and 2.0.', 'enhanced-plugin-bundle')]);
                 return;
             }
 

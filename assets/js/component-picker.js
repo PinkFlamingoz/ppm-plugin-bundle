@@ -279,7 +279,7 @@
             $(document).on('input', '.fluid-ratio-number', function () {
                 const val = parseFloat($(this).val());
                 const targetRange = $(this).closest('.setting-input-group').find('.fluid-ratio-range');
-                if (!isNaN(val) && val >= 0.1 && val <= 1) {
+                if (!isNaN(val) && val >= 0.1 && val <= 2) {
                     targetRange.val(val);
                 }
             });
@@ -1165,7 +1165,7 @@
             $('.fluid-ratio-number').each(function () {
                 const key = $(this).data('option');
                 const val = parseFloat($(this).val());
-                if (isNaN(val) || val < 0.1 || val > 1) {
+                if (isNaN(val) || val < 0.1 || val > 2) {
                     valid = false;
                     return false; // break
                 }
@@ -1173,7 +1173,7 @@
             });
 
             if (!valid) {
-                self.showToast('All ratios must be between 0.1 and 1.0', 'error');
+                self.showToast('All ratios must be between 0.1 and 2.0', 'error');
                 return;
             }
 

@@ -414,8 +414,8 @@ msgid "Invalid value for %s."
 msgstr "Ungültiger Wert für %s."
 
 #: includes/Ajax/class-component-handler.php
-msgid "Ratios must be between 0.1 and 1.0."
-msgstr "Verhältnisse müssen zwischen 0,1 und 1,0 liegen."
+msgid "Ratios must be between 0.1 and 2.0."
+msgstr "Verhältnisse müssen zwischen 0,1 und 2,0 liegen."
 
 #: includes/Ajax/class-component-handler.php
 msgid "No ratio values provided."
