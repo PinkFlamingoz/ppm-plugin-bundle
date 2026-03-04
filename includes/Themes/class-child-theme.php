@@ -87,7 +87,7 @@ class Child_Theme
      *
      * @var string
      */
-    public const THEME_SLUG = 'ppmchildtheme';
+    public const THEME_SLUG = 'YOOthemechildtheme';
 
     /**
      * Creates and activates the child theme.
