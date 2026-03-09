@@ -43,6 +43,13 @@ class Tokens_Studio_Exporter
     private static array $all_variables = [];
 
     /**
+     * Resolved variable values cache (lazy-loaded in build_tokens).
+     *
+     * @var array<string, string>|null
+     */
+    private static ?array $resolved_variables = null;
+
+    /**
      * Export UIkit Less variables to Tokens Studio format.
      *
      * @return array The tokens in Tokens Studio format.
@@ -51,6 +58,7 @@ class Tokens_Studio_Exporter
     {
         self::$less_dir = EPB_PLUGIN_DIR . 'docs/uikit-less-consolidated';
         self::$all_variables = [];
+        self::$resolved_variables = null;
 
         // Parse all Less files (defaults).
         self::parse_less_files();
@@ -304,6 +312,27 @@ class Tokens_Studio_Exporter
             if ($type === 'borderWidth' && trim($value) === '0') {
                 $value = '0px';
                 $data['value'] = '0px';
+            }
+
+            // Convert unitless scalar line-heights to pixel values.
+            // Designers work in pixels; UIkit uses unitless multipliers (e.g. 1.5).
+            // We export as px and store the original scalar for round-trip import.
+            if ($type === 'lineHeights') {
+                $trimmed = trim($value);
+                // Unitless scalar: digits/dots only, no units, no @references.
+                // Convert to px so designers always work in pixels.
+                // On import the px value is used directly (no scalar restoration).
+                if (preg_match('/^\d+(\.\d+)?$/', $trimmed) && strpos($trimmed, '@') === false) {
+                    $px_value = self::convert_line_height_to_px($name, $trimmed);
+                    if ($px_value !== null) {
+                        $token_sets[$group][$token_name] = [
+                            'value'       => $px_value,
+                            'type'        => 'lineHeights',
+                            'description' => 'Converted from scalar: ' . $trimmed,
+                        ];
+                        continue;
+                    }
+                }
             }
 
             // Map CSS font-weight keywords to Figma-compatible string values.
@@ -913,6 +942,233 @@ class Tokens_Studio_Exporter
                 'source' => 'CSS default: none',
                 'ext'    => ['fallback' => 'none'],
             ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Resolve all Less variables to their final values.
+     *
+     * Iteratively substitutes @references and evaluates math expressions.
+     *
+     * @return array<string, string> Variable name => resolved value.
+     */
+    private static function resolve_all_variables(): array
+    {
+        if (self::$resolved_variables !== null) {
+            return self::$resolved_variables;
+        }
+
+        // Flatten to name => value.
+        $vars = [];
+        foreach (self::$all_variables as $name => $data) {
+            $vars[$name] = $data['value'];
+        }
+
+        // Iteratively resolve @references (max 10 passes).
+        for ($i = 0; $i < 10; $i++) {
+            $changed = false;
+            foreach ($vars as $name => &$val) {
+                if (strpos($val, '@') === false) {
+                    continue;
+                }
+                $new_val = preg_replace_callback(
+                    '/@([a-zA-Z][a-zA-Z0-9_-]*)/',
+                    function ($m) use ($vars) {
+                        return $vars[$m[1]] ?? $m[0];
+                    },
+                    $val
+                );
+                if ($new_val !== $val) {
+                    $val = $new_val;
+                    $changed = true;
+                }
+            }
+            unset($val);
+            if (!$changed) {
+                break;
+            }
+        }
+
+        // Evaluate math expressions where possible.
+        foreach ($vars as $name => &$val) {
+            if (strpos($val, '@') !== false) {
+                continue;
+            }
+            if (!preg_match('/[*\/+\-]/', $val)) {
+                continue;
+            }
+            $unit = '';
+            if (preg_match('/(rem|em|px|%)/', $val, $um)) {
+                $unit = $um[1];
+            }
+            $calc = preg_replace('/(\d+\.?\d*)(rem|em|px|%)/', '$1', $val);
+            $calc = preg_replace('/[^0-9.+\-*\/() ]/', '', $calc);
+            if (empty(trim($calc))) {
+                continue;
+            }
+            $result = self::safe_eval_simple($calc);
+            if ($result !== null) {
+                $result = round($result, 4);
+                $val = rtrim(rtrim((string) $result, '0'), '.') . $unit;
+            }
+        }
+        unset($val);
+
+        self::$resolved_variables = $vars;
+        return $vars;
+    }
+
+    /**
+     * Safely evaluate a simple math expression.
+     *
+     * Supports: numbers, +, -, *, /, parentheses.
+     *
+     * @param string $expr The sanitized expression.
+     * @return float|null The result or null on failure.
+     */
+    private static function safe_eval_simple(string $expr): ?float
+    {
+        $expr = str_replace(' ', '', $expr);
+        if (empty($expr)) {
+            return null;
+        }
+
+        // Handle parentheses recursively.
+        while (preg_match('/\(([^()]+)\)/', $expr, $m)) {
+            $inner = self::safe_eval_simple($m[1]);
+            if ($inner === null) {
+                return null;
+            }
+            $expr = str_replace($m[0], (string) $inner, $expr);
+        }
+
+        // Split by + and - (keeping delimiters).
+        $tokens = preg_split('/([+\-])/', $expr, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        if (!$tokens) {
+            return null;
+        }
+
+        $processed = [];
+        foreach ($tokens as $t) {
+            if ($t === '+' || $t === '-') {
+                $processed[] = $t;
+            } else {
+                $parts = preg_split('/([*\/])/', $t, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+                if (!$parts) {
+                    return null;
+                }
+                $r = null;
+                $op = '*';
+                foreach ($parts as $p) {
+                    if ($p === '*' || $p === '/') {
+                        $op = $p;
+                    } else {
+                        $n = (float) $p;
+                        if ($r === null) {
+                            $r = $n;
+                        } elseif ($op === '*') {
+                            $r *= $n;
+                        } elseif ($n != 0) {
+                            $r /= $n;
+                        } else {
+                            return null;
+                        }
+                    }
+                }
+                $processed[] = $r ?? 0.0;
+            }
+        }
+
+        $result = 0.0;
+        $op = '+';
+        foreach ($processed as $item) {
+            if ($item === '+' || $item === '-') {
+                $op = $item;
+            } else {
+                $result = $op === '+' ? $result + (float) $item : $result - (float) $item;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Convert a unitless scalar line-height to pixels.
+     *
+     * Finds the paired font-size variable (e.g. base-h1-line-height → base-h1-font-size),
+     * resolves it to a px value, and computes: scalar × font-size-in-px.
+     *
+     * @param string $var_name     The line-height variable name (e.g. 'base-h1-line-height').
+     * @param string $scalar_value The unitless scalar (e.g. '1.5').
+     * @return string|null The pixel value (e.g. '24px') or null if conversion fails.
+     */
+    private static function convert_line_height_to_px(string $var_name, string $scalar_value): ?string
+    {
+        $scalar = (float) $scalar_value;
+        if ($scalar <= 0) {
+            return null;
+        }
+
+        // Find the paired font-size variable: replace -line-height with -font-size.
+        $font_size_var = preg_replace('/-line-height$/', '-font-size', $var_name);
+        if ($font_size_var === $var_name) {
+            return null;
+        }
+
+        $resolved = self::resolve_all_variables();
+
+        // Try the direct pair first.
+        $font_size_str = $resolved[$font_size_var] ?? null;
+
+        // Fallback: if the paired variable doesn't exist or still has unresolved
+        // references, use @global-font-size.
+        if ($font_size_str === null || strpos($font_size_str, '@') !== false) {
+            $font_size_str = $resolved['global-font-size'] ?? '16px';
+        }
+
+        $font_size_px = self::value_to_px($font_size_str, $resolved);
+        if ($font_size_px === null) {
+            return null;
+        }
+
+        $line_height_px = round($scalar * $font_size_px, 2);
+        $formatted = rtrim(rtrim((string) $line_height_px, '0'), '.');
+
+        return $formatted . 'px';
+    }
+
+    /**
+     * Convert a CSS value string to a numeric pixel amount.
+     *
+     * @param string               $value    The CSS value (e.g. '16px', '2.625rem').
+     * @param array<string,string> $resolved Resolved variables for root font-size lookup.
+     * @return float|null The pixel value or null.
+     */
+    private static function value_to_px(string $value, array $resolved): ?float
+    {
+        $value = trim($value);
+
+        if (preg_match('/^(-?[\d.]+)px$/', $value, $m)) {
+            return (float) $m[1];
+        }
+
+        // rem/em — relative to root font-size.
+        if (preg_match('/^(-?[\d.]+)(rem|em)$/', $value, $m)) {
+            $root = 16.0;
+            if (
+                isset($resolved['global-font-size'])
+                && preg_match('/^([\d.]+)px$/', $resolved['global-font-size'], $rm)
+            ) {
+                $root = (float) $rm[1];
+            }
+            return (float) $m[1] * $root;
+        }
+
+        // Bare number (unitless, assume px).
+        if (preg_match('/^-?[\d.]+$/', $value)) {
+            return (float) $value;
         }
 
         return null;

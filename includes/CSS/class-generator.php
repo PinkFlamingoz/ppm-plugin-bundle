@@ -109,6 +109,9 @@ class Generator
         'button-font-size',
         'button-small-font-size',
         'button-large-font-size',
+        'button-padding-horizontal',
+        'button-small-padding-horizontal',
+        'button-large-padding-horizontal',
 
         // Navbar
         'navbar-nav-item-font-size',
@@ -718,6 +721,13 @@ h6, .uk-h6 {
         calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
         var(--_fs)
     );
+    --_pad: var(--uk-button-padding-horizontal, 30px);
+    --_pad-min: calc(var(--_pad) * var(--uk-fluid-scale-ratio, 0.85));
+    padding: 0 clamp(
+        var(--_pad-min),
+        calc(var(--_pad-min) + (var(--_pad) - var(--_pad-min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_pad)
+    );
 }
 
 .uk-button-small {
@@ -728,6 +738,13 @@ h6, .uk-h6 {
         calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
         var(--_fs)
     );
+    --_pad: var(--uk-button-small-padding-horizontal, 15px);
+    --_pad-min: calc(var(--_pad) * var(--uk-fluid-scale-ratio, 0.85));
+    padding: 0 clamp(
+        var(--_pad-min),
+        calc(var(--_pad-min) + (var(--_pad) - var(--_pad-min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_pad)
+    );
 }
 
 .uk-button-large {
@@ -737,6 +754,13 @@ h6, .uk-h6 {
         var(--_min),
         calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
         var(--_fs)
+    );
+    --_pad: var(--uk-button-large-padding-horizontal, 40px);
+    --_pad-min: calc(var(--_pad) * var(--uk-fluid-scale-ratio, 0.85));
+    padding: 0 clamp(
+        var(--_pad-min),
+        calc(var(--_pad-min) + (var(--_pad) - var(--_pad-min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
+        var(--_pad)
     );
 }
 
