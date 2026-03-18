@@ -442,6 +442,14 @@ msgid "Adobe Fonts disabled."
 msgstr "Adobe Fonts deaktiviert."
 
 #: includes/Ajax/class-component-handler.php
+msgid "Hyphenation & word wrap enabled."
+msgstr "Silbentrennung & Wortumbruch aktiviert."
+
+#: includes/Ajax/class-component-handler.php
+msgid "Hyphenation & word wrap disabled."
+msgstr "Silbentrennung & Wortumbruch deaktiviert."
+
+#: includes/Ajax/class-component-handler.php
 #, php-format
 msgid "%s must be a valid URL starting with https://"
 msgstr "%s muss eine gültige URL sein, die mit https:// beginnt."
@@ -580,6 +588,22 @@ msgstr "Alle Verhältnisse speichern"
 #: admin/views/partials/component-picker.php
 msgid "Save"
 msgstr "Speichern"
+
+#: admin/views/partials/component-picker.php
+msgid "Hyphenation & Word Wrap"
+msgstr "Silbentrennung & Wortumbruch"
+
+#: admin/views/partials/component-picker.php
+msgid "Adds CSS hyphens and overflow-wrap rules to html, headings, and text elements for better word breaking on small screens."
+msgstr "Fügt CSS-Silbentrennung und Overflow-Wrap-Regeln zu HTML, Überschriften und Textelementen hinzu für besseren Wortumbruch auf kleinen Bildschirmen."
+
+#: admin/views/partials/component-picker.php
+msgid "Enable Hyphenation & Word Wrap"
+msgstr "Silbentrennung & Wortumbruch aktivieren"
+
+#: admin/views/partials/component-picker.php
+msgid "Save hyphenation setting"
+msgstr "Silbentrennungs-Einstellung speichern"
 
 #: admin/views/partials/component-picker.php
 msgid "Adobe Fonts"

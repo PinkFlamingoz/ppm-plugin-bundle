@@ -303,6 +303,11 @@
                 self.saveAdobeFont();
             });
 
+            // Hyphenation: save settings.
+            $(document).on('click', '#save-hyphenation', function () {
+                self.saveHyphenation();
+            });
+
             // Branding: save settings.
             $(document).on('click', '#save-branding', function () {
                 self.saveBranding();
@@ -1224,6 +1229,42 @@
                 },
                 error() {
                     self.showToast('An error occurred while saving ratios.', 'error');
+                },
+                complete() {
+                    $btn.prop('disabled', false);
+                }
+            });
+        },
+
+        /**
+         * Save hyphenation & word-wrap setting via AJAX.
+         */
+        saveHyphenation() {
+            const self = this;
+            const $btn = $('#save-hyphenation');
+            const enabled = $('#hyphenation-enabled').is(':checked') ? '1' : '0';
+
+            $btn.prop('disabled', true);
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_save_hyphenation',
+                    nonce: this.config.nonce,
+                    enabled: enabled
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        $btn.addClass('saved');
+                        setTimeout(() => $btn.removeClass('saved'), 2000);
+                    } else {
+                        self.showToast(response.data?.message || self.config.strings.error, 'error');
+                    }
+                },
+                error() {
+                    self.showToast(self.config.strings.error, 'error');
                 },
                 complete() {
                     $btn.prop('disabled', false);

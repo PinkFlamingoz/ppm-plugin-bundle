@@ -97,6 +97,13 @@ class Constants
     public const DEFAULT_FLUID_SCALE_RATIO_NAV = '0.85';
 
     /**
+     * Option key for hyphenation & word-wrap toggle.
+     *
+     * @var string
+     */
+    public const OPTION_HYPHENATION_ENABLED = 'epb_hyphenation_enabled';
+
+    /**
      * Option key for Adobe Font enabled toggle.
      *
      * @var string

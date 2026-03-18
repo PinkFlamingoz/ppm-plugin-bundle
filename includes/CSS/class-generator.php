@@ -586,7 +586,9 @@ class Generator
      */
     private static function generate_fluid_typography(): string
     {
-        return <<<'CSS'
+        $hyphenation_enabled = get_option(Constants::OPTION_HYPHENATION_ENABLED, '1') === '1';
+
+        $css = <<<'CSS'
 
 /* ==========================================================================
    Fluid Typography Base Styles
@@ -594,11 +596,21 @@ class Generator
 
 html {
     font-size: var(--uk-global-font-size, 16px);
+CSS;
+
+        if ($hyphenation_enabled) {
+            $css .= <<<'CSS'
+
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
     overflow-wrap: anywhere;
+CSS;
+        }
+
+        $css .= <<<'CSS'
+
 }
 
 body {
@@ -1338,6 +1350,11 @@ small {
     font-size: var(--uk-base-small-font-size, 80%);
 }
 
+CSS;
+
+        if ($hyphenation_enabled) {
+            $css .= <<<'CSS'
+
 /* ==========================================================================
    Word Wrap and Hyphenation for all text elements
    ========================================================================== */
@@ -1358,6 +1375,11 @@ h1, h2, h3, h4, h5, h6,
     overflow-wrap: break-word;
     word-break: break-word;
 }
+
+CSS;
+        }
+
+        $css .= <<<'CSS'
 
 /* ==========================================================================
    Heading Component Classes - Fluid scaling for larger displays
@@ -1412,6 +1434,8 @@ h1, h2, h3, h4, h5, h6,
 }
 
 CSS;
+
+        return $css;
     }
 
     /**

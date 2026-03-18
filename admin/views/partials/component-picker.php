@@ -36,6 +36,9 @@ $fluid_scale_ratio_nav = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAV, Con
 $adobe_font_enabled = get_option(Constants::OPTION_ADOBE_FONT_ENABLED, '0');
 $adobe_font_url = get_option(Constants::OPTION_ADOBE_FONT_URL, '');
 
+// Get the hyphenation setting.
+$hyphenation_enabled = get_option(Constants::OPTION_HYPHENATION_ENABLED, '1');
+
 // Get the current branding settings.
 $branding = Child_Theme::get_branding();
 
@@ -173,6 +176,34 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                 </div>
                 <div class="global-setting-row setting-row-actions">
                     <button type="button" id="save-fluid-ratios" class="epb-button epb-button-small epb-button-primary" title="<?php esc_attr_e('Save all ratios', 'enhanced-plugin-bundle'); ?>">
+                        <span class="dashicons dashicons-saved"></span>
+                        <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-global-settings collapsed">
+            <h4 class="global-settings-label global-settings-toggle">
+                <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
+                <span class="dashicons dashicons-editor-spellcheck"></span>
+                <?php esc_html_e('Hyphenation & Word Wrap', 'enhanced-plugin-bundle'); ?>
+                <span class="setting-hint" title="<?php esc_attr_e('Adds CSS hyphens and overflow-wrap rules to html, headings, and text elements for better word breaking on small screens.', 'enhanced-plugin-bundle'); ?>">?</span>
+            </h4>
+            <div class="global-settings-body">
+                <div class="global-setting-row">
+                    <label class="setting-toggle-label" for="hyphenation-enabled">
+                        <input type="checkbox"
+                            id="hyphenation-enabled"
+                            class="setting-toggle-checkbox"
+                            value="1"
+                            <?php checked($hyphenation_enabled, '1'); ?>>
+                        <span class="setting-toggle-switch"></span>
+                        <?php esc_html_e('Enable Hyphenation & Word Wrap', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                </div>
+                <div class="global-setting-row setting-row-actions">
+                    <button type="button" id="save-hyphenation" class="epb-button epb-button-small epb-button-primary" title="<?php esc_attr_e('Save hyphenation setting', 'enhanced-plugin-bundle'); ?>">
                         <span class="dashicons dashicons-saved"></span>
                         <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
                     </button>

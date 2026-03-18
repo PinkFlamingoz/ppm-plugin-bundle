@@ -67,6 +67,7 @@ class Component_Handler
         // Global settings.
         add_action('wp_ajax_epb_save_fluid_scale_ratio', [self::class, 'save_fluid_scale_ratio']);
         add_action('wp_ajax_epb_save_adobe_font', [self::class, 'save_adobe_font']);
+        add_action('wp_ajax_epb_save_hyphenation', [self::class, 'save_hyphenation']);
         add_action('wp_ajax_epb_save_branding', [self::class, 'save_branding']);
     }
 
@@ -224,6 +225,33 @@ class Component_Handler
                 : __('Adobe Fonts disabled.', 'enhanced-plugin-bundle'),
             'enabled' => $enabled,
             'url'     => $url,
+        ]);
+    }
+
+    /**
+     * Save hyphenation & word-wrap toggle via AJAX.
+     *
+     * @return void
+     */
+    public static function save_hyphenation(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $enabled = sanitize_text_field(wp_unslash($_POST['enabled'] ?? '0'));
+        $enabled = ($enabled === '1') ? '1' : '0';
+
+        update_option(Constants::OPTION_HYPHENATION_ENABLED, $enabled, false);
+
+        // Regenerate CSS since this affects the output.
+        self::regenerate_css();
+
+        wp_send_json_success([
+            'message' => $enabled === '1'
+                ? __('Hyphenation & word wrap enabled.', 'enhanced-plugin-bundle')
+                : __('Hyphenation & word wrap disabled.', 'enhanced-plugin-bundle'),
+            'enabled' => $enabled,
         ]);
     }
 

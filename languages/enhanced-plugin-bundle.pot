@@ -440,6 +440,14 @@ msgid "Adobe Fonts disabled."
 msgstr ""
 
 #: includes/Ajax/class-component-handler.php
+msgid "Hyphenation & word wrap enabled."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
+msgid "Hyphenation & word wrap disabled."
+msgstr ""
+
+#: includes/Ajax/class-component-handler.php
 #, php-format
 msgid "%s must be a valid URL starting with https://"
 msgstr ""
@@ -577,6 +585,22 @@ msgstr ""
 
 #: admin/views/partials/component-picker.php
 msgid "Save"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Hyphenation & Word Wrap"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Adds CSS hyphens and overflow-wrap rules to html, headings, and text elements for better word breaking on small screens."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Enable Hyphenation & Word Wrap"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save hyphenation setting"
 msgstr ""
 
 #: admin/views/partials/component-picker.php
