@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Enhanced Plugin Bundle and Theme Manager 4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-31 00:00+0000\n"
+"POT-Creation-Date: 2026-03-23 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -519,7 +519,7 @@ msgid "Import from Figma Tokens Studio"
 msgstr ""
 
 #: admin/views/partials/component-picker.php
-msgid "Export as YOOtheme style.less"
+msgid "Export YOOtheme Style JSON"
 msgstr ""
 
 #: admin/views/partials/component-picker.php
@@ -531,7 +531,7 @@ msgid "Import (JSON)"
 msgstr ""
 
 #: admin/views/partials/component-picker.php
-msgid "Create or update child theme"
+msgid "Create or update child theme structure (functions.php, config.php)"
 msgstr ""
 
 #: admin/views/partials/component-picker.php
@@ -560,6 +560,10 @@ msgid "Search components or variables..."
 msgstr ""
 
 #: admin/views/partials/component-picker.php
+msgid "Contains modified components"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
 msgid "Fluid Scale Ratios"
 msgstr ""
 
@@ -577,6 +581,10 @@ msgstr ""
 
 #: admin/views/partials/component-picker.php
 msgid "Nav"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Navbar Gap"
 msgstr ""
 
 #: admin/views/partials/component-picker.php
@@ -682,6 +690,225 @@ msgstr ""
 
 #: admin/views/partials/component-picker.php
 msgid "Expand All"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Reset to Defaults"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Save Changes"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Select a component from the sidebar to start customizing."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Preview"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "CSS"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Toggle Preview Panel"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Select a component to see a live preview"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Component Preview"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Generated CSS"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Copy to clipboard"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Copy"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Import Component Settings"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Paste your exported JSON data below:"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Cancel"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Import"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Paste your Tokens Studio JSON export from Figma:"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Only tokens with actual values will be imported. References and calculations will be skipped."
+msgstr ""
+
+#. ========================================================================
+#. Custom Fonts UI
+#. ========================================================================
+
+#: admin/views/partials/component-picker.php
+msgid "Custom Fonts"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Upload custom font files (woff2, woff, ttf, otf) to use in YOOtheme and its child themes. After uploading, use the font-family name in YOOtheme's Typography settings."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Font Family Name"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "e.g. Sink 2"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Weights"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Comma-separated weights, e.g. 100,400,700. Common values: 100 Thin, 200 Extra Light, 300 Light, 400 Normal, 500 Medium, 600 Semi Bold, 700 Bold, 800 Extra Bold, 900 Black"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "e.g. 100,400,700"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Style"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Normal"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Italic"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Font File"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Drop font file here or click to browse"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "woff2, woff, ttf, otf — max 5 MB"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Upload font"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Upload Font"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Uploaded Fonts"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "No custom fonts uploaded yet."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Edit weights and style"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Delete this font variant"
+msgstr ""
+
+#. ========================================================================
+#. Custom Font Core
+#. ========================================================================
+
+#: includes/Core/class-custom-font.php
+msgid "No file uploaded or upload error occurred."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "Font file exceeds the 5 MB size limit."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+#, php-format
+msgid "Invalid font file type \"%s\". Allowed: woff2, woff, ttf, otf."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "The uploaded file does not appear to be a valid font file."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "Font family name is required."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "Could not create the fonts directory."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "Failed to save the font file."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+#, php-format
+msgid "Font \"%s\" uploaded successfully."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "Font not found."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "No changes detected."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "Font updated successfully."
+msgstr ""
+
+#: includes/Core/class-custom-font.php
+msgid "Font deleted successfully."
+msgstr ""
+
+#. ========================================================================
+#. Font Handler (AJAX)
+#. ========================================================================
+
+#: includes/Ajax/class-font-handler.php
+msgid "No font file was uploaded."
+msgstr ""
+
+#: includes/Ajax/class-font-handler.php
+msgid "Font family name is required."
+msgstr ""
+
+#: includes/Ajax/class-font-handler.php
+msgid "Font ID is required."
+msgstr ""
 msgstr ""
 
 #: admin/views/partials/component-picker.php

@@ -308,6 +308,121 @@
                 self.saveHyphenation();
             });
 
+            // Custom Fonts: upload.
+            $(document).on('click', '#upload-custom-font', function () {
+                self.uploadCustomFont();
+            });
+
+            // Custom Fonts: delete.
+            $(document).on('click', '.delete-custom-font', function () {
+                const fontId = $(this).closest('.custom-font-variant').data('font-id');
+                if (fontId && confirm('Delete this font variant?')) {
+                    self.deleteCustomFont(fontId);
+                }
+            });
+
+            // Custom Fonts: edit — toggle inline edit form.
+            $(document).on('click', '.edit-custom-font', function () {
+                const $variant = $(this).closest('.custom-font-variant');
+                const $existing = $variant.next('.custom-font-edit-form');
+
+                // Close any other open edit forms.
+                $('.custom-font-edit-form').remove();
+
+                if ($existing.length) {
+                    // Was already open, just close.
+                    return;
+                }
+
+                const fontId = $variant.data('font-id');
+                const info = $variant.find('.custom-font-variant-info').text().trim();
+                // Parse "100,400,700 / normal .woff2" pattern.
+                const parts = info.split('/');
+                const currentWeights = (parts[0] || '').trim();
+                const stylePart = (parts[1] || '').trim().split(/\s+/)[0] || 'normal';
+
+                const escapedWeights = $('<span>').text(currentWeights).html();
+                let formHtml = '<div class="custom-font-edit-form">';
+                formHtml += '<input type="text" class="edit-font-weights" value="' + escapedWeights + '" placeholder="e.g. 100,400,700" />';
+                formHtml += '<select class="edit-font-style">';
+                ['normal', 'italic', 'oblique'].forEach(s => {
+                    formHtml += '<option value="' + s + '"' + (s === stylePart ? ' selected' : '') + '>' + s + '</option>';
+                });
+                formHtml += '</select>';
+                formHtml += '<button type="button" class="save-custom-font-edit epb-button-icon" title="Save" data-font-id="' + $('<span>').text(fontId).html() + '">';
+                formHtml += '<span class="dashicons dashicons-yes"></span>';
+                formHtml += '</button>';
+                formHtml += '<button type="button" class="cancel-custom-font-edit epb-button-icon" title="Cancel">';
+                formHtml += '<span class="dashicons dashicons-no-alt"></span>';
+                formHtml += '</button>';
+                formHtml += '</div>';
+
+                $variant.after(formHtml);
+                $variant.next('.custom-font-edit-form').find('.edit-font-weights').focus();
+            });
+
+            // Custom Fonts: save edit.
+            $(document).on('click', '.save-custom-font-edit', function () {
+                const $form = $(this).closest('.custom-font-edit-form');
+                const fontId = $(this).data('font-id');
+                const weights = $form.find('.edit-font-weights').val().trim();
+                const style = $form.find('.edit-font-style').val();
+
+                if (!weights) {
+                    alert('Please enter at least one font weight.');
+                    return;
+                }
+
+                self.updateCustomFont(fontId, weights, style);
+            });
+
+            // Custom Fonts: cancel edit.
+            $(document).on('click', '.cancel-custom-font-edit', function () {
+                $(this).closest('.custom-font-edit-form').remove();
+            });
+
+            // Custom Fonts: file input change — show filename.
+            $(document).on('change', '#custom-font-file', function () {
+                const file = this.files[0];
+                const $placeholder = $('.custom-font-upload-placeholder');
+                const $fileName = $('.custom-font-file-name');
+                if (file) {
+                    $placeholder.hide();
+                    $fileName.text(file.name).show();
+
+                    // Auto-fill family name from filename if empty.
+                    const $family = $('#custom-font-family');
+                    if (!$family.val().trim()) {
+                        let name = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+                        // Remove weight/style suffixes.
+                        name = name.replace(/\s*(regular|bold|italic|light|medium|semibold|thin|black|extra\s*light|extra\s*bold)\s*/gi, ' ').trim();
+                        $family.val(name);
+                    }
+                } else {
+                    $placeholder.show();
+                    $fileName.hide();
+                }
+            });
+
+            // Custom Fonts: drag & drop.
+            $(document).on('dragover dragenter', '#custom-font-drop-zone', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).addClass('drag-over');
+            });
+            $(document).on('dragleave drop', '#custom-font-drop-zone', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).removeClass('drag-over');
+            });
+            $(document).on('drop', '#custom-font-drop-zone', function (e) {
+                const files = e.originalEvent.dataTransfer.files;
+                if (files.length) {
+                    $('#custom-font-file')[0].files = files;
+                    $('#custom-font-file').trigger('change');
+                }
+            });
+
             // Branding: save settings.
             $(document).on('click', '#save-branding', function () {
                 self.saveBranding();
@@ -1216,7 +1331,8 @@
                     nonce: this.config.nonce,
                     ratio: ratios.fluid_scale_ratio || '',
                     ratio_navbar: ratios.fluid_scale_ratio_navbar || '',
-                    ratio_nav: ratios.fluid_scale_ratio_nav || ''
+                    ratio_nav: ratios.fluid_scale_ratio_nav || '',
+                    ratio_navbar_gap: ratios.fluid_scale_ratio_navbar_gap || ''
                 },
                 success(response) {
                     if (response.success) {
@@ -1362,6 +1478,199 @@
                     $btn.prop('disabled', false);
                 }
             });
+        },
+
+        /**
+         * Upload a custom font file via AJAX.
+         */
+        uploadCustomFont() {
+            const self = this;
+            const $btn = $('#upload-custom-font');
+            const fileInput = $('#custom-font-file')[0];
+            const family = $('#custom-font-family').val().trim();
+            const weights = $('#custom-font-weights').val().trim();
+            const style = $('#custom-font-style').val();
+
+            if (!family) {
+                self.showToast('Please enter a font family name.', 'error');
+                $('#custom-font-family').focus();
+                return;
+            }
+
+            if (!weights) {
+                self.showToast('Please enter at least one font weight (e.g. 400 or 100,400,700).', 'error');
+                $('#custom-font-weights').focus();
+                return;
+            }
+
+            if (!fileInput.files || !fileInput.files[0]) {
+                self.showToast('Please select a font file.', 'error');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (!['woff2', 'woff', 'ttf', 'otf'].includes(ext)) {
+                self.showToast('Invalid file type. Allowed: woff2, woff, ttf, otf.', 'error');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                self.showToast('Font file exceeds the 5 MB size limit.', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('action', 'epb_upload_custom_font');
+            formData.append('nonce', this.config.nonce);
+            formData.append('font_file', file);
+            formData.append('font_family', family);
+            formData.append('font_weights', weights);
+            formData.append('font_style', style);
+
+            $btn.prop('disabled', true);
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        self.renderCustomFontsList(response.data.fonts);
+
+                        // Reset form.
+                        $('#custom-font-family').val('');
+                        $('#custom-font-weights').val('400');
+                        $('#custom-font-style').val('normal');
+                        fileInput.value = '';
+                        $('.custom-font-upload-placeholder').show();
+                        $('.custom-font-file-name').hide();
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to upload font.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while uploading the font.', 'error');
+                },
+                complete() {
+                    $btn.prop('disabled', false);
+                }
+            });
+        },
+
+        /**
+         * Delete a custom font via AJAX.
+         * @param {string} fontId - The font UUID.
+         */
+        deleteCustomFont(fontId) {
+            const self = this;
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_delete_custom_font',
+                    nonce: this.config.nonce,
+                    font_id: fontId
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        self.renderCustomFontsList(response.data.fonts);
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to delete font.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while deleting the font.', 'error');
+                }
+            });
+        },
+
+        /**
+         * Update a custom font's weights and style via AJAX.
+         * @param {string} fontId  - The font UUID.
+         * @param {string} weights - Comma-separated weights.
+         * @param {string} style   - Font style (normal/italic/oblique).
+         */
+        updateCustomFont(fontId, weights, style) {
+            const self = this;
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_update_custom_font',
+                    nonce: this.config.nonce,
+                    font_id: fontId,
+                    font_weights: weights,
+                    font_style: style
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        self.renderCustomFontsList(response.data.fonts);
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to update font.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while updating the font.', 'error');
+                }
+            });
+        },
+
+        /**
+         * Re-render the custom fonts list from server data.
+         * @param {Array} fonts - All custom font entries.
+         */
+        renderCustomFontsList(fonts) {
+            const $list = $('#custom-fonts-list');
+
+            if (!fonts || !fonts.length) {
+                $list.html('<p class="custom-fonts-empty">No custom fonts uploaded yet.</p>');
+                return;
+            }
+
+            // Group by family.
+            const grouped = {};
+            fonts.forEach(f => {
+                if (!grouped[f.family]) grouped[f.family] = [];
+                grouped[f.family].push(f);
+            });
+
+            let html = '';
+            for (const [family, variants] of Object.entries(grouped)) {
+                const escapedFamily = $('<span>').text(family).html();
+                html += '<div class="custom-font-family-group">';
+                html += '<div class="custom-font-family-name">';
+                html += '<strong>' + escapedFamily + '</strong>';
+                html += "<code class='custom-font-css-hint'>font-family: '" + escapedFamily + "'</code>";
+                html += '</div>';
+                variants.forEach(v => {
+                    const escapedId = $('<span>').text(v.id).html();
+                    html += '<div class="custom-font-variant" data-font-id="' + escapedId + '">';
+                    html += '<span class="custom-font-variant-info">';
+                    html += $('<span>').text((v.weights || v.weight || 'normal') + ' / ' + v.style).html();
+                    html += ' <small class="custom-font-ext">.' + $('<span>').text(v.ext).html() + '</small>';
+                    html += '</span>';
+                    html += '<span class="custom-font-variant-actions">';
+                    html += '<button type="button" class="edit-custom-font epb-button-icon" title="Edit weights and style">';
+                    html += '<span class="dashicons dashicons-edit"></span>';
+                    html += '</button>';
+                    html += '<button type="button" class="delete-custom-font epb-button-icon" title="Delete this font variant">';
+                    html += '<span class="dashicons dashicons-trash"></span>';
+                    html += '</button>';
+                    html += '</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            $list.html(html);
         },
 
         /**

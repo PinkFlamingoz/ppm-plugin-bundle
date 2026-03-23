@@ -31,6 +31,7 @@ $modified_components = Component_Handler::get_all_modified_counts();
 $fluid_scale_ratio = get_option(Constants::OPTION_FLUID_SCALE_RATIO, Constants::DEFAULT_FLUID_SCALE_RATIO);
 $fluid_scale_ratio_navbar = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR);
 $fluid_scale_ratio_nav = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV);
+$fluid_scale_ratio_navbar_gap = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR_GAP);
 
 // Get the current Adobe Font settings.
 $adobe_font_enabled = get_option(Constants::OPTION_ADOBE_FONT_ENABLED, '0');
@@ -38,6 +39,9 @@ $adobe_font_url = get_option(Constants::OPTION_ADOBE_FONT_URL, '');
 
 // Get the hyphenation setting.
 $hyphenation_enabled = get_option(Constants::OPTION_HYPHENATION_ENABLED, '1');
+
+// Get uploaded custom fonts.
+$custom_fonts = \EPB\Core\Custom_Font::get_fonts();
 
 // Get the current branding settings.
 $branding = Child_Theme::get_branding();
@@ -96,6 +100,55 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                 id="component-search"
                 autocomplete="off">
         </div>
+
+        <nav class="menu-categories">
+            <?php foreach ($categories as $cat_key => $cat_data) : ?>
+                <?php if (!empty($cat_data['components'])) : ?>
+                    <?php
+                    // Check if any component in this category has modifications.
+                    $category_has_modified = false;
+                    foreach ($cat_data['components'] as $comp_key => $comp_data) {
+                        if (!empty($modified_components[$comp_key])) {
+                            $category_has_modified = true;
+                            break;
+                        }
+                    }
+                    ?>
+                    <div class="menu-category collapsed<?php echo $category_has_modified ? ' has-modified' : ''; ?>" data-category="<?php echo esc_attr($cat_key); ?>">
+                        <h4 class="category-label">
+                            <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
+                            <span class="dashicons dashicons-<?php echo esc_attr($cat_data['icon']); ?>"></span>
+                            <span class="category-label-text"><?php echo esc_html($cat_data['label']); ?></span>
+                            <?php if ($category_has_modified) : ?>
+                                <span class="category-modified-dot" title="<?php esc_attr_e('Contains modified components', 'enhanced-plugin-bundle'); ?>"></span>
+                            <?php endif; ?>
+                            <span class="category-count"><?php echo count($cat_data['components']); ?></span>
+                        </h4>
+                        <ul class="component-list">
+                            <?php foreach ($cat_data['components'] as $comp_key => $comp_data) : ?>
+                                <?php
+                                $has_modified   = !empty($modified_components[$comp_key]);
+                                $variable_names = implode(' ', array_keys(Less_Parser::parse_component($comp_key)));
+                                ?>
+                                <li>
+                                    <a href="#"
+                                        data-component="<?php echo esc_attr($comp_key); ?>"
+                                        data-variables="<?php echo esc_attr($variable_names); ?>"
+                                        class="component-link<?php echo $has_modified ? ' has-modified' : ''; ?>">
+                                        <span class="dashicons dashicons-<?php echo esc_attr($comp_data['icon']); ?>"></span>
+                                        <span class="component-name"><?php echo esc_html($comp_data['label']); ?></span>
+                                        <?php if ($has_modified) : ?>
+                                            <span class="component-modified-dot" title="<?php echo esc_attr(sprintf(__('%d modified', 'enhanced-plugin-bundle'), $modified_components[$comp_key])); ?>"></span>
+                                        <?php endif; ?>
+                                        <span class="component-vars"><?php echo Less_Parser::get_variable_count($comp_key); ?></span>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </nav>
 
         <div class="menu-global-settings collapsed">
             <h4 class="global-settings-label global-settings-toggle">
@@ -174,6 +227,29 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                             class="setting-number-input fluid-ratio-number">
                     </div>
                 </div>
+                <div class="global-setting-row">
+                    <label for="fluid-scale-ratio-navbar-gap">
+                        <?php esc_html_e('Navbar Gap', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <div class="setting-input-group">
+                        <input type="range"
+                            class="fluid-ratio-range"
+                            data-target="fluid-scale-ratio-navbar-gap"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio_navbar_gap); ?>">
+                        <input type="number"
+                            id="fluid-scale-ratio-navbar-gap"
+                            name="fluid_scale_ratio_navbar_gap"
+                            data-option="fluid_scale_ratio_navbar_gap"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio_navbar_gap); ?>"
+                            class="setting-number-input fluid-ratio-number">
+                    </div>
+                </div>
                 <div class="global-setting-row setting-row-actions">
                     <button type="button" id="save-fluid-ratios" class="epb-button epb-button-small epb-button-primary" title="<?php esc_attr_e('Save all ratios', 'enhanced-plugin-bundle'); ?>">
                         <span class="dashicons dashicons-saved"></span>
@@ -245,6 +321,114 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                         <span class="dashicons dashicons-saved"></span>
                         <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-global-settings collapsed">
+            <h4 class="global-settings-label global-settings-toggle">
+                <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
+                <span class="dashicons dashicons-editor-textcolor"></span>
+                <?php esc_html_e('Custom Fonts', 'enhanced-plugin-bundle'); ?>
+                <?php if (!empty($custom_fonts)) : ?>
+                    <span class="epb-modified-badge"><?php echo count($custom_fonts); ?></span>
+                <?php endif; ?>
+                <span class="setting-hint" title="<?php esc_attr_e('Upload custom font files (woff2, woff, ttf, otf) to use in YOOtheme and its child themes. After uploading, use the font-family name in YOOtheme\'s Typography settings.', 'enhanced-plugin-bundle'); ?>">?</span>
+            </h4>
+            <div class="global-settings-body">
+                <div class="global-setting-row">
+                    <label for="custom-font-family">
+                        <?php esc_html_e('Font Family Name', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="text"
+                        id="custom-font-family"
+                        class="setting-text-input"
+                        placeholder="<?php esc_attr_e('e.g. Sink 2', 'enhanced-plugin-bundle'); ?>">
+                </div>
+                <div class="global-setting-row custom-font-options-row">
+                    <div class="custom-font-select-group custom-font-weights-group">
+                        <label for="custom-font-weights">
+                            <?php esc_html_e('Weights', 'enhanced-plugin-bundle'); ?>
+                            <span class="setting-hint" title="<?php esc_attr_e('Comma-separated weights, e.g. 100,400,700. Common values: 100 Thin, 200 Extra Light, 300 Light, 400 Normal, 500 Medium, 600 Semi Bold, 700 Bold, 800 Extra Bold, 900 Black', 'enhanced-plugin-bundle'); ?>">?</span>
+                        </label>
+                        <input type="text"
+                            id="custom-font-weights"
+                            class="setting-text-input"
+                            value="400"
+                            placeholder="<?php esc_attr_e('e.g. 100,400,700', 'enhanced-plugin-bundle'); ?>">
+                    </div>
+                    <div class="custom-font-select-group">
+                        <label for="custom-font-style">
+                            <?php esc_html_e('Style', 'enhanced-plugin-bundle'); ?>
+                        </label>
+                        <select id="custom-font-style" class="setting-select-input">
+                            <option value="normal" selected><?php esc_html_e('Normal', 'enhanced-plugin-bundle'); ?></option>
+                            <option value="italic"><?php esc_html_e('Italic', 'enhanced-plugin-bundle'); ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="global-setting-row">
+                    <label for="custom-font-file">
+                        <?php esc_html_e('Font File', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <div class="custom-font-upload-area" id="custom-font-drop-zone">
+                        <input type="file"
+                            id="custom-font-file"
+                            accept=".woff2,.woff,.ttf,.otf"
+                            class="custom-font-file-input">
+                        <div class="custom-font-upload-placeholder">
+                            <span class="dashicons dashicons-upload"></span>
+                            <span><?php esc_html_e('Drop font file here or click to browse', 'enhanced-plugin-bundle'); ?></span>
+                            <small><?php esc_html_e('woff2, woff, ttf, otf — max 5 MB', 'enhanced-plugin-bundle'); ?></small>
+                        </div>
+                        <div class="custom-font-file-name" style="display:none"></div>
+                    </div>
+                </div>
+                <div class="global-setting-row setting-row-actions">
+                    <button type="button" id="upload-custom-font" class="epb-button epb-button-small epb-button-primary" title="<?php esc_attr_e('Upload font', 'enhanced-plugin-bundle'); ?>">
+                        <span class="dashicons dashicons-upload"></span>
+                        <?php esc_html_e('Upload Font', 'enhanced-plugin-bundle'); ?>
+                    </button>
+                </div>
+                <div class="global-setting-row custom-fonts-list-container">
+                    <label><?php esc_html_e('Uploaded Fonts', 'enhanced-plugin-bundle'); ?></label>
+                    <div id="custom-fonts-list" class="custom-fonts-list">
+                        <?php if (empty($custom_fonts)) : ?>
+                            <p class="custom-fonts-empty"><?php esc_html_e('No custom fonts uploaded yet.', 'enhanced-plugin-bundle'); ?></p>
+                        <?php else : ?>
+                            <?php
+                            // Group fonts by family.
+                            $grouped = [];
+                            foreach ($custom_fonts as $font) {
+                                $grouped[$font['family']][] = $font;
+                            }
+                            ?>
+                            <?php foreach ($grouped as $family => $variants) : ?>
+                                <div class="custom-font-family-group">
+                                    <div class="custom-font-family-name">
+                                        <strong><?php echo esc_html($family); ?></strong>
+                                        <code class="custom-font-css-hint">font-family: '<?php echo esc_html($family); ?>'</code>
+                                    </div>
+                                    <?php foreach ($variants as $variant) : ?>
+                                        <div class="custom-font-variant" data-font-id="<?php echo esc_attr($variant['id']); ?>">
+                                            <span class="custom-font-variant-info">
+                                                <?php echo esc_html($variant['weights'] ?? $variant['weight'] ?? 'normal'); ?> / <?php echo esc_html($variant['style']); ?>
+                                                <small class="custom-font-ext">.<?php echo esc_html($variant['ext']); ?></small>
+                                            </span>
+                                            <span class="custom-font-variant-actions">
+                                                <button type="button" class="edit-custom-font epb-button-icon" title="<?php esc_attr_e('Edit weights and style', 'enhanced-plugin-bundle'); ?>">
+                                                    <span class="dashicons dashicons-edit"></span>
+                                                </button>
+                                                <button type="button" class="delete-custom-font epb-button-icon" title="<?php esc_attr_e('Delete this font variant', 'enhanced-plugin-bundle'); ?>">
+                                                    <span class="dashicons dashicons-trash"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -331,55 +515,6 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                 </div>
             </div>
         </div>
-
-        <nav class="menu-categories">
-            <?php foreach ($categories as $cat_key => $cat_data) : ?>
-                <?php if (!empty($cat_data['components'])) : ?>
-                    <?php
-                    // Check if any component in this category has modifications.
-                    $category_has_modified = false;
-                    foreach ($cat_data['components'] as $comp_key => $comp_data) {
-                        if (!empty($modified_components[$comp_key])) {
-                            $category_has_modified = true;
-                            break;
-                        }
-                    }
-                    ?>
-                    <div class="menu-category collapsed<?php echo $category_has_modified ? ' has-modified' : ''; ?>" data-category="<?php echo esc_attr($cat_key); ?>">
-                        <h4 class="category-label">
-                            <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
-                            <span class="dashicons dashicons-<?php echo esc_attr($cat_data['icon']); ?>"></span>
-                            <span class="category-label-text"><?php echo esc_html($cat_data['label']); ?></span>
-                            <?php if ($category_has_modified) : ?>
-                                <span class="category-modified-dot" title="<?php esc_attr_e('Contains modified components', 'enhanced-plugin-bundle'); ?>"></span>
-                            <?php endif; ?>
-                            <span class="category-count"><?php echo count($cat_data['components']); ?></span>
-                        </h4>
-                        <ul class="component-list">
-                            <?php foreach ($cat_data['components'] as $comp_key => $comp_data) : ?>
-                                <?php
-                                $has_modified   = !empty($modified_components[$comp_key]);
-                                $variable_names = implode(' ', array_keys(Less_Parser::parse_component($comp_key)));
-                                ?>
-                                <li>
-                                    <a href="#"
-                                        data-component="<?php echo esc_attr($comp_key); ?>"
-                                        data-variables="<?php echo esc_attr($variable_names); ?>"
-                                        class="component-link<?php echo $has_modified ? ' has-modified' : ''; ?>">
-                                        <span class="dashicons dashicons-<?php echo esc_attr($comp_data['icon']); ?>"></span>
-                                        <span class="component-name"><?php echo esc_html($comp_data['label']); ?></span>
-                                        <?php if ($has_modified) : ?>
-                                            <span class="component-modified-dot" title="<?php echo esc_attr(sprintf(__('%d modified', 'enhanced-plugin-bundle'), $modified_components[$comp_key])); ?>"></span>
-                                        <?php endif; ?>
-                                        <span class="component-vars"><?php echo Less_Parser::get_variable_count($comp_key); ?></span>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </nav>
     </aside>
 
     <!-- Main: Component Variables -->

@@ -455,19 +455,81 @@ class Less_Parser
                 return $saved_value;
             }
 
-            // Fall back to default values from variables.less (global definitions).
-            $globals = self::parse_component('variables');
-            if (isset($globals[$ref_name])) {
-                $resolved = $globals[$ref_name]['value'];
+            // Fall back to raw defaults from ALL Less files (not just variables.less).
+            // This handles multi-level inheritance where a variable in one component
+            // references another variable defined in the same or a different component.
+            $all_defaults = self::get_all_raw_defaults();
+            if (isset($all_defaults[$ref_name])) {
+                $default_value = $all_defaults[$ref_name];
                 // Recursively resolve if still a reference.
-                if (preg_match('/^@/', $resolved)) {
-                    return self::resolve_value($resolved, $depth + 1, $max_depth);
+                if (preg_match('/^@/', $default_value)) {
+                    return self::resolve_value($default_value, $depth + 1, $max_depth);
                 }
-                return $resolved;
+                return $default_value;
             }
         }
 
         return $value;
+    }
+
+    /**
+     * Build a flat map of all raw variable defaults from every Less file.
+     *
+     * This extracts variable definitions WITHOUT calling resolve_value(),
+     * avoiding circular dependencies during the parsing phase. The map is
+     * cached statically so all Less files are only read once.
+     *
+     * @return array<string, string> Variable name => raw Less value.
+     */
+    private static function get_all_raw_defaults(): array
+    {
+        static $defaults = null;
+
+        if (null !== $defaults) {
+            return $defaults;
+        }
+
+        $defaults = [];
+        $files    = glob(self::LESS_DIR . '*.less');
+
+        if (!$files) {
+            return $defaults;
+        }
+
+        foreach ($files as $file) {
+            // Skip internal files (prefixed with _).
+            if (str_starts_with(basename($file), '_')) {
+                continue;
+            }
+
+            $content = file_get_contents($file);
+            if (false === $content) {
+                continue;
+            }
+
+            $lines = explode("\n", $content);
+            foreach ($lines as $line) {
+                if (preg_match('/^@([a-z0-9_-]+)\s*:\s*(.+?)\s*;/i', trim($line), $m)) {
+                    $name  = $m[1];
+                    $val   = trim($m[2]);
+
+                    // Skip internal/hook variables and empty values.
+                    if (str_starts_with($name, 'internal-') || str_starts_with($name, 'hook-')) {
+                        continue;
+                    }
+                    if ($val === "~''" || $val === '~""' || $val === '') {
+                        continue;
+                    }
+
+                    // First definition wins (variables.less is typically processed first).
+                    if (!isset($defaults[$name])) {
+                        $defaults[$name] = $val;
+                    }
+                }
+            }
+        }
+
+        return $defaults;
     }
 
     /**

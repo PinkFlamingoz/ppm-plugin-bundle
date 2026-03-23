@@ -99,6 +99,9 @@ function epb_init(): void
 
     // Initialize frontend Adobe Font loading.
     EPB\Core\Adobe_Font::init();
+
+    // Initialize frontend custom font @font-face loading.
+    EPB\Core\Custom_Font::init();
 }
 add_action('plugins_loaded', 'epb_init');
 

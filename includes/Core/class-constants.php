@@ -97,6 +97,20 @@ class Constants
     public const DEFAULT_FLUID_SCALE_RATIO_NAV = '0.85';
 
     /**
+     * Option key for the navbar gap fluid scale ratio.
+     *
+     * @var string
+     */
+    public const OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP = 'epb_fluid_scale_ratio_navbar_gap';
+
+    /**
+     * Default navbar gap fluid scale ratio value.
+     *
+     * @var string
+     */
+    public const DEFAULT_FLUID_SCALE_RATIO_NAVBAR_GAP = '0.50';
+
+    /**
      * Option key for hyphenation & word-wrap toggle.
      *
      * @var string
@@ -116,6 +130,13 @@ class Constants
      * @var string
      */
     public const OPTION_ADOBE_FONT_URL = 'epb_adobe_font_url';
+
+    /**
+     * Option key for uploaded custom fonts metadata.
+     *
+     * @var array
+     */
+    public const OPTION_CUSTOM_FONTS = 'epb_custom_fonts';
 
     /**
      * Option key for child theme branding settings.

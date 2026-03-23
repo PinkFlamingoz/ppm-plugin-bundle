@@ -28,6 +28,9 @@ $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE 'epb_component
 // Clean up any transients if they exist.
 delete_transient('epb_plugin_cache');
 
+// Remove custom fonts option (font files in uploads/epb-fonts/ are left for safety).
+delete_option('epb_custom_fonts');
+
 // Remove custom capabilities from administrator role.
 $admin_role = get_role('administrator');
 if (null !== $admin_role) {

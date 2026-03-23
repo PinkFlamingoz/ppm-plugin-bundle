@@ -69,6 +69,9 @@ class Component_Handler
         add_action('wp_ajax_epb_save_adobe_font', [self::class, 'save_adobe_font']);
         add_action('wp_ajax_epb_save_hyphenation', [self::class, 'save_hyphenation']);
         add_action('wp_ajax_epb_save_branding', [self::class, 'save_branding']);
+
+        // Custom font operations.
+        Font_Handler::register();
     }
 
     /**
@@ -130,9 +133,10 @@ class Component_Handler
         }
 
         $ratio_map = [
-            'ratio'        => [Constants::OPTION_FLUID_SCALE_RATIO, Constants::DEFAULT_FLUID_SCALE_RATIO],
-            'ratio_navbar' => [Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR],
-            'ratio_nav'    => [Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV],
+            'ratio'            => [Constants::OPTION_FLUID_SCALE_RATIO, Constants::DEFAULT_FLUID_SCALE_RATIO],
+            'ratio_navbar'     => [Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR],
+            'ratio_nav'        => [Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV],
+            'ratio_navbar_gap' => [Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR_GAP],
         ];
 
         $updated = [];

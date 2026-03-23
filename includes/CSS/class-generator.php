@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
 
 use EPB\CSS\Component_Registry;
 use EPB\Core\Constants;
+use EPB\Core\Custom_Font;
 
 /**
  * Class Generator
@@ -40,7 +41,8 @@ class Generator
      */
     public static function generate(): string
     {
-        $css = self::generate_component_variables();
+        $css = Custom_Font::generate_font_face_css_relative();
+        $css .= self::generate_component_variables();
         $css .= self::generate_fluid_typography();
 
         return $css;
@@ -118,6 +120,8 @@ class Generator
         'navbar-item-font-size',
         'navbar-subtitle-font-size',
         'navbar-primary-nav-item-font-size',
+        'navbar-gap-m',
+        'navbar-nav-gap-m',
 
         // Form
         'form-font-size',
@@ -298,9 +302,11 @@ class Generator
         $ratio = get_option(Constants::OPTION_FLUID_SCALE_RATIO, Constants::DEFAULT_FLUID_SCALE_RATIO);
         $ratio_navbar = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR);
         $ratio_nav = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV);
+        $ratio_navbar_gap = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR_GAP);
         $css .= "    --uk-fluid-scale-ratio: {$ratio};\n";
         $css .= "    --uk-fluid-scale-ratio-navbar: {$ratio_navbar};\n";
-        $css .= "    --uk-fluid-scale-ratio-nav: {$ratio_nav};\n\n";
+        $css .= "    --uk-fluid-scale-ratio-nav: {$ratio_nav};\n";
+        $css .= "    --uk-fluid-scale-ratio-navbar-gap: {$ratio_navbar_gap};\n\n";
 
         foreach (self::FLUID_TYPOGRAPHY_VARIABLES as $name) {
             if (isset($variables[$name])) {
@@ -818,6 +824,31 @@ h6, .uk-h6 {
         calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),
         var(--_fs)
     );
+}
+
+/* Navbar gaps — fluid scaling across desktop navbar range (960px → breakpoint-xl) */
+@media (min-width: 960px) {
+    .uk-navbar-nav {
+        --_gap: var(--uk-navbar-nav-gap-m, 30px);
+        --_gap-min: calc(var(--_gap) * var(--uk-fluid-scale-ratio-navbar-gap, 0.50));
+        gap: clamp(
+            var(--_gap-min),
+            calc(var(--_gap-min) + (var(--_gap) - var(--_gap-min)) * (100vw - 960px) / (var(--uk-breakpoint-xl, 1600px) - 960px)),
+            var(--_gap)
+        );
+    }
+
+    .uk-navbar-left,
+    .uk-navbar-right,
+    [class*="uk-navbar-center"] {
+        --_gap: var(--uk-navbar-gap-m, 30px);
+        --_gap-min: calc(var(--_gap) * var(--uk-fluid-scale-ratio-navbar-gap, 0.50));
+        gap: clamp(
+            var(--_gap-min),
+            calc(var(--_gap-min) + (var(--_gap) - var(--_gap-min)) * (100vw - 960px) / (var(--uk-breakpoint-xl, 1600px) - 960px)),
+            var(--_gap)
+        );
+    }
 }
 
 /* ==========================================================================
