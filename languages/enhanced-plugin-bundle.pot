@@ -1125,3 +1125,88 @@ msgstr ""
 msgid "Preview not available for this component."
 msgstr ""
 
+#. ========================================================================
+#. Google Fonts
+#. ========================================================================
+
+#: includes/Core/class-google-font.php
+#: includes/Ajax/class-font-handler.php
+msgid "Font family name is required."
+msgstr ""
+
+#: includes/Core/class-google-font.php
+msgid "Google Font \"%s\" already exists. Edit its weights instead."
+msgstr ""
+
+#: includes/Core/class-google-font.php
+msgid "Google Font \"%s\" added successfully."
+msgstr ""
+
+#: includes/Core/class-google-font.php
+msgid "No changes detected."
+msgstr ""
+
+#: includes/Core/class-google-font.php
+msgid "Google Font not found."
+msgstr ""
+
+#: includes/Core/class-google-font.php
+msgid "Google Font updated successfully."
+msgstr ""
+
+#: includes/Core/class-google-font.php
+msgid "Google Font removed successfully."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Google Fonts"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Add Google Fonts to load on your site. Enter the font family name and the weights you want to load. Look up available fonts at fonts.google.com."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Font Family Name"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "e.g. Roboto"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Variants"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Add a comma-separated list of font weights to load, e.g. 300, 400, 600. Look up available variants at Google Fonts."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "e.g. 300,400,700"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Add Google Font"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Add Font"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Loaded Google Fonts"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "No Google Fonts added yet."
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Edit weights"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
+msgid "Remove this font"
+msgstr ""
+

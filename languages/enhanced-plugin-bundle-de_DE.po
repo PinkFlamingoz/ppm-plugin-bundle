@@ -1127,3 +1127,88 @@ msgstr "%d Komponente(n) gespeichert, %d fehlgeschlagen."
 msgid "Preview not available for this component."
 msgstr "Vorschau für diese Komponente nicht verfügbar."
 
+#. ========================================================================
+#. Google Fonts
+#. ========================================================================
+
+#: includes/Core/class-google-font.php
+#: includes/Ajax/class-font-handler.php
+msgid "Font family name is required."
+msgstr "Schriftfamilienname ist erforderlich."
+
+#: includes/Core/class-google-font.php
+msgid "Google Font \"%s\" already exists. Edit its weights instead."
+msgstr "Google Font \"%s\" existiert bereits. Bearbeiten Sie stattdessen die Schriftstärken."
+
+#: includes/Core/class-google-font.php
+msgid "Google Font \"%s\" added successfully."
+msgstr "Google Font \"%s\" erfolgreich hinzugefügt."
+
+#: includes/Core/class-google-font.php
+msgid "No changes detected."
+msgstr "Keine Änderungen erkannt."
+
+#: includes/Core/class-google-font.php
+msgid "Google Font not found."
+msgstr "Google Font nicht gefunden."
+
+#: includes/Core/class-google-font.php
+msgid "Google Font updated successfully."
+msgstr "Google Font erfolgreich aktualisiert."
+
+#: includes/Core/class-google-font.php
+msgid "Google Font removed successfully."
+msgstr "Google Font erfolgreich entfernt."
+
+#: admin/views/partials/component-picker.php
+msgid "Google Fonts"
+msgstr "Google Fonts"
+
+#: admin/views/partials/component-picker.php
+msgid "Add Google Fonts to load on your site. Enter the font family name and the weights you want to load. Look up available fonts at fonts.google.com."
+msgstr "Google Fonts zu Ihrer Website hinzufügen. Geben Sie den Schriftfamiliennamen und die gewünschten Schriftstärken ein. Verfügbare Schriften finden Sie auf fonts.google.com."
+
+#: admin/views/partials/component-picker.php
+msgid "Font Family Name"
+msgstr "Schriftfamilienname"
+
+#: admin/views/partials/component-picker.php
+msgid "e.g. Roboto"
+msgstr "z.B. Roboto"
+
+#: admin/views/partials/component-picker.php
+msgid "Variants"
+msgstr "Varianten"
+
+#: admin/views/partials/component-picker.php
+msgid "Add a comma-separated list of font weights to load, e.g. 300, 400, 600. Look up available variants at Google Fonts."
+msgstr "Kommagetrennte Liste der zu ladenden Schriftstärken, z.B. 300, 400, 600. Verfügbare Varianten finden Sie bei Google Fonts."
+
+#: admin/views/partials/component-picker.php
+msgid "e.g. 300,400,700"
+msgstr "z.B. 300,400,700"
+
+#: admin/views/partials/component-picker.php
+msgid "Add Google Font"
+msgstr "Google Font hinzufügen"
+
+#: admin/views/partials/component-picker.php
+msgid "Add Font"
+msgstr "Schrift hinzufügen"
+
+#: admin/views/partials/component-picker.php
+msgid "Loaded Google Fonts"
+msgstr "Geladene Google Fonts"
+
+#: admin/views/partials/component-picker.php
+msgid "No Google Fonts added yet."
+msgstr "Noch keine Google Fonts hinzugefügt."
+
+#: admin/views/partials/component-picker.php
+msgid "Edit weights"
+msgstr "Schriftstärken bearbeiten"
+
+#: admin/views/partials/component-picker.php
+msgid "Remove this font"
+msgstr "Diese Schrift entfernen"
+

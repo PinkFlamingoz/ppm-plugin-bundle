@@ -102,6 +102,9 @@ function epb_init(): void
 
     // Initialize frontend custom font @font-face loading.
     EPB\Core\Custom_Font::init();
+
+    // Initialize frontend Google Fonts loading.
+    EPB\Core\Google_Font::init();
 }
 add_action('plugins_loaded', 'epb_init');
 

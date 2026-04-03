@@ -21,6 +21,7 @@ if (!defined('ABSPATH')) {
 
 use EPB\Core\Constants;
 use EPB\Core\Custom_Font;
+use EPB\Core\Google_Font;
 
 /**
  * Class Font_Handler
@@ -40,6 +41,11 @@ class Font_Handler
         add_action('wp_ajax_epb_delete_custom_font', [self::class, 'delete_font']);
         add_action('wp_ajax_epb_update_custom_font', [self::class, 'update_font']);
         add_action('wp_ajax_epb_get_custom_fonts', [self::class, 'get_fonts']);
+
+        // Google Fonts operations.
+        add_action('wp_ajax_epb_add_google_font', [self::class, 'add_google_font']);
+        add_action('wp_ajax_epb_update_google_font', [self::class, 'update_google_font']);
+        add_action('wp_ajax_epb_delete_google_font', [self::class, 'delete_google_font']);
     }
 
     /**
@@ -168,5 +174,97 @@ class Font_Handler
             'fonts'    => Custom_Font::get_fonts(),
             'families' => Custom_Font::get_font_families(),
         ]);
+    }
+
+    /**
+     * Add a Google Font entry via AJAX.
+     *
+     * @return void
+     */
+    public static function add_google_font(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $family  = sanitize_text_field(wp_unslash($_POST['font_family'] ?? ''));
+        $weights = sanitize_text_field(wp_unslash($_POST['font_weights'] ?? '400'));
+
+        if (empty($family)) {
+            wp_send_json_error(['message' => __('Font family name is required.', 'enhanced-plugin-bundle')]);
+            return;
+        }
+
+        $result = Google_Font::add($family, $weights);
+
+        if ($result['success']) {
+            wp_send_json_success([
+                'message' => $result['message'],
+                'fonts'   => $result['fonts'],
+            ]);
+        } else {
+            wp_send_json_error(['message' => $result['message']]);
+        }
+    }
+
+    /**
+     * Update a Google Font's weights via AJAX.
+     *
+     * @return void
+     */
+    public static function update_google_font(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $family  = sanitize_text_field(wp_unslash($_POST['font_family'] ?? ''));
+        $weights = sanitize_text_field(wp_unslash($_POST['font_weights'] ?? '400'));
+
+        if (empty($family)) {
+            wp_send_json_error(['message' => __('Font family name is required.', 'enhanced-plugin-bundle')]);
+            return;
+        }
+
+        $result = Google_Font::update($family, $weights);
+
+        if ($result['success']) {
+            wp_send_json_success([
+                'message' => $result['message'],
+                'fonts'   => $result['fonts'],
+            ]);
+        } else {
+            wp_send_json_error(['message' => $result['message']]);
+        }
+    }
+
+    /**
+     * Delete a Google Font entry via AJAX.
+     *
+     * @return void
+     */
+    public static function delete_google_font(): void
+    {
+        if (!Handler::verify_request(Constants::NONCE_ACTION)) {
+            return;
+        }
+
+        $family = sanitize_text_field(wp_unslash($_POST['font_family'] ?? ''));
+
+        if (empty($family)) {
+            wp_send_json_error(['message' => __('Font family name is required.', 'enhanced-plugin-bundle')]);
+            return;
+        }
+
+        $result = Google_Font::delete($family);
+
+        if ($result['success']) {
+            wp_send_json_success([
+                'message' => $result['message'],
+                'fonts'   => $result['fonts'],
+            ]);
+        } else {
+            wp_send_json_error(['message' => $result['message']]);
+        }
     }
 }

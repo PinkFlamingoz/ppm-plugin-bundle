@@ -43,6 +43,9 @@ $hyphenation_enabled = get_option(Constants::OPTION_HYPHENATION_ENABLED, '1');
 // Get uploaded custom fonts.
 $custom_fonts = \EPB\Core\Custom_Font::get_fonts();
 
+// Get saved Google Fonts entries.
+$google_fonts = \EPB\Core\Google_Font::get_fonts();
+
 // Get the current branding settings.
 $branding = Child_Theme::get_branding();
 
@@ -321,6 +324,71 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                         <span class="dashicons dashicons-saved"></span>
                         <?php esc_html_e('Save', 'enhanced-plugin-bundle'); ?>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-global-settings collapsed">
+            <h4 class="global-settings-label global-settings-toggle">
+                <span class="dashicons dashicons-arrow-right-alt2 toggle-icon"></span>
+                <span class="dashicons dashicons-google"></span>
+                <?php esc_html_e('Google Fonts', 'enhanced-plugin-bundle'); ?>
+                <?php if (!empty($google_fonts)) : ?>
+                    <span class="epb-modified-badge"><?php echo count($google_fonts); ?></span>
+                <?php endif; ?>
+                <span class="setting-hint" title="<?php esc_attr_e('Add Google Fonts to load on your site. Enter the font family name and the weights you want to load. Look up available fonts at fonts.google.com.', 'enhanced-plugin-bundle'); ?>">?</span>
+            </h4>
+            <div class="global-settings-body">
+                <div class="global-setting-row">
+                    <label for="google-font-family">
+                        <?php esc_html_e('Font Family Name', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <input type="text"
+                        id="google-font-family"
+                        class="setting-text-input"
+                        placeholder="<?php esc_attr_e('e.g. Roboto', 'enhanced-plugin-bundle'); ?>">
+                </div>
+                <div class="global-setting-row">
+                    <label for="google-font-weights">
+                        <?php esc_html_e('Variants', 'enhanced-plugin-bundle'); ?>
+                        <span class="setting-hint" title="<?php esc_attr_e('Add a comma-separated list of font weights to load, e.g. 300, 400, 600. Look up available variants at Google Fonts.', 'enhanced-plugin-bundle'); ?>">?</span>
+                    </label>
+                    <input type="text"
+                        id="google-font-weights"
+                        class="setting-text-input"
+                        value="400"
+                        placeholder="<?php esc_attr_e('e.g. 300,400,700', 'enhanced-plugin-bundle'); ?>">
+                </div>
+                <div class="global-setting-row setting-row-actions">
+                    <button type="button" id="add-google-font" class="epb-button epb-button-small epb-button-primary" title="<?php esc_attr_e('Add Google Font', 'enhanced-plugin-bundle'); ?>">
+                        <span class="dashicons dashicons-plus-alt"></span>
+                        <?php esc_html_e('Add Font', 'enhanced-plugin-bundle'); ?>
+                    </button>
+                </div>
+                <div class="global-setting-row google-fonts-list-container">
+                    <label><?php esc_html_e('Loaded Google Fonts', 'enhanced-plugin-bundle'); ?></label>
+                    <div id="google-fonts-list" class="google-fonts-list">
+                        <?php if (empty($google_fonts)) : ?>
+                            <p class="google-fonts-empty"><?php esc_html_e('No Google Fonts added yet.', 'enhanced-plugin-bundle'); ?></p>
+                        <?php else : ?>
+                            <?php foreach ($google_fonts as $gfont) : ?>
+                                <div class="google-font-entry" data-family="<?php echo esc_attr($gfont['family']); ?>">
+                                    <div class="google-font-entry-info">
+                                        <strong><?php echo esc_html($gfont['family']); ?></strong>
+                                        <span class="google-font-weights-display"><?php echo esc_html($gfont['weights']); ?></span>
+                                    </div>
+                                    <span class="google-font-entry-actions">
+                                        <button type="button" class="edit-google-font epb-button-icon" title="<?php esc_attr_e('Edit weights', 'enhanced-plugin-bundle'); ?>">
+                                            <span class="dashicons dashicons-edit"></span>
+                                        </button>
+                                        <button type="button" class="delete-google-font epb-button-icon" title="<?php esc_attr_e('Remove this font', 'enhanced-plugin-bundle'); ?>">
+                                            <span class="dashicons dashicons-trash"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>

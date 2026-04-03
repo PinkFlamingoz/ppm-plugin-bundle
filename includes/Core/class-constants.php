@@ -139,6 +139,13 @@ class Constants
     public const OPTION_CUSTOM_FONTS = 'epb_custom_fonts';
 
     /**
+     * Option key for Google Fonts configuration.
+     *
+     * @var string
+     */
+    public const OPTION_GOOGLE_FONTS = 'epb_google_fonts';
+
+    /**
      * Option key for child theme branding settings.
      *
      * @var string

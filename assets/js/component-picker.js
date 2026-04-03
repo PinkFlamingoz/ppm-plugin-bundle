@@ -423,6 +423,69 @@
                 }
             });
 
+            // Google Fonts: add.
+            $(document).on('click', '#add-google-font', function () {
+                self.addGoogleFont();
+            });
+
+            // Google Fonts: delete.
+            $(document).on('click', '.delete-google-font', function () {
+                const family = $(this).closest('.google-font-entry').data('family');
+                if (family && confirm('Remove "' + family + '" from Google Fonts?')) {
+                    self.deleteGoogleFont(family);
+                }
+            });
+
+            // Google Fonts: edit — toggle inline edit form.
+            $(document).on('click', '.edit-google-font', function () {
+                const $entry = $(this).closest('.google-font-entry');
+                const $existing = $entry.next('.google-font-edit-form');
+
+                // Close any other open edit forms.
+                $('.google-font-edit-form').remove();
+
+                if ($existing.length) {
+                    return;
+                }
+
+                const family = $entry.data('family');
+                const currentWeights = $entry.find('.google-font-weights-display').text().trim();
+                const escapedWeights = $('<span>').text(currentWeights).html();
+                const escapedFamily = $('<span>').text(family).html();
+
+                let formHtml = '<div class="google-font-edit-form">';
+                formHtml += '<input type="text" class="edit-google-weights" value="' + escapedWeights + '" placeholder="e.g. 300,400,700" />';
+                formHtml += '<button type="button" class="save-google-font-edit epb-button-icon" title="Save" data-family="' + escapedFamily + '">';
+                formHtml += '<span class="dashicons dashicons-yes"></span>';
+                formHtml += '</button>';
+                formHtml += '<button type="button" class="cancel-google-font-edit epb-button-icon" title="Cancel">';
+                formHtml += '<span class="dashicons dashicons-no-alt"></span>';
+                formHtml += '</button>';
+                formHtml += '</div>';
+
+                $entry.after(formHtml);
+                $entry.next('.google-font-edit-form').find('.edit-google-weights').focus();
+            });
+
+            // Google Fonts: save edit.
+            $(document).on('click', '.save-google-font-edit', function () {
+                const $form = $(this).closest('.google-font-edit-form');
+                const family = $(this).data('family');
+                const weights = $form.find('.edit-google-weights').val().trim();
+
+                if (!weights) {
+                    alert('Please enter at least one font weight.');
+                    return;
+                }
+
+                self.updateGoogleFont(family, weights);
+            });
+
+            // Google Fonts: cancel edit.
+            $(document).on('click', '.cancel-google-font-edit', function () {
+                $(this).closest('.google-font-edit-form').remove();
+            });
+
             // Branding: save settings.
             $(document).on('click', '#save-branding', function () {
                 self.saveBranding();
@@ -1669,6 +1732,152 @@
                 });
                 html += '</div>';
             }
+
+            $list.html(html);
+        },
+
+        /**
+         * Add a Google Font via AJAX.
+         */
+        addGoogleFont() {
+            const self = this;
+            const $btn = $('#add-google-font');
+            const family = $('#google-font-family').val().trim();
+            const weights = $('#google-font-weights').val().trim();
+
+            if (!family) {
+                self.showToast('Please enter a Google Font family name.', 'error');
+                $('#google-font-family').focus();
+                return;
+            }
+
+            if (!weights) {
+                self.showToast('Please enter at least one font weight (e.g. 400 or 300,400,700).', 'error');
+                $('#google-font-weights').focus();
+                return;
+            }
+
+            $btn.prop('disabled', true);
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_add_google_font',
+                    nonce: this.config.nonce,
+                    font_family: family,
+                    font_weights: weights
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        self.renderGoogleFontsList(response.data.fonts);
+                        $('#google-font-family').val('');
+                        $('#google-font-weights').val('400');
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to add Google Font.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while adding the Google Font.', 'error');
+                },
+                complete() {
+                    $btn.prop('disabled', false);
+                }
+            });
+        },
+
+        /**
+         * Delete a Google Font via AJAX.
+         * @param {string} family - The font family name.
+         */
+        deleteGoogleFont(family) {
+            const self = this;
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_delete_google_font',
+                    nonce: this.config.nonce,
+                    font_family: family
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        self.renderGoogleFontsList(response.data.fonts);
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to remove Google Font.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while removing the Google Font.', 'error');
+                }
+            });
+        },
+
+        /**
+         * Update a Google Font's weights via AJAX.
+         * @param {string} family  - The font family name.
+         * @param {string} weights - Comma-separated weights.
+         */
+        updateGoogleFont(family, weights) {
+            const self = this;
+
+            $.ajax({
+                url: this.config.ajaxUrl,
+                method: 'POST',
+                data: {
+                    action: 'epb_update_google_font',
+                    nonce: this.config.nonce,
+                    font_family: family,
+                    font_weights: weights
+                },
+                success(response) {
+                    if (response.success) {
+                        self.showToast(response.data.message, 'success');
+                        self.renderGoogleFontsList(response.data.fonts);
+                    } else {
+                        self.showToast(response.data?.message || 'Failed to update Google Font.', 'error');
+                    }
+                },
+                error() {
+                    self.showToast('An error occurred while updating the Google Font.', 'error');
+                }
+            });
+        },
+
+        /**
+         * Re-render the Google Fonts list from server data.
+         * @param {Array} fonts - All Google Font entries.
+         */
+        renderGoogleFontsList(fonts) {
+            const $list = $('#google-fonts-list');
+
+            if (!fonts || !fonts.length) {
+                $list.html('<p class="google-fonts-empty">No Google Fonts added yet.</p>');
+                return;
+            }
+
+            let html = '';
+            fonts.forEach(f => {
+                const escapedFamily = $('<span>').text(f.family).html();
+                const escapedWeights = $('<span>').text(f.weights).html();
+                html += '<div class="google-font-entry" data-family="' + escapedFamily + '">';
+                html += '<div class="google-font-entry-info">';
+                html += '<strong>' + escapedFamily + '</strong>';
+                html += '<span class="google-font-weights-display">' + escapedWeights + '</span>';
+                html += '</div>';
+                html += '<span class="google-font-entry-actions">';
+                html += '<button type="button" class="edit-google-font epb-button-icon" title="Edit weights">';
+                html += '<span class="dashicons dashicons-edit"></span>';
+                html += '</button>';
+                html += '<button type="button" class="delete-google-font epb-button-icon" title="Remove this font">';
+                html += '<span class="dashicons dashicons-trash"></span>';
+                html += '</button>';
+                html += '</span>';
+                html += '</div>';
+            });
 
             $list.html(html);
         },
