@@ -111,6 +111,20 @@ class Constants
     public const DEFAULT_FLUID_SCALE_RATIO_NAVBAR_GAP = '0.50';
 
     /**
+     * Option key for the accordion title fluid scale ratio.
+     *
+     * @var string
+     */
+    public const OPTION_FLUID_SCALE_RATIO_ACCORDION = 'epb_fluid_scale_ratio_accordion';
+
+    /**
+     * Default accordion title fluid scale ratio value.
+     *
+     * @var string
+     */
+    public const DEFAULT_FLUID_SCALE_RATIO_ACCORDION = '0.85';
+
+    /**
      * Option key for hyphenation & word-wrap toggle.
      *
      * @var string

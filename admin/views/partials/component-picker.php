@@ -32,6 +32,7 @@ $fluid_scale_ratio = get_option(Constants::OPTION_FLUID_SCALE_RATIO, Constants::
 $fluid_scale_ratio_navbar = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR);
 $fluid_scale_ratio_nav = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV);
 $fluid_scale_ratio_navbar_gap = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR_GAP);
+$fluid_scale_ratio_accordion = get_option(Constants::OPTION_FLUID_SCALE_RATIO_ACCORDION, Constants::DEFAULT_FLUID_SCALE_RATIO_ACCORDION);
 
 // Get the current Adobe Font settings.
 $adobe_font_enabled = get_option(Constants::OPTION_ADOBE_FONT_ENABLED, '0');
@@ -250,6 +251,29 @@ $child_theme_active = ThemesManager::is_child_theme_active();
                             max="2"
                             step="0.01"
                             value="<?php echo esc_attr($fluid_scale_ratio_navbar_gap); ?>"
+                            class="setting-number-input fluid-ratio-number">
+                    </div>
+                </div>
+                <div class="global-setting-row">
+                    <label for="fluid-scale-ratio-accordion">
+                        <?php esc_html_e('Accordion Title', 'enhanced-plugin-bundle'); ?>
+                    </label>
+                    <div class="setting-input-group">
+                        <input type="range"
+                            class="fluid-ratio-range"
+                            data-target="fluid-scale-ratio-accordion"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio_accordion); ?>">
+                        <input type="number"
+                            id="fluid-scale-ratio-accordion"
+                            name="fluid_scale_ratio_accordion"
+                            data-option="fluid_scale_ratio_accordion"
+                            min="0.1"
+                            max="2"
+                            step="0.01"
+                            value="<?php echo esc_attr($fluid_scale_ratio_accordion); ?>"
                             class="setting-number-input fluid-ratio-number">
                     </div>
                 </div>

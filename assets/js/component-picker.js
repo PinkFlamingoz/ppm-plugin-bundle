@@ -1395,7 +1395,8 @@
                     ratio: ratios.fluid_scale_ratio || '',
                     ratio_navbar: ratios.fluid_scale_ratio_navbar || '',
                     ratio_nav: ratios.fluid_scale_ratio_nav || '',
-                    ratio_navbar_gap: ratios.fluid_scale_ratio_navbar_gap || ''
+                    ratio_navbar_gap: ratios.fluid_scale_ratio_navbar_gap || '',
+                    ratio_accordion: ratios.fluid_scale_ratio_accordion || ''
                 },
                 success(response) {
                     if (response.success) {

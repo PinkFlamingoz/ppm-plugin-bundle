@@ -303,10 +303,12 @@ class Generator
         $ratio_navbar = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR);
         $ratio_nav = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV);
         $ratio_navbar_gap = get_option(Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR_GAP);
+        $ratio_accordion = get_option(Constants::OPTION_FLUID_SCALE_RATIO_ACCORDION, Constants::DEFAULT_FLUID_SCALE_RATIO_ACCORDION);
         $css .= "    --uk-fluid-scale-ratio: {$ratio};\n";
         $css .= "    --uk-fluid-scale-ratio-navbar: {$ratio_navbar};\n";
         $css .= "    --uk-fluid-scale-ratio-nav: {$ratio_nav};\n";
-        $css .= "    --uk-fluid-scale-ratio-navbar-gap: {$ratio_navbar_gap};\n\n";
+        $css .= "    --uk-fluid-scale-ratio-navbar-gap: {$ratio_navbar_gap};\n";
+        $css .= "    --uk-fluid-scale-ratio-accordion: {$ratio_accordion};\n\n";
 
         foreach (self::FLUID_TYPOGRAPHY_VARIABLES as $name) {
             if (isset($variables[$name])) {
@@ -895,7 +897,7 @@ h6, .uk-h6 {
 
 .uk-accordion-title {
     --_fs: var(--uk-accordion-default-title-font-size, var(--uk-global-medium-font-size, 1.25rem));
-    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio, 0.85));
+    --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-accordion, 0.85));
     font-size: clamp(
         var(--_min),
         calc(var(--_min) + (var(--_fs) - var(--_min)) * (100vw - var(--uk-breakpoint-s, 640px)) / (var(--uk-breakpoint-l, 1200px) - var(--uk-breakpoint-s, 640px))),

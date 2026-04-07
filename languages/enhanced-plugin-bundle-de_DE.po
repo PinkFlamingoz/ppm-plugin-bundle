@@ -590,6 +590,10 @@ msgid "Navbar Gap"
 msgstr "Navigationsleisten-Abstand"
 
 #: admin/views/partials/component-picker.php
+msgid "Accordion Title"
+msgstr "Akkordeon-Titel"
+
+#: admin/views/partials/component-picker.php
 msgid "Save all ratios"
 msgstr "Alle Verhältnisse speichern"
 

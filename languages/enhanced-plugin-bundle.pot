@@ -588,6 +588,10 @@ msgid "Navbar Gap"
 msgstr ""
 
 #: admin/views/partials/component-picker.php
+msgid "Accordion Title"
+msgstr ""
+
+#: admin/views/partials/component-picker.php
 msgid "Save all ratios"
 msgstr ""
 

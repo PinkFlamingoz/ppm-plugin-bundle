@@ -137,6 +137,7 @@ class Component_Handler
             'ratio_navbar'     => [Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR],
             'ratio_nav'        => [Constants::OPTION_FLUID_SCALE_RATIO_NAV, Constants::DEFAULT_FLUID_SCALE_RATIO_NAV],
             'ratio_navbar_gap' => [Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP, Constants::DEFAULT_FLUID_SCALE_RATIO_NAVBAR_GAP],
+            'ratio_accordion' => [Constants::OPTION_FLUID_SCALE_RATIO_ACCORDION, Constants::DEFAULT_FLUID_SCALE_RATIO_ACCORDION],
         ];
 
         $updated = [];
