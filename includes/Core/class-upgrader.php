@@ -36,6 +36,11 @@ class Upgrader
     {
         $stored_version = get_option('epb_version', '0');
 
+        // Safety net: attempt to recover component settings from the child theme
+        // if none exist in the database. This covers cases where the activation
+        // hook didn't fire (e.g. manual file replacement) or recovery failed.
+        Activator::maybe_recover_settings();
+
         // Skip if already up to date.
         if (version_compare($stored_version, EPB_VERSION, '>=')) {
             return;

@@ -81,6 +81,9 @@ class Child_Theme
         if (!file_exists($child_dir . '/config.php')) {
             self::write_config_php($child_dir);
         }
+
+        // Write a settings backup JSON so values can be recovered after reinstall.
+        self::write_settings_backup();
     }
 
     /**
@@ -143,6 +146,7 @@ class Child_Theme
         $css_written       = self::write_custom_css($child_dir);
         $less_written      = self::write_less_style($child_dir);
         self::write_config_php($child_dir);
+        self::write_settings_backup();
 
         if ($style_written && $functions_written && $css_written && $less_written) {
             // Activate theme if not already active.
@@ -175,6 +179,7 @@ class Child_Theme
         $css_written       = self::write_custom_css($child_dir);
         $less_written      = self::write_less_style($child_dir);
         self::write_config_php($child_dir);
+        self::write_settings_backup();
 
         if ($style_written && $functions_written && $css_written && $less_written) {
             switch_theme(self::THEME_SLUG);
@@ -724,5 +729,78 @@ PHP;
         }
 
         return true;
+    }
+
+    /**
+     * Write a JSON backup of all component settings to the child theme directory.
+     *
+     * This backup allows the plugin to recover customised values after a
+     * delete + reinstall cycle (which wipes the wp_options entries).
+     *
+     * @return void
+     */
+    public static function write_settings_backup(): void
+    {
+        $child_dir = self::get_child_theme_dir();
+
+        if (!file_exists($child_dir)) {
+            return;
+        }
+
+        $components = Component_Registry::get_all();
+        $backup = [];
+
+        foreach (array_keys($components) as $component) {
+            $saved = get_option(Constants::OPTION_PREFIX . $component, []);
+
+            if (!empty($saved)) {
+                $backup[$component] = $saved;
+            }
+        }
+
+        if (empty($backup)) {
+            return;
+        }
+
+        $json = wp_json_encode([
+            'components' => $backup,
+            'version'    => EPB_VERSION,
+            'saved_at'   => gmdate('c'),
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+        self::write_file(
+            $child_dir . '/' . Constants::SETTINGS_BACKUP_FILE,
+            $json,
+            Constants::SETTINGS_BACKUP_FILE,
+            false
+        );
+    }
+
+    /**
+     * Read the settings backup JSON from the child theme directory.
+     *
+     * @return array|null The backup data array, or null if not available.
+     */
+    public static function read_settings_backup(): ?array
+    {
+        $file = self::get_child_theme_dir() . '/' . Constants::SETTINGS_BACKUP_FILE;
+
+        if (!file_exists($file)) {
+            return null;
+        }
+
+        $content = file_get_contents($file);
+
+        if ($content === false || empty($content)) {
+            return null;
+        }
+
+        $data = json_decode($content, true);
+
+        if (!is_array($data) || empty($data['components'])) {
+            return null;
+        }
+
+        return $data;
     }
 }

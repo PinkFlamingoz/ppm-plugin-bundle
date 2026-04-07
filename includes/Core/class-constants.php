@@ -167,6 +167,13 @@ class Constants
     public const OPTION_BRANDING = 'epb_branding';
 
     /**
+     * Filename for the settings backup JSON stored in the child theme.
+     *
+     * @var string
+     */
+    public const SETTINGS_BACKUP_FILE = 'epb-settings-backup.json';
+
+    /**
      * Default branding values.
      *
      * @var array<string, string>

@@ -46,9 +46,9 @@ class Activator
             add_option('epb_dynamic_plugins', \EPB\Plugins\Options::get_defaults());
         }
 
-        // Recover component values from an existing child theme's Less file
-        // when the database options are missing (e.g. after a delete + reinstall).
-        self::maybe_recover_from_child_theme();
+        // Recover component values from the child theme when the database
+        // options are missing (e.g. after a delete + reinstall).
+        self::maybe_recover_settings();
 
         // Store the plugin version for future upgrade checks.
         update_option('epb_version', EPB_VERSION);
@@ -60,59 +60,138 @@ class Activator
     }
 
     /**
-     * Recover saved component values from the child theme's Less file.
+     * Check if component settings need recovery and run it if so.
      *
-     * When the plugin is deleted and reinstalled, uninstall.php removes all
-     * epb_component_* options from the database. However the child theme's
-     * Less file (theme.ct-style.less) still contains the variable overrides.
-     * This method parses those overrides and restores the database options
-     * so the admin UI shows the correct customised values.
+     * Called on activation and also from admin_init (via Upgrader) as a
+     * safety net in case the activation hook didn't fire or recovery
+     * failed the first time.
      *
      * @return void
      */
-    private static function maybe_recover_from_child_theme(): void
+    public static function maybe_recover_settings(): void
     {
         // Check if any component options already exist in the database.
-        // If they do, there's nothing to recover.
+        if (self::has_component_options()) {
+            return;
+        }
+
+        // Check if a child theme directory exists at all.
+        $child_dir = WP_CONTENT_DIR . '/themes/' . Child_Theme::THEME_SLUG;
+        if (!file_exists($child_dir)) {
+            return;
+        }
+
+        // Strategy 1: Recover from JSON backup (most reliable).
+        if (self::recover_from_json_backup()) {
+            return;
+        }
+
+        // Strategy 2: Recover from the Less file (fallback for older installs).
+        self::recover_from_less_file($child_dir);
+    }
+
+    /**
+     * Check whether any epb_component_* options exist in the database.
+     *
+     * @return bool True if at least one component option exists.
+     */
+    private static function has_component_options(): bool
+    {
         global $wpdb;
-        $existing = $wpdb->get_var(
+        $count = $wpdb->get_var(
             $wpdb->prepare(
                 "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE %s",
                 $wpdb->esc_like(Constants::OPTION_PREFIX) . '%'
             )
         );
 
-        if ((int) $existing > 0) {
-            return;
+        return (int) $count > 0;
+    }
+
+    /**
+     * Recover component settings from the JSON backup in the child theme.
+     *
+     * The backup file is written automatically whenever settings change
+     * (via Child_Theme::write_settings_backup). It contains the exact
+     * data that was in the database, keyed by component name.
+     *
+     * @return bool True if recovery succeeded, false if no backup found.
+     */
+    private static function recover_from_json_backup(): bool
+    {
+        $backup = Child_Theme::read_settings_backup();
+
+        if ($backup === null) {
+            return false;
         }
 
-        // Locate the child theme's Less file.
-        $less_file = WP_CONTENT_DIR . '/themes/' . Child_Theme::THEME_SLUG
-            . '/less/theme.' . Child_Theme::LESS_STYLE_NAME . '.less';
+        $restored = 0;
+        $components = $backup['components'];
+
+        foreach ($components as $component => $values) {
+            $component = sanitize_key($component);
+
+            if (empty($values) || !is_array($values)) {
+                continue;
+            }
+
+            // Sanitize each value.
+            $clean = [];
+            foreach ($values as $var_name => $value) {
+                $var_name = sanitize_key($var_name);
+                if (!empty($var_name) && is_string($value)) {
+                    $clean[$var_name] = sanitize_text_field($value);
+                }
+            }
+
+            if (!empty($clean)) {
+                update_option(Constants::OPTION_PREFIX . $component, $clean);
+                $restored++;
+            }
+        }
+
+        if ($restored > 0 && defined('WP_DEBUG') && WP_DEBUG) {
+            error_log("[EPB] Recovered {$restored} component(s) from settings backup JSON.");
+        }
+
+        return $restored > 0;
+    }
+
+    /**
+     * Recover component settings by parsing the child theme's Less file.
+     *
+     * Fallback for child themes generated before the JSON backup was
+     * introduced. Parses variable overrides from theme.ct-style.less
+     * and maps them back to their source components.
+     *
+     * @param string $child_dir Path to the child theme directory.
+     * @return bool True if recovery succeeded.
+     */
+    private static function recover_from_less_file(string $child_dir): bool
+    {
+        $less_file = $child_dir . '/less/theme.' . Child_Theme::LESS_STYLE_NAME . '.less';
 
         if (!file_exists($less_file)) {
-            return;
+            return false;
         }
 
         $content = file_get_contents($less_file);
 
         if ($content === false || empty($content)) {
-            return;
+            return false;
         }
 
-        // Extract all @variable: value; declarations from the overrides section.
-        // Skip import lines and comments.
         $overrides = self::parse_less_overrides($content);
 
         if (empty($overrides)) {
-            return;
+            return false;
         }
 
-        // Build a map from variable name → component by scanning the registry.
+        // Build a map from variable name → component.
         $var_to_component = self::build_variable_component_map();
 
         if (empty($var_to_component)) {
-            return;
+            return false;
         }
 
         // Group overrides by component.
@@ -131,9 +210,9 @@ class Activator
             $component_values[$component][$var_name] = $value;
         }
 
-        // Save each component's values back to the database.
+        // Save each component's values, filtering out unchanged defaults.
+        $restored = 0;
         foreach ($component_values as $component => $values) {
-            // Filter to only truly modified values (differ from defaults).
             $defaults = Less_Parser::parse_component($component);
             $modified = [];
 
@@ -147,19 +226,19 @@ class Activator
 
             if (!empty($modified)) {
                 update_option(Constants::OPTION_PREFIX . $component, $modified);
+                $restored++;
             }
         }
 
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[EPB] Recovered component values from child theme Less file.');
+        if ($restored > 0 && defined('WP_DEBUG') && WP_DEBUG) {
+            error_log("[EPB] Recovered {$restored} component(s) from child theme Less file.");
         }
+
+        return $restored > 0;
     }
 
     /**
-     * Parse Less variable override declarations from a Less file's content.
-     *
-     * Extracts lines matching `@variable-name: value;` while ignoring
-     * import statements, comments, and re-assertion blocks metadata.
+     * Parse Less variable override declarations from file content.
      *
      * @param string $content Less file content.
      * @return array<string, string> Variable name → value pairs.
@@ -167,24 +246,39 @@ class Activator
     private static function parse_less_overrides(string $content): array
     {
         $overrides = [];
+        $in_block_comment = false;
         $lines = explode("\n", $content);
 
         foreach ($lines as $line) {
             $trimmed = trim($line);
 
-            // Skip empty lines, comments, and imports.
+            // Track block comments (/* ... */).
+            if (!$in_block_comment && str_starts_with($trimmed, '/*')) {
+                $in_block_comment = true;
+                // Check if comment closes on same line.
+                if (str_contains($trimmed, '*/')) {
+                    $in_block_comment = false;
+                }
+                continue;
+            }
+            if ($in_block_comment) {
+                if (str_contains($trimmed, '*/')) {
+                    $in_block_comment = false;
+                }
+                continue;
+            }
+
+            // Skip empty lines, line comments, and imports.
             if (
                 $trimmed === '' ||
                 str_starts_with($trimmed, '//') ||
-                str_starts_with($trimmed, '/*') ||
-                str_starts_with($trimmed, '*') ||
                 str_starts_with($trimmed, '@import')
             ) {
                 continue;
             }
 
             // Match Less variable definitions: @variable-name: value;
-            if (preg_match('/^@([a-z0-9_-]+)\s*:\s*(.+?)\s*;$/i', $trimmed, $match)) {
+            if (preg_match('/^@([a-z0-9_-]+)\s*:\s*(.+?)\s*;\s*$/i', $trimmed, $match)) {
                 $name  = $match[1];
                 $value = trim($match[2]);
 
@@ -208,9 +302,6 @@ class Activator
     /**
      * Build a lookup map from variable name to its source component.
      *
-     * Scans all registered components and their Less files to create
-     * a reverse mapping of variable-name → component-name.
-     *
      * @return array<string, string> Variable name → component name.
      */
     private static function build_variable_component_map(): array
@@ -222,7 +313,6 @@ class Activator
             $variables = Less_Parser::parse_component($component);
 
             foreach (array_keys($variables) as $var_name) {
-                // First component to define the variable owns it.
                 if (!isset($map[$var_name])) {
                     $map[$var_name] = $component;
                 }

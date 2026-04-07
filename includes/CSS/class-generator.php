@@ -895,7 +895,7 @@ h6, .uk-h6 {
    Accordion
    ========================================================================== */
 
-.uk-accordion-title {
+.uk-accordion-default .uk-accordion-title {
     --_fs: var(--uk-accordion-default-title-font-size, var(--uk-global-medium-font-size, 1.25rem));
     --_min: calc(var(--_fs) * var(--uk-fluid-scale-ratio-accordion, 0.85));
     font-size: clamp(
