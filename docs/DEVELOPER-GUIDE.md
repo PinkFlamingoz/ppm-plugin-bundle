@@ -18,7 +18,8 @@ Comprehensive reference for developing, extending, and maintaining the Enhanced 
 10. [Data Storage Reference](#data-storage-reference)
 11. [Security Model](#security-model)
 12. [Hooks Reference](#hooks-reference)
-13. [Uninstall Behavior](#uninstall-behavior)
+13. [Settings Backup & Recovery](#settings-backup--recovery)
+14. [Uninstall Behavior](#uninstall-behavior)
 
 ---
 
@@ -40,18 +41,18 @@ EPB\
 
 ### Key Classes by Role
 
-| Role              | Class                            | Description                                                |
-| ----------------- | -------------------------------- | ---------------------------------------------------------- |
-| **Bootstrap**     | `enhanced-plugin-bundle.php`     | Defines constants, loads autoloader, hooks `epb_init()`    |
-| **Constants**     | `EPB\Core\Constants`             | All option keys, nonce actions, cache keys, defaults       |
-| **AJAX Hub**      | `EPB\Ajax\Handler`               | Registers all AJAX hooks, delegates to specialized classes |
-| **Component Hub** | `EPB\Ajax\Component_Handler`     | Coordinates component AJAX + global settings               |
-| **Registry**      | `EPB\CSS\Component_Registry`     | Maps 74 components to 11 categories with metadata          |
-| **Less Parser**   | `EPB\CSS\Less_Parser`            | Extracts variables from consolidated Less files            |
-| **Less Compiler** | `EPB\CSS\Less_Compiler`          | Wraps `wikimedia/less.php` with preprocessing              |
-| **Less Builder**  | `EPB\CSS\Component_Less_Builder` | Assembles full Less source for compilation                 |
-| **CSS Generator** | `EPB\CSS\Generator`              | Produces CSS custom properties + fluid typography          |
-| **Child Theme**   | `EPB\Themes\Child_Theme`         | Generates and maintains the child theme files              |
+| Role              | Class                            | Description                                                            |
+| ----------------- | -------------------------------- | ---------------------------------------------------------------------- |
+| **Bootstrap**     | `enhanced-plugin-bundle.php`     | Defines constants, loads autoloader, hooks `epb_init()`                |
+| **Constants**     | `EPB\Core\Constants`             | All option keys, nonce actions, cache keys, defaults, backup file name |
+| **AJAX Hub**      | `EPB\Ajax\Handler`               | Registers all AJAX hooks, delegates to specialized classes             |
+| **Component Hub** | `EPB\Ajax\Component_Handler`     | Coordinates component AJAX + global settings                           |
+| **Registry**      | `EPB\CSS\Component_Registry`     | Maps 74 components to 11 categories with metadata                      |
+| **Less Parser**   | `EPB\CSS\Less_Parser`            | Extracts variables from consolidated Less files                        |
+| **Less Compiler** | `EPB\CSS\Less_Compiler`          | Wraps `wikimedia/less.php` with preprocessing                          |
+| **Less Builder**  | `EPB\CSS\Component_Less_Builder` | Assembles full Less source for compilation                             |
+| **CSS Generator** | `EPB\CSS\Generator`              | Produces CSS custom properties + fluid typography + accordion scaling  |
+| **Child Theme**   | `EPB\Themes\Child_Theme`         | Generates and maintains the child theme files, settings backup         |
 
 ---
 
@@ -789,6 +790,7 @@ Handles multiline strings, escape sequences (`\n`, `\r`, `\t`, `\"`, `\\`), and 
 | `epb_fluid_scale_ratio_navbar`     | `string` | Navbar scale ratio (default: `0.85`)                                                         |
 | `epb_fluid_scale_ratio_nav`        | `string` | Navigation scale ratio (default: `0.85`)                                                     |
 | `epb_fluid_scale_ratio_navbar_gap` | `string` | Navbar gap scale ratio (default: `0.50`)                                                     |
+| `epb_fluid_scale_ratio_accordion`  | `string` | Accordion scale ratio (default: `0.85`)                                                      |
 | `epb_hyphenation_enabled`          | `string` | CSS hyphenation toggle (`0`/`1`)                                                             |
 | `epb_adobe_font_enabled`           | `string` | Adobe Fonts toggle (`0`/`1`)                                                                 |
 | `epb_adobe_font_url`               | `string` | Adobe Fonts CSS URL                                                                          |
@@ -811,6 +813,7 @@ Handles multiline strings, escape sequences (`\n`, `\r`, `\t`, `\"`, `\\`), and 
 | `/wp-content/uploads/epb-fonts/`                                 | Custom font files (WOFF2, WOFF, TTF, OTF) |
 | `/wp-content/uploads/epb-fonts/.htaccess`                        | Directory protection                      |
 | `/wp-content/themes/YOOthemechildtheme/`                         | Generated child theme                     |
+| `/wp-content/themes/YOOthemechildtheme/epb-settings-backup.json` | Settings backup (survives plugin delete)  |
 | `/wp-content/themes/YOOthemechildtheme/css/custom.css`           | Generated CSS                             |
 | `/wp-content/themes/YOOthemechildtheme/less/theme.ct-style.less` | Generated Less for YOOtheme               |
 
@@ -944,6 +947,95 @@ apply_filters('epb_less_style_metadata', array $metadata);
 
 ---
 
+## Settings Backup & Recovery
+
+The plugin includes a comprehensive backup and recovery system that preserves all settings across plugin delete/reinstall cycles.
+
+### Problem
+
+When the plugin is deleted, `uninstall.php` removes all `epb_component_*` options from the database. If the user reinstalls the plugin, all customizations appear lost even though the child theme's Less file still contains the overrides.
+
+### Solution: Two-Tier Recovery
+
+The system uses a JSON backup file stored in the child theme directory (which survives plugin deletion) as the primary recovery source.
+
+#### Backup File
+
+Location: `/wp-content/themes/YOOthemechildtheme/epb-settings-backup.json`
+
+Structure:
+
+```json
+{
+    "components": {
+        "variables": { "@global-color": "#333", ... },
+        "button": { "@button-primary-background": "#1e87f0", ... }
+    },
+    "settings": {
+        "epb_fluid_scale_ratio": "0.85",
+        "epb_fluid_scale_ratio_navbar": "0.85",
+        "epb_fluid_scale_ratio_nav": "0.85",
+        "epb_fluid_scale_ratio_navbar_gap": "0.50",
+        "epb_fluid_scale_ratio_accordion": "0.85",
+        "epb_adobe_font_enabled": "0",
+        "epb_adobe_font_url": "",
+        "epb_hyphenation_enabled": "0",
+        "epb_google_fonts": [],
+        "epb_custom_fonts": [],
+        "epb_branding": {}
+    },
+    "version": "4.2",
+    "timestamp": 1712600000
+}
+```
+
+#### When Backup Is Written
+
+- Every time component settings are saved (via `regenerate_custom_css()`)
+- When a child theme is created or updated
+- On first page load after plugin upgrade (auto-seeded by `Upgrader::maybe_seed_settings_backup()`)
+
+#### Recovery Flow
+
+```
+Plugin Activation (register_activation_hook)
+  └── Activator::activate()
+        └── Activator::maybe_recover_settings()
+              ├── Check: has_component_options() → if yes, skip (nothing to recover)
+              ├── Strategy 1: recover_from_json_backup()
+              │     └── Read epb-settings-backup.json from child theme
+              │     └── Restore components → update_option('epb_component_{name}', ...)
+              │     └── Restore settings → update_option('epb_fluid_scale_ratio', ...)
+              └── Strategy 2: recover_from_less_file() (fallback)
+                    └── Parse theme.ct-style.less for variable overrides
+                    └── Map variables to components via Component_Registry
+                    └── Restore component options only (no settings)
+
+plugins_loaded (safety net)
+  └── Upgrader::maybe_upgrade()
+        ├── Activator::maybe_recover_settings()   ← second chance if activation hook missed
+        └── Upgrader::maybe_seed_settings_backup() ← create backup if it doesn't exist yet
+```
+
+#### Key Classes
+
+| Class                    | Method                         | Role                                            |
+| ------------------------ | ------------------------------ | ----------------------------------------------- |
+| `EPB\Themes\Child_Theme` | `write_settings_backup()`      | Collects all settings and writes JSON to file   |
+| `EPB\Themes\Child_Theme` | `read_settings_backup()`       | Reads and validates the backup JSON             |
+| `EPB\Core\Activator`     | `maybe_recover_settings()`     | Orchestrates recovery (JSON → Less fallback)    |
+| `EPB\Core\Activator`     | `recover_from_json_backup()`   | Restores from JSON backup file                  |
+| `EPB\Core\Activator`     | `recover_from_less_file()`     | Parses Less file as fallback for older installs |
+| `EPB\Core\Upgrader`      | `maybe_seed_settings_backup()` | Auto-creates backup for existing installs       |
+
+### Accordion Fluid Typography
+
+The accordion component uses a dedicated fluid scale ratio (`epb_fluid_scale_ratio_accordion`, default `0.85`) to independently control how accordion title font sizes scale between mobile and desktop breakpoints.
+
+The CSS generator uses the compound selector `.uk-accordion-default .uk-accordion-title` (specificity 0,2,0) instead of `.uk-accordion-title` (0,1,0) to match YOOtheme's own specificity and ensure the fluid typography rules take effect.
+
+---
+
 ## Uninstall Behavior
 
 When the plugin is **deleted** (not just deactivated), `uninstall.php` runs:
@@ -957,13 +1049,18 @@ When the plugin is **deleted** (not just deactivated), `uninstall.php` runs:
 - `epb_plugin_cache` transient
 - `epb_custom_fonts` option
 - `epb_google_fonts` option
+- All fluid scale ratio options (`epb_fluid_scale_ratio`, `_navbar`, `_nav`, `_navbar_gap`, `_accordion`)
+- Adobe font settings (`epb_adobe_font_enabled`, `epb_adobe_font_url`)
+- `epb_hyphenation_enabled` option
+- `epb_branding` option
+- `epb_needs_recompile`, `epb_yootheme_base_style`, `epb_yootheme_style_name` options
 - Custom capabilities from administrator role
 
 **Intentionally preserved:**
 
-- Child theme directory (`/wp-content/themes/YOOthemechildtheme/`) — may contain user customizations
+- Child theme directory (`/wp-content/themes/YOOthemechildtheme/`) — contains user customizations
+- Settings backup file (`epb-settings-backup.json`) — lives inside the child theme for recovery on reinstall
 - Custom font files (`/wp-content/uploads/epb-fonts/`) — preserved for safety
-- Other plugin options (branding, fluid ratios, etc.) — add to `uninstall.php` if they should be cleaned up
 
 ---
 

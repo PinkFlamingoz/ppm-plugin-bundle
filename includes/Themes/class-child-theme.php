@@ -747,23 +747,82 @@ PHP;
             return;
         }
 
+        // Collect component variables.
         $components = Component_Registry::get_all();
-        $backup = [];
+        $component_backup = [];
 
         foreach (array_keys($components) as $component) {
             $saved = get_option(Constants::OPTION_PREFIX . $component, []);
 
             if (!empty($saved)) {
-                $backup[$component] = $saved;
+                $component_backup[$component] = $saved;
             }
         }
 
-        if (empty($backup)) {
+        // Collect all other plugin settings that get wiped on uninstall.
+        $settings = [];
+
+        // Fluid scale ratios.
+        foreach (
+            [
+                Constants::OPTION_FLUID_SCALE_RATIO,
+                Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR,
+                Constants::OPTION_FLUID_SCALE_RATIO_NAV,
+                Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP,
+                Constants::OPTION_FLUID_SCALE_RATIO_ACCORDION,
+            ] as $key
+        ) {
+            $val = get_option($key, null);
+            if ($val !== null && $val !== false) {
+                $settings[$key] = $val;
+            }
+        }
+
+        // Adobe Fonts.
+        foreach (
+            [
+                Constants::OPTION_ADOBE_FONT_ENABLED,
+                Constants::OPTION_ADOBE_FONT_URL,
+            ] as $key
+        ) {
+            $val = get_option($key, null);
+            if ($val !== null && $val !== false) {
+                $settings[$key] = $val;
+            }
+        }
+
+        // Google Fonts.
+        $google = get_option(Constants::OPTION_GOOGLE_FONTS, null);
+        if ($google !== null && $google !== false) {
+            $settings[Constants::OPTION_GOOGLE_FONTS] = $google;
+        }
+
+        // Custom fonts metadata.
+        $custom_fonts = get_option(Constants::OPTION_CUSTOM_FONTS, null);
+        if ($custom_fonts !== null && $custom_fonts !== false) {
+            $settings[Constants::OPTION_CUSTOM_FONTS] = $custom_fonts;
+        }
+
+        // Hyphenation / word-wrap.
+        $hyph = get_option(Constants::OPTION_HYPHENATION_ENABLED, null);
+        if ($hyph !== null && $hyph !== false) {
+            $settings[Constants::OPTION_HYPHENATION_ENABLED] = $hyph;
+        }
+
+        // Branding.
+        $branding = get_option(Constants::OPTION_BRANDING, null);
+        if ($branding !== null && $branding !== false) {
+            $settings[Constants::OPTION_BRANDING] = $branding;
+        }
+
+        // Only write if there's something to back up.
+        if (empty($component_backup) && empty($settings)) {
             return;
         }
 
         $json = wp_json_encode([
-            'components' => $backup,
+            'components' => $component_backup,
+            'settings'   => $settings,
             'version'    => EPB_VERSION,
             'saved_at'   => gmdate('c'),
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

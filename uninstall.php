@@ -34,6 +34,30 @@ delete_option('epb_custom_fonts');
 // Remove Google Fonts configuration.
 delete_option('epb_google_fonts');
 
+// Remove fluid scale ratios.
+delete_option('epb_fluid_scale_ratio');
+delete_option('epb_fluid_scale_ratio_navbar');
+delete_option('epb_fluid_scale_ratio_nav');
+delete_option('epb_fluid_scale_ratio_navbar_gap');
+delete_option('epb_fluid_scale_ratio_accordion');
+
+// Remove Adobe Font settings.
+delete_option('epb_adobe_font_enabled');
+delete_option('epb_adobe_font_url');
+
+// Remove hyphenation setting.
+delete_option('epb_hyphenation_enabled');
+
+// Remove branding settings.
+delete_option('epb_branding');
+
+// Remove YOOtheme recompile flag.
+delete_option('epb_needs_recompile');
+
+// Remove YOOtheme style export settings.
+delete_option('epb_yootheme_base_style');
+delete_option('epb_yootheme_style_name');
+
 // Remove custom capabilities from administrator role.
 $admin_role = get_role('administrator');
 if (null !== $admin_role) {

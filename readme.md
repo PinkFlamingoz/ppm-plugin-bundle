@@ -75,9 +75,18 @@ A WordPress plugin that centralizes plugin management and provides a powerful co
 
 - **CSS `clamp()` responsive sizing** – Font sizes scale smoothly between 640px and 1200px breakpoints
 - **200+ typography variables** – Covers global, base, headings, text utilities, buttons, navbar, forms, and all components
-- **Configurable scale ratios** – Separate ratios for standard elements (0.85), navbar (0.85), navigation (0.85), and navbar gap (0.50)
+- **Configurable scale ratios** – Separate ratios for standard elements (0.85), navbar (0.85), navigation (0.85), navbar gap (0.50), and accordion (0.85)
+- **Accordion-aware fluid typography** – Accordion titles use a dedicated scale ratio with CSS specificity matching YOOtheme's `.uk-accordion-default .uk-accordion-title` selector
 - **Math expression evaluation** – Resolves expressions like `2.625rem * 0.85` with unit preservation
 - **Hyphenation support** – Optional CSS hyphenation for headings and text elements
+
+### Settings Backup & Recovery
+
+- **Automatic JSON backup** – All settings (components, fluid ratios, fonts, branding, hyphenation) are backed up to `epb-settings-backup.json` in the child theme directory on every save
+- **Survives plugin delete/reinstall** – The backup file lives in the child theme, which is preserved when the plugin is deleted
+- **Two-tier recovery** – On activation, the plugin first tries JSON backup recovery, then falls back to parsing the child theme's Less file for older installs
+- **Automatic backup seeding** – Existing installs without a backup file get one auto-created on the next page load via the Upgrader
+- **Safety-net recovery** – The `plugins_loaded` hook provides a second recovery attempt if the activation hook didn't fire
 
 ### Design Token Integration
 
@@ -220,6 +229,7 @@ wp-content/themes/YOOthemechildtheme/
 ├── style.css                    # Root stylesheet with branding header
 ├── functions.php                # Parent/child enqueue, login branding, access controls
 ├── config.php                   # YOOtheme module for auto recompilation
+├── epb-settings-backup.json     # Settings backup (survives plugin delete/reinstall)
 ├── css/
 │   └── custom.css               # Generated CSS (fluid typography, font faces, variables)
 └── less/
@@ -249,9 +259,9 @@ includes/
 │   ├── class-font-handler.php      # Custom/Google font AJAX operations
 │   └── class-preview-compiler.php  # Server-side Less compilation for live preview
 ├── Core/
-│   ├── class-activator.php         # Activation hooks and defaults
+│   ├── class-activator.php         # Activation hooks, defaults, and settings recovery
 │   ├── class-deactivator.php       # Deactivation cleanup
-│   ├── class-upgrader.php          # Version migration routines
+│   ├── class-upgrader.php          # Version migration routines and backup seeding
 │   ├── class-constants.php         # Centralized option keys and defaults
 │   ├── class-capabilities.php      # Custom capabilities (manage_plugins, manage_themes, access_settings)
 │   ├── class-notices.php           # Admin notice system (immediate and queued)
@@ -273,7 +283,7 @@ includes/
 ├── Themes/
 │   ├── class-manager.php           # Theme operations orchestrator
 │   ├── class-uploader.php          # Theme ZIP upload and installation
-│   ├── class-child-theme.php       # Child theme generation, branding, auto-regeneration
+│   ├── class-child-theme.php       # Child theme generation, branding, auto-regeneration, settings backup
 │   └── Renderer/
 │       ├── class-main-renderer.php     # Component picker UI shell
 │       ├── class-dynamic-renderer.php  # Dynamic form field generator
@@ -381,7 +391,7 @@ Variables within each component are organized into semantic groups:
 - Font uploads validated by magic bytes (not just file extension), max 5 MB
 - File operations use WordPress Filesystem API
 - Direct access protection on all PHP files
-- Clean uninstall removes all options, transients, and capabilities (preserves child theme)
+- Clean uninstall removes all options, transients, and capabilities (preserves child theme and settings backup)
 
 ### Coding Standards
 
@@ -437,18 +447,20 @@ add_action('wp_ajax_epb_delete_google_font', ...);
 
 ### WordPress Options
 
-| Option Key                     | Description                     |
-| ------------------------------ | ------------------------------- |
-| `epb_component_{name}`         | Per-component variable settings |
-| `epb_fluid_scale_ratio`        | Fluid typography scale ratio    |
-| `epb_fluid_scale_ratio_navbar` | Navbar-specific scale ratio     |
-| `epb_fluid_scale_ratio_nav`    | Navigation-specific scale ratio |
-| `epb_hyphenation_enabled`      | CSS hyphenation toggle          |
-| `epb_adobe_font_enabled`       | Adobe Fonts on/off              |
-| `epb_adobe_font_url`           | Adobe Fonts project URL         |
-| `epb_custom_fonts`             | Custom font metadata array      |
-| `epb_google_fonts`             | Google Fonts configuration      |
-| `epb_branding`                 | Child theme branding settings   |
+| Option Key                         | Description                     |
+| ---------------------------------- | ------------------------------- |
+| `epb_component_{name}`             | Per-component variable settings |
+| `epb_fluid_scale_ratio`            | Fluid typography scale ratio    |
+| `epb_fluid_scale_ratio_navbar`     | Navbar-specific scale ratio     |
+| `epb_fluid_scale_ratio_nav`        | Navigation-specific scale ratio |
+| `epb_fluid_scale_ratio_navbar_gap` | Navbar gap scale ratio          |
+| `epb_fluid_scale_ratio_accordion`  | Accordion-specific scale ratio  |
+| `epb_hyphenation_enabled`          | CSS hyphenation toggle          |
+| `epb_adobe_font_enabled`           | Adobe Fonts on/off              |
+| `epb_adobe_font_url`               | Adobe Fonts project URL         |
+| `epb_custom_fonts`                 | Custom font metadata array      |
+| `epb_google_fonts`                 | Google Fonts configuration      |
+| `epb_branding`                     | Child theme branding settings   |
 
 ### Less Variable Annotations
 

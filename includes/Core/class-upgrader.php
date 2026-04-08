@@ -41,6 +41,10 @@ class Upgrader
         // hook didn't fire (e.g. manual file replacement) or recovery failed.
         Activator::maybe_recover_settings();
 
+        // Ensure the settings backup file exists in the child theme.
+        // This seeds the backup for installs that predate the backup feature.
+        self::maybe_seed_settings_backup();
+
         // Skip if already up to date.
         if (version_compare($stored_version, EPB_VERSION, '>=')) {
             return;
@@ -100,5 +104,36 @@ class Upgrader
         if (defined('WP_DEBUG') && WP_DEBUG) {
             error_log('[EPB] Running upgrade routines for version ' . $version);
         }
+    }
+
+    /**
+     * Write the settings backup JSON if it doesn't exist yet.
+     *
+     * Seeds the backup for existing installs that predate the backup feature,
+     * so that a future delete + reinstall can recover all settings.
+     * Only runs once — skips if the file already exists.
+     *
+     * @return void
+     */
+    private static function maybe_seed_settings_backup(): void
+    {
+        if (!class_exists(\EPB\Themes\Child_Theme::class)) {
+            return;
+        }
+
+        $child_dir = \EPB\Themes\Child_Theme::get_child_theme_dir();
+
+        if (!file_exists($child_dir)) {
+            return;
+        }
+
+        $backup_file = $child_dir . '/' . Constants::SETTINGS_BACKUP_FILE;
+
+        // Only seed if the backup doesn't exist yet.
+        if (file_exists($backup_file)) {
+            return;
+        }
+
+        \EPB\Themes\Child_Theme::write_settings_backup();
     }
 }

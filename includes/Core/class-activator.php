@@ -109,11 +109,11 @@ class Activator
     }
 
     /**
-     * Recover component settings from the JSON backup in the child theme.
+     * Recover component settings and plugin options from the JSON backup.
      *
      * The backup file is written automatically whenever settings change
-     * (via Child_Theme::write_settings_backup). It contains the exact
-     * data that was in the database, keyed by component name.
+     * (via Child_Theme::write_settings_backup). It contains component
+     * variables plus all other plugin settings (fonts, branding, etc.).
      *
      * @return bool True if recovery succeeded, false if no backup found.
      */
@@ -126,7 +126,9 @@ class Activator
         }
 
         $restored = 0;
-        $components = $backup['components'];
+
+        // Restore component variables.
+        $components = $backup['components'] ?? [];
 
         foreach ($components as $component => $values) {
             $component = sanitize_key($component);
@@ -150,11 +152,74 @@ class Activator
             }
         }
 
+        // Restore plugin settings (fonts, branding, ratios, etc.).
+        $settings = $backup['settings'] ?? [];
+
+        // Allowed option keys that can be restored (whitelist for safety).
+        $allowed_keys = [
+            Constants::OPTION_FLUID_SCALE_RATIO,
+            Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR,
+            Constants::OPTION_FLUID_SCALE_RATIO_NAV,
+            Constants::OPTION_FLUID_SCALE_RATIO_NAVBAR_GAP,
+            Constants::OPTION_FLUID_SCALE_RATIO_ACCORDION,
+            Constants::OPTION_ADOBE_FONT_ENABLED,
+            Constants::OPTION_ADOBE_FONT_URL,
+            Constants::OPTION_GOOGLE_FONTS,
+            Constants::OPTION_CUSTOM_FONTS,
+            Constants::OPTION_HYPHENATION_ENABLED,
+            Constants::OPTION_BRANDING,
+        ];
+
+        foreach ($settings as $key => $value) {
+            // Only restore whitelisted keys.
+            if (!in_array($key, $allowed_keys, true)) {
+                continue;
+            }
+
+            // Skip if the option already exists in the database.
+            if (get_option($key, null) !== null && get_option($key, null) !== false) {
+                continue;
+            }
+
+            // Sanitize scalar values; arrays (fonts, branding, google) are stored as-is
+            // after validation.
+            if (is_string($value)) {
+                $value = sanitize_text_field($value);
+            } elseif (is_array($value)) {
+                $value = self::sanitize_array_recursive($value);
+            }
+
+            update_option($key, $value);
+            $restored++;
+        }
+
         if ($restored > 0 && defined('WP_DEBUG') && WP_DEBUG) {
-            error_log("[EPB] Recovered {$restored} component(s) from settings backup JSON.");
+            error_log("[EPB] Recovered {$restored} item(s) from settings backup JSON.");
         }
 
         return $restored > 0;
+    }
+
+    /**
+     * Recursively sanitize an array of settings values.
+     *
+     * @param array $arr The array to sanitize.
+     * @return array The sanitized array.
+     */
+    private static function sanitize_array_recursive(array $arr): array
+    {
+        $clean = [];
+        foreach ($arr as $key => $value) {
+            $key = is_int($key) ? $key : sanitize_key($key);
+            if (is_array($value)) {
+                $clean[$key] = self::sanitize_array_recursive($value);
+            } elseif (is_string($value)) {
+                $clean[$key] = sanitize_text_field($value);
+            } elseif (is_bool($value) || is_int($value) || is_float($value)) {
+                $clean[$key] = $value;
+            }
+        }
+        return $clean;
     }
 
     /**
