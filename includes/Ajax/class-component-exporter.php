@@ -22,6 +22,7 @@ if (!defined('ABSPATH')) {
 use EPB\CSS\Less_Parser;
 use EPB\CSS\Component_Registry;
 use EPB\Core\Constants;
+use EPB\Themes\Child_Theme;
 
 /**
  * Class Component_Exporter
@@ -88,7 +89,12 @@ class Component_Exporter
 
         $components = Component_Registry::get_all();
         $base_style = get_option('epb_yootheme_base_style', 'fuse') ?: 'fuse';
-        $style_name = get_option('epb_yootheme_style_name', 'custom-style') ?: 'custom-style';
+
+        // Use the child theme branding name if available, fall back to option/default.
+        $branding   = Child_Theme::get_branding();
+        $style_name = !empty($branding['theme_name'])
+            ? $branding['theme_name']
+            : (get_option('epb_yootheme_style_name', 'custom-style') ?: 'custom-style');
 
         // Build the Less variables object.
         $less_vars = [];
