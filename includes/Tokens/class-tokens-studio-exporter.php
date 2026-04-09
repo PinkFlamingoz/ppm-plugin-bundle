@@ -281,6 +281,32 @@ class Tokens_Studio_Exporter
                 continue;
             }
 
+            // Resolve CSS clamp()/min()/max() functions to static values.
+            // Figma has no concept of viewport-relative values, so we resolve
+            // to a concrete value and store the original for round-trip fidelity.
+            $clamp_resolved = self::resolve_css_math_function($value);
+            if ($clamp_resolved !== null) {
+                $type = self::detect_token_type($name, $clamp_resolved['static']);
+
+                if ($type === 'other') {
+                    // Fallback: infer dimension from the resolved px value.
+                    $type = 'dimension';
+                }
+
+                $token_sets[$group][$token_name] = [
+                    'value'       => $clamp_resolved['static'],
+                    'type'        => $type,
+                    'description' => 'CSS: ' . trim($value),
+                    '$extensions' => [
+                        'epb.less' => [
+                            'original' => trim($value),
+                            'fallback' => $clamp_resolved['static'],
+                        ],
+                    ],
+                ];
+                continue;
+            }
+
             // Get token type.
             $type = self::detect_token_type($name, $value);
 
@@ -480,6 +506,96 @@ class Tokens_Studio_Exporter
         }
 
         return $groups;
+    }
+
+    /**
+     * Resolve CSS clamp(), min(), max() functions to a static value.
+     *
+     * Figma/Tokens Studio cannot handle viewport-relative values (vw, vh, etc.)
+     * or CSS math functions. This resolves them to a concrete px value:
+     * - clamp(MIN, preferred, MAX): average of MIN and MAX (preferred usually contains vw).
+     * - min(a, b): the smaller value.
+     * - max(a, b): the larger value.
+     *
+     * @param string $value The CSS value.
+     * @return array|null Array with 'static' key, or null if not a CSS math function.
+     */
+    private static function resolve_css_math_function(string $value): ?array
+    {
+        $trimmed = trim($value);
+
+        // Match clamp(MIN, PREFERRED, MAX).
+        if (preg_match('/^clamp\(\s*(.+?)\s*,\s*(.+?)\s*,\s*(.+?)\s*\)$/i', $trimmed, $m)) {
+            $min_val = self::extract_px_value($m[1]);
+            $max_val = self::extract_px_value($m[3]);
+
+            if ($min_val !== null && $max_val !== null) {
+                // Use the midpoint between min and max as the static value.
+                $mid = round(($min_val + $max_val) / 2, 2);
+                // Clean up trailing zeros.
+                $static = rtrim(rtrim((string) $mid, '0'), '.') . 'px';
+                return ['static' => $static];
+            }
+
+            // If min/max contain references, try the preferred value.
+            $pref_val = self::extract_px_value($m[2]);
+            if ($pref_val !== null) {
+                $static = rtrim(rtrim((string) $pref_val, '0'), '.') . 'px';
+                return ['static' => $static];
+            }
+
+            return null;
+        }
+
+        // Match min(a, b) or max(a, b).
+        if (preg_match('/^(min|max)\(\s*(.+?)\s*,\s*(.+?)\s*\)$/i', $trimmed, $m)) {
+            $fn = strtolower($m[1]);
+            $a  = self::extract_px_value($m[2]);
+            $b  = self::extract_px_value($m[3]);
+
+            if ($a !== null && $b !== null) {
+                $result = ($fn === 'min') ? min($a, $b) : max($a, $b);
+                $static = rtrim(rtrim((string) round($result, 2), '0'), '.') . 'px';
+                return ['static' => $static];
+            }
+
+            return null;
+        }
+
+        return null;
+    }
+
+    /**
+     * Extract a numeric px value from a CSS length string.
+     *
+     * Handles plain numbers, px, rem (assumes 16px base), and em.
+     * Returns null for viewport units (vw, vh, etc.) or complex expressions.
+     *
+     * @param string $value A CSS length value like "30px", "2rem", etc.
+     * @return float|null The value in pixels, or null if not resolvable.
+     */
+    private static function extract_px_value(string $value): ?float
+    {
+        $value = trim($value);
+
+        if (preg_match('/^(-?\d+(?:\.\d+)?)\s*px$/', $value, $m)) {
+            return (float) $m[1];
+        }
+
+        if (preg_match('/^(-?\d+(?:\.\d+)?)\s*rem$/', $value, $m)) {
+            return (float) $m[1] * 16.0;
+        }
+
+        if (preg_match('/^(-?\d+(?:\.\d+)?)\s*em$/', $value, $m)) {
+            return (float) $m[1] * 16.0;
+        }
+
+        // Plain number (no unit) — treat as px.
+        if (preg_match('/^(-?\d+(?:\.\d+)?)$/', $value, $m)) {
+            return (float) $m[1];
+        }
+
+        return null;
     }
 
     /**
